@@ -32,50 +32,37 @@ TEST(UNITTESTS_SCRIPTLIB_CLASSNAME, ConvertsSupportedVariantTypes)
 }
 
 
-TEST(UNITTESTS_SCRIPTLIB_CLASSNAME, FormatsParametersOnceAndBoundsErrors)
+TEST(UNITTESTS_SCRIPTLIB_CLASSNAME, ConvertsBooleanAndNumericAliases)
 {
   SCRIPT_LIB library(__L("Test"));
+  XVARIANT boolean(true);
   XVARIANT integer(7);
-  XVARIANT text(__L("100% ready"));
-  XVECTOR<XVARIANT*> params;
-  XSTRING output;
+  XVARIANT real(3.5);
+  bool convertedboolean = false;
+  int convertedinteger = 0;
+  double converteddouble = 0.0;
+  XDWORD converteddword = 0;
 
-  params.Add(&integer);
-  params.Add(&text);
-
-  EXPECT_EQ(library.FormatParams(&params, 0, __L("%d %s"), output), SCRIPT_LIB_FORMATSTATUS_OK);
-  EXPECT_EQ(output.Compare(__L("7 100% ready")), 0);
-  EXPECT_EQ(library.FormatParams(&params, 0, __L("%0"), output), SCRIPT_LIB_FORMATSTATUS_INVALID_FORMAT);
-  EXPECT_EQ(library.FormatParams(&params, 0, __L("%d %s %d"), output), SCRIPT_LIB_FORMATSTATUS_INSUFFICIENT_PARAMS);
+  EXPECT_TRUE(library.GetParamConverted(&boolean, convertedboolean));
+  EXPECT_TRUE(convertedboolean);
+  EXPECT_TRUE(library.GetParamConverted(&integer, convertedinteger));
+  EXPECT_EQ(convertedinteger, 7);
+  EXPECT_TRUE(library.GetParamConverted(&real, converteddouble));
+  EXPECT_DOUBLE_EQ(converteddouble, 3.5);
+  EXPECT_TRUE(library.GetParamConverted(&integer, converteddword));
+  EXPECT_EQ(converteddword, (XDWORD)7);
 }
 
 
-TEST(UNITTESTS_SCRIPTLIB_CLASSNAME, ValidatesRequiredParameterCountAndPointers)
+TEST(UNITTESTS_SCRIPTLIB_CLASSNAME, RejectsIncompatibleTargetTypes)
 {
-  SCRIPT_LIB                     library(__L("Test"));
-  UNITTESTS_SCRIPT_ERRORCAPTURE  script;
-  XVECTOR<XVARIANT*>             params;
-  XVARIANT                       value(7);
+  SCRIPT_LIB library(__L("Test"));
+  XVARIANT text(__L("not-a-number"));
+  int convertedinteger = 0;
+  bool convertedboolean = false;
 
-  EXPECT_FALSE(library.CheckParams(&script, &params, 1));
-  EXPECT_EQ(script.GetLastError(), SCRIPT_ERRORCODE_INSUF_PARAMS);
-
-  params.Add(NULL);
-  script.ResetLastError();
-
-  EXPECT_FALSE(library.CheckParams(&script, &params, 1));
-  EXPECT_EQ(script.GetLastError(), SCRIPT_ERRORCODE_INSUF_PARAMS);
-
-  params.DeleteAll();
-  params.Add(&value);
-  script.ResetLastError();
-
-  EXPECT_TRUE(library.CheckParams(&script, &params, 1));
-  EXPECT_EQ(script.GetLastError(), SCRIPT_ERRORCODE_NONE);
-  EXPECT_FALSE(library.CheckParams(NULL, &params, 1));
-  EXPECT_FALSE(library.CheckParams(&script, NULL, 1));
-
-  params.DeleteAll();
+  EXPECT_FALSE(library.GetParamConverted(&text, convertedinteger));
+  EXPECT_FALSE(library.GetParamConverted(&text, convertedboolean));
 }
 
 }

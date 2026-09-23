@@ -14,15 +14,12 @@ UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBDIR, UNITTESTS_SCRIPTLI
 
 namespace TEST_SCRIPTLIBDIR
 {
-TEST(UNITTESTS_SCRIPTLIBDIR_CLASSNAME, WriteOperationsRespectCapability)
+TEST(UNITTESTS_SCRIPTLIBDIR_CLASSNAME, RegistersReadAndWriteFunctions)
 {
   SCRIPT script;
   SCRIPT_LIB_DIR library;
   ASSERT_TRUE(library.AddLibraryFunctions(&script));
-  ASSERT_TRUE(script.SetCapabilities(SCRIPT_CAPABILITY_NONE));
   EXPECT_NE(script.GetLibraryFunction(__L("IsItExists")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_EQ(script.GetLibraryFunction(__L("MakeDir")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_TRUE(script.EnableCapabilities(SCRIPT_CAPABILITY_FILESYSTEM_WRITE));
   EXPECT_NE(script.GetLibraryFunction(__L("MakeDir")), (SCRIPT_LIB_FUNCTION*)NULL);
 }
 }

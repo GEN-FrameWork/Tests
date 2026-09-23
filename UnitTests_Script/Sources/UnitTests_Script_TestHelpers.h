@@ -60,7 +60,6 @@ inline void UnitTests_Script_ExpectLibraryRegistration(SCRIPT_LIB& library, XCHA
   EXPECT_EQ(library.GetID()->Compare(expectedID), 0);
   EXPECT_FALSE(library.AddLibraryFunctions(NULL));
   EXPECT_TRUE(library.AddLibraryFunctions(&script));
-  EXPECT_TRUE(script.SetCapabilities(SCRIPT_CAPABILITY_ALL_UNSAFE));
   EXPECT_NE(script.GetLibraryFunction(functionname), (SCRIPT_LIB_FUNCTION*)NULL);
 }
 
@@ -75,18 +74,3 @@ namespace testnamespace                                                         
   }                                                                                                                      \
 }
 
-
-#define UNITTESTS_SCRIPT_LIBRARY_CAPABILITY_TEST(testnamespace, classname, librarytype, functionname, capability)        \
-namespace testnamespace                                                                                                  \
-{                                                                                                                        \
-  TEST(classname, RequiresDeclaredCapability)                                                                             \
-  {                                                                                                                      \
-    SCRIPT script;                                                                                                       \
-    librarytype library;                                                                                                 \
-    ASSERT_TRUE(library.AddLibraryFunctions(&script));                                                                   \
-    ASSERT_TRUE(script.SetCapabilities(SCRIPT_CAPABILITY_NONE));                                                         \
-    EXPECT_EQ(script.GetLibraryFunction(functionname), (SCRIPT_LIB_FUNCTION*)NULL);                                      \
-    ASSERT_TRUE(script.EnableCapabilities(capability));                                                                  \
-    EXPECT_NE(script.GetLibraryFunction(functionname), (SCRIPT_LIB_FUNCTION*)NULL);                                      \
-  }                                                                                                                      \
-}

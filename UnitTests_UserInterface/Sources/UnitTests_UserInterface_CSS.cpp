@@ -71,6 +71,8 @@
 #include "UI_LayoutBox.h"
 #include "UI_LayoutEngine.h"
 #include "UI_Element.h"
+#include "UI_Layout.h"
+#include "UI_Manager.h"
 #include "UI_CSSAdapter.h"
 
 #include "XFileTXT.h"
@@ -541,6 +543,41 @@ TEST(UI_CSSParser, DiagnosticsZeroKeptWhenEverythingDiscarded)
   EXPECT_TRUE(parser.ParseText(text, sheet));
   EXPECT_EQ(parser.GetLastRulesKept(), 0);
   EXPECT_GE(parser.GetLastRulesDiscarded(), 1);
+}
+
+
+// Track L.4: Layouts_ReresolveStyleLengths re-applies vw against the current design viewport.
+TEST(UI_Manager, LayoutsReresolveStyleLengthsUpdatesVwAgainstDesignSize)
+{
+  UI_STYLESHEET* sheet = GEN_NEW UI_STYLESHEET();
+  ASSERT_TRUE(sheet != NULL);
+
+  UI_LAYOUT* layout = GEN_NEW UI_LAYOUT(NULL);
+  ASSERT_TRUE(layout != NULL);
+  layout->SetOwnsSkin(false);
+  layout->SetStyleSheet(sheet);
+  layout->SetDesignSize(1440, 900);
+
+  UI_ELEMENT* el = GEN_NEW UI_ELEMENT();
+  ASSERT_TRUE(el != NULL);
+  el->SetLayout(layout);
+  UI_STYLE bag;
+  bag.Set(__L("width"), __L("10vw"));
+  el->StoreComputedStyle(bag);
+  el->GetBoundaryLine()->x      = 0.0;
+  el->GetBoundaryLine()->y      = 0.0;
+  el->GetBoundaryLine()->width  = 0.0;
+  el->GetBoundaryLine()->height = 40.0;
+  ASSERT_TRUE(layout->Elements_Add(el));
+
+  EXPECT_TRUE(UI_MANAGER::GetInstance().Layouts_ReresolveStyleLengths(layout));
+  EXPECT_NEAR(el->GetBoundaryLine()->width, 144.0, 0.05);
+
+  layout->SetDesignSize(800, 600);
+  EXPECT_TRUE(UI_MANAGER::GetInstance().Layouts_ReresolveStyleLengths(layout));
+  EXPECT_NEAR(el->GetBoundaryLine()->width, 80.0, 0.05);
+
+  GEN_DELETE layout;   // deletes elements + stylesheet
 }
 
 

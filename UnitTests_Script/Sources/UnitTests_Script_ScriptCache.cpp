@@ -13,6 +13,25 @@
 namespace TEST_SCRIPTCACHE
 {
 
+static XDWORD UnitTests_ScriptCache_GenerateListID(SCRIPT_CACHE& cache, XVECTOR<XSTRING*>* listscripts)
+{
+  XSTRING combined;
+
+  if(!listscripts) return 0;
+
+  for(XDWORD index = 0; index < listscripts->GetSize(); index++)
+    {
+      XSTRING* entry = listscripts->Get(index);
+      if(!entry) continue;
+
+      if(!combined.IsEmpty()) combined += __L("|");
+      combined += entry->Get();
+    }
+
+  return cache.GenerateID(combined);
+}
+
+
 TEST(UNITTESTS_SCRIPTCACHE_CLASSNAME, IdentifierIsDeterministic)
 {
   SCRIPT_CACHE& cache = SCRIPT_CACHE::GetInstance();
@@ -32,13 +51,12 @@ TEST(UNITTESTS_SCRIPTCACHE_CLASSNAME, AddGetSetDeleteLifecycle)
   XDWORD id = cache.GenerateID(key);
 
   cache.Cache_Del(id);
-  ASSERT_TRUE(cache.Cache_Add(id, &value, key));
-  ASSERT_NE(cache.Cache_Get(id, key), (XSTRING*)NULL);
-  EXPECT_EQ(cache.Cache_Get(id, key)->Compare(__L("first")), 0);
+  ASSERT_TRUE(cache.Cache_Add(id, &value));
+  ASSERT_NE(cache.Cache_Get(id), (XSTRING*)NULL);
+  EXPECT_EQ(cache.Cache_Get(id)->Compare(__L("first")), 0);
 
   EXPECT_TRUE(cache.Cache_Set(id, &replacement));
   EXPECT_EQ(cache.Cache_Get(id)->Compare(__L("second")), 0);
-  EXPECT_EQ(cache.Cache_Get(id, key), (XSTRING*)NULL);
   EXPECT_TRUE(cache.Cache_Del(id));
   EXPECT_EQ(cache.Cache_Get(id), (XSTRING*)NULL);
 }
@@ -52,17 +70,13 @@ TEST(UNITTESTS_SCRIPTCACHE_CLASSNAME, ListKeyUsesEveryOrderedName)
   XSTRING secondB(__L("other.g"));
   XVECTOR<XSTRING*> listA;
   XVECTOR<XSTRING*> listB;
-  XSTRING keyA;
-  XSTRING keyB;
 
   listA.Add(&first);
   listA.Add(&secondA);
   listB.Add(&first);
   listB.Add(&secondB);
 
-  ASSERT_TRUE(cache.GenerateListKey(&listA, keyA));
-  ASSERT_TRUE(cache.GenerateListKey(&listB, keyB));
-  EXPECT_NE(keyA.Compare(keyB), 0);
+  EXPECT_NE(UnitTests_ScriptCache_GenerateListID(cache, &listA), UnitTests_ScriptCache_GenerateListID(cache, &listB));
 }
 
 }

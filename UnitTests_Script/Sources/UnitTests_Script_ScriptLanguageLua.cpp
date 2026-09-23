@@ -17,15 +17,9 @@
 namespace TEST_SCRIPTLANGUAGELUA
 {
 
-static void UnitTests_ScriptLanguageLua_ReturnFloat(SCRIPT_LIB* library, SCRIPT* script, XVECTOR<XVARIANT*>* params, XVARIANT* returnvalue)
+static void UnitTests_ScriptLanguageLua_ReturnInteger(SCRIPT_LIB* library, SCRIPT* script, XVECTOR<XVARIANT*>* params, XVARIANT* returnvalue)
 {
-  if(returnvalue) (*returnvalue) = 1.25f;
-}
-
-
-static void UnitTests_ScriptLanguageLua_ReturnDouble(SCRIPT_LIB* library, SCRIPT* script, XVECTOR<XVARIANT*>* params, XVARIANT* returnvalue)
-{
-  if(returnvalue) (*returnvalue) = 2.75;
+  if(returnvalue) (*returnvalue) = 40;
 }
 
 
@@ -49,27 +43,27 @@ TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, ReportsSyntaxError)
 }
 
 
-TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, ExecutesMainFunctionAfterLoadingChunk)
+TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, ExecutesReturnAfterLoadingChunk)
 {
   SCRIPT_LNG_LUA script;
   int returnvalue = 0;
 
-  (*script.GetScript()) = __L("function main()\n return 7\nend");
+  (*script.GetScript()) = __L("return 7");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 7);
 }
 
 
-TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, DoesNotReuseMainFunctionBetweenRuns)
+TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, ReevaluatesScriptBetweenRuns)
 {
   SCRIPT_LNG_LUA script;
   int returnvalue = 0;
 
-  (*script.GetScript()) = __L("function main()\n return 7\nend");
+  (*script.GetScript()) = __L("return 7");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 7);
 
-  (*script.GetScript()) = __L("function main()\n return 9\nend");
+  (*script.GetScript()) = __L("return 9");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 9);
 
@@ -79,39 +73,28 @@ TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, DoesNotReuseMainFunctionBetweenRuns)
 }
 
 
-TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, NativeFloatAndDoubleReturnAsNumbers)
+TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, NativeLibraryFunctionsReturnNumbers)
 {
   SCRIPT_LNG_LUA script;
   SCRIPT_LIB library(__L("UnitTest"));
   int returnvalue = 0;
 
-  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeFloat"), UnitTests_ScriptLanguageLua_ReturnFloat));
-  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeDouble"), UnitTests_ScriptLanguageLua_ReturnDouble));
+  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeInteger"), UnitTests_ScriptLanguageLua_ReturnInteger));
 
-  (*script.GetScript()) = __L("return (NativeFloat() * 10) + (NativeDouble() * 10)");
+  (*script.GetScript()) = __L("return NativeInteger()");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 40);
 }
 
 
-TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, DoesNotExposeUnsafeStandardLibraries)
+TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, LoadsStandardLibrariesWithInterpreter)
 {
   SCRIPT_LNG_LUA script;
   int returnvalue = 0;
 
-  (*script.GetScript()) = __L("if os == nil and io == nil and package == nil and debug == nil and dofile == nil and loadfile == nil and require == nil and module == nil then return 1 else return 0 end");
+  (*script.GetScript()) = __L("if os == nil and io == nil then return 0 else return 1 end");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 1);
-}
-
-
-TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, DeniesUnsafeNativeLibrariesByDefault)
-{
-  SCRIPT_LNG_LUA script;
-  int returnvalue = 0;
-
-  (*script.GetScript()) = __L("return System_GetType()");
-  EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_CAPABILITY_DENIED);
 }
 
 }

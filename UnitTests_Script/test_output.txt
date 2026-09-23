@@ -1,0 +1,29 @@
+E:\Projects\GEN_FrameWork\Tests\UnitTests_Script\Sources\UnitTests_Script_Script.cpp(176): error: Expected equality of these values:
+  reader.GetNameScript()->Compare((XCHAR*)(L"UnitTests_Script_SaveRoundTrip.g"))
+    Which is: -1
+  0
+[  FAILED  ] TEST_SCRIPT.SaveAndLoadRoundTrip (31 ms)
+E:\Projects\GEN_FrameWork\Tests\UnitTests_Script\Sources\UnitTests_Script_ScriptLanguageLua.cpp(59): error: Expected equality of these values:
+  returnvalue
+    Which is: 0
+  7
+[  FAILED  ] TEST_SCRIPTLANGUAGELUA.ExecutesMainFunctionAfterLoadingChunk (2 ms)
+E:\Projects\GEN_FrameWork\Tests\UnitTests_Script\Sources\UnitTests_Script_ScriptLanguageLua.cpp(70): error: Expected equality of these values:
+  returnvalue
+    Which is: 0
+  7
+E:\Projects\GEN_FrameWork\Tests\UnitTests_Script\Sources\UnitTests_Script_ScriptLanguageLua.cpp(74): error: Expected equality of these values:
+  returnvalue
+    Which is: 7
+  9
+[  FAILED  ] TEST_SCRIPTLANGUAGELUA.DoesNotReuseMainFunctionBetweenRuns (3 ms)
+E:\Projects\GEN_FrameWork\Tests\UnitTests_Script\Sources\UnitTests_Script_ScriptLanguageLua.cpp(93): error: Expected equality of these values:
+  returnvalue
+    Which is: 0
+  40
+[  FAILED  ] TEST_SCRIPTLANGUAGELUA.NativeFloatAndDoubleReturnAsNumbers (2 ms)
+E:\Projects\GEN_FrameWork\Tests\UnitTests_Script\Sources\UnitTests_Script_ScriptLanguageLua.cpp(104): error: Expected equality of these values:
+  returnvalue
+    Which is: 0
+  1
+[  FAILED  ] TEST_SCRIPTLANGUAGELUA.DoesNotExposeUnsafeStandardLibraries (2 ms)

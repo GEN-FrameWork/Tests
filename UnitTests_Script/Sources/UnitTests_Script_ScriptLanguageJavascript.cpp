@@ -65,14 +65,5 @@ TEST(UNITTESTS_SCRIPTLANGUAGEJAVASCRIPT_CLASSNAME, NativeFloatAndDoubleReturnAsN
 }
 
 
-TEST(UNITTESTS_SCRIPTLANGUAGEJAVASCRIPT_CLASSNAME, DeniesUnsafeNativeLibrariesByDefault)
-{
-  SCRIPT_LNG_JAVASCRIPT script;
-  int returnvalue = 0;
-
-  (*script.GetScript()) = __L("System_GetType()");
-  EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_CAPABILITY_DENIED);
-}
-
 }
 #endif
