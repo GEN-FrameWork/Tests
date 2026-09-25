@@ -77,13 +77,21 @@ TEST(UNITTESTS_HASHCKS16_CLASSNAME, DifferentInputsLikelyDifferentChecksum)
   HASHCKS16 hash1;
   HASHCKS16 hash2;
 
+  // Odd and even lengths — exercises the trailing-byte path and full-word path.
   XBYTE input1[] = { 'A','B','C' };
   XBYTE input2[] = { 'X','Y','Z' };
+  XBYTE input3[] = { 'A','B','C','D' };
+  XBYTE input4[] = { 'A','B','C','E' };
 
   EXPECT_TRUE(hash1.Do(input1, sizeof(input1)));
   EXPECT_TRUE(hash2.Do(input2, sizeof(input2)));
-
   EXPECT_NE(hash1.GetResultCKS16(), hash2.GetResultCKS16());
+
+  HASHCKS16 hash3;
+  HASHCKS16 hash4;
+  EXPECT_TRUE(hash3.Do(input3, sizeof(input3)));
+  EXPECT_TRUE(hash4.Do(input4, sizeof(input4)));
+  EXPECT_NE(hash3.GetResultCKS16(), hash4.GetResultCKS16());
 }
 
 
