@@ -102,7 +102,7 @@ TEST(UNITTESTS_XSLEEP_CLASSNAME, Miliseconds)
 
   GEN_XSLEEP.MilliSeconds(2000);
 
-  EXPECT_GE(xtimer->GetMeasureMilliSeconds(),2000);
+  EXPECT_GE(xtimer->GetMeasureMilliSeconds(), 2000);
 
   GEN_XFACTORY.DeleteTimer(xtimer);
 }
@@ -116,7 +116,7 @@ TEST(UNITTESTS_XSLEEP_CLASSNAME, Microseconds)
 
   GEN_XSLEEP.MicroSeconds(100000);  // 100 ms
 
-  EXPECT_GE(xtimer->GetMeasureMilliSeconds(),100);
+  EXPECT_GE(xtimer->GetMeasureMilliSeconds(), 100);
 
   GEN_XFACTORY.DeleteTimer(xtimer);
 }

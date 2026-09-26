@@ -138,12 +138,12 @@ TEST(UNITTESTS_XTIMER_CLASSNAME, GetMeasureToDate)
   if(xtimer)
     {   
       xtimer->GetMeasureToDate(&datetime);
-      EXPECT_EQ(datetime.GetYear()        , 26976);
-      EXPECT_EQ(datetime.GetMonth()       , 2);
-      EXPECT_EQ(datetime.GetDay()         , 2);
-      EXPECT_EQ(datetime.GetHours()       , 1);
-      EXPECT_EQ(datetime.GetMinutes()     , 46);
-      EXPECT_EQ(datetime.GetSeconds()     , 40);
+      EXPECT_EQ(datetime.GetYear(), 26976);
+      EXPECT_EQ(datetime.GetMonth(), 2);
+      EXPECT_EQ(datetime.GetDay(), 2);
+      EXPECT_EQ(datetime.GetHours(), 1);
+      EXPECT_EQ(datetime.GetMinutes(), 46);
+      EXPECT_EQ(datetime.GetSeconds(), 40);
       EXPECT_EQ(datetime.GetMilliSeconds(), 0);
 
     }
@@ -240,7 +240,7 @@ TEST(UNITTESTS_XTIMER_CLASSNAME, GetMeasureHoursMinutesMicroSeconds)
       xtimer->Reset();
       xtimer->AddSeconds(3661L);  // 1h 1m 1s
 
-      EXPECT_EQ(1,  xtimer->GetMeasureHours());
+      EXPECT_EQ(1, xtimer->GetMeasureHours());
       EXPECT_EQ(61, xtimer->GetMeasureMinutes());  // total elapsed minutes, not modulo
       // Multiply as XQWORD (64-bit) from the start: on platforms where "long" is 32 bits (e.g. LLP64
       // targets such as Windows/clang-cl), 3661L*1000000L overflows a 32-bit long before the result is

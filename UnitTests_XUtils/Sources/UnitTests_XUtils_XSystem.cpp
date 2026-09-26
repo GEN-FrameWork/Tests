@@ -148,7 +148,7 @@ TEST(UNITTESTS_XSYSTEM_CLASSNAME, GetMemoryInfoBaseContractReturnsZeroedFailure)
 
   EXPECT_FALSE(localsystem.GetMemoryInfo(total, free));
   EXPECT_EQ(total, (XDWORD)0);
-  EXPECT_EQ(free,  (XDWORD)0);
+  EXPECT_EQ(free, (XDWORD)0);
 }
 
 

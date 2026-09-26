@@ -113,7 +113,7 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, SetGetFileJSONAndActualObject
   method.SetActualObject(&object);
 
   EXPECT_EQ((void*)&filejson, (void*)method.GetFileJSON());
-  EXPECT_EQ((void*)&object,   (void*)method.GetActualObject());
+  EXPECT_EQ((void*)&object, (void*)method.GetActualObject());
 }
 
 
@@ -122,7 +122,7 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, AddScalarsFailWithoutFileJSON
   XSERIALIZATIONMETHODJSON method;
 
   EXPECT_FALSE(method.Add((int)1, __L("x")));
-  EXPECT_FALSE(method.Add(true,   __L("x")));
+  EXPECT_FALSE(method.Add(true, __L("x")));
 }
 
 
@@ -154,7 +154,7 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, AddStringAndAddBoolStoreRealJ
   text = __L("hello");
 
   EXPECT_TRUE(basemethod->Add(&text, __L("label")));
-  EXPECT_TRUE(basemethod->Add(true,  __L("flag")));
+  EXPECT_TRUE(basemethod->Add(true, __L("flag")));
 
   XFILEJSONVALUE* storedlabel = filejson.GetValue(__L("label"));
   ASSERT_TRUE(storedlabel != NULL);
@@ -308,9 +308,9 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, EncodedJSONTextContainsTheSer
   // A sane-looking JSON encoding: quoted field names, the quoted string value, and the plain
   // (unquoted) integer value all present in the produced text.
   EXPECT_GE(alltext.Find(__L("\"counter\""), false), 0);
-  EXPECT_GE(alltext.Find(__L("\"label\""),   false), 0);
-  EXPECT_GE(alltext.Find(__L("\"hello\""),   false), 0);
-  EXPECT_GE(alltext.Find(__L("42"),          false), 0);
+  EXPECT_GE(alltext.Find(__L("\"label\""), false), 0);
+  EXPECT_GE(alltext.Find(__L("\"hello\""), false), 0);
+  EXPECT_GE(alltext.Find(__L("42"), false), 0);
 
   GEN_DELETE method;
 }

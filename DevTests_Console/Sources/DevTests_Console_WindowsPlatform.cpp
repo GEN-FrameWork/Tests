@@ -61,8 +61,8 @@
 * --------------------------------------------------------------------------------------------------------------------*/
 int Windows_Platform_Ini(void)
 {
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DEVTESTS_CONSOLE_GPIOENTRYID_TESTGPIO               , 1);
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DEVTESTS_CONSOLE_GPIOENTRYID_LED_NEOPIXEL           , 6); 
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DEVTESTS_CONSOLE_GPIOENTRYID_TESTGPIO, 1);
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DEVTESTS_CONSOLE_GPIOENTRYID_LED_NEOPIXEL, 6); 
 
   return 1;
 }

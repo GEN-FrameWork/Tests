@@ -31,7 +31,6 @@
 
 #include "APPFlowCFG.h"
 
-
 /*---- DEFINES & ENUMS  ----------------------------------------------------------------------------------------------*/
 
 #define DEVTESTS_CANVAS2DCFG_SECTIONGENERAL              __L("general")
@@ -41,7 +40,6 @@
 #define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_HEIGHT       __L("screen_height")  
 #define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_MAXWIDTH     __L("screen_maxwidth")  
 #define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_MAXHEIGHT    __L("screen_maxheight")  
-
 
 /*---- CLASS ---------------------------------------------------------------------------------------------------------*/
 

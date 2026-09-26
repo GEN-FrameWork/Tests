@@ -90,10 +90,10 @@ TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentenceDefaultConstructionIsZeroedAn
 {
   XTRANSLATION_GEN_SENTENCE sentence;
 
-  EXPECT_EQ(sentence.ID,           (XDWORD)0);
+  EXPECT_EQ(sentence.ID, (XDWORD)0);
   EXPECT_EQ(sentence.codelanguage, (XDWORD)0);
-  EXPECT_EQ(sentence.sentence,     (XCHAR*)NULL);
-  EXPECT_EQ(sentence.fixed,        (XDWORD)0);
+  EXPECT_EQ(sentence.sentence, (XCHAR*)NULL);
+  EXPECT_EQ(sentence.fixed, (XDWORD)0);
 
   // Unlike every other reviewed class in this codebase, Clean() is public here
   // (XTranslation_GEN.h line 122) instead of private, so external code - including this test - can

@@ -117,9 +117,9 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODBINARY_CLASSNAME, AddScalarsFailWithoutBuffer
 {
   XSERIALIZATIONMETHODBINARY method;
 
-  EXPECT_FALSE(method.Add(true,        __L("x")));
-  EXPECT_FALSE(method.Add((int)1,      __L("x")));
-  EXPECT_FALSE(method.Add((XDWORD)1,   __L("x")));
+  EXPECT_FALSE(method.Add(true, __L("x")));
+  EXPECT_FALSE(method.Add((int)1, __L("x")));
+  EXPECT_FALSE(method.Add((XDWORD)1, __L("x")));
 }
 
 

@@ -276,7 +276,7 @@ TEST(UNITTESTS_XLICENSE_CLASSNAME, GenerateThenLoadFromFileFullRoundTrip)
 
     fileini.CreateSection(__L("LICENSE"));
     fileini.WriteValue(__L("LICENSE"), __L("licenseID"), licenseIDstring);
-    fileini.WriteValue(__L("LICENSE"), __L("license"),   licensehexstring);
+    fileini.WriteValue(__L("LICENSE"), __L("license"), licensehexstring);
 
     fileini.Close();
   }
@@ -322,7 +322,7 @@ TEST(UNITTESTS_XLICENSE_CLASSNAME, LoadFromFileWithMismatchedMachineIDFails)
 
     fileini.CreateSection(__L("LICENSE"));
     fileini.WriteValue(__L("LICENSE"), __L("licenseID"), wronglicenseIDstring);
-    fileini.WriteValue(__L("LICENSE"), __L("license"),   licensehexstring);
+    fileini.WriteValue(__L("LICENSE"), __L("license"), licensehexstring);
 
     fileini.Close();
   }

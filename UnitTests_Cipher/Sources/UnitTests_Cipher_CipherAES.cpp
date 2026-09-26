@@ -180,7 +180,7 @@ TEST(UNITTESTS_CIPHERAES_CLASSNAME, CBCChangesPerBlockCiphertextEvenForRepeatedP
   memset(ivbytes, 0x5A, sizeof(ivbytes));
 
   XBYTE plaintext[32];
-  memset(plaintext,      0x42, 16);
+  memset(plaintext, 0x42, 16);
   memset(plaintext + 16, 0x42, 16);
 
   CIPHERKEYSYMMETRICAL key;

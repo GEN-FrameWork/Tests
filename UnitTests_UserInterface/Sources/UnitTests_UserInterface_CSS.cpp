@@ -46,8 +46,9 @@
 *
 * @author     Abraham J. Velez / EndoraSoft
 *
+* @class      UNITTESTS_USERINTERFACE_CSS
+*
 * ---------------------------------------------------------------------------------------------------------------------*/
-
 /*---- PRECOMPILATION INCLUDES ---------------------------------------------------------------------------------------*/
 
 #include "GEN_Defines.h"
@@ -252,8 +253,7 @@ static void UI_CSS_UnitTests_SetElementBox(UI_ELEMENT* element, double left, dou
 * @return     UI_LAYOUTBOX_INSETS : Requested value.
 *
 * --------------------------------------------------------------------------------------------------------------------*/
-static UI_LAYOUTBOX_INSETS UI_CSS_UnitTests_MakeInsets(bool hastop, double top, bool hasright, double right,
-                                                         bool hasbottom, double bottom, bool hasleft, double left)
+static UI_LAYOUTBOX_INSETS UI_CSS_UnitTests_MakeInsets(bool hastop, double top, bool hasright, double right, bool hasbottom, double bottom, bool hasleft, double left)
 {
   UI_LAYOUTBOX_INSETS insets;
 
@@ -434,7 +434,7 @@ TEST(UI_CSSParser, ResolveLineColumnOnFirstLineReturnsLineOneAndOffsetPlusOneAsC
 TEST(UI_CSSParser, ResolveLineColumnCountsEmbeddedNewlines)
 {
   // Offsets: "button {" = 0..7, '\n' at 8, line 2 starts at 9: ' '(9) ' '(10) 'c'(11) 'o'(12) ...
-  XSTRING text(__L("button {\n  color: red;\n}"));
+  XSTRING text(__L("button {\n color: red;\n}"));
   int     line = -1, col = -1;
 
   UI_CSSPARSER::ResolveLineColumn(text, 12, line, col);   // 'o' inside "color" on line 2
@@ -478,7 +478,7 @@ TEST(UI_CSSParser, RecoversFromAMalformedRuleAcrossEmbeddedNewlinesJustLikeOnOne
 
   // ".broken" has no ':' before ';' -- ReadDeclarationBlock() discards the declaration and keeps parsing the
   // block; ".ok" is a separate, well-formed rule that must still come through untouched.
-  text.Set(__L(".broken {\n  colorred;\n}\n.ok {\n  color: red;\n}"));
+  text.Set(__L(".broken {\n colorred;\n}\n.ok {\n color: red;\n}"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   ASSERT_EQ(sheet.Rules_Count(), 1);
@@ -1047,7 +1047,7 @@ TEST(UI_StyleSheet, HigherSpecificityIdBeatsLowerSpecificityClass)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L(".card { color: 1,1,1,255; }  #special { color: 2,2,2,255; }"));
+  text.Set(__L(".card { color: 1,1,1,255; } #special { color: 2,2,2,255; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   XSTRING              elementtype;  elementtype.Set(__L("form"));
@@ -1074,7 +1074,7 @@ TEST(UI_StyleSheet, EqualSpecificityTieBrokenBySourceOrderLaterWins)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L(".a { color: 1,1,1,255; }  .a { color: 2,2,2,255; }"));
+  text.Set(__L(".a { color: 1,1,1,255; } .a { color: 2,2,2,255; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   XSTRING              elementtype;  elementtype.Set(__L("form"));
@@ -1291,7 +1291,7 @@ TEST(UI_StyleSheet, RootVariableExpandsIntoDeclarationValue)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L(":root { --accent: 10,20,30,255; }  .x { color: var(--accent); }"));
+  text.Set(__L(":root { --accent: 10,20,30,255; } .x { color: var(--accent); }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   // A ":root"-only block never becomes a regular rule, so Rules_Count() reflects only ".x".
@@ -1531,7 +1531,7 @@ TEST(UI_Style, LegacyBckgrdColorSpellingStillWorksUnchanged)
 TEST(UI_PropertyRegistry, GetAliasedPrefersPrimaryKeyWhenBothArePresent)
 {
   UI_STYLE bag;
-  bag.Set(__L("bckgrdcolor")    , __L("1,2,3,255"));
+  bag.Set(__L("bckgrdcolor"), __L("1,2,3,255"));
   bag.Set(__L("background-color"), __L("9,9,9,255"));
 
   XSTRING resolved;
@@ -2114,7 +2114,7 @@ TEST(UI_Length, MalformedCalcFallsBackToKeywordInsteadOfFailingParse)
 
 TEST(UI_Length, LeadingAndTrailingWhitespaceIsTrimmedBeforeClassification)
 {
-  XSTRING   raw(__L("  42  "));
+  XSTRING   raw(__L(" 42 "));
   UI_LENGTH length;
 
   ASSERT_TRUE(length.Parse(raw));
@@ -2165,7 +2165,7 @@ TEST(UI_ComputedStyle, GetColorParsesAnRGBATuple)
 
   UI_COLOR color;
   ASSERT_TRUE(style.GetColor(__L("color"), color));
-  EXPECT_EQ(color.GetRed()  , 10);
+  EXPECT_EQ(color.GetRed(), 10);
   EXPECT_EQ(color.GetGreen(), 20);
   EXPECT_EQ(color.GetBlue() , 30);
 }
@@ -2898,7 +2898,7 @@ TEST(UI_LayoutEngine, WriteBackTreeWritesBackToChildrenInComposeOrderEvenWithAPo
   UI_ELEMENT* first   = GEN_NEW UI_ELEMENT();
   UI_ELEMENT* second  = GEN_NEW UI_ELEMENT();
   UI_CSS_UnitTests_SetElementBox(parent, 0.0, 0.0, 300.0, 200.0);
-  UI_CSS_UnitTests_SetElementBox(first,  10.0, 10.0, 100.0, 50.0);
+  UI_CSS_UnitTests_SetElementBox(first, 10.0, 10.0, 100.0, 50.0);
   UI_CSS_UnitTests_SetElementBox(second, 10.0, 70.0, 100.0, 50.0);
   first->SetFather(parent);
   second->SetFather(parent);
@@ -4049,7 +4049,7 @@ TEST(UI_LayoutEngine, RunLayoutArrangesNestedFlexInsideGridItemsAgainstPlacedCol
   UI_ELEMENT* value = GEN_NEW UI_ELEMENT();
 
   UI_CSS_UnitTests_SetElementBox(grid, 100.0, 200.0, 200.0, 100.0);
-  UI_CSS_UnitTests_SetElementBox(col,  0.0, 0.0, 50.0, 100.0);     // pre-layout junk position
+  UI_CSS_UnitTests_SetElementBox(col, 0.0, 0.0, 50.0, 100.0);     // pre-layout junk position
   UI_CSS_UnitTests_SetElementBox(label, 5.0, 5.0, 40.0, 20.0);
   UI_CSS_UnitTests_SetElementBox(value, 5.0, 40.0, 40.0, 30.0);
 
@@ -4981,7 +4981,7 @@ TEST(UI_LayoutEngine, RunLayoutWithCssStrategyArrangesAFlexContainersChildrenWit
   UI_ELEMENT* first   = GEN_NEW UI_ELEMENT();
   UI_ELEMENT* second  = GEN_NEW UI_ELEMENT();
   UI_CSS_UnitTests_SetElementBox(parent, 0.0, 0.0, 300.0, 100.0);
-  UI_CSS_UnitTests_SetElementBox(first,  0.0, 0.0, 50.0, 40.0);    // starting position, about to be overwritten
+  UI_CSS_UnitTests_SetElementBox(first, 0.0, 0.0, 50.0, 40.0);    // starting position, about to be overwritten
   UI_CSS_UnitTests_SetElementBox(second, 0.0, 0.0, 50.0, 40.0);
   first->SetFather(parent);
   second->SetFather(parent);
@@ -5007,7 +5007,7 @@ TEST(UI_LayoutEngine, RunLayoutWithCssStrategyLeavesANonFlexContainersChildrenAt
   UI_ELEMENT* parent = GEN_NEW UI_ELEMENT();
   UI_ELEMENT* child   = GEN_NEW UI_ELEMENT();
   UI_CSS_UnitTests_SetElementBox(parent, 0.0, 0.0, 300.0, 100.0);
-  UI_CSS_UnitTests_SetElementBox(child,  123.0, 45.0, 50.0, 40.0);
+  UI_CSS_UnitTests_SetElementBox(child, 123.0, 45.0, 50.0, 40.0);
   child->SetFather(parent);
   parent->GetComposeElements()->Add(child);
 
@@ -5029,7 +5029,7 @@ TEST(UI_LayoutEngine, RunLayoutWithCssStrategyAppliesFlexGrowThroughTheRealPipel
   UI_ELEMENT* fixed    = GEN_NEW UI_ELEMENT();
   UI_ELEMENT* growing  = GEN_NEW UI_ELEMENT();
   UI_CSS_UnitTests_SetElementBox(parent, 0.0, 0.0, 300.0, 100.0);
-  UI_CSS_UnitTests_SetElementBox(fixed,   0.0, 0.0, 50.0, 40.0);
+  UI_CSS_UnitTests_SetElementBox(fixed, 0.0, 0.0, 50.0, 40.0);
   UI_CSS_UnitTests_SetElementBox(growing, 0.0, 0.0, 50.0, 40.0);
   fixed->SetFather(parent);
   growing->SetFather(parent);
@@ -5130,10 +5130,10 @@ TEST(UI_LayoutEngine, RunLayoutRepositionsEverySiblingAfterOneFlexChildsContentB
   UI_ELEMENT* middle = GEN_NEW UI_ELEMENT();
   UI_ELEMENT* right = GEN_NEW UI_ELEMENT();
 
-  UI_CSS_UnitTests_SetElementBox(row,    0.0, 0.0, 400.0, 20.0);
-  UI_CSS_UnitTests_SetElementBox(left,   0.0, 0.0,  10.0, 10.0);
-  UI_CSS_UnitTests_SetElementBox(middle, 0.0, 0.0,  10.0, 10.0);   // starts narrow, like a live text before its first resolve
-  UI_CSS_UnitTests_SetElementBox(right,  0.0, 0.0,  10.0, 10.0);
+  UI_CSS_UnitTests_SetElementBox(row, 0.0, 0.0, 400.0, 20.0);
+  UI_CSS_UnitTests_SetElementBox(left, 0.0, 0.0, 10.0, 10.0);
+  UI_CSS_UnitTests_SetElementBox(middle, 0.0, 0.0, 10.0, 10.0);   // starts narrow, like a live text before its first resolve
+  UI_CSS_UnitTests_SetElementBox(right, 0.0, 0.0, 10.0, 10.0);
 
   row->SetFlexContainer(true);
   left->SetFather(row);    row->GetComposeElements()->Add(left);
@@ -5592,8 +5592,7 @@ TEST(UI_StyleSheet, AncestorSelectedCombinatorRestylesDescendantWhenAncestorHasS
   UI_STYLESHEET sheet;
   XSTRING       text;
 
-  text.Set(__L("form.nav-row:selected .nav-label { color: 88,166,255,255; }\n"
-               ".nav-label { color: 139,148,158,255; }\n"));
+  text.Set(__L("form.nav-row:selected .nav-label { color: 88,166,255,255; }\n" ".nav-label { color: 139,148,158,255; }\n"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
 
@@ -5623,11 +5622,7 @@ TEST(UI_CSSParser, MediaMaxWidthRuleAppliesOnlyInsideViewport)
 {
   UI_CSSPARSER  parser;
   UI_STYLESHEET sheet;
-  XSTRING       text(__L(
-    ".card { color: 1,1,1,100; }\n"
-    "@media (max-width: 1000px) {\n"
-    "  .card { color: 9,9,9,100; }\n"
-    "}\n"));
+  XSTRING       text(__L( ".card { color: 1,1,1,100; }\n" "@media (max-width: 1000px) {\n" " .card { color: 9,9,9,100; }\n" "}\n"));
 
   ASSERT_TRUE(parser.ParseText(text, sheet));
   EXPECT_GE(sheet.Rules_Count(), 2);
@@ -5659,10 +5654,7 @@ TEST(UI_CSSParser, MediaMinWidthAndMaxWidthCombined)
 {
   UI_CSSPARSER  parser;
   UI_STYLESHEET sheet;
-  XSTRING       text(__L(
-    "@media (min-width: 800px) and (max-width: 1200px) {\n"
-    "  .hit { background-color: 2,2,2,100; }\n"
-    "}\n"));
+  XSTRING       text(__L( "@media (min-width: 800px) and (max-width: 1200px) {\n" " .hit { background-color: 2,2,2,100; }\n" "}\n"));
 
   ASSERT_TRUE(parser.ParseText(text, sheet));
   EXPECT_EQ(sheet.Rules_Count(), 1);

@@ -286,9 +286,7 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, OpenParsesHandWrittenCommaSeparatedRows)
   XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilecsv_comma.csv"));
   RemoveIfExists(xpath);
 
-  WriteRawTextFile(xpath,
-    "val1,val2,val3\n"
-    "val4,val5,val6\n");
+  WriteRawTextFile(xpath, "val1,val2,val3\n" "val4,val5,val6\n");
 
   XFILECSV reader;
   ASSERT_TRUE(reader.Open(xpath, true));
@@ -447,9 +445,7 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, OpenWithoutPreDeclaredHeaderTreatsEveryLineAs
   XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilecsv_header_quirk.csv"));
   RemoveIfExists(xpath);
 
-  WriteRawTextFile(xpath,
-    "name,age\n"
-    "Carol,40\n");
+  WriteRawTextFile(xpath, "name,age\n" "Carol,40\n");
 
   XFILECSV reader;
   EXPECT_FALSE(reader.HaveHeader());
@@ -478,9 +474,7 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, PreDeclaringHeaderViaSetHeaderNowWorksAndMake
   XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilecsv_header_predeclared.csv"));
   RemoveIfExists(xpath);
 
-  WriteRawTextFile(xpath,
-    "name,age\n"
-    "Dave,50\n");
+  WriteRawTextFile(xpath, "name,age\n" "Dave,50\n");
 
   XFILECSV reader;
 

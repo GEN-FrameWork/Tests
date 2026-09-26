@@ -71,17 +71,17 @@ TEST(UNITTESTS_XSERIALIZATIONMETHOD_CLASSNAME, AddScalarOverloadsAllReturnFalse)
 {
   XSERIALIZATIONMETHOD method;
 
-  EXPECT_FALSE(method.Add(true,               __L("x")));
-  EXPECT_FALSE(method.Add((char)'a',          __L("x")));
-  EXPECT_FALSE(method.Add((int)1,             __L("x")));
-  EXPECT_FALSE(method.Add((float)1.0f,        __L("x")));
-  EXPECT_FALSE(method.Add((double)1.0,        __L("x")));
-  EXPECT_FALSE(method.Add((long)1,            __L("x")));
-  EXPECT_FALSE(method.Add((long long)1,       __L("x")));
-  EXPECT_FALSE(method.Add((XBYTE)1,           __L("x")));
-  EXPECT_FALSE(method.Add((XWORD)1,           __L("x")));
-  EXPECT_FALSE(method.Add((XDWORD)1,          __L("x")));
-  EXPECT_FALSE(method.Add((XQWORD)1,          __L("x")));
+  EXPECT_FALSE(method.Add(true, __L("x")));
+  EXPECT_FALSE(method.Add((char)'a', __L("x")));
+  EXPECT_FALSE(method.Add((int)1, __L("x")));
+  EXPECT_FALSE(method.Add((float)1.0f, __L("x")));
+  EXPECT_FALSE(method.Add((double)1.0, __L("x")));
+  EXPECT_FALSE(method.Add((long)1, __L("x")));
+  EXPECT_FALSE(method.Add((long long)1, __L("x")));
+  EXPECT_FALSE(method.Add((XBYTE)1, __L("x")));
+  EXPECT_FALSE(method.Add((XWORD)1, __L("x")));
+  EXPECT_FALSE(method.Add((XDWORD)1, __L("x")));
+  EXPECT_FALSE(method.Add((XQWORD)1, __L("x")));
 }
 
 
@@ -93,8 +93,8 @@ TEST(UNITTESTS_XSERIALIZATIONMETHOD_CLASSNAME, AddPointerOverloadsAllReturnFalse
   XBUFFER  buffer;
   XVARIANT variant;
 
-  EXPECT_FALSE(method.Add(&string,  __L("x")));
-  EXPECT_FALSE(method.Add(&buffer,  __L("x")));
+  EXPECT_FALSE(method.Add(&string, __L("x")));
+  EXPECT_FALSE(method.Add(&buffer, __L("x")));
   EXPECT_FALSE(method.Add(&variant, __L("x")));
 }
 
@@ -124,31 +124,31 @@ TEST(UNITTESTS_XSERIALIZATIONMETHOD_CLASSNAME, ExtractScalarOverloadsReturnFalse
   XDWORD    dwordvar  = 7;
   XQWORD    qwordvar  = 7;
 
-  EXPECT_FALSE(method.Extract(boolvar,   __L("x")));
-  EXPECT_FALSE(method.Extract(charvar,   __L("x")));
-  EXPECT_FALSE(method.Extract(intvar,    __L("x")));
-  EXPECT_FALSE(method.Extract(floatvar,  __L("x")));
+  EXPECT_FALSE(method.Extract(boolvar, __L("x")));
+  EXPECT_FALSE(method.Extract(charvar, __L("x")));
+  EXPECT_FALSE(method.Extract(intvar, __L("x")));
+  EXPECT_FALSE(method.Extract(floatvar, __L("x")));
   EXPECT_FALSE(method.Extract(doublevar, __L("x")));
-  EXPECT_FALSE(method.Extract(longvar,   __L("x")));
-  EXPECT_FALSE(method.Extract(llvar,     __L("x")));
-  EXPECT_FALSE(method.Extract(bytevar,   __L("x")));
-  EXPECT_FALSE(method.Extract(wordvar,   __L("x")));
-  EXPECT_FALSE(method.Extract(dwordvar,  __L("x")));
-  EXPECT_FALSE(method.Extract(qwordvar,  __L("x")));
+  EXPECT_FALSE(method.Extract(longvar, __L("x")));
+  EXPECT_FALSE(method.Extract(llvar, __L("x")));
+  EXPECT_FALSE(method.Extract(bytevar, __L("x")));
+  EXPECT_FALSE(method.Extract(wordvar, __L("x")));
+  EXPECT_FALSE(method.Extract(dwordvar, __L("x")));
+  EXPECT_FALSE(method.Extract(qwordvar, __L("x")));
 
   // Every by-reference parameter must be left exactly as it was: the base class must not
   // silently mutate caller state even though it reports failure.
   EXPECT_TRUE(boolvar);
-  EXPECT_EQ(charvar,   'z');
-  EXPECT_EQ(intvar,    12345);
+  EXPECT_EQ(charvar, 'z');
+  EXPECT_EQ(intvar, 12345);
   EXPECT_FLOAT_EQ(floatvar, 9.5f);
   EXPECT_DOUBLE_EQ(doublevar, 9.5);
-  EXPECT_EQ(longvar,   999);
-  EXPECT_EQ(llvar,     999);
-  EXPECT_EQ(bytevar,   7);
-  EXPECT_EQ(wordvar,   7);
-  EXPECT_EQ(dwordvar,  7u);
-  EXPECT_EQ(qwordvar,  7u);
+  EXPECT_EQ(longvar, 999);
+  EXPECT_EQ(llvar, 999);
+  EXPECT_EQ(bytevar, 7);
+  EXPECT_EQ(wordvar, 7);
+  EXPECT_EQ(dwordvar, 7u);
+  EXPECT_EQ(qwordvar, 7u);
 }
 
 

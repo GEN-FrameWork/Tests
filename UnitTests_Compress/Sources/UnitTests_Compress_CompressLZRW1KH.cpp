@@ -60,7 +60,7 @@ namespace TEST_COMPRESSLZRW1KH
 
 /**-------------------------------------------------------------------------------------------------------------------
 *
-* @fn         static void FillPseudoRandom(XBYTE* buffer,XDWORD size,XDWORD seed)
+* @fn         static void FillPseudoRandom(XBYTE* buffer, XDWORD size, XDWORD seed)
 * @brief      Deterministic pseudo-random byte generator (simple LCG) used to build incompressible-ish
 *             fixtures without depending on platform <random> facilities or any external data file.
 * @ingroup    UNIT TEST
@@ -82,7 +82,7 @@ static void FillPseudoRandom(XBYTE* buffer, XDWORD size, XDWORD seed)
 
 /**-------------------------------------------------------------------------------------------------------------------
 *
-* @fn         static void RoundTrip(XBYTE* origin,XDWORD size)
+* @fn         static void RoundTrip(XBYTE* origin, XDWORD size)
 * @brief      Shared Compress()->Decompress() round-trip helper: compresses 'origin'/'size' with a fresh
 *             COMPRESS_LZRW1KH instance and verifies the decompressed bytes exactly match the input. Both
 *             XBUFFER targets are pre-Resize()d with generous headroom -- CompressionBuffer()/

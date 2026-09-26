@@ -70,7 +70,7 @@ TEST(UNITTESTS_CIPHERED25519_CLASSNAME, KeyPairCreateProducesExpectedSizes)
   EXPECT_TRUE(ed25519.KeyPair_Create(privatekey, publickey));
 
   EXPECT_EQ(privatekey.GetSize(), (XDWORD)CIPHERED25519_PRIVATEKEYSIZE);
-  EXPECT_EQ(publickey.GetSize(),  (XDWORD)CIPHERED25519_PUBLICKEYSIZE);
+  EXPECT_EQ(publickey.GetSize(), (XDWORD)CIPHERED25519_PUBLICKEYSIZE);
 }
 
 

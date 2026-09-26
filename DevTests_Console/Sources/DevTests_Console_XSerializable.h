@@ -32,9 +32,7 @@
 #include "XString.h"
 #include "XSerializable.h"
 
-
 /*---- DEFINES & ENUMS  ----------------------------------------------------------------------------------------------*/
-
 
 /*---- CLASS ---------------------------------------------------------------------------------------------------------*/
 
@@ -99,7 +97,6 @@ class TESTSERIALIZABLE2 : public XSERIALIZABLE
 
 };
 
-
 class TESTSERIALIZABLE : public XSERIALIZABLE
 { 
   public:
@@ -126,7 +123,6 @@ class TESTSERIALIZABLE : public XSERIALIZABLE
 
                                       Clean();                     
                                     }
-
 
     int                             GetValue1                          ()
                                     {
@@ -165,7 +161,6 @@ class TESTSERIALIZABLE : public XSERIALIZABLE
 
                                       return true;
                                     }
-
 
     bool                            Deserialize                        ()
                                     {    

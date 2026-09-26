@@ -31,7 +31,6 @@
 
 #include "APPFlowCFG.h"
 
-
 /*---- DEFINES & ENUMS  ----------------------------------------------------------------------------------------------*/
 
 #define DEVTESTS_CONSOLE_CFG_SECTION_DATABASE                         __L("database")
@@ -42,13 +41,11 @@
 #define DEVTESTS_CONSOLE_CFG_DATABASE_PASSWORD                        __L("password")
 #define DEVTESTS_CONSOLE_CFG_DATABASE_TIMEOUTCONNECTION               __L("timeoutconnection")
 
-
 /*---- CLASS ---------------------------------------------------------------------------------------------------------*/
 
 class DEVTESTS_CONSOLE_CFG : public APPFLOWCFG
 {
   public:
-
 
     static bool                     GetIsInstanced                            ();
     static DEVTESTS_CONSOLE_CFG&     GetInstance                               (bool ini = true);

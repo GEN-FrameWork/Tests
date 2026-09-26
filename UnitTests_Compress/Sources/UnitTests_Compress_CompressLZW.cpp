@@ -72,7 +72,7 @@ static void FillPseudoRandom(XBYTE* buffer, XDWORD size, XDWORD seed)
 
 /**-------------------------------------------------------------------------------------------------------------------
 *
-* @fn         static void RoundTrip(XBYTE* origin,XDWORD size)
+* @fn         static void RoundTrip(XBYTE* origin, XDWORD size)
 * @brief      Shared Compress()->Decompress() round-trip helper. COMPRESS_LZW::Compress() (CompressLZW.cpp)
 *             pre-Resize()s its own output buffer (size+LZW_MAX_OVERCMP) and shrinks it back to the real
 *             compressed size, so the caller does not need to size the compressed XBUFFER. Decompress(),

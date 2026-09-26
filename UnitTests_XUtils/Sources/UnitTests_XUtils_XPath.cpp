@@ -183,10 +183,10 @@ TEST(UNITTESTS_XPATH_CLASSNAME, SplitExtractsDriveXpathNameAndExt)
 
   EXPECT_TRUE(xpath.Split(&drive, &xpathpart, &name, &ext));
 
-  EXPECT_STREQ(drive.Get(),     __L("C:"));
+  EXPECT_STREQ(drive.Get(), __L("C:"));
   EXPECT_STREQ(xpathpart.Get(), __L("\\folder\\sub\\"));
-  EXPECT_STREQ(name.Get(),      __L("file"));
-  EXPECT_STREQ(ext.Get(),       __L(".txt"));
+  EXPECT_STREQ(name.Get(), __L("file"));
+  EXPECT_STREQ(ext.Get(), __L(".txt"));
 }
 
 
@@ -449,7 +449,7 @@ TEST(UNITTESTS_XPATH_CLASSNAME, SplitWithSubpathsVectorPopulatesEachComponent)
   // both out-parameters are always left exactly as the caller passed them in (empty here),
   // confirmed empirically - not the "gamma"/".txt" a caller would reasonably expect.
   EXPECT_STREQ(name.Get(), __L(""));
-  EXPECT_STREQ(ext.Get(),  __L(""));
+  EXPECT_STREQ(ext.Get(), __L(""));
 
   // The vector owns heap-allocated XSTRING* elements (GEN_NEW'd inside Split) - the caller is
   // responsible for freeing them; clean up here to avoid leaking in the test itself.

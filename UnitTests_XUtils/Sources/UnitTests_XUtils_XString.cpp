@@ -579,7 +579,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ReplaceNotFound)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, DeleteNoCharactersAllString) 
 {
-  XSTRING string = __L("\t  a \r\n");
+  XSTRING string = __L("\t a \r\n");
 
   EXPECT_TRUE(string.DeleteNoCharacters(XSTRINGCONTEXT_ALLSTRING));
   EXPECT_EQ(0, string.Compare(__L("a"), false));
@@ -648,8 +648,8 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, SplitBySeparator)
   EXPECT_TRUE(string.Split(__C(','), parts, false));
   ASSERT_EQ((XDWORD)3, parts.GetSize());
 
-  EXPECT_EQ(0, parts.Get(0)->Compare(__L("one"),   false));
-  EXPECT_EQ(0, parts.Get(1)->Compare(__L("two"),   false));
+  EXPECT_EQ(0, parts.Get(0)->Compare(__L("one"), false));
+  EXPECT_EQ(0, parts.Get(1)->Compare(__L("two"), false));
   EXPECT_EQ(0, parts.Get(2)->Compare(__L("three"), false));
 
   for(XDWORD c=0; c<parts.GetSize(); c++)
@@ -699,7 +699,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, FormatAddFormatAndUnFormat)
   int number2 = 0;
 
   EXPECT_TRUE(string.UnFormat(__L("ID-%02d/%d"), &number1, &number2));
-  EXPECT_EQ(7,  number1);
+  EXPECT_EQ(7, number1);
   EXPECT_EQ(42, number2);
 }
 

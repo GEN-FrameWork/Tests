@@ -110,7 +110,7 @@ TEST(UNITTESTS_XFILEXML_CLASSNAME, ElementTypedAttributeGetters)
 {
   XFILEXMLELEMENT element(__L("elementname"));
 
-  element.AddAtribute(__L("intattr")  , __L("123"));
+  element.AddAtribute(__L("intattr"), __L("123"));
   element.AddAtribute(__L("boolattr") , __L("true"));
   element.AddAtribute(__L("floatattr"), __L("3.25"));
 

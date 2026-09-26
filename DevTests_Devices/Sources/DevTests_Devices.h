@@ -78,7 +78,6 @@ enum DEVTESTS_DEVICES_GPIOENTRYID
   DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_BACKLIGHT                  
 };
 
-
 /*---- CLASS ---------------------------------------------------------------------------------------------------------*/
 
 class DIOSTREAM;

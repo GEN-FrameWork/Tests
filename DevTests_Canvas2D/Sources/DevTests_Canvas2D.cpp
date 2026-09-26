@@ -213,9 +213,7 @@ bool DEVTESTS_CANVAS2D::AppProc_Ini()
   Application_GetName()->Set(APPLICATION_NAMEAPP);
 
   #ifdef APPFLOW_GRAPHICS_ACTIVE
-  SetInitOptions( APPFLOWGRAPHICS_INIOPTION_CREATEMAINSCREEN    |
-                  APPFLOWGRAPHICS_INIOPTION_SHOWMAINSCREEN      |
-                  APPFLOWGRAPHICS_INIOPTION_INPUT);
+  SetInitOptions(APPFLOWGRAPHICS_INIOPTION_CREATEMAINSCREEN | APPFLOWGRAPHICS_INIOPTION_SHOWMAINSCREEN | APPFLOWGRAPHICS_INIOPTION_INPUT);
   #endif
 
   //-------------------------------------------------------------------------------------------------
@@ -228,9 +226,9 @@ bool DEVTESTS_CANVAS2D::AppProc_Ini()
 
   GEN_XPATHSMANAGER.AdjustRootPathDefault(APPLICATION_DIRECTORYMAIN);
 
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_GRAPHICS    , APPFLOW_DEFAULT_DIRECTORY_GRAPHICS);
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_FONTS       , APPFLOW_DEFAULT_DIRECTORY_FONTS);
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_UI_LAYOUTS  , APPFLOW_DEFAULT_DIRECTORY_UI_LAYOUTS);
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_GRAPHICS, APPFLOW_DEFAULT_DIRECTORY_GRAPHICS);
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_FONTS, APPFLOW_DEFAULT_DIRECTORY_FONTS);
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_UI_LAYOUTS, APPFLOW_DEFAULT_DIRECTORY_UI_LAYOUTS);
   GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_SCRIPTS , APPFLOW_DEFAULT_DIRECTORY_SCRIPTS);
   
   GEN_XPATHSMANAGER.CreateAllPathSectionOnDisk();
@@ -522,7 +520,7 @@ bool DEVTESTS_CANVAS2D::KeyValidSecuences(int key)
   if((character<32) || (character>127)) character = __C('?');
   APPFLOW_LOG_ENTRY(XLOGLEVEL_WARNING, APPFLOW_CFG_LOG_SECTIONID_STATUSAPP, false, __L("Key pressed: 0x%02X [%c]"), key, character);
 
-  console->Printf(__L("\r    \r"));
+  console->Printf(__L("\r \r"));
 
   switch(key)
     {
@@ -710,9 +708,9 @@ bool DEVTESTS_CANVAS2D::Ini_Graphics(GRPSCREEN* screen)
   screen->SetWidth(APPFLOW_CFG.Screen_GetWidth());
   screen->SetHeight(APPFLOW_CFG.Screen_GetHeight());
 
-  GetMainScreen()->CreateViewport(GRPVIEWPORT_ID_MAIN , 0.0f, 0.0f, (float)screen->GetWidth(), (float)screen->GetHeight(),  0,  0, (APPFLOW_CFG.Screen_GetMaxWidth()) , (APPFLOW_CFG.Screen_GetMaxHeight()));
+  GetMainScreen()->CreateViewport(GRPVIEWPORT_ID_MAIN, 0.0f, 0.0f, (float)screen->GetWidth(), (float)screen->GetHeight(), 0, 0, (APPFLOW_CFG.Screen_GetMaxWidth()), (APPFLOW_CFG.Screen_GetMaxHeight()));
 
-  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("[Main Screen] Width %d, height %d"),  screen->GetWidth(), screen->GetHeight());
+  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("[Main Screen] Width %d, height %d"), screen->GetWidth(), screen->GetHeight());
 
   return true;
 }
@@ -873,7 +871,6 @@ void DEVTESTS_CANVAS2D::AdjustLibraries(SCRIPT* script)
 }
 
 
-
 /**-------------------------------------------------------------------------------------------------------------------
 *
 * @fn         bool DEVTESTS_CANVAS2D::Show_AllStatus()
@@ -912,10 +909,10 @@ void DEVTESTS_CANVAS2D::HandleEvent_Script(SCRIPT_XEVENT* event)
 {
   switch(event->GetEventType())
     {
-      case SCRIPT_XEVENT_TYPE_ERROR    : XTRACE_PRINTCOLOR(4,__L("Script ERROR [%d]: %s line %d -> \"%s\""), event->GetError(), event->GetErrorText()->Get(), event->GetNLine(), event->GetCurrentToken()->Get());
+      case SCRIPT_XEVENT_TYPE_ERROR    : XTRACE_PRINTCOLOR(4, __L("Script ERROR [%d]: %s line %d -> \"%s\""), event->GetError(), event->GetErrorText()->Get(), event->GetNLine(), event->GetCurrentToken()->Get());
                                          break;
 
-      case SCRIPT_XEVENT_TYPE_BREAK    : XTRACE_PRINTCOLOR(4,__L("Script BREAK: line %d -> \"%s\""), event->GetNLine(), event->GetCurrentToken()->Get());
+      case SCRIPT_XEVENT_TYPE_BREAK    : XTRACE_PRINTCOLOR(4, __L("Script BREAK: line %d -> \"%s\""), event->GetNLine(), event->GetCurrentToken()->Get());
                                          break;
 
     }
@@ -939,9 +936,7 @@ void DEVTESTS_CANVAS2D::HandleEvent_VectorFile(GRPVECTORFILE_XEVENT* event)
    {
       case GRPVECTORFILE_XEVENTTYPE_UNKNOWN         :  break;
 
-      case GRPVECTORFILE_XEVENTTYPE_PARTUNKNOWN     :  XTRACE_PRINTCOLOR(XTRACE_COLOR_WARNING, __L("[Vector File] Type %s \"%s\" -> [%s]")  , GRPVECTORFILE::GetTypeText(event->GetType())
-                                                                                                                                            , event->GetMsg()->Get()
-                                                                                                                                            , event->GetPath()->Get());    
+      case GRPVECTORFILE_XEVENTTYPE_PARTUNKNOWN     :  XTRACE_PRINTCOLOR(XTRACE_COLOR_WARNING, __L("[Vector File] Type %s \"%s\" -> [%s]"), GRPVECTORFILE::GetTypeText(event->GetType()), event->GetMsg()->Get(), event->GetPath()->Get());    
                                                        break;                                                                                
    }
 }

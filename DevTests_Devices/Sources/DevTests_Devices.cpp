@@ -173,8 +173,8 @@ bool DEVTESTS_DEVICES::AppProc_Ini()
   #ifdef MICROCONTROLLER
     XTRACE_SETTARGET(0, XTRACE_TYPE_SPECIAL , XTRACE_DEFAULT_SPECIALAIM);
   #else
-    XTRACE_SETTARGET(0, XTRACE_TYPE_NET     , GEN_XTRACE_NET_DEFAULT_01);
-    XTRACE_SETTARGET(1, XTRACE_TYPE_NET     , __L("*:10001"));
+    XTRACE_SETTARGET(0, XTRACE_TYPE_NET, GEN_XTRACE_NET_DEFAULT_01);
+    XTRACE_SETTARGET(1, XTRACE_TYPE_NET, __L("*:10001"));
   #endif
 
     
@@ -191,7 +191,7 @@ bool DEVTESTS_DEVICES::AppProc_Ini()
   
   GEN_XPATHSMANAGER.AdjustRootPathDefault(APPFLOW_DEFAULT_DIRECTORY_ROOT);
   
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_SOUNDS        , APPFLOW_DEFAULT_DIRECTORY_SOUNDS);
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_SOUNDS, APPFLOW_DEFAULT_DIRECTORY_SOUNDS);
   
   GEN_XPATHSMANAGER.CreateAllPathSectionOnDisk();
   
@@ -554,12 +554,7 @@ bool DEVTESTS_DEVICES::I2CTest_6AxisTrackingLSM303DLHC(DEVTESTS_DEVICES* tests, 
               
               status = lsm303dlhc->Read(accelerometer_x, accelerometer_y, accelerometer_z, compass_x, compass_y, compass_z);
 
-              XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE,__L("accelerometer: %d, %d, %d compass: %d, %d, %d"), (int)accelerometer_x, 
-                                                                                                        (int)accelerometer_y, 
-                                                                                                        (int)accelerometer_z, 
-                                                                                                        (int)compass_x, 
-                                                                                                        (int)compass_y, 
-                                                                                                        (int)compass_z);
+              XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("accelerometer: %d, %d, %d compass: %d, %d, %d"), (int)accelerometer_x, (int)accelerometer_y, (int)accelerometer_z, (int)compass_x, (int)compass_y, (int)compass_z);
 
               //GEN_XSLEEP.MilliSeconds(200);
               if(!status) break;
@@ -753,11 +748,11 @@ bool DEVTESTS_DEVICES::I2CTest_AirQualityCCS811(DEVTESTS_DEVICES* tests, int por
                           XWORD CO2    = 0;
 
                           status = airqualityCCS811->ReadData(TVOC, CO2);
-                          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED),__L("Read data: TVOC %6d, CO2 %6d : %s"), TVOC, CO2, (status?__L("Ok!"):__L("Error!")));
+                          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Read data: TVOC %6d, CO2 %6d : %s"), TVOC, CO2, (status?__L("Ok!"):__L("Error!")));
 
                           #ifdef AIRQUALITYCCS811_NTC
                           status = airqualityCCS811->ReadNTC(temperature, resistance);
-                          XTRACE_PRINTCOLOR((status?2:4),__L("NTC read: Temperature %f, Resistance %f. "), (double)temperature, (double)resistance);
+                          XTRACE_PRINTCOLOR((status?2:4), __L("NTC read: Temperature %f, Resistance %f. "), (double)temperature, (double)resistance);
                           if(status) airqualityCCS811->SetEnvironmentalData(50.00f, temperature);
                           #endif 
                           
@@ -1167,7 +1162,7 @@ bool DEVTESTS_DEVICES::I2CTest_OLEDDisplaySSD1306(DEVTESTS_DEVICES* tests, int p
                 {
                   XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("Put Pixel x3 ... "));        
                   
-                  OLEDdisplaySSD1306->PutPixel(0+c,  0+c, true);
+                  OLEDdisplaySSD1306->PutPixel(0+c, 0+c, true);
                   OLEDdisplaySSD1306->PutPixel((OLEDdisplaySSD1306->GetWidth()/2)-c-1, (OLEDdisplaySSD1306->GetHeight()/2)-c-1, true);
                   OLEDdisplaySSD1306->PutPixel(OLEDdisplaySSD1306->GetWidth()-c-1, OLEDdisplaySSD1306->GetHeight()-c-1, true);
 
@@ -1305,9 +1300,9 @@ bool DEVTESTS_DEVICES::I2CTest_TemHumSensorAM2315(DEVTESTS_DEVICES* tests, int p
 
               if(temhumsensorAM2315->Read(temperature, humidity))
                 {
-                  XTRACE_PRINTCOLOR(1,__L("AM2315 Read Temperature: %2.2fC Relative Humidity %3.2f%% "), temperature, humidity);
+                  XTRACE_PRINTCOLOR(1, __L("AM2315 Read Temperature: %2.2fC Relative Humidity %3.2f%% "), temperature, humidity);
 
-                } else XTRACE_PRINTCOLOR(4,__L("Error read I2C device..."));
+                } else XTRACE_PRINTCOLOR(4, __L("Error read I2C device..."));
               
               c++;
             }               
@@ -1355,9 +1350,9 @@ bool DEVTESTS_DEVICES::I2CTest_TemHumSensorSHT20(DEVTESTS_DEVICES* tests, int po
 
               if(temhumsensorSHT20->Read(temperature, humidity))
                 {
-                  XTRACE_PRINTCOLOR(1,__L("SHT20 Read Temperature: %2.2fC Relative Humidity %3.2f%% "), temperature, humidity);
+                  XTRACE_PRINTCOLOR(1, __L("SHT20 Read Temperature: %2.2fC Relative Humidity %3.2f%% "), temperature, humidity);
 
-                } else XTRACE_PRINTCOLOR(4,__L("Error read I2C device..."));
+                } else XTRACE_PRINTCOLOR(4, __L("Error read I2C device..."));
 
               GEN_XSLEEP.Seconds(1);
 
@@ -1367,7 +1362,7 @@ bool DEVTESTS_DEVICES::I2CTest_TemHumSensorSHT20(DEVTESTS_DEVICES* tests, int po
           
           c++;
 
-        } else XTRACE_PRINTCOLOR(4,__L("Error to connect I2C device..."));
+        } else XTRACE_PRINTCOLOR(4, __L("Error to connect I2C device..."));
 
       GEN_DELETE temhumsensorSHT20;
     }
@@ -1404,7 +1399,7 @@ bool DEVTESTS_DEVICES::I2CTest_MonitorGaugeLTC2942(DEVTESTS_DEVICES* tests, int 
           while(c < 100)
             {          
               XWORD ACvalue = monitorgaugeLTC2942->GetAC();                   
-              XTRACE_PRINTCOLOR(1,__L("AC Value: %d "), ACvalue);                
+              XTRACE_PRINTCOLOR(1, __L("AC Value: %d "), ACvalue);                
               
               c++;
             }          
@@ -1439,11 +1434,11 @@ bool DEVTESTS_DEVICES::I2CTest_BatteryChargerBQ24295(DEVTESTS_DEVICES* tests, in
   DIOI2CBATTERYCHARGERBQ24295* batterychargerBQ24295 = GEN_NEW DIOI2CBATTERYCHARGERBQ24295();
   if(batterychargerBQ24295)
     {            
-      batterychargerBQ24295->SetGPIOEntryID(DIOI2CBATTERYCHARGERBQ24295_GPIOENTRYID_DET   , DIOGPIO_ID_NOTDEFINED);
-      batterychargerBQ24295->SetGPIOEntryID(DIOI2CBATTERYCHARGERBQ24295_GPIOENTRYID_STAT  , DIOGPIO_ID_NOTDEFINED);
-      batterychargerBQ24295->SetGPIOEntryID(DIOI2CBATTERYCHARGERBQ24295_GPIOENTRYID_QON   , DIOGPIO_ID_NOTDEFINED);
-      batterychargerBQ24295->SetGPIOEntryID(DIOI2CBATTERYCHARGERBQ24295_GPIOENTRYID_CE    , DIOGPIO_ID_NOTDEFINED);
-      batterychargerBQ24295->SetGPIOEntryID(DIOI2CBATTERYCHARGERBQ24295_GPIOENTRYID_INT   , DIOGPIO_ID_NOTDEFINED);
+      batterychargerBQ24295->SetGPIOEntryID(DIOI2CBATTERYCHARGERBQ24295_GPIOENTRYID_DET, DIOGPIO_ID_NOTDEFINED);
+      batterychargerBQ24295->SetGPIOEntryID(DIOI2CBATTERYCHARGERBQ24295_GPIOENTRYID_STAT, DIOGPIO_ID_NOTDEFINED);
+      batterychargerBQ24295->SetGPIOEntryID(DIOI2CBATTERYCHARGERBQ24295_GPIOENTRYID_QON, DIOGPIO_ID_NOTDEFINED);
+      batterychargerBQ24295->SetGPIOEntryID(DIOI2CBATTERYCHARGERBQ24295_GPIOENTRYID_CE, DIOGPIO_ID_NOTDEFINED);
+      batterychargerBQ24295->SetGPIOEntryID(DIOI2CBATTERYCHARGERBQ24295_GPIOENTRYID_INT, DIOGPIO_ID_NOTDEFINED);
 
       status = batterychargerBQ24295->Ini(port, DIOI2CBATTERYCHARGERBQ24295_ADDR, timeout);
       XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device Battery Charger BQ24295 Address [0x%02X]: %s"), DIOI2CBATTERYCHARGERBQ24295_ADDR, (status?__L("Ok."):__L("Error!")));          
@@ -1743,7 +1738,7 @@ bool DEVTESTS_DEVICES::SPITest_OLEDDisplaySSD1306(DEVTESTS_DEVICES* tests, int p
     {          
 
       OLEDdisplaySSD1306->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_RESET , DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_RESET);
-      OLEDdisplaySSD1306->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_DC    , DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_DC);
+      OLEDdisplaySSD1306->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_DC, DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_DC);
       
       status = OLEDdisplaySSD1306->Ini(port, chipselect, timeout);
       XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1306] Ini  Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?__L("Ok!"):__L("Error!"));
@@ -1762,7 +1757,7 @@ bool DEVTESTS_DEVICES::SPITest_OLEDDisplaySSD1306(DEVTESTS_DEVICES* tests, int p
 
                   XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1306] Clear FULL 0x00: %s"), status?__L("Ok!"):__L("Error!"));
 
-                  OLEDdisplaySSD1306->PutPixel( 0+c,  0+c, true);
+                  OLEDdisplaySSD1306->PutPixel(0+c, 0+c, true);
                   OLEDdisplaySSD1306->PutPixel(64-c-1, 32-c-1, true);
                   OLEDdisplaySSD1306->PutPixel(OLEDdisplaySSD1306->GetWidth()-c-1, OLEDdisplaySSD1306->GetHeight()-c-1, true);
 
@@ -1813,7 +1808,7 @@ bool DEVTESTS_DEVICES::SPITest_OLEDDisplaySSD1331(DEVTESTS_DEVICES* tests, int p
   if(OLEDdisplaySSD1331)
     {          
       OLEDdisplaySSD1331->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_RESET , DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_RESET);
-      OLEDdisplaySSD1331->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_DC    , DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_DC);
+      OLEDdisplaySSD1331->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_DC, DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_DC);
 
       status  =  OLEDdisplaySSD1331->Ini(port, chipselect, timeout);
       XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1331] Ini  Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?__L("Ok!"):__L("Error!"));
@@ -1870,7 +1865,7 @@ bool DEVTESTS_DEVICES::SPITest_TFTDisplayILI9341(DEVTESTS_DEVICES* tests, int po
   if(TFTdisplayILI9341)
     {      
       TFTdisplayILI9341->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_RESET , DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_RESET);
-      TFTdisplayILI9341->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_DC    , DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_DC);                 
+      TFTdisplayILI9341->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_DC, DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_DC);                 
       
       status  = TFTdisplayILI9341->Ini(port, chipselect, timeout);
       XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[TFT Display ILI9341] Ini  Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?__L("Ok!"):__L("Error!"));
@@ -1923,15 +1918,15 @@ bool DEVTESTS_DEVICES::SPITest_TFTDisplayST7789(DEVTESTS_DEVICES* tests, int por
 {
   bool status = false;    
 
-  DIOSPITFTDISPLAYST7789* TFTdisplayST7789 = GEN_NEW DIOSPITFTDISPLAYST7789(320 ,10);
+  DIOSPITFTDISPLAYST7789* TFTdisplayST7789 = GEN_NEW DIOSPITFTDISPLAYST7789(320, 10);
   if(TFTdisplayST7789)
     {                    
-      TFTdisplayST7789->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_RESET       , DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_RESET);
-      TFTdisplayST7789->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_DC          , DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_DC);    
-      TFTdisplayST7789->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_BACKLIGHT   , DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_BACKLIGHT);    
+      TFTdisplayST7789->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_RESET, DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_RESET);
+      TFTdisplayST7789->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_DC, DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_DC);    
+      TFTdisplayST7789->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_BACKLIGHT, DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_BACKLIGHT);    
 
-      GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_CS    , DIOGPIO_MODE_OUTPUT);  
-      GEN_DIOGPIO.SetValue(DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_CS   , true);
+      GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_CS, DIOGPIO_MODE_OUTPUT);  
+      GEN_DIOGPIO.SetValue(DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_CS, true);
       
       status  = TFTdisplayST7789->Ini(port, chipselect, timeout);
       XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[TFT Display ST7789] Ini Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?__L("Ok!"):__L("Error!"));
@@ -1992,7 +1987,6 @@ bool DEVTESTS_DEVICES::SPITest_TouchScreenSTMPE610(DEVTESTS_DEVICES* tests, int 
   
   return status;
 }
- 
 
 
 /**-------------------------------------------------------------------------------------------------------------------
@@ -2096,11 +2090,11 @@ bool DEVTESTS_DEVICES::Test_DIOStreamSPI(DEVTESTS_DEVICES* tests)
 * --------------------------------------------------------------------------------------------------------------------*/
 bool DEVTESTS_DEVICES::Test_DIOGPIO(DEVTESTS_DEVICES* tests)
 {  
-  GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_LED_RED    , DIOGPIO_MODE_OUTPUT);  
-  GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_LED_BLUE   , DIOGPIO_MODE_OUTPUT);
+  GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_LED_RED, DIOGPIO_MODE_OUTPUT);  
+  GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_LED_BLUE, DIOGPIO_MODE_OUTPUT);
   GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_LED_ORANGE , DIOGPIO_MODE_OUTPUT);  
-  GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_LED_GREEN  , DIOGPIO_MODE_OUTPUT);
-  GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_BTN_BLUE   , DIOGPIO_MODE_INPUT);
+  GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_LED_GREEN, DIOGPIO_MODE_OUTPUT);
+  GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_BTN_BLUE, DIOGPIO_MODE_INPUT);
 
   int counter = 0;
   int final   = 0;
@@ -2115,17 +2109,17 @@ bool DEVTESTS_DEVICES::Test_DIOGPIO(DEVTESTS_DEVICES* tests)
       
       switch(counter)
         {
-          case 0 :  GEN_DIOGPIO.SetValue(DEVTESTS_DEVICES_GPIOENTRYID_LED_RED   , true);
+          case 0 :  GEN_DIOGPIO.SetValue(DEVTESTS_DEVICES_GPIOENTRYID_LED_RED, true);
                     GEN_XSLEEP.MilliSeconds(100);
 
-                    GEN_DIOGPIO.SetValue(DEVTESTS_DEVICES_GPIOENTRYID_LED_RED   , false);
+                    GEN_DIOGPIO.SetValue(DEVTESTS_DEVICES_GPIOENTRYID_LED_RED, false);
                     GEN_XSLEEP.MilliSeconds(100);
                     break;
 
-          case 2 :  GEN_DIOGPIO.SetValue(DEVTESTS_DEVICES_GPIOENTRYID_LED_BLUE  , true);
+          case 2 :  GEN_DIOGPIO.SetValue(DEVTESTS_DEVICES_GPIOENTRYID_LED_BLUE, true);
                     GEN_XSLEEP.MilliSeconds(100);
 
-                    GEN_DIOGPIO.SetValue(DEVTESTS_DEVICES_GPIOENTRYID_LED_BLUE  , false);
+                    GEN_DIOGPIO.SetValue(DEVTESTS_DEVICES_GPIOENTRYID_LED_BLUE, false);
                     GEN_XSLEEP.MilliSeconds(100);
                     break;
 
@@ -2176,7 +2170,7 @@ bool DEVTESTS_DEVICES::Test_DIOGPIO_Interrupt(DEVTESTS_DEVICES* tests)
   GPIOentry->SetIntFunctionPointer(DEVTESTS_DEVICES::Test_Callback_Interrupt);
   GPIOentry->SetIntParamPointer((void*)tests);
 
-  GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_TEST_INTERRUPT,  DIOGPIO_MODE_INTERRUPT);  
+  GEN_DIOGPIO.SetMode(DEVTESTS_DEVICES_GPIOENTRYID_TEST_INTERRUPT, DIOGPIO_MODE_INTERRUPT);  
     
   int c=0;
   while(c<100)
@@ -2349,9 +2343,9 @@ bool DEVTESTS_DEVICES::Test_DirFunctions(DEVTESTS_DEVICES* tests)
       GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_ROOT, xpath);
       xpath.Slash_Add();
                        
-      if(xdir->FirstSearch(xpath,__L("*"), &element))
+      if(xdir->FirstSearch(xpath, __L("*"), &element))
         {
-          do{ XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("[%s] %s"), (element.GetType()==XDIRELEMENTTYPE_DIR?__L("dir"):__L("fil")),  element.GetNameFile()->Get());
+          do{ XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("[%s] %s"), (element.GetType()==XDIRELEMENTTYPE_DIR?__L("dir"):__L("fil")), element.GetNameFile()->Get());
 
             } while(xdir->NextSearch(&element));          
         }

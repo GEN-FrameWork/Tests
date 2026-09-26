@@ -566,13 +566,13 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, IsBetweenInclusive)
   XDATETIME* middle  = GEN_XFACTORY.CreateDateTime();
   XDATETIME* end     = GEN_XFACTORY.CreateDateTime();
 
-  EXPECT_NE((void*)start,  (void*)NULL);
+  EXPECT_NE((void*)start, (void*)NULL);
   EXPECT_NE((void*)middle, (void*)NULL);
-  EXPECT_NE((void*)end,    (void*)NULL);
+  EXPECT_NE((void*)end, (void*)NULL);
 
-  SetKnownDateTime(start,  1,  1, 2001, 0, 0, 0, 0);
-  SetKnownDateTime(middle, 2,  1, 2001, 0, 0, 0, 0);
-  SetKnownDateTime(end,    3,  1, 2001, 0, 0, 0, 0);
+  SetKnownDateTime(start, 1, 1, 2001, 0, 0, 0, 0);
+  SetKnownDateTime(middle, 2, 1, 2001, 0, 0, 0, 0);
+  SetKnownDateTime(end, 3, 1, 2001, 0, 0, 0, 0);
 
   EXPECT_TRUE(middle->IsBetween(*start, *end));
   EXPECT_TRUE(start->IsBetween(*start, *end));
@@ -669,14 +669,14 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, DaysOfYearAndDayOfYearRelation)
 
   EXPECT_NE((void*)datetime, (void*)NULL);
 
-  SetKnownDateTime(datetime,  1,  1, 2001, 0, 0, 0, 0);
+  SetKnownDateTime(datetime, 1, 1, 2001, 0, 0, 0, 0);
   EXPECT_EQ(datetime->GetDaysOfYear(), 0);
-  EXPECT_EQ(datetime->GetDayOfYear(),  1);
+  EXPECT_EQ(datetime->GetDayOfYear(), 1);
   EXPECT_EQ(datetime->GetDaysOfYear(), (datetime->GetDayOfYear() - 1));
 
   // Leap year check (year 2000 is leap): Dec 31 is day 366, but "days of year" is 0-based.
   SetKnownDateTime(datetime, 31, 12, 2000, 0, 0, 0, 0);
-  EXPECT_EQ(datetime->GetDayOfYear(),  366);
+  EXPECT_EQ(datetime->GetDayOfYear(), 366);
   EXPECT_EQ(datetime->GetDaysOfYear(), 365);
   EXPECT_EQ(datetime->GetDaysOfYear(), (datetime->GetDayOfYear() - 1));
 
@@ -714,16 +714,16 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, NDdaysRoundTripGregorianAndJulian)
   // Gregorian round-trip
   datetimeB->SetToZero();
   datetimeB->GetDateFromNDays(datetimeA->GetNDaysInGregorian(), false);
-  EXPECT_EQ(datetimeB->GetDay(),   datetimeA->GetDay());
+  EXPECT_EQ(datetimeB->GetDay(), datetimeA->GetDay());
   EXPECT_EQ(datetimeB->GetMonth(), datetimeA->GetMonth());
-  EXPECT_EQ(datetimeB->GetYear(),  datetimeA->GetYear());
+  EXPECT_EQ(datetimeB->GetYear(), datetimeA->GetYear());
 
   // Julian round-trip
   datetimeB->SetToZero();
   datetimeB->GetDateFromNDays(datetimeA->GetNDaysInJulian(), true);
-  EXPECT_EQ(datetimeB->GetDay(),   datetimeA->GetDay());
+  EXPECT_EQ(datetimeB->GetDay(), datetimeA->GetDay());
   EXPECT_EQ(datetimeB->GetMonth(), datetimeA->GetMonth());
-  EXPECT_EQ(datetimeB->GetYear(),  datetimeA->GetYear());
+  EXPECT_EQ(datetimeB->GetYear(), datetimeA->GetYear());
 
   GEN_XFACTORY.DeleteDateTime(datetimeA);
   GEN_XFACTORY.DeleteDateTime(datetimeB);
@@ -745,10 +745,10 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, SecondsRoundTripGregorian)
   datetimeB->SetToZero();
   datetimeB->SetDateFromSeconds(allseconds, false);
 
-  EXPECT_EQ(datetimeB->GetDay(),     datetimeA->GetDay());
-  EXPECT_EQ(datetimeB->GetMonth(),   datetimeA->GetMonth());
-  EXPECT_EQ(datetimeB->GetYear(),    datetimeA->GetYear());
-  EXPECT_EQ(datetimeB->GetHours(),   datetimeA->GetHours());
+  EXPECT_EQ(datetimeB->GetDay(), datetimeA->GetDay());
+  EXPECT_EQ(datetimeB->GetMonth(), datetimeA->GetMonth());
+  EXPECT_EQ(datetimeB->GetYear(), datetimeA->GetYear());
+  EXPECT_EQ(datetimeB->GetHours(), datetimeA->GetHours());
   EXPECT_EQ(datetimeB->GetMinutes(), datetimeA->GetMinutes());
   EXPECT_EQ(datetimeB->GetSeconds(), datetimeA->GetSeconds());
 
@@ -765,7 +765,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, IsTheSameDay)
   EXPECT_NE((void*)datetimeA, (void*)NULL);
   EXPECT_NE((void*)datetimeB, (void*)NULL);
 
-  SetKnownDateTime(datetimeA, 31, 12, 2000, 11,  0,  0, 0);
+  SetKnownDateTime(datetimeA, 31, 12, 2000, 11, 0, 0, 0);
   SetKnownDateTime(datetimeB, 31, 12, 2000, 23, 59, 59, 0);
 
   EXPECT_TRUE(datetimeA->IsTheSameDay(datetimeB));
@@ -821,9 +821,9 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, StringFormatsPostgreSQLAndFirstTime)
 
   datetimeB->SetToZero();
   EXPECT_TRUE(datetimeB->GetDateTimeFromString(string, XDATETIME_FORMAT_DMY));
-  EXPECT_EQ(datetimeB->GetDay(),   31);
+  EXPECT_EQ(datetimeB->GetDay(), 31);
   EXPECT_EQ(datetimeB->GetMonth(), 12);
-  EXPECT_EQ(datetimeB->GetYear(),  2000);
+  EXPECT_EQ(datetimeB->GetYear(), 2000);
 
   // First time (time + date)
   datetimeA->GetDateTimeToString(XDATETIME_FORMAT_STANDARD | XDATETIME_FORMAT_FIRSTTIME, string);
@@ -850,25 +850,25 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, AddSubtractHoursMinutesMonthsYears)
   EXPECT_EQ(datetime->GetHours(), 15);
 
   datetime->AddMinutes(40);
-  EXPECT_EQ(datetime->GetHours(),   16);
+  EXPECT_EQ(datetime->GetHours(), 16);
   EXPECT_EQ(datetime->GetMinutes(), 10);
 
   datetime->SubtractHours(5);
   EXPECT_EQ(datetime->GetHours(), 11);
 
   datetime->SubtractMinutes(40);
-  EXPECT_EQ(datetime->GetHours(),   10);
+  EXPECT_EQ(datetime->GetHours(), 10);
   EXPECT_EQ(datetime->GetMinutes(), 30);
 
   // Back to the exact starting point
-  EXPECT_EQ(datetime->GetDay(),   15);
+  EXPECT_EQ(datetime->GetDay(), 15);
   EXPECT_EQ(datetime->GetMonth(), 6);
-  EXPECT_EQ(datetime->GetYear(),  2020);
+  EXPECT_EQ(datetime->GetYear(), 2020);
 
   // SubtractMonths() by an amount that stays within the same year works correctly.
   datetime->SubtractMonths(3);
   EXPECT_EQ(datetime->GetMonth(), 3);
-  EXPECT_EQ(datetime->GetYear(),  2020);
+  EXPECT_EQ(datetime->GetYear(), 2020);
 
   datetime->SubtractYears(20);
   EXPECT_EQ(datetime->GetYear(), 2000);
@@ -893,7 +893,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, SubtractMonthsCrossingYearBoundaryNowWrapsCo
 
   // Correct behavior: month=12, year=2019 (December of the previous year).
   EXPECT_EQ(datetime->GetMonth(), 12);
-  EXPECT_EQ(datetime->GetYear(),  2019);
+  EXPECT_EQ(datetime->GetYear(), 2019);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }
@@ -980,10 +980,10 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, SecondsRoundTripJulian)
   datetimeB->SetToZero();
   EXPECT_TRUE(datetimeB->SetDateFromSeconds(seconds, true));
 
-  EXPECT_EQ(datetimeB->GetDay(),     datetimeA->GetDay());
-  EXPECT_EQ(datetimeB->GetMonth(),   datetimeA->GetMonth());
-  EXPECT_EQ(datetimeB->GetYear(),    datetimeA->GetYear());
-  EXPECT_EQ(datetimeB->GetHours(),   datetimeA->GetHours());
+  EXPECT_EQ(datetimeB->GetDay(), datetimeA->GetDay());
+  EXPECT_EQ(datetimeB->GetMonth(), datetimeA->GetMonth());
+  EXPECT_EQ(datetimeB->GetYear(), datetimeA->GetYear());
+  EXPECT_EQ(datetimeB->GetHours(), datetimeA->GetHours());
   EXPECT_EQ(datetimeB->GetMinutes(), datetimeA->GetMinutes());
   EXPECT_EQ(datetimeB->GetSeconds(), datetimeA->GetSeconds());
 

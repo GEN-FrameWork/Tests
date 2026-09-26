@@ -245,7 +245,7 @@ TEST(UNITTESTS_XBUFFER_CLASSNAME, AddAll)
   XBUFFER buffer;
 
   buffer.Add((bool)true)  ;
-  buffer.Add((XBYTE)  1)  ;
+  buffer.Add((XBYTE) 1)  ;
   buffer.Add((XWORD) 16)  ;
   buffer.Add((XDWORD)32)  ;
   buffer.Add((XQWORD)64)  ;
@@ -260,7 +260,7 @@ TEST(UNITTESTS_XBUFFER_CLASSNAME, AddBool)
   XBUFFER buffer;
 
   buffer.Add((bool)true);
-  EXPECT_EQ(1,buffer.GetSize());  
+  EXPECT_EQ(1, buffer.GetSize());  
 }
 
 
@@ -420,7 +420,7 @@ TEST(UNITTESTS_XBUFFER_CLASSNAME, ExtractWord)
   XWORD   xword = 0;
 
   buffer.Add((XWORD)16);
-  buffer.Extract((XWORD&)xword,0);
+  buffer.Extract((XWORD&)xword, 0);
 
   EXPECT_EQ(xword, 16);
   EXPECT_EQ(0, buffer.GetSize());  

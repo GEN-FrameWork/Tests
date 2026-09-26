@@ -108,7 +108,7 @@ TEST(UNITTESTS_XINTERPOLATOR_CLASSNAME, SetAndGetBatchAccessor)
   interpolator.Get(current, target, speed);
 
   EXPECT_EQ(current, (XDWORD)10);
-  EXPECT_EQ(target,  (XDWORD)20);
+  EXPECT_EQ(target, (XDWORD)20);
   EXPECT_FLOAT_EQ(speed, 1.5f);
 }
 

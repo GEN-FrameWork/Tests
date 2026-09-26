@@ -81,7 +81,6 @@ enum DEVTESTS_CONSOLE_GPIOENTRYID
   DEVTESTS_CONSOLE_GPIOENTRYID_LED_NEOPIXEL                                             
 };
 
-
 #define APPLICATION_VERSION                       0
 #define APPLICATION_SUBVERSION                    1
 #define APPLICATION_SUBVERSIONERR                 0
@@ -125,7 +124,6 @@ typedef XTREE_NODE<XSTRING*>                      XTREE_NODE_TEST;
 typedef XTREE_NODE_ITERATOR<XSTRING*>             XTREE_NODE_ITERATOR_TEST;
 typedef XTREE<XSTRING*>                           XTREE_TEST;
 
-
 /*---- CLASS ---------------------------------------------------------------------------------------------------------*/
 
 class XTIMER;
@@ -145,7 +143,6 @@ class SNDFACTORY_XEVENT;
 class APPFLOWCHECKRESOURCESHARDWARE;
 class APPFLOWINTERNETSERVICES;
 class APPFLOWALERTS;
-
 
 class DEVTESTS_CONSOLE : public APPFLOWCONSOLE, public XOBSERVER, public XFSMACHINE
 {

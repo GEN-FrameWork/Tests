@@ -85,22 +85,22 @@ int STM32_Platform_Ini(void)
     
   //-------------------------------------------------------------------------------------------------------------------
   
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_LED_RED                , GPIO_PIN_6  , DIOGPIO_PINSGROUP_C);
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_LED_BLUE               , GPIO_PIN_7  , DIOGPIO_PINSGROUP_C); 
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_LED_ORANGE             , GPIO_PIN_8  , DIOGPIO_PINSGROUP_C); 
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_LED_GREEN              , GPIO_PIN_9  , DIOGPIO_PINSGROUP_C);   
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_BTN_BLUE               , GPIO_PIN_10 , DIOGPIO_PINSGROUP_C); 
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_LED_RED, GPIO_PIN_6, DIOGPIO_PINSGROUP_C);
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_LED_BLUE, GPIO_PIN_7, DIOGPIO_PINSGROUP_C); 
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_LED_ORANGE, GPIO_PIN_8, DIOGPIO_PINSGROUP_C); 
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_LED_GREEN, GPIO_PIN_9, DIOGPIO_PINSGROUP_C);   
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_BTN_BLUE, GPIO_PIN_10, DIOGPIO_PINSGROUP_C); 
  
   //-------------------------------------------------------------------------------------------------------------------
   
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_FATSD_CS               , GPIO_PIN_4  , DIOGPIO_PINSGROUP_A); 
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_FATSD_SWITCH           , GPIO_PIN_8  , DIOGPIO_PINSGROUP_A); 
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_FATSD_CS, GPIO_PIN_4, DIOGPIO_PINSGROUP_A); 
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_FATSD_SWITCH, GPIO_PIN_8, DIOGPIO_PINSGROUP_A); 
   
   FATSD_SPI.Ini(&hspi1, DevTests_Devices_GPIOENTRYID_FATSD_CS, DevTests_Devices_GPIOENTRYID_FATSD_SWITCH);
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_LED_NEOPIXEL           , GPIO_PIN_0  , DIOGPIO_PINSGROUP_A); 
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_LED_NEOPIXEL, GPIO_PIN_0, DIOGPIO_PINSGROUP_A); 
   
   //-------------------------------------------------------------------------------------------------------------------
 
@@ -113,14 +113,14 @@ int STM32_Platform_Ini(void)
 
   //-------------------------------------------------------------------------------------------------------------------
   
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_I2C_CCS811_WAKEUP      , GPIO_PIN_9  , DIOGPIO_PINSGROUP_A);   
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_I2C_CCS811_WAKEUP, GPIO_PIN_9, DIOGPIO_PINSGROUP_A);   
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_SPI_DISPLAY_CS         , GPIO_PIN_4  , DIOGPIO_PINSGROUP_A);
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_SPI_DISPLAY_RESET      , GPIO_PIN_0  , DIOGPIO_PINSGROUP_A);
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_SPI_DISPLAY_DC         , GPIO_PIN_2  , DIOGPIO_PINSGROUP_A);
-  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_SPI_DISPLAY_BACKLIGHT  , GPIO_PIN_3  , DIOGPIO_PINSGROUP_A);
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_SPI_DISPLAY_CS, GPIO_PIN_4, DIOGPIO_PINSGROUP_A);
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_SPI_DISPLAY_RESET, GPIO_PIN_0, DIOGPIO_PINSGROUP_A);
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_SPI_DISPLAY_DC, GPIO_PIN_2, DIOGPIO_PINSGROUP_A);
+  GEN_DIOGPIO.GPIOEntry_CreateByPin(DevTests_Devices_GPIOENTRYID_SPI_DISPLAY_BACKLIGHT, GPIO_PIN_3, DIOGPIO_PINSGROUP_A);
   
   //-------------------------------------------------------------------------------------------------------------------  
   
@@ -352,7 +352,7 @@ void STM32_Heap_Usage()
   XDWORD total = m.uordblks + m.fordblks;
   XDWORD free  = m.fordblks;
     
-  STM32_Platform_Trace(FALSE,"RAM Memory Total %u, (%uk) / Free: %u, (%uk)" , total, (total/1024), free, (free/1024));
+  STM32_Platform_Trace(FALSE, "RAM Memory Total %u, (%uk) / Free: %u, (%uk)", total, (total/1024), free, (free/1024));
     
   // __iar_dlmalloc_stats();
 }

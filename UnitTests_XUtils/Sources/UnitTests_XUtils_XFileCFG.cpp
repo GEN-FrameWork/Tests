@@ -120,8 +120,8 @@ class TESTCFG_MINIMAL : public XFILECFG
 
     bool DoVariableMapping()
     {
-      AddValue(XFILECFG_VALUETYPE_INT   , __L("GENERAL"), __L("Count") , &intvalue);
-      AddValue(XFILECFG_VALUETYPE_STRING, __L("GENERAL"), __L("Name")  , &stringvalue);
+      AddValue(XFILECFG_VALUETYPE_INT, __L("GENERAL"), __L("Count"), &intvalue);
+      AddValue(XFILECFG_VALUETYPE_STRING, __L("GENERAL"), __L("Name"), &stringvalue);
       return true;
     }
 

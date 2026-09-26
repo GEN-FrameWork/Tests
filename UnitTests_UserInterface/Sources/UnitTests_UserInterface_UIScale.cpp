@@ -7,6 +7,24 @@
 *
 * @copyright  EndoraSoft. All rights reserved.
 *
+* @class      UNITTESTS_USERINTERFACE_UISCALE
+*
+* @cond
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+* documentation files(the "Software"), to deal in the Software without restriction, including without limitation
+* the rights to use, copy, modify, merge, publish, distribute, sublicense, and/ or sell copies of the Software,
+* and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+* the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+* THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+* @endcond
+*
 * --------------------------------------------------------------------------------------------------------------------*/
 /*---- PRECOMPILATION INCLUDES ---------------------------------------------------------------------------------------*/
 
@@ -44,7 +62,7 @@ TEST(UNITTESTS_UI_UISCALE_CLASSNAME, DefaultsAreUnsetDesignScaleOneInactive)
   UI_LAYOUT layout(NULL);
   layout.SetOwnsSkin(false);
 
-  EXPECT_EQ(layout.GetDesignWidth(),  (XDWORD)0);
+  EXPECT_EQ(layout.GetDesignWidth(), (XDWORD)0);
   EXPECT_EQ(layout.GetDesignHeight(), (XDWORD)0);
   EXPECT_DOUBLE_EQ(layout.GetUIScale(), UI_LAYOUT_UISCALE_DEFAULT);
   EXPECT_FALSE(layout.GetUIScaleEnabled());
@@ -60,7 +78,7 @@ TEST(UNITTESTS_UI_UISCALE_CLASSNAME, DesignSizeAndScaleRoundTrip)
   layout.SetDesignSize(1440, 900);
   layout.SetUIScale(1.0);
 
-  EXPECT_EQ(layout.GetDesignWidth(),  (XDWORD)1440);
+  EXPECT_EQ(layout.GetDesignWidth(), (XDWORD)1440);
   EXPECT_EQ(layout.GetDesignHeight(), (XDWORD)900);
   EXPECT_DOUBLE_EQ(layout.GetUIScale(), 1.0);
 
@@ -68,7 +86,7 @@ TEST(UNITTESTS_UI_UISCALE_CLASSNAME, DesignSizeAndScaleRoundTrip)
   EXPECT_DOUBLE_EQ(layout.GetUIScale(), 1.5);
 
   layout.SetDesignSize(0, 0);
-  EXPECT_EQ(layout.GetDesignWidth(),  (XDWORD)0);
+  EXPECT_EQ(layout.GetDesignWidth(), (XDWORD)0);
   EXPECT_EQ(layout.GetDesignHeight(), (XDWORD)0);
 }
 
@@ -308,9 +326,9 @@ TEST(UNITTESTS_UI_UISCALE_CLASSNAME, ElementAABBUnchangedWhenOnlyScaleChanges)
   layout.SetUIScale(2.0);
   layout.SetUIScale(1.0);
 
-  EXPECT_DOUBLE_EQ(element.GetBoundaryLine()->x,      ax);
-  EXPECT_DOUBLE_EQ(element.GetBoundaryLine()->y,      ay);
-  EXPECT_DOUBLE_EQ(element.GetBoundaryLine()->width,  aw);
+  EXPECT_DOUBLE_EQ(element.GetBoundaryLine()->x, ax);
+  EXPECT_DOUBLE_EQ(element.GetBoundaryLine()->y, ay);
+  EXPECT_DOUBLE_EQ(element.GetBoundaryLine()->width, aw);
   EXPECT_DOUBLE_EQ(element.GetBoundaryLine()->height, ah);
 }
 
@@ -345,10 +363,10 @@ TEST(UNITTESTS_UI_UISCALE_CLASSNAME, ExpandCenteredToMinGrowsPaint24ToHit44)
   UI_BOUNDARYLINE hit = paint;
   hit.ExpandCenteredToMin(UI_LAYOUT_MINHITSIZE_DEFAULT, UI_LAYOUT_MINHITSIZE_DEFAULT);
 
-  EXPECT_NEAR(hit.width,  44.0, 1e-9);
+  EXPECT_NEAR(hit.width, 44.0, 1e-9);
   EXPECT_NEAR(hit.height, 44.0, 1e-9);
   // Center preserved: mid_x = x + w/2, mid_y = y - h/2
-  EXPECT_NEAR(hit.x + hit.width * 0.5,  paint.x + paint.width * 0.5, 1e-9);
+  EXPECT_NEAR(hit.x + hit.width * 0.5, paint.x + paint.width * 0.5, 1e-9);
   EXPECT_NEAR(hit.y - hit.height * 0.5, paint.y - paint.height * 0.5, 1e-9);
 
   // Point just outside paint, inside expanded hit
@@ -356,7 +374,7 @@ TEST(UNITTESTS_UI_UISCALE_CLASSNAME, ExpandCenteredToMinGrowsPaint24ToHit44)
   EXPECT_TRUE(hit.IsWithin(99, 188));      // still inside hit (hit left=90, top=166)
 
   // Paint AABB itself was not mutated
-  EXPECT_DOUBLE_EQ(paint.width,  24.0);
+  EXPECT_DOUBLE_EQ(paint.width, 24.0);
   EXPECT_DOUBLE_EQ(paint.height, 24.0);
 }
 
@@ -376,7 +394,7 @@ TEST(UNITTESTS_UI_UISCALE_CLASSNAME, MinHitExpansionOnlyWhenUIScaleActive)
     hit_off.ExpandCenteredToMin(layout.GetMinHitSize(), layout.GetMinHitSize());
 
   EXPECT_FALSE(layout.IsUIScaleActive());
-  EXPECT_DOUBLE_EQ(hit_off.width,  24.0);
+  EXPECT_DOUBLE_EQ(hit_off.width, 24.0);
   EXPECT_DOUBLE_EQ(hit_off.height, 24.0);
 
   layout.SetUIScaleEnabled(true);
@@ -385,7 +403,7 @@ TEST(UNITTESTS_UI_UISCALE_CLASSNAME, MinHitExpansionOnlyWhenUIScaleActive)
   if(layout.IsUIScaleActive() && layout.GetMinHitSize() > 0.0)
     hit_on.ExpandCenteredToMin(layout.GetMinHitSize(), layout.GetMinHitSize());
 
-  EXPECT_NEAR(hit_on.width,  44.0, 1e-9);
+  EXPECT_NEAR(hit_on.width, 44.0, 1e-9);
   EXPECT_NEAR(hit_on.height, 44.0, 1e-9);
 }
 

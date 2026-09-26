@@ -601,16 +601,16 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, SetTraceTextToXBufferAndGetTraceFromXBufferRoun
   EXPECT_EQ(localtrace->GetTraceFromXBuffer(xbufferpacket, publicIPread, localIPread, levelread, sequenceread, xtimeread, dataread), (XDWORD)0);
 
   EXPECT_EQ(publicIPread, (XDWORD)0x0A0B0C0D);
-  EXPECT_EQ(localIPread,  (XDWORD)0x01020304);
-  EXPECT_EQ(levelread,    (XBYTE)5);
+  EXPECT_EQ(localIPread, (XDWORD)0x01020304);
+  EXPECT_EQ(levelread, (XBYTE)5);
   EXPECT_EQ(sequenceread, (XDWORD)7);
 
-  EXPECT_EQ(xtimeread->GetYear(),         2024);
-  EXPECT_EQ(xtimeread->GetMonth(),        6);
-  EXPECT_EQ(xtimeread->GetDay(),          15);
-  EXPECT_EQ(xtimeread->GetHours(),        10);
-  EXPECT_EQ(xtimeread->GetMinutes(),      30);
-  EXPECT_EQ(xtimeread->GetSeconds(),      45);
+  EXPECT_EQ(xtimeread->GetYear(), 2024);
+  EXPECT_EQ(xtimeread->GetMonth(), 6);
+  EXPECT_EQ(xtimeread->GetDay(), 15);
+  EXPECT_EQ(xtimeread->GetHours(), 10);
+  EXPECT_EQ(xtimeread->GetMinutes(), 30);
+  EXPECT_EQ(xtimeread->GetSeconds(), 45);
   EXPECT_EQ(xtimeread->GetMilliSeconds(), 500);
 
   XSTRING textread;

@@ -72,7 +72,7 @@ static void FillPseudoRandom(XBYTE* buffer, XDWORD size, XDWORD seed)
 
 /**-------------------------------------------------------------------------------------------------------------------
 *
-* @fn         static void RoundTrip(XBYTE* origin,XDWORD size)
+* @fn         static void RoundTrip(XBYTE* origin, XDWORD size)
 * @brief      Shared Compress()->Decompress() round-trip helper. COMPRESS_GZ streams both directions
 *             through XBUFFER::Add() (CompressGZ.cpp), so unlike COMPRESS_LZW/COMPRESS_LZRW1KH the
 *             caller does not need to pre-size either buffer at all.

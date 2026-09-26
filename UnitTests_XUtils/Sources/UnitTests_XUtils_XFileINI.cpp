@@ -236,12 +236,7 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, OpenParsesHandWrittenINIWithMultipleSectionsA
   XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfileini_parse.ini"));
   RemoveIfExists(xpath);
 
-  WriteRawTextFile(xpath,
-    "[SECTION1]\n"
-    "key1=value1\n"
-    "key2=value2\n"
-    "[SECTION2]\n"
-    "keyA=valueA\n");
+  WriteRawTextFile(xpath, "[SECTION1]\n" "key1=value1\n" "key2=value2\n" "[SECTION2]\n" "keyA=valueA\n");
 
   XFILEINI reader;
   ASSERT_TRUE(reader.Open(xpath, true));
@@ -271,10 +266,7 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, RemarksAreRecognizedAndTextIsCaptured)
   XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfileini_remarks.ini"));
   RemoveIfExists(xpath);
 
-  WriteRawTextFile(xpath,
-    "; a whole line remark\n"
-    "[REMARKSECTION]\n"
-    "onlykey=onlyvalue ; trailing remark\n");
+  WriteRawTextFile(xpath, "; a whole line remark\n" "[REMARKSECTION]\n" "onlykey=onlyvalue ; trailing remark\n");
 
   XFILEINI reader;
   ASSERT_TRUE(reader.Open(xpath, true));
@@ -370,11 +362,7 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, ReadKeyMapBulkReadsMultipleKeysAtOnce)
   XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfileini_keymap.ini"));
   RemoveIfExists(xpath);
 
-  WriteRawTextFile(xpath,
-    "[BULK]\n"
-    "first=1\n"
-    "second=2\n"
-    "third=3\n");
+  WriteRawTextFile(xpath, "[BULK]\n" "first=1\n" "second=2\n" "third=3\n");
 
   XFILEINI reader;
   ASSERT_TRUE(reader.Open(xpath, true));
