@@ -31,6 +31,7 @@
 #include "UnitTests_Script_TestHelpers.h"
 #include "Script_Language_G.h"
 #include "GEN_Control.h"
+#include "XSleep.h"
 
 #if defined(GOOGLETEST_ACTIVE) && defined(SCRIPT_G_ACTIVE)
 namespace TEST_SCRIPTLANGUAGEG
@@ -99,6 +100,30 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, RejectsModuloByZero)
   (*script.GetScript()) = __L("int main(){ return 10 % 0; }");
 
   EXPECT_EQ(script.Run(), SCRIPT_LNG_G_ERRORCODE_DIV_BY_ZERO);
+}
+
+
+TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, RunWithThreadExposesReturnValue)
+{
+  SCRIPT_LNG_G script;
+  int          error       = -1;
+  int          returnvalue = -1;
+  int          spins       = 0;
+
+  (*script.GetScript()) = __L("int main(){ return 42; }");
+
+  ASSERT_TRUE(script.RunWithThread());
+
+  while(script.IsRunThread(&error, &returnvalue) && (spins < 500))
+    {
+      GEN_XSLEEP.MilliSeconds(10);
+      spins++;
+    }
+
+  EXPECT_LT(spins, 500);
+  EXPECT_EQ(error, SCRIPT_ERRORCODE_NONE);
+  EXPECT_EQ(returnvalue, 42);
+  EXPECT_EQ(script.GetReturnValueScript(), 42);
 }
 
 }
