@@ -67,4 +67,25 @@ TEST(UNITTESTS_SCRIPTLIBTRACE_CLASSNAME, ClearScreenAcceptsItsSingleArgument)
 
   params.DeleteAll();
 }
+
+
+TEST(UNITTESTS_SCRIPTLIBTRACE_CLASSNAME, PrintColorPreservesPercentInData)
+{
+  SCRIPT_LIB_TRACE               library;
+  UNITTESTS_SCRIPT_ERRORCAPTURE  script;
+  XVECTOR<XVARIANT*>             params;
+  XVARIANT                       color(1);
+  XVARIANT                       mask(__L("%s"));
+  XVARIANT                       data(__L("100% ready"));
+  XVARIANT                       result;
+
+  params.Add(&color);
+  params.Add(&mask);
+  params.Add(&data);
+  Call_TracePrintColor(&library, &script, &params, &result);
+
+  EXPECT_EQ(script.GetLastError(), SCRIPT_ERRORCODE_NONE);
+
+  params.DeleteAll();
+}
 #endif
