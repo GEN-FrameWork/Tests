@@ -181,6 +181,38 @@ TEST(UNITTESTS_SCRIPT_CLASSNAME, RejectsUnconfinedScriptNames)
 }
 
 
+TEST(UNITTESTS_SCRIPT_CLASSNAME, HaveSameLanguageRequiresMatchingExtensionsOnOneLine)
+{
+  XVECTOR<XSTRING*> samelang;
+  XVECTOR<XSTRING*> mixedlang;
+  XVECTOR<XSTRING*> unknownlang;
+  XSTRING           a;
+  XSTRING           b;
+  XSTRING           c;
+
+  a = __L("one.lua");
+  b = __L("two.lua");
+  c = __L("three.js");
+
+  samelang.Add(&a);
+  samelang.Add(&b);
+  EXPECT_TRUE(SCRIPT::HaveSameLanguage(&samelang));
+
+  mixedlang.Add(&a);
+  mixedlang.Add(&c);
+  EXPECT_FALSE(SCRIPT::HaveSameLanguage(&mixedlang));
+
+  XSTRING unknown = __L("readme.txt");
+  unknownlang.Add(&unknown);
+  EXPECT_FALSE(SCRIPT::HaveSameLanguage(&unknownlang));
+
+  // Vector owns neither: clear without DeleteContents.
+  samelang.DeleteAll();
+  mixedlang.DeleteAll();
+  unknownlang.DeleteAll();
+}
+
+
 TEST(UNITTESTS_SCRIPT_CLASSNAME, SaveAndLoadRoundTrip)
 {
   XPATH path;
