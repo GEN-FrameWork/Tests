@@ -34,4 +34,32 @@
 
 #ifdef GOOGLETEST_ACTIVE
 UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBTIMER, UNITTESTS_SCRIPTLIBTIMER_CLASSNAME, SCRIPT_LIB_TIMER, SCRIPT_LIB_NAME_TIMER, __L("Sleep"))
+
+namespace TEST_SCRIPTLIBTIMER
+{
+TEST(UNITTESTS_SCRIPTLIBTIMER_CLASSNAME, SleepAcceptsZeroMilliseconds)
+{
+  SCRIPT script;
+  SCRIPT_LIB_TIMER library;
+  XVARIANT milliseconds(0);
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+
+  params.Add(&milliseconds);
+  Call_Sleep(&library, &script, &params, &result);
+  EXPECT_EQ(script.GetErrorScript(), SCRIPT_ERRORCODE_NONE);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBTIMER_CLASSNAME, SleepRejectsMissingArgument)
+{
+  SCRIPT_LIB_TIMER               library;
+  UNITTESTS_SCRIPT_ERRORCAPTURE  script;
+  XVARIANT                       result;
+  XVECTOR<XVARIANT*>             params;
+
+  Call_Sleep(&library, &script, &params, &result);
+  EXPECT_EQ(script.GetLastError(), SCRIPT_ERRORCODE_INSUF_PARAMS);
+}
+}
 #endif

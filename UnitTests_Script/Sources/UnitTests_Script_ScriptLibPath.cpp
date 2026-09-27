@@ -34,4 +34,36 @@
 
 #ifdef GOOGLETEST_ACTIVE
 UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBPATH, UNITTESTS_SCRIPTLIBPATH_CLASSNAME, SCRIPT_LIB_PATH, SCRIPT_LIB_NAME_PATH, __L("GetNameScript"))
+
+namespace TEST_SCRIPTLIBPATH
+{
+TEST(UNITTESTS_SCRIPTLIBPATH_CLASSNAME, GetNameScriptReturnsConfiguredFileName)
+{
+  SCRIPT script;
+  SCRIPT_LIB_PATH library;
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+  XSTRING text;
+
+  (*script.GetPath()) = __L("C:/scripts/folder/demo.g");
+  Call_GetNameScript(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(text));
+  EXPECT_EQ(text.Compare(__L("demo")), 0);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBPATH_CLASSNAME, GetPathScriptReturnsDriveAndDirectory)
+{
+  SCRIPT script;
+  SCRIPT_LIB_PATH library;
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+  XSTRING text;
+
+  (*script.GetPath()) = __L("C:/scripts/folder/demo.g");
+  Call_GetPathScript(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(text));
+  EXPECT_NE(text.Find(__L("scripts"), false), XSTRING_NOTFOUND);
+}
+}
 #endif

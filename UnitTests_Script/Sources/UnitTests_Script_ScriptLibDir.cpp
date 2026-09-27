@@ -45,5 +45,31 @@ TEST(UNITTESTS_SCRIPTLIBDIR_CLASSNAME, RegistersReadAndWriteFunctions)
   EXPECT_NE(script.GetLibraryFunction(__L("IsItExists")), (SCRIPT_LIB_FUNCTION*)NULL);
   EXPECT_NE(script.GetLibraryFunction(__L("MakeDir")), (SCRIPT_LIB_FUNCTION*)NULL);
 }
+
+
+TEST(UNITTESTS_SCRIPTLIBDIR_CLASSNAME, IsItExistsReturnsFalseForMissingPath)
+{
+  SCRIPT script;
+  SCRIPT_LIB_DIR library;
+  XVARIANT path(__L("Z:/UnitTests_Script/this_path_should_not_exist_42"));
+  XVARIANT result(true);
+  XVECTOR<XVARIANT*> params;
+
+  params.Add(&path);
+  Call_IsItExists(&library, &script, &params, &result);
+  EXPECT_FALSE((bool)result);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBDIR_CLASSNAME, IsItExistsRejectsMissingArgument)
+{
+  SCRIPT_LIB_DIR                 library;
+  UNITTESTS_SCRIPT_ERRORCAPTURE  script;
+  XVARIANT                       result;
+  XVECTOR<XVARIANT*>             params;
+
+  Call_IsItExists(&library, &script, &params, &result);
+  EXPECT_EQ(script.GetLastError(), SCRIPT_ERRORCODE_INSUF_PARAMS);
+}
 }
 #endif

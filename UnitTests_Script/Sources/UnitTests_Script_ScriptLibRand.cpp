@@ -42,5 +42,45 @@ TEST(UNITTESTS_SCRIPTLIBRAND_CLASSNAME, OwnsRandomGenerator)
   SCRIPT_LIB_RAND library;
   EXPECT_NE(library.GetXRand(), (XRAND*)NULL);
 }
+
+
+TEST(UNITTESTS_SCRIPTLIBRAND_CLASSNAME, RandBetweenReturnsValueInsideInclusiveRange)
+{
+  SCRIPT script;
+  SCRIPT_LIB_RAND library;
+  XVARIANT min(5);
+  XVARIANT max(5);
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+
+  params.Add(&min);
+  params.Add(&max);
+  Call_RandBetween(&library, &script, &params, &result);
+  EXPECT_EQ((int)result, 5);
+
+  min = 10;
+  max = 20;
+  for(int i = 0; i < 20; i++)
+    {
+      Call_RandBetween(&library, &script, &params, &result);
+      int value = (int)result;
+      EXPECT_GE(value, 10);
+      EXPECT_LE(value, 20);
+    }
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBRAND_CLASSNAME, RandBetweenRejectsMissingArguments)
+{
+  SCRIPT_LIB_RAND                library;
+  UNITTESTS_SCRIPT_ERRORCAPTURE  script;
+  XVARIANT                       onlymin(1);
+  XVARIANT                       result;
+  XVECTOR<XVARIANT*>             params;
+
+  params.Add(&onlymin);
+  Call_RandBetween(&library, &script, &params, &result);
+  EXPECT_EQ(script.GetLastError(), SCRIPT_ERRORCODE_INSUF_PARAMS);
+}
 }
 #endif

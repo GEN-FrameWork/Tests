@@ -48,5 +48,30 @@ TEST(UNITTESTS_SCRIPTLIBMATH_CLASSNAME, AbsoluteValue)
   Call_Abs(&library, &script, &params, &result);
   EXPECT_EQ((int)result, 17);
 }
+
+
+TEST(UNITTESTS_SCRIPTLIBMATH_CLASSNAME, AbsoluteValueOfPositiveIsUnchanged)
+{
+  SCRIPT script;
+  SCRIPT_LIB_MATH library;
+  XVARIANT value(9);
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+  params.Add(&value);
+  Call_Abs(&library, &script, &params, &result);
+  EXPECT_EQ((int)result, 9);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBMATH_CLASSNAME, AbsoluteValueRejectsMissingArgument)
+{
+  SCRIPT_LIB_MATH                library;
+  UNITTESTS_SCRIPT_ERRORCAPTURE  script;
+  XVARIANT                       result;
+  XVECTOR<XVARIANT*>             params;
+
+  Call_Abs(&library, &script, &params, &result);
+  EXPECT_EQ(script.GetLastError(), SCRIPT_ERRORCODE_INSUF_PARAMS);
+}
 }
 #endif

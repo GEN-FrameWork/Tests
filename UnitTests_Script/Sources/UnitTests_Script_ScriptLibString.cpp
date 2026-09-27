@@ -77,5 +77,49 @@ TEST(UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, SPrintfFormatsIntegerAndWidth)
   EXPECT_TRUE(result.ToString(text));
   EXPECT_EQ(text.Compare(__L("n=42 pad=00007")), 0);
 }
+
+
+TEST(UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, CompareStringDetectsEqualAndDifferent)
+{
+  SCRIPT script;
+  SCRIPT_LIB_STRING library;
+  XVARIANT left(__L("alpha"));
+  XVARIANT rightsame(__L("alpha"));
+  XVARIANT rightdiff(__L("beta"));
+  XVARIANT ignorecase(false);
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+
+  params.Add(&left);
+  params.Add(&rightsame);
+  params.Add(&ignorecase);
+  Call_CompareString(&library, &script, &params, &result);
+  EXPECT_TRUE((bool)result);
+
+  params.DeleteAll();
+  params.Add(&left);
+  params.Add(&rightdiff);
+  params.Add(&ignorecase);
+  Call_CompareString(&library, &script, &params, &result);
+  EXPECT_FALSE((bool)result);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, AddStringConcatenatesIntoFirstArgument)
+{
+  SCRIPT script;
+  SCRIPT_LIB_STRING library;
+  XVARIANT left(__L("foo"));
+  XVARIANT right(__L("bar"));
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+  XSTRING text;
+
+  params.Add(&left);
+  params.Add(&right);
+  Call_AddString(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(text));
+  EXPECT_EQ(text.Compare(__L("foobar")), 0);
+}
 }
 #endif
