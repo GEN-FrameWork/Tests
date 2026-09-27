@@ -98,57 +98,6 @@ static bool UnitTests_Script_WriteTextFile(XPATH& path, XCHAR* text)
 }
 
 
-static bool UnitTests_Script_ResolvePathInScriptsRoot(XCHAR* namescript, XPATH& resolvedpath)
-{
-  resolvedpath.Empty();
-
-  if(!namescript || !namescript[0]) return false;
-
-  XPATH relativepath;
-
-  relativepath = namescript;
-  SCRIPT::EliminateExtraChars(&relativepath);
-  relativepath.Slash_Normalize(false);
-
-  if(relativepath.IsEmpty()) return false;
-  if(relativepath.Get()[0] == __C('/')) return false;
-
-  int segmentstart = 0;
-
-  for(int index = 0; index <= (int)relativepath.GetSize(); index++)
-    {
-      XCHAR character = relativepath.Get()[index];
-
-      if((character < __C(' ')) && character) return false;
-      if(character == __C(':') || character == __C('*') || character == __C('?') ||
-         character == __C('"') || character == __C('<') || character == __C('>') ||
-         character == __C('|')) return false;
-
-      if((character == __C('/')) || !character)
-        {
-          int segmentsize = index - segmentstart;
-
-          if(segmentsize <= 0) return false;
-          if((segmentsize == 1) && (relativepath.Get()[segmentstart] == __C('.'))) return false;
-          if((segmentsize == 2) && (relativepath.Get()[segmentstart]     == __C('.')) &&
-                                    (relativepath.Get()[segmentstart + 1] == __C('.'))) return false;
-
-          segmentstart = index + 1;
-        }
-    }
-
-  if(!GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_SCRIPTS, resolvedpath)) return false;
-
-  resolvedpath.Slash_Normalize(false);
-  resolvedpath.Slash_Delete();
-  resolvedpath.Slash_Add();
-  resolvedpath += relativepath.Get();
-  resolvedpath.Slash_Normalize(false);
-
-  return true;
-}
-
-
 TEST(UNITTESTS_SCRIPT_CLASSNAME, DetectsEnabledExtensions)
 {
   EXPECT_EQ(SCRIPT::GetTypeByExtension(__L("sample.g")), SCRIPT_TYPE_G);
@@ -173,11 +122,11 @@ TEST(UNITTESTS_SCRIPT_CLASSNAME, RejectsUnconfinedScriptNames)
 {
   XPATH path;
 
-  EXPECT_FALSE(UnitTests_Script_ResolvePathInScriptsRoot(__L("../outside.g"), path));
-  EXPECT_FALSE(UnitTests_Script_ResolvePathInScriptsRoot(__L("C:/outside.g"), path));
-  EXPECT_FALSE(UnitTests_Script_ResolvePathInScriptsRoot(__L("folder//test.g"), path));
+  EXPECT_FALSE(SCRIPT::ResolvePathInScriptsRoot(__L("../outside.g"), path));
+  EXPECT_FALSE(SCRIPT::ResolvePathInScriptsRoot(__L("C:/outside.g"), path));
+  EXPECT_FALSE(SCRIPT::ResolvePathInScriptsRoot(__L("folder//test.g"), path));
   ASSERT_TRUE(UnitTests_Script_ConfigureScriptsRoot());
-  EXPECT_TRUE(UnitTests_Script_ResolvePathInScriptsRoot(__L("folder/test.g"), path));
+  EXPECT_TRUE(SCRIPT::ResolvePathInScriptsRoot(__L("folder/test.g"), path));
 }
 
 
@@ -220,7 +169,7 @@ TEST(UNITTESTS_SCRIPT_CLASSNAME, SaveAndLoadRoundTrip)
   SCRIPT reader;
 
   ASSERT_TRUE(UnitTests_Script_ConfigureScriptsRoot());
-  ASSERT_TRUE(UnitTests_Script_ResolvePathInScriptsRoot(__L("UnitTests_Script_SaveRoundTrip.g"), path));
+  ASSERT_TRUE(SCRIPT::ResolvePathInScriptsRoot(__L("UnitTests_Script_SaveRoundTrip.g"), path));
 
   ASSERT_TRUE(UnitTests_Script_WriteTextFile(path, __L("return 42")));
   ASSERT_TRUE(writer.Load(path));
@@ -242,7 +191,7 @@ TEST(UNITTESTS_SCRIPT_CLASSNAME, LoadInvalidatesCacheWhenFileContentChanges)
   SCRIPT secondload;
 
   ASSERT_TRUE(UnitTests_Script_ConfigureScriptsRoot());
-  ASSERT_TRUE(UnitTests_Script_ResolvePathInScriptsRoot(__L("UnitTests_Script_CacheInvalidation.g"), path));
+  ASSERT_TRUE(SCRIPT::ResolvePathInScriptsRoot(__L("UnitTests_Script_CacheInvalidation.g"), path));
 
   ASSERT_TRUE(UnitTests_Script_WriteTextFile(path, __L("return 1")));
   ASSERT_TRUE(firstload.Load(path));
