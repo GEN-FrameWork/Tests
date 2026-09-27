@@ -146,5 +146,48 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, NativeDoubleReturnMapsToFloat)
   EXPECT_EQ(returnvalue, 1);
 }
 
+
+TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, AllowsMissingMain)
+{
+  SCRIPT_LNG_G script;
+  int          returnvalue = -1;
+
+  (*script.GetScript()) = __L("int helper(){ return 7; }");
+  EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
+  EXPECT_EQ(returnvalue, 0);
+}
+
+
+TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, AllowsUnbracedIfElse)
+{
+  SCRIPT_LNG_G script;
+  int          returnvalue = 0;
+
+  (*script.GetScript()) = __L("int main(){ int a; a = 3; if(a > 5) return 1; else return 2; }");
+  EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
+  EXPECT_EQ(returnvalue, 2);
+}
+
+
+static void UnitTests_ScriptLanguageG_ReturnDoubleNeedsPrecision(SCRIPT_LIB* library, SCRIPT* script, XVECTOR<XVARIANT*>* params, XVARIANT* returnvalue)
+{
+  // Not exactly representable in IEEE float32 (2^24+1).
+  if(returnvalue) (*returnvalue) = 16777217.0;
+}
+
+
+TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, DoublePrecisionSurvivesLibraryRoundTrip)
+{
+  SCRIPT_LNG_G script;
+  SCRIPT_LIB   library(__L("UnitTest"));
+  int          returnvalue = 0;
+
+  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativePrecise"), UnitTests_ScriptLanguageG_ReturnDoubleNeedsPrecision));
+
+  (*script.GetScript()) = __L("int main(){ float v; v = NativePrecise(); if(v == 16777217){ return 1; } return 0; }");
+  EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
+  EXPECT_EQ(returnvalue, 1);
+}
+
 }
 #endif
