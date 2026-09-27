@@ -55,5 +55,27 @@ TEST(UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, SPrintfPreservesPercentInData)
   EXPECT_TRUE(result.ToString(text));
   EXPECT_EQ(text.Compare(__L("100% ready")), 0);
 }
+
+
+TEST(UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, SPrintfFormatsIntegerAndWidth)
+{
+  SCRIPT script;
+  SCRIPT_LIB_STRING library;
+  XVARIANT destination(__L(""));
+  XVARIANT mask(__L("n=%d pad=%05d"));
+  XVARIANT value(42);
+  XVARIANT pad(7);
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+  XSTRING text;
+
+  params.Add(&destination);
+  params.Add(&mask);
+  params.Add(&value);
+  params.Add(&pad);
+  Call_SPrintf(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(text));
+  EXPECT_EQ(text.Compare(__L("n=42 pad=00007")), 0);
+}
 }
 #endif
