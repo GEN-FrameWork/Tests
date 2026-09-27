@@ -117,7 +117,13 @@ TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, LoadsStandardLibrariesWithInterprete
 
   (*script.GetScript()) = __L("if os == nil and io == nil then return 0 else return 1 end");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
+  #ifdef SCRIPT_LIB_SANDBOX_ACTIVE
+  // Sandbox: os/io must not be present.
+  EXPECT_EQ(returnvalue, 0);
+  #else
+  // Trusted (default): full luaL_openlibs.
   EXPECT_EQ(returnvalue, 1);
+  #endif
 }
 
 }

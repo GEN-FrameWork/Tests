@@ -46,6 +46,8 @@ option(SCRIPT_LIB_WINDOW_FEATURE                                "Script Window l
 option(SCRIPT_LIB_CFG_FEATURE                                   "Script CFG library"                                      ON )
 option(SCRIPT_LIB_INPUTSIMULATE_FEATURE                         "Script Input Simulate library"                           ON )
 option(SCRIPT_LIB_DEVTEST_FEATURE                               "Script development test library"                         ON )
+# Trusted by default. Set ON for sandbox (restricted Lua libs; no auto Dir/Process).
+option(SCRIPT_LIB_SANDBOX_FEATURE                               "Script Lib Sandbox (restrict Lua + omit Dir/Process)"    OFF )
 
 option(GOOGLETEST_FEATURE                                       "Google Test functionality"                               ON )
 
