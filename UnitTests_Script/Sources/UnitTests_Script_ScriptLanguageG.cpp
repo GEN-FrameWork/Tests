@@ -126,5 +126,25 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, RunWithThreadExposesReturnValue)
   EXPECT_EQ(script.GetReturnValueScript(), 42);
 }
 
+
+static void UnitTests_ScriptLanguageG_ReturnDouble(SCRIPT_LIB* library, SCRIPT* script, XVECTOR<XVARIANT*>* params, XVARIANT* returnvalue)
+{
+  if(returnvalue) (*returnvalue) = 2.75;
+}
+
+
+TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, NativeDoubleReturnMapsToFloat)
+{
+  SCRIPT_LNG_G script;
+  SCRIPT_LIB   library(__L("UnitTest"));
+  int          returnvalue = 0;
+
+  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeDouble"), UnitTests_ScriptLanguageG_ReturnDouble));
+
+  (*script.GetScript()) = __L("int main(){ float v; v = NativeDouble(); if(v == 2.75){ return 1; } return 0; }");
+  EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
+  EXPECT_EQ(returnvalue, 1);
+}
+
 }
 #endif

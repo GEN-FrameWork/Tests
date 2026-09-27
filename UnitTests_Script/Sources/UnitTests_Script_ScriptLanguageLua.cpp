@@ -46,6 +46,18 @@ static void UnitTests_ScriptLanguageLua_ReturnInteger(SCRIPT_LIB* library, SCRIP
 }
 
 
+static void UnitTests_ScriptLanguageLua_ReturnFloat(SCRIPT_LIB* library, SCRIPT* script, XVECTOR<XVARIANT*>* params, XVARIANT* returnvalue)
+{
+  if(returnvalue) (*returnvalue) = 1.25f;
+}
+
+
+static void UnitTests_ScriptLanguageLua_ReturnDouble(SCRIPT_LIB* library, SCRIPT* script, XVECTOR<XVARIANT*>* params, XVARIANT* returnvalue)
+{
+  if(returnvalue) (*returnvalue) = 2.75;
+}
+
+
 TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, ExecutesNumericResult)
 {
   SCRIPT_LNG_LUA script;
@@ -105,6 +117,21 @@ TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, NativeLibraryFunctionsReturnNumbers)
   ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeInteger"), UnitTests_ScriptLanguageLua_ReturnInteger));
 
   (*script.GetScript()) = __L("return NativeInteger()");
+  EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
+  EXPECT_EQ(returnvalue, 40);
+}
+
+
+TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, NativeFloatAndDoubleReturnAsNumbers)
+{
+  SCRIPT_LNG_LUA script;
+  SCRIPT_LIB library(__L("UnitTest"));
+  int returnvalue = 0;
+
+  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeFloat"), UnitTests_ScriptLanguageLua_ReturnFloat));
+  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeDouble"), UnitTests_ScriptLanguageLua_ReturnDouble));
+
+  (*script.GetScript()) = __L("return (NativeFloat() * 10) + (NativeDouble() * 10)");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 40);
 }
