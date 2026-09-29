@@ -144,15 +144,24 @@
 #include "DIOWebClient.h"
 #include "DIOCheckTCPIPConnections.h"
 #include "DIOCheckInternetConnection.h"
-#include "DIOScraperWeb.h"
-#include "DIOScraperWebCache.h"
+#ifdef DIO_SCRAPERWEB_ACTIVE
+#include "DIOScraperScript.h"
+#endif
+#ifdef DIO_SCRAPERWEB_GEOLOCATIONIP_ACTIVE
 #include "DIOScraperWebGeolocationIP.h"
-#include "DIOScraperWebMACManufacturer.h"
+#endif
+#ifdef DIO_SCRAPERWEB_PUBLICIP_ACTIVE
 #include "DIOScraperWebPublicIP.h"
-#include "DIOScraperWebSexName.h"
-#include "DIOScraperWebTranslation.h"
-#include "DIOScraperWebUserAgentID.h"
+#endif
+#ifdef DIO_SCRAPERWEB_WEATHER_ACTIVE
 #include "DIOScraperWebWeather.h"
+#endif
+#ifdef DIO_SCRAPERWEB_TRANSLATION_ACTIVE
+#include "DIOScraperWebTranslation.h"
+#endif
+#ifdef DIO_SCRAPERWEB_MACMANUFACTURER_ACTIVE
+#include "DIOScraperWebMACManufacturer.h"
+#endif
 #include "DIOWifiManagerMode.h"
 #include "DIOATCMDS.h"
 #include "DIOATCMDGSM.h"
@@ -350,12 +359,14 @@ bool DEVTESTS_CONSOLE::AppProc_Ini()
 
   GEN_XPATHSMANAGER.AdjustRootPathDefault(APPFLOW_DEFAULT_DIRECTORY_ROOT);
 
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_GRAPHICS, APPFLOW_DEFAULT_DIRECTORY_GRAPHICS);
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_SOUNDS, APPFLOW_DEFAULT_DIRECTORY_SOUNDS);
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_DATABASES, APPFLOW_DEFAULT_DIRECTORY_DATABASES);
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_WEB, APPFLOW_DEFAULT_DIRECTORY_WEB);
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_FIRMWARE, APPFLOW_DEFAULT_DIRECTORY_FIRMWARE);
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_CERTIFICATES, APPFLOW_DEFAULT_DIRECTORY_CERTIFICATES);
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_GRAPHICS      , APPFLOW_DEFAULT_DIRECTORY_GRAPHICS);
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_SOUNDS        , APPFLOW_DEFAULT_DIRECTORY_SOUNDS);
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_DATABASES     , APPFLOW_DEFAULT_DIRECTORY_DATABASES);
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_WEB           , APPFLOW_DEFAULT_DIRECTORY_WEB);
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_FIRMWARE      , APPFLOW_DEFAULT_DIRECTORY_FIRMWARE);
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_CERTIFICATES  , APPFLOW_DEFAULT_DIRECTORY_CERTIFICATES);
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_SCRIPTS       , APPFLOW_DEFAULT_DIRECTORY_SCRIPTS);
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_SCRAPERS      , APPFLOW_DEFAULT_DIRECTORY_SCRAPERS);
 
   GEN_XPATHSMANAGER.CreateAllPathSectionOnDisk();
 
@@ -397,11 +408,11 @@ bool DEVTESTS_CONSOLE::AppProc_Ini()
   
   #ifdef SND_ACTIVE
 
-  SubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_INI, &GEN_SNDFACTORY.GetInstance());
-  SubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_PLAY, &GEN_SNDFACTORY.GetInstance());
+  SubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_INI   , &GEN_SNDFACTORY.GetInstance());
+  SubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_PLAY  , &GEN_SNDFACTORY.GetInstance());
   SubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_PAUSE , &GEN_SNDFACTORY.GetInstance());
-  SubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_STOP, &GEN_SNDFACTORY.GetInstance());
-  SubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_END, &GEN_SNDFACTORY.GetInstance());
+  SubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_STOP  , &GEN_SNDFACTORY.GetInstance());
+  SubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_END   , &GEN_SNDFACTORY.GetInstance());
 
   #endif
 
@@ -543,11 +554,11 @@ bool DEVTESTS_CONSOLE::AppProc_End()
   //--------------------------------------------------------------------------------------
   #ifdef SND_ACTIVE
 
-  UnSubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_INI, &GEN_SNDFACTORY.GetInstance());
-  UnSubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_PLAY, &GEN_SNDFACTORY.GetInstance());
+  UnSubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_INI   , &GEN_SNDFACTORY.GetInstance());
+  UnSubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_PLAY  , &GEN_SNDFACTORY.GetInstance());
   UnSubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_PAUSE , &GEN_SNDFACTORY.GetInstance());
-  UnSubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_STOP, &GEN_SNDFACTORY.GetInstance());
-  UnSubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_END, &GEN_SNDFACTORY.GetInstance());
+  UnSubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_STOP  , &GEN_SNDFACTORY.GetInstance());
+  UnSubscribeEvent(SNDFACTORY_XEVENT_TYPE_SOUND_END   , &GEN_SNDFACTORY.GetInstance());
 
   #endif
 
@@ -700,7 +711,7 @@ bool DEVTESTS_CONSOLE::Show_PlaySound()
 * --------------------------------------------------------------------------------------------------------------------*/
 bool DEVTESTS_CONSOLE::Do_Tests()
 {
-  DEVTESTS_CONSOLE_LIST_FUNCTION listfunctions[] = {   { false  , Test_XString                       , __L("Test XString")                         },
+  DEVTESTS_CONSOLE_LIST_FUNCTION listfunctions[] = {  { false  , Test_XString                       , __L("Test XString")                         },
                                                       { false  , Test_XBuffer                       , __L("Test XBuffer")                         },
                                                       { false  , Test_XVector                       , __L("Test XVector")                         },
                                                     //{ false  , Test_XVectorSTL                    , __L("Test XVector STL")                     },
@@ -717,8 +728,8 @@ bool DEVTESTS_CONSOLE::Do_Tests()
                                                       { false  , Test_XSystem                       , __L("Test System")                          },                                          
                                                       { false  , Test_SharedMemory                  , __L("Test SharedMemory")                    },
                                                       { false  , Test_GPIO                          , __L("Test GPIO")                            },
-                                                      { true   , Test_WebClient                     , __L("Test WebClient")                       },
-                                                      { false  , Test_ScraperWeb                    , __L("Test Scraper Web")                     },
+                                                      { false  , Test_WebClient                     , __L("Test WebClient")                       },
+                                                      { true   , Test_ScraperWeb                    , __L("Test Scraper Script (IP+Geo+Wx+Trans+MAC)") },
                                                       { false  , Test_MPSSE                         , __L("Test MPSSE")                           },
                                                       { false  , Test_DNSResolver                   , __L("Test DNS Resolver")                    },
                                                       { false  , Test_DNSProtocolMitMServer         , __L("Test DNS Protocol MitM Server")        },
@@ -733,9 +744,9 @@ bool DEVTESTS_CONSOLE::Do_Tests()
                                                       { false  , Test_CipherRSA                     , __L("Test Cipher RSA")                      },         
                                                       { false  , Test_CipherECDSAX25519             , __L("Test Cipher Curve 25519")              },         
                                                       { false  , Test_DIOStreamTCPIP                , __L("Test DIO Stream TCPIP")                },
-                                                      { true   , Test_DIOStreamTLS_KeySchedule      , __L("Test DIO Stream TLS Key Schedule")     },
-                                                      { true   , Test_DIOStreamTLS_Record           , __L("Test DIO Stream TLS Record")           },
-                                                      { true   , Test_DIOStreamTLS                  , __L("Test DIO Stream TLS")                  },        
+                                                      { false  , Test_DIOStreamTLS_KeySchedule      , __L("Test DIO Stream TLS Key Schedule")     },
+                                                      { false  , Test_DIOStreamTLS_Record           , __L("Test DIO Stream TLS Record")           },
+                                                      { false  , Test_DIOStreamTLS                  , __L("Test DIO Stream TLS")                  },        
                                                       { false  , Test_SystemCPUUsage                , __L("Test System CPU Usage")                },         
                                                       { false  , Test_AppAlerts                     , __L("Test App Alerts")                      },  
                                                       { false  , Test_BluetoothEnum                 , __L("Test Bluetooth Enum")                  },                                          
@@ -803,10 +814,7 @@ bool DEVTESTS_CONSOLE::Do_Tests()
   #ifndef DEVTESTS_CONSOLE_NOKEY
   console->WaitKey(__L(" Pulsa una tecla para continuar... (%d)"), 1, false, 30);
   #else
-  if(!status)
-    {
-      SetExitType(APPFLOWBASE_EXITTYPE_BY_USER);
-    }
+  SetExitType(APPFLOWBASE_EXITTYPE_BY_USER);
   #endif
   
   //--------------------------------------------------------------------------------------------------
@@ -1969,229 +1977,462 @@ bool DEVTESTS_CONSOLE::Test_WebClient(DEVTESTS_CONSOLE* tests)
 /**-------------------------------------------------------------------------------------------------------------------
 *
 * @fn         bool DEVTESTS_CONSOLE::Test_ScraperWeb(DEVTESTS_CONSOLE* tests)
-* @brief      Runs the scraper web test.
+* @brief      Dev test for typed scraper facades filled by scripts (PublicIP + Geo + Weather + Translation + MAC).
 * @ingroup    TESTS
 *
 * @param[in]  tests : test application instance used by the test.
 *
-* @return     bool : true if it is successful.
+* @return     bool : true if enabled scraper probes succeed.
 *
 * --------------------------------------------------------------------------------------------------------------------*/
 bool DEVTESTS_CONSOLE::Test_ScraperWeb(DEVTESTS_CONSOLE* tests)
 {
-  DIOSCRAPERWEBPUBLICIP*        publicip        = GEN_NEW DIOSCRAPERWEBPUBLICIP;
-  DIOSCRAPERWEBGEOLOCATIONIP*   geolocationip   = GEN_NEW DIOSCRAPERWEBGEOLOCATIONIP;
-  DIOSCRAPERWEBSEXNAME*         sexname         = GEN_NEW DIOSCRAPERWEBSEXNAME;
-  DIOSCRAPERWEBUSERAGENTID*     useragentID     = GEN_NEW DIOSCRAPERWEBUSERAGENTID;
-  DIOSCRAPERWEBTRANSLATION*     translation     = GEN_NEW DIOSCRAPERWEBTRANSLATION;
-  DIOSCRAPERWEBMACMANUFACTURER* macmanufactured = GEN_NEW DIOSCRAPERWEBMACMANUFACTURER;
-  DIOSCRAPERWEBWEATHER*         weather         = GEN_NEW DIOSCRAPERWEBWEATHER;
+  #ifndef DIO_SCRAPERWEB_ACTIVE
+  tests->console->Printf(__L("Scrapers features not active.\n"));
+  return false;
+  #else
 
-  XSTRING localIP;
+  #ifndef SCRIPT_ACTIVE
+  tests->console->Printf(__L("SCRIPT_ACTIVE missing (reconfigure CMake after scraper features).\n"));
+  return false;
+  #endif
 
-  localIP = __L("192.168.1.3");
+  #ifdef DIO_SCRAPERWEB_PUBLICIP_ACTIVE
+  DIOSCRAPERWEBPUBLICIP*          publicip              = GEN_NEW DIOSCRAPERWEBPUBLICIP();
+  XCHAR*                          publicpaths[]         = { 
+                                                            #ifdef SCRIPT_G_ACTIVE
+                                                            __L("publicip.g")           , 
+                                                            #endif    
 
-  //webclient->GetProxyURL()->Set(__L("10.155.192.17"));
-  //webclient->SetProxyPort(8080);
+                                                            #ifdef SCRIPT_JAVASCRIPT_ACTIVE
+                                                            __L("publicip.js")          ,
+                                                            #endif
 
-    for(int c=0; c<10; c++)
+                                                            #ifdef SCRIPT_LUA_ACTIVE      
+                                                            __L("publicip.lua")         , 
+                                                            #endif
+                                                          };  
+  const int                       npublic               =  (int)(sizeof(publicpaths) / sizeof(publicpaths[0]));
+  #endif
+
+  #ifdef DIO_SCRAPERWEB_GEOLOCATIONIP_ACTIVE
+  DIOSCRAPERWEBGEOLOCATIONIP*     geolocationip         = GEN_NEW DIOSCRAPERWEBGEOLOCATIONIP();
+  XCHAR*                          geopaths[]            = { 
+                                                            #ifdef SCRIPT_G_ACTIVE
+                                                            __L("geolocationip.g")      , 
+                                                            #endif
+
+                                                            #ifdef SCRIPT_JAVASCRIPT_ACTIVE
+                                                            __L("geolocationip.js")     ,
+                                                            #endif
+
+                                                            #ifdef SCRIPT_LUA_ACTIVE
+                                                            __L("geolocationip.lua")    ,
+                                                            #endif
+                                                          };
+  const int                       ngeo                  =  (int)(sizeof(geopaths) / sizeof(geopaths[0]));  
+  #endif    
+
+  #ifdef DIO_SCRAPERWEB_WEATHER_ACTIVE
+  DIOSCRAPERWEBWEATHER*           weather               = GEN_NEW DIOSCRAPERWEBWEATHER();
+  XCHAR*                          weatherpaths[]        = { 
+                                                             #ifdef SCRIPT_G_ACTIVE
+                                                             __L("weather.g")           ,
+                                                             #endif
+                                
+                                                             #ifdef SCRIPT_JAVASCRIPT_ACTIVE
+                                                             __L("weather.js")          ,
+                                                             #endif
+
+                                                             #ifdef SCRIPT_LUA_ACTIVE
+                                                             __L("weather.lua")         ,
+                                                             #endif
+                                                           };
+  const int                       nweather              = (int)(sizeof(weatherpaths) / sizeof(weatherpaths[0]));
+  #endif
+
+  #ifdef DIO_SCRAPERWEB_TRANSLATION_ACTIVE
+  DIOSCRAPERWEBTRANSLATION*       translation           = GEN_NEW DIOSCRAPERWEBTRANSLATION();
+  XCHAR*                          translationpaths[]    = {
+                                                             #ifdef SCRIPT_G_ACTIVE
+                                                             __L("translation.g")       ,
+                                                             #endif   
+
+                                                             #ifdef SCRIPT_JAVASCRIPT_ACTIVE
+                                                             __L("translation.js")      , 
+                                                             #endif
+
+                                                             #ifdef SCRIPT_LUA_ACTIVE
+                                                             __L("translation.lua")     ,
+                                                             #endif
+                                                          };
+  const int                       ntranslation          = (int)(sizeof(translationpaths) / sizeof(translationpaths[0]));
+  #endif
+
+  #ifdef DIO_SCRAPERWEB_MACMANUFACTURER_ACTIVE
+  DIOSCRAPERWEBMACMANUFACTURER*   macmanufacturer       = GEN_NEW DIOSCRAPERWEBMACMANUFACTURER();
+  XCHAR*                          macpaths[]            = { 
+                                                            #ifdef SCRIPT_G_ACTIVE
+                                                            __L("macmanufacturer.g")    ,
+                                                            #endif
+                 
+                                                            #ifdef SCRIPT_JAVASCRIPT_ACTIVE
+                                                            __L("macmanufacturer.js")   ,
+                                                            #endif
+
+                                                            #ifdef SCRIPT_LUA_ACTIVE
+                                                            __L("macmanufacturer.lua")  ,
+                                                            #endif
+                                                          };
+  const int                       nmac                  = (int)(sizeof(macpaths) / sizeof(macpaths[0]));
+  #endif
+
+
+  DIOIP                           ip;
+  XSTRING                         ipstring;
+  XPATH                           scriptspath;
+  bool                            status                = true;
+  const int                       timeout               = 15;
+
+
+  if(
+      #ifdef DIO_SCRAPERWEB_PUBLICIP_ACTIVE
+      (!publicip) 
+      #endif
+
+      #ifdef DIO_SCRAPERWEB_GEOLOCATIONIP_ACTIVE
+      || (!geolocationip)
+      #endif  
+
+      #ifdef DIO_SCRAPERWEB_WEATHER_ACTIVE
+      || (!weather)
+      #endif
+
+      #ifdef DIO_SCRAPERWEB_TRANSLATION_ACTIVE
+      || (!translation)
+      #endif
+
+      #ifdef DIO_SCRAPERWEB_MACMANUFACTURER_ACTIVE
+      || (!macmanufacturer)
+      #endif
+    )
+    {
+      #ifdef DIO_SCRAPERWEB_PUBLICIP_ACTIVE
+      GEN_DELETE publicip;
+      #endif  
+
+      #ifdef DIO_SCRAPERWEB_GEOLOCATIONIP_ACTIVE
+      GEN_DELETE geolocationip;
+      #endif  
+
+      #ifdef DIO_SCRAPERWEB_WEATHER_ACTIVE
+      GEN_DELETE weather;
+      #endif
+
+      #ifdef DIO_SCRAPERWEB_TRANSLATION_ACTIVE
+      GEN_DELETE translation;
+      #endif
+
+      #ifdef DIO_SCRAPERWEB_MACMANUFACTURER_ACTIVE
+      GEN_DELETE macmanufacturer;
+      #endif
+
+      tests->console->Printf(__L("Scraper: allocation failed.\n"));
+      return false;
+    }
+
+  GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_SCRAPERS, scriptspath);
+  tests->console->Printf(__L("Scripts root : %s\n\n"), scriptspath.Get());
+
+  tests->console->Printf(__L("--- Public IP (script probe per language) ---\n"));
+
+  for(int c = 0; c < npublic; c++)
+    {
+      DIOSCRAPERSCRIPT runner;
+      XSTRING          ok;
+      XSTRING          runip;
+
+      runner.SetArgInt(__L("timeout"), timeout);
+      tests->console->Printf(__L("[%s] "), publicpaths[c]);
+      if(!runner.Run(publicpaths[c]))
+        {
+          tests->console->Printf(__L("Run() failed.\n"));
+          status = false;
+        }
+       else
+        {
+          runner.GetResult(__L("ok"), ok);
+          runner.GetResult(__L("ip"), runip);
+          tests->console->Printf(__L("ok=%s ip=%s\n"), ok.Get(), runip.Get());
+          if(ok.Compare(__L("1")) != 0)
+            {
+              status = false;
+            }
+           else if(ipstring.IsEmpty())
+            {
+              ipstring = runip;
+            }
+        }
+    }
+
+  if(!ipstring.IsEmpty())
+    {
+      ip.Set(ipstring.Get());
+    }
+
+  tests->console->Printf(__L("\n--- Public IP (facade default .g) ---\n"));
+  {
+    DIOIP   facadeip;
+    XSTRING facadeipstring;
+
+    if(publicip->Get(facadeip, timeout, NULL, true))
       {
-        if(publicip)
+        facadeip.GetXString(facadeipstring);
+        tests->console->Printf(__L("Public IP : %s\n"), facadeipstring.Get());
+        if(ipstring.IsEmpty())
           {
-            DIOIP ip;
+            ipstring = facadeipstring;
+            ip.Set(ipstring.Get());
+          }
+      }
+     else
+      {
+        tests->console->Printf(__L("Public IP facade : Error.\n"));
+        status = false;
+      }
+  }
 
-            if(publicip->Get(ip, 5, &localIP))
+  tests->console->Printf(__L("\n--- Geolocation IP (script probe per language) ---\n"));
+  if(status && (!ipstring.IsEmpty()))
+    {
+      for(int c = 0; c < ngeo; c++)
+        {
+          DIOSCRAPERSCRIPT georunner;
+          XSTRING          geook;
+          XSTRING          geocountry;
+
+          georunner.SetArg(__L("ip"), ipstring);
+          georunner.SetArgInt(__L("timeout"), timeout);
+          tests->console->Printf(__L("[%s] "), geopaths[c]);
+          if(!georunner.Run(geopaths[c]))
+            {
+              tests->console->Printf(__L("Run() failed.\n"));
+              status = false;
+            }
+           else
+            {
+              georunner.GetResult(__L("ok"), geook);
+              georunner.GetResult(__L("country"), geocountry);
+              tests->console->Printf(__L("ok=%s country=%s\n"), geook.Get(), geocountry.Get());
+              if(geook.Compare(__L("1")) != 0)
+                {
+                  status = false;
+                }
+            }
+        }
+
+      DIOGEOLOCATIONIP_RESULT geoIP;
+
+      tests->console->Printf(__L("\n--- Geolocation IP (facade default .g) ---\n"));
+      if(geolocationip->Get(ip, geoIP, timeout, NULL, true))
+        {
+          tests->console->Printf(__L("Country      : %s\n"), geoIP.GetCountry());
+          tests->console->Printf(__L("State        : %s\n"), geoIP.GetState());
+          tests->console->Printf(__L("City         : %s\n"), geoIP.GetCity());
+          tests->console->Printf(__L("ISP          : %s\n"), geoIP.GetISP());
+          tests->console->Printf(__L("Organization : %s\n"), geoIP.GetOrganization());
+          tests->console->Printf(__L("Latitude     : %f\n"), geoIP.GetLatitude());
+          tests->console->Printf(__L("Longitude    : %f\n"), geoIP.GetLongitude());
+        }
+       else
+        {
+          tests->console->Printf(__L("Geolocation facade : Error.\n"));
+          status = false;
+        }
+    }
+   else if(status)
+    {
+      tests->console->Printf(__L("Geolocation skipped (no Public IP).\n"));
+      status = false;
+    }
+
+  #ifdef DIO_SCRAPERWEB_WEATHER_ACTIVE
+  tests->console->Printf(__L("\n--- Weather (script probe per language) ---\n"));
+  {
+    XSTRING location(__L("Bilbao"));
+
+    for(int c = 0; c < nweather; c++)
+      {
+        DIOSCRAPERSCRIPT weatherrunner;
+        XSTRING          weatherok;
+        XSTRING          condition;
+        XSTRING          temperature;
+
+        weatherrunner.SetArg(__L("location"), location);
+        weatherrunner.SetArgInt(__L("celsius"), 1);
+        weatherrunner.SetArgInt(__L("timeout"), timeout);
+        tests->console->Printf(__L("[%s] "), weatherpaths[c]);
+        if(!weatherrunner.Run(weatherpaths[c]))
+          {
+            tests->console->Printf(__L("Run() failed.\n"));
+            status = false;
+          }
+         else
+          {
+            weatherrunner.GetResult(__L("ok"), weatherok);
+            weatherrunner.GetResult(__L("condition"), condition);
+            weatherrunner.GetResult(__L("temperature"), temperature);
+            tests->console->Printf(__L("ok=%s condition=%s temperature=%s\n"), weatherok.Get(), condition.Get(), temperature.Get());
+            if(weatherok.Compare(__L("1")) != 0)
               {
-                XSTRING IPstring;
-
-                ip.GetXString(IPstring);
-
-                tests->console->Printf(__L("Public IP : %s\n\n"), IPstring.Get());
-
-                if(geolocationip)
-                  {
-                    DIOGEOLOCATIONIP_RESULT geoIP;
-
-                    if(geolocationip->Get(ip, geoIP, 5, &localIP))
-                      {
-                        tests->console->Printf(__L("City : %s\n"), geoIP.GetCity());
-                        tests->console->Printf(__L("State : %s\n"), geoIP.GetState());
-                        tests->console->Printf(__L("Contry : %s\n"), geoIP.GetCountry());
-                        tests->console->Printf(__L("ISP : %s\n"), geoIP.GetISP());
-                        tests->console->Printf(__L("Organization : %s\n"), geoIP.GetOrganization());
-
-                      } else tests->console->Printf(__L("Error!!!!\n"));
-
-                    tests->console->Printf(__L("\n"));
-                  }
+                status = false;
               }
           }
-
-        if(sexname)
-          {
-            DIOSCRAPERWEBSEXNAMETYPE sextype;
-            XSTRING                  name;
-
-            sexname->Get(__L("Alai"), sextype, &name, 5, &localIP);
-            tests->console->Printf(__L("El nombre %.15s "), name.Get());
-
-            switch(sextype)
-              {
-                case DIOSCRAPERWEBSEXNAMETYPE_NOTOBTAINED : tests->console->Printf(__L("no obtenido."));              break;
-                case DIOSCRAPERWEBSEXNAMETYPE_NONAME      : tests->console->Printf(__L("no es un nombre propio."));   break;
-                case DIOSCRAPERWEBSEXNAMETYPE_MALE        : tests->console->Printf(__L("es de hombre"));              break;
-                case DIOSCRAPERWEBSEXNAMETYPE_FEMALE      : tests->console->Printf(__L("es de mujer"));               break;
-              }
-
-            tests->console->Printf(__L("\n\n"));
-          }
-
-        if(useragentID)
-          {
-            XSTRING browser;
-            XSTRING SO;
-
-            useragentID->Get(__L("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31"), browser, SO, 5, &localIP);
-
-            tests->console->Printf(__L("Browser : %s\n"), browser.Get());
-            tests->console->Printf(__L("System Operative : %s\n"), SO.Get());
-
-            tests->console->Printf(__L("\n"));
-          }
-
-        if(translation)
-          {
-            XSTRING        translate;
-            XLANGUAGE_CODE languajes[] = {  XLANGUAGE_ISO_639_3_CODE_AFR     , //   Afrikaans
-                                            XLANGUAGE_ISO_639_3_CODE_ALB     , //   Albanian
-                                            XLANGUAGE_ISO_639_3_CODE_ARA     , //   Arabic
-                                            XLANGUAGE_ISO_639_3_CODE_AZE     , //   Azerbaijani
-                                            XLANGUAGE_ISO_639_3_CODE_BAQ     , //   Basque
-                                            XLANGUAGE_ISO_639_3_CODE_BEL     , //   Belarusian
-                                            XLANGUAGE_ISO_639_3_CODE_BEN     , //   Bengali
-                                            XLANGUAGE_ISO_639_3_CODE_BUL     , //   Bulgarian
-                                            XLANGUAGE_ISO_639_3_CODE_CAT     , //   Catalan
-                                            XLANGUAGE_ISO_639_3_CODE_CHI     , //   Chinese    CHINESE_SIMPLIFIED  __L("zh-CN") CHINESE_TRADITIONAL __L("zh-TW")
-                                            XLANGUAGE_ISO_639_3_CODE_CZE     , //   Czech
-                                            XLANGUAGE_ISO_639_3_CODE_DAN     , //   Danish
-                                            XLANGUAGE_ISO_639_3_CODE_DUT     , //   Dutch
-                                            XLANGUAGE_ISO_639_3_CODE_ENG     , //   English
-                                            XLANGUAGE_ISO_639_3_CODE_EPO     , //   Esperanto
-                                            XLANGUAGE_ISO_639_3_CODE_EST     , //   Estonian
-                                            XLANGUAGE_ISO_639_3_CODE_FIN     , //   Finnish
-                                            XLANGUAGE_ISO_639_3_CODE_FRE     , //   French
-                                            XLANGUAGE_ISO_639_3_CODE_GEO     , //   Georgian
-                                            XLANGUAGE_ISO_639_3_CODE_GER     , //   German
-                                            XLANGUAGE_ISO_639_3_CODE_GLE     , //   Irish
-                                            XLANGUAGE_ISO_639_3_CODE_GLG     , //   Galician
-                                            XLANGUAGE_ISO_639_3_CODE_GRE     , //   Greek Modern (1453-)
-                                            XLANGUAGE_ISO_639_3_CODE_GUJ     , //   Gujarati
-                                            XLANGUAGE_ISO_639_3_CODE_HAT     , //   Haitian
-                                            XLANGUAGE_ISO_639_3_CODE_HEB     , //   Hebrew
-                                            XLANGUAGE_ISO_639_3_CODE_HIN     , //   Hindi
-                                            XLANGUAGE_ISO_639_3_CODE_HRV     , //   Croatian
-                                            XLANGUAGE_ISO_639_3_CODE_HUN     , //   Hungarian
-                                            XLANGUAGE_ISO_639_3_CODE_ICE     , //   Icelandic
-                                            XLANGUAGE_ISO_639_3_CODE_IND     , //   Indonesian
-                                            XLANGUAGE_ISO_639_3_CODE_ITA     , //   Italian
-                                            XLANGUAGE_ISO_639_3_CODE_JPN     , //   Japanese
-                                            XLANGUAGE_ISO_639_3_CODE_KAN     , //   Kannada
-                                            XLANGUAGE_ISO_639_3_CODE_KOR     , //   Korean
-                                            XLANGUAGE_ISO_639_3_CODE_LAT     , //   Latin
-                                            XLANGUAGE_ISO_639_3_CODE_LAV     , //   Latvian
-                                            XLANGUAGE_ISO_639_3_CODE_LIT     , //   Lithuanian
-                                            XLANGUAGE_ISO_639_3_CODE_MAC     , //   Macedonian
-                                            XLANGUAGE_ISO_639_3_CODE_MAY     , //   Malay
-                                            XLANGUAGE_ISO_639_3_CODE_MLT     , //   Maltese
-                                            XLANGUAGE_ISO_639_3_CODE_NOR     , //   Norwegian
-                                            XLANGUAGE_ISO_639_3_CODE_PER     , //   Persian
-                                            XLANGUAGE_ISO_639_3_CODE_POL     , //   Polish
-                                            XLANGUAGE_ISO_639_3_CODE_POR     , //   Portuguese
-                                            XLANGUAGE_ISO_639_3_CODE_RUM     , //   Romanian
-                                            XLANGUAGE_ISO_639_3_CODE_RUS     , //   Russian
-                                            XLANGUAGE_ISO_639_3_CODE_SLO     , //   Slovak
-                                            XLANGUAGE_ISO_639_3_CODE_SLV     , //   Slovenian
-                                            XLANGUAGE_ISO_639_3_CODE_SPA     , //   Spanish
-                                            XLANGUAGE_ISO_639_3_CODE_SRP     , //   Serbian
-                                            XLANGUAGE_ISO_639_3_CODE_SWA     , //   Swahili
-                                            XLANGUAGE_ISO_639_3_CODE_SWE     , //   Swedish
-                                            XLANGUAGE_ISO_639_3_CODE_TAM     , //   Tamil
-                                            XLANGUAGE_ISO_639_3_CODE_TEL     , //   Telugu
-                                            XLANGUAGE_ISO_639_3_CODE_THA     , //   Thai
-                                            XLANGUAGE_ISO_639_3_CODE_TUR     , //   Turkish
-                                            XLANGUAGE_ISO_639_3_CODE_UKR     , //   Ukrainian
-                                            XLANGUAGE_ISO_639_3_CODE_URD     , //   Urdu
-                                            XLANGUAGE_ISO_639_3_CODE_VIE     , //   Vietnamese
-                                            XLANGUAGE_ISO_639_3_CODE_WEL     , //   Welsh
-                                            XLANGUAGE_ISO_639_3_CODE_YID     , //   Yiddish
-                                         };
-
-            XSTRING origin;
-          //int     index = 0;
-
-            origin = __L("La mesa de mi casa es roja");
-            tests->console->Printf(__L("> %s\n"), origin.Get());
-
-            for(int c=0;c<(sizeof(languajes)/sizeof(int))-1;c++)
-              {
-                if(translation->Get(origin.Get(), XLANGUAGE_ISO_639_3_CODE_SPA , languajes[c], translate, 5, &localIP))
-                  {
-                    if(translate.IsValidASCII())
-                           tests->console->Printf(__L("> %s\n"), translate.Get());
-                      else tests->console->Printf(__L("> (Special chars)\n"));
-
-                    origin = translate.Get();
-                    //index = c+1;
-                  }
-              }
-
-            tests->console->Printf(__L("\n"));
-          }
-
-        if(macmanufactured)
-          {
-            XBYTE    MAC[DIOMAC_MAXSIZE] = { 0x00, 0x04, 0x20, 0x11, 0x22, 0x33 };
-            DIOMAC   deviceMAC;
-            XSTRING  manufactured;
-
-            deviceMAC.Set(MAC);
-
-            tests->console->Printf(__L("MAC Manufactured: [%02X%02X%02X] "), deviceMAC.Get()[0], deviceMAC.Get()[1], deviceMAC.Get()[2]);
-
-            if(macmanufactured->Get(deviceMAC, manufactured, 5, &localIP))
-                  tests->console->Printf(__L("%s"), manufactured.Get());
-             else tests->console->Printf(__L("Unknow"));
-
-            tests->console->Printf(__L("\n"));
-          }
-
-        if(weather)
-          {
-            XSTRING condition;
-            float   temperature;
-            float   humidity;
-
-            tests->console->Printf(__L("Estado del tiempo: "));
-
-            if(weather->Get(__L("SPXX0016"), true, condition, temperature, humidity, 5, &localIP))
-                    tests->console->Printf(__L("[%s] Temperatura %3.2f, humedad %3.2f%%%%. \n"), condition.Get(), temperature, humidity);
-              else  tests->console->Printf(__L("no obtenido.\n"));
-
-            tests->console->Printf(__L("\n"));
-          }
-
-
       }
 
-  GEN_DELETE publicip;
-  GEN_DELETE geolocationip;
-  GEN_DELETE sexname;
-  GEN_DELETE useragentID;
-  GEN_DELETE translation;
-  GEN_DELETE macmanufactured;
-  GEN_DELETE weather;
+    DIOWEATHER_RESULT weatherresult;
 
-  return true;
+    tests->console->Printf(__L("\n--- Weather (facade default .g) ---\n"));
+    if(weather->Get(location, true, weatherresult, timeout, NULL, true))
+      {
+        tests->console->Printf(__L("Condition   : %s\n"), weatherresult.GetCondition());
+        tests->console->Printf(__L("Temperature : %f\n"), weatherresult.GetTemperature());
+        tests->console->Printf(__L("Humidity    : %f\n"), weatherresult.GetHumidity());
+      }
+     else
+      {
+        tests->console->Printf(__L("Weather facade : Error.\n"));
+        status = false;
+      }
+  }
+  #endif
+
+  #ifdef DIO_SCRAPERWEB_TRANSLATION_ACTIVE
+  tests->console->Printf(__L("\n--- Translation (script probe per language) ---\n"));
+  {
+    XSTRING text(__L("Hello %d world"));
+    XSTRING sl(__L("auto"));
+    XSTRING tl(__L("es"));
+
+    for(int c = 0; c < ntranslation; c++)
+      {
+        DIOSCRAPERSCRIPT translationrunner;
+        XSTRING          translationok;
+        XSTRING          translated;
+
+        translationrunner.SetArg(__L("text"), text);
+        translationrunner.SetArg(__L("sl"), sl);
+        translationrunner.SetArg(__L("tl"), tl);
+        translationrunner.SetArgInt(__L("timeout"), timeout);
+        tests->console->Printf(__L("[%s] "), translationpaths[c]);
+        if(!translationrunner.Run(translationpaths[c]))
+          {
+            tests->console->Printf(__L("Run() failed.\n"));
+            status = false;
+          }
+         else
+          {
+            translationrunner.GetResult(__L("ok"), translationok);
+            translationrunner.GetResult(__L("translation"), translated);
+            tests->console->Printf(__L("ok=%s translation=%s\n"), translationok.Get(), translated.Get());
+            if(translationok.Compare(__L("1")) != 0)
+              {
+                status = false;
+              }
+          }
+      }
+
+    DIOTRANSLATION_RESULT translationresult;
+
+    tests->console->Printf(__L("\n--- Translation (facade default .g) ---\n"));
+    if(translation->Get(text, sl, tl, translationresult, timeout, NULL, true))
+      {
+        tests->console->Printf(__L("Source      : %s\n"), translationresult.GetSourceLanguage());
+        tests->console->Printf(__L("Target      : %s\n"), translationresult.GetTargetLanguage());
+        tests->console->Printf(__L("Text Target : %s\n"), text.Get());
+        tests->console->Printf(__L("Translation : %s\n"), translationresult.GetTranslation());
+      }
+     else
+      {
+        tests->console->Printf(__L("Translation facade : Error.\n"));
+        status = false;
+      }
+  }
+  #endif
+
+  #ifdef DIO_SCRAPERWEB_MACMANUFACTURER_ACTIVE
+  tests->console->Printf(__L("\n--- MAC Manufacturer (script probe per language) ---\n"));
+  {
+    XSTRING mac(__L("00:1B:63:84:45:E6"));
+
+    for(int c = 0; c < nmac; c++)
+      {
+        DIOSCRAPERSCRIPT macrunner;
+        XSTRING          macok;
+        XSTRING          manufacturer;
+
+        macrunner.SetArg(__L("mac"), mac);
+        macrunner.SetArgInt(__L("timeout"), timeout);
+        tests->console->Printf(__L("[%s] "), macpaths[c]);
+        if(!macrunner.Run(macpaths[c]))
+          {
+            tests->console->Printf(__L("Run() failed.\n"));
+            status = false;
+          }
+         else
+          {
+            macrunner.GetResult(__L("ok"), macok);
+            macrunner.GetResult(__L("manufacturer"), manufacturer);
+            tests->console->Printf(__L("ok=%s manufacturer=%s\n"), macok.Get(), manufacturer.Get());
+            if(macok.Compare(__L("1")) != 0)
+              {
+                status = false;
+              }
+          }
+      }
+
+    DIOMACMANUFACTURED_RESULT macresult;
+    DIOMAC                    diomac;
+
+    diomac.Set(mac);
+    tests->console->Printf(__L("\n--- MAC Manufacturer (facade default .g) ---\n"));
+    if(macmanufacturer->Get(diomac, macresult, timeout, NULL, true))
+      {
+        tests->console->Printf(__L("Manufacturer : %s\n"), macresult.GetManufacturer());
+      }
+     else
+      {
+        tests->console->Printf(__L("MAC Manufacturer facade : Error.\n"));
+        status = false;
+      }
+  }
+  #endif
+
+  tests->console->Printf(__L("\nScraper script test : %s\n"), status ? __L("Ok") : __L("Error"));
+
+  #ifdef DIO_SCRAPERWEB_PUBLICIP_ACTIVE
+  GEN_DELETE publicip;
+  #endif  
+
+  #ifdef DIO_SCRAPERWEB_GEOLOCATIONIP_ACTIVE
+  GEN_DELETE geolocationip;
+  #endif  
+
+  #ifdef DIO_SCRAPERWEB_WEATHER_ACTIVE
+  GEN_DELETE weather;
+  #endif
+
+  #ifdef DIO_SCRAPERWEB_TRANSLATION_ACTIVE
+  GEN_DELETE translation;
+  #endif
+
+  #ifdef DIO_SCRAPERWEB_MACMANUFACTURER_ACTIVE
+  GEN_DELETE macmanufacturer;
+  #endif
+
+  return status;
+
+  #endif
 }
 
 

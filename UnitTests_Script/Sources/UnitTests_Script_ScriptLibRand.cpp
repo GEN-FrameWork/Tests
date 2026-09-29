@@ -48,18 +48,18 @@ TEST(UNITTESTS_SCRIPTLIBRAND_CLASSNAME, RandBetweenReturnsValueInsideInclusiveRa
 {
   SCRIPT script;
   SCRIPT_LIB_RAND library;
-  XVARIANT min(5);
-  XVARIANT max(5);
+  XVARIANT minvalue(5);
+  XVARIANT maxvalue(5);
   XVARIANT result;
   XVECTOR<XVARIANT*> params;
 
-  params.Add(&min);
-  params.Add(&max);
+  params.Add(&minvalue);
+  params.Add(&maxvalue);
   Call_RandBetween(&library, &script, &params, &result);
   EXPECT_EQ((int)result, 5);
 
-  min = 10;
-  max = 20;
+  minvalue = 10;
+  maxvalue = 20;
   for(int i = 0; i < 20; i++)
     {
       Call_RandBetween(&library, &script, &params, &result);

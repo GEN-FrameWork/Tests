@@ -176,6 +176,60 @@ static void UnitTests_ScriptLanguageG_ReturnDoubleNeedsPrecision(SCRIPT_LIB* lib
 }
 
 
+TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, LogicalNotAndAndOr)
+{
+  SCRIPT_LNG_G script;
+  int          returnvalue = 0;
+
+  (*script.GetScript()) =
+    __L("int main(){ int a; int b; a = 0; b = 5; if(!a && b){ } else { return 1; } if(a || !b){ return 2; } if(!(a == 0) || (b == 5)){ } else { return 3; } if(!!b && !a){ return 42; } return 4; }");
+
+  EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
+  EXPECT_EQ(returnvalue, 42);
+}
+
+
+TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, LogicalOrPrecedenceOverAnd)
+{
+  SCRIPT_LNG_G script;
+  int          returnvalue = 0;
+
+  // false && true || true  =>  (false && true) || true  => true
+  (*script.GetScript()) = __L("int main(){ if(0 && 1 || 1){ return 7; } return 0; }");
+
+  EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
+  EXPECT_EQ(returnvalue, 7);
+}
+
+
+TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, EscapedQuotesInStringLiterals)
+{
+  SCRIPT_LNG_G script;
+  int          returnvalue = 0;
+
+  // G source after C escapes: q = "\"";  → string of one quote.
+  (*script.GetScript()) =
+    __L("int main(){ string q; q = \"\\\"\"; return GetStringSize(q); }");
+
+  EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
+  EXPECT_EQ(returnvalue, 1);
+}
+
+
+TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, ExtractBetweenWithEscapedJsonMarks)
+{
+  SCRIPT_LNG_G script;
+  int          returnvalue = 0;
+
+  // Avoid '{' / '}' inside G string literals (brace scanner does not skip strings).
+  (*script.GetScript()) =
+    __L("int main(){ string q; string start; string body; string country; q = \"\\\"\"; start = AddString(q, \"country\"); start = AddString(start, q); start = AddString(start, \":\"); start = AddString(start, q); body = \"x\\\"country\\\":\\\"Spain\\\"y\"; country = ExtractBetween(body, start, q); if(CompareString(country, \"Spain\", 0)){ return 9; } return 2; }");
+
+  EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
+  EXPECT_EQ(returnvalue, 9);
+}
+
+
 TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, DoublePrecisionSurvivesLibraryRoundTrip)
 {
   SCRIPT_LNG_G script;

@@ -187,7 +187,7 @@ class DEVTESTS_CONSOLE : public APPFLOWCONSOLE, public XOBSERVER, public XFSMACH
     static bool                     Test_SharedMemory                   (DEVTESTS_CONSOLE* tests);    
     static bool                     Test_GPIO                           (DEVTESTS_CONSOLE* tests);
     static bool                     Test_WebClient                      (DEVTESTS_CONSOLE* tests);
-    static bool                     Test_ScraperWeb                     (DEVTESTS_CONSOLE* tests);
+    static bool                     Test_ScraperWeb                     (DEVTESTS_CONSOLE* tests);  // typed scrapers via scripts
     static bool                     Test_MPSSE                          (DEVTESTS_CONSOLE* tests);
     static bool                     Test_DNSResolver                    (DEVTESTS_CONSOLE* tests);
     static bool                     Test_DNSProtocolMitMServer          (DEVTESTS_CONSOLE* tests);

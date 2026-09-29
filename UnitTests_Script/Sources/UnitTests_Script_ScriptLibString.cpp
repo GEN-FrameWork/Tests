@@ -33,7 +33,7 @@
 #include "GEN_Control.h"
 
 #ifdef GOOGLETEST_ACTIVE
-UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBSTRING, UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, SCRIPT_LIB_STRING, SCRIPT_LIB_NAME_STRING, __L("SPrintf"))
+UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBSTRING, UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, SCRIPT_LIB_STRING, SCRIPT_LIB_NAME_STRING, __L("ExtractBetween"))
 
 namespace TEST_SCRIPTLIBSTRING
 {
@@ -120,6 +120,185 @@ TEST(UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, AddStringConcatenatesIntoFirstArgument
   Call_AddString(&library, &script, &params, &result);
   EXPECT_TRUE(result.ToString(text));
   EXPECT_EQ(text.Compare(__L("foobar")), 0);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, GetStringSizeAndIsEmpty)
+{
+  SCRIPT script;
+  SCRIPT_LIB_STRING library;
+  XVARIANT text(__L("abcd"));
+  XVARIANT empty(__L(""));
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+
+  params.Add(&text);
+  Call_GetStringSize(&library, &script, &params, &result);
+  EXPECT_EQ((int)result, 4);
+
+  Call_IsEmptyString(&library, &script, &params, &result);
+  EXPECT_FALSE((bool)result);
+
+  params.DeleteAll();
+  params.Add(&empty);
+  Call_IsEmptyString(&library, &script, &params, &result);
+  EXPECT_TRUE((bool)result);
+  Call_GetStringSize(&library, &script, &params, &result);
+  EXPECT_EQ((int)result, 0);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, SubStringAndSubStringFrom)
+{
+  SCRIPT script;
+  SCRIPT_LIB_STRING library;
+  XVARIANT text(__L("0123456789"));
+  XVARIANT start(2);
+  XVARIANT end(5);
+  XVARIANT from(7);
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+  XSTRING out;
+
+  params.Add(&text);
+  params.Add(&start);
+  params.Add(&end);
+  Call_SubString(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(out));
+  EXPECT_EQ(out.Compare(__L("234")), 0);
+
+  params.DeleteAll();
+  params.Add(&text);
+  params.Add(&from);
+  Call_SubStringFrom(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(out));
+  EXPECT_EQ(out.Compare(__L("789")), 0);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, FindStringWithOptionalStartIndex)
+{
+  SCRIPT script;
+  SCRIPT_LIB_STRING library;
+  XVARIANT haystack(__L("one two one"));
+  XVARIANT needle(__L("one"));
+  XVARIANT ignorecase(false);
+  XVARIANT start(1);
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+
+  params.Add(&haystack);
+  params.Add(&needle);
+  params.Add(&ignorecase);
+  Call_FindString(&library, &script, &params, &result);
+  EXPECT_EQ((int)result, 0);
+
+  params.Add(&start);
+  Call_FindString(&library, &script, &params, &result);
+  EXPECT_EQ((int)result, 8);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, ExtractBetweenFindsPayloadAndFailsCleanly)
+{
+  SCRIPT script;
+  SCRIPT_LIB_STRING library;
+  XVARIANT html(__L("<b class=\"x\">1.2.3.4</b><b class=\"x\">5.6.7.8</b>"));
+  XVARIANT startmark(__L("<b class=\"x\">"));
+  XVARIANT endmark(__L("</b>"));
+  XVARIANT ignorecase(false);
+  XVARIANT from(0);
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+  XSTRING out;
+
+  params.Add(&html);
+  params.Add(&startmark);
+  params.Add(&endmark);
+  Call_ExtractBetween(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(out));
+  EXPECT_EQ(out.Compare(__L("1.2.3.4")), 0);
+
+  params.Add(&ignorecase);
+  XVARIANT fromsecond(20);
+  params.Add(&fromsecond);
+  Call_ExtractBetween(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(out));
+  EXPECT_EQ(out.Compare(__L("5.6.7.8")), 0);
+
+  params.DeleteAll();
+  XVARIANT missingstart(__L("<ip>"));
+  params.Add(&html);
+  params.Add(&missingstart);
+  params.Add(&endmark);
+  Call_ExtractBetween(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(out));
+  EXPECT_TRUE(out.IsEmpty());
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, TrimToUpperToLowerGetCharReplaceAll)
+{
+  SCRIPT script;
+  SCRIPT_LIB_STRING library;
+  XVARIANT padded(__L("  hello  \r\n"));
+  XVARIANT mixed(__L("AbC"));
+  XVARIANT sample(__L("a-b-a"));
+  XVARIANT find(__L("a"));
+  XVARIANT replace(__L("x"));
+  XVARIANT index(1);
+  XVARIANT result;
+  XVECTOR<XVARIANT*> params;
+  XSTRING out;
+
+  params.Add(&padded);
+  Call_TrimString(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(out));
+  EXPECT_EQ(out.Compare(__L("hello")), 0);
+
+  params.DeleteAll();
+  params.Add(&mixed);
+  Call_ToUpperString(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(out));
+  EXPECT_EQ(out.Compare(__L("ABC")), 0);
+
+  Call_ToLowerString(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(out));
+  EXPECT_EQ(out.Compare(__L("abc")), 0);
+
+  params.DeleteAll();
+  params.Add(&mixed);
+  params.Add(&index);
+  Call_GetCharString(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(out));
+  EXPECT_EQ(out.Compare(__L("b")), 0);
+
+  params.DeleteAll();
+  params.Add(&sample);
+  params.Add(&find);
+  params.Add(&replace);
+  Call_ReplaceAllString(&library, &script, &params, &result);
+  EXPECT_TRUE(result.ToString(out));
+  EXPECT_EQ(out.Compare(__L("x-b-x")), 0);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSTRING_CLASSNAME, RegistersAllNewStringHelpers)
+{
+  SCRIPT_LIB_STRING library;
+  SCRIPT script;
+
+  ASSERT_TRUE(library.AddLibraryFunctions(&script));
+  EXPECT_NE(script.GetLibraryFunction(__L("GetStringSize")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(__L("IsEmptyString")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(__L("SubString")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(__L("SubStringFrom")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(__L("ExtractBetween")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(__L("TrimString")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(__L("ToUpperString")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(__L("ToLowerString")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(__L("GetCharString")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(__L("ReplaceAllString")), (SCRIPT_LIB_FUNCTION*)NULL);
 }
 }
 #endif
