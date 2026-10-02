@@ -25,6 +25,7 @@ option(LINUX_VISUALSTUDIO_UTF8_FEATURE                          "Linux CodePage 
 option(USE_CLANG_COMPILER_FEATURE                               "Use Clang Compiler"                                      ON )
                         
 option(DIO_FEATURE                                              "Input/Output"                                            ON )
+option(DIO_STREAMUDP_FEATURE                                    "Stream UDP"                                              ON )
 option(DIO_STREAMTLS12_FEATURE                                  "TLS 1.2 (RFC 5246)"                                      OFF)
                                                                             
 option(APPFLOW_FEATURE                                          "Application Flow modules"                                ON )
@@ -128,6 +129,7 @@ list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUt
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XProcessManager.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XScheduler.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XTrace.cpp")
+list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XTraceServer.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XTranslation.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XTranslation_GEN.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XFactory.cpp")

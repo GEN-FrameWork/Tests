@@ -32,6 +32,10 @@
 #ifdef SCRIPT_LIB_INPUTSIMULATE_ACTIVE
 #include "Script_Lib_InputSimulate.h"
 #endif
+#ifdef INP_SIMULATE_ACTIVE
+#include "INPFactory.h"
+#include "INPSimulate.h"
+#endif
 #include "GEN_Control.h"
 
 #if defined(GOOGLETEST_ACTIVE) && defined(SCRIPT_LIB_INPUTSIMULATE_ACTIVE)
@@ -60,4 +64,82 @@ TEST(UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, TwoArgumentFunctionsRejectOneAr
 
   params.DeleteAll();
 }
+
+
+TEST(UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, KeyClickByTextReturnsTrueForSupportedText)
+{
+  SCRIPT_LIB_INPUTSIMULATE       library;
+  UNITTESTS_SCRIPT_ERRORCAPTURE  script;
+  XVECTOR<XVARIANT*>             params;
+  XVARIANT                       text(__L("Ab 12"));
+  XVARIANT                       pressure(1);
+  XVARIANT                       result;
+
+  params.Add(&text);
+  params.Add(&pressure);
+
+  Call_Key_ClickByText(&library, &script, &params, &result);
+
+  EXPECT_EQ(script.GetLastError(), SCRIPT_ERRORCODE_NONE);
+  EXPECT_TRUE((bool)result);
+
+  params.DeleteAll();
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, KeyClickByTextReturnsTrueForEmptyText)
+{
+  SCRIPT_LIB_INPUTSIMULATE       library;
+  UNITTESTS_SCRIPT_ERRORCAPTURE  script;
+  XVECTOR<XVARIANT*>             params;
+  XVARIANT                       text(__L(""));
+  XVARIANT                       pressure(1);
+  XVARIANT                       result;
+
+  params.Add(&text);
+  params.Add(&pressure);
+
+  Call_Key_ClickByText(&library, &script, &params, &result);
+
+  EXPECT_EQ(script.GetLastError(), SCRIPT_ERRORCODE_NONE);
+  EXPECT_TRUE((bool)result);
+
+  params.DeleteAll();
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, KeyClickByTextReturnsFalseForUnsupportedCharacter)
+{
+  SCRIPT_LIB_INPUTSIMULATE       library;
+  UNITTESTS_SCRIPT_ERRORCAPTURE  script;
+  XVECTOR<XVARIANT*>             params;
+  XVARIANT                       text(__L("A\tB"));
+  XVARIANT                       pressure(1);
+  XVARIANT                       result;
+
+  params.Add(&text);
+  params.Add(&pressure);
+
+  Call_Key_ClickByText(&library, &script, &params, &result);
+
+  EXPECT_EQ(script.GetLastError(), SCRIPT_ERRORCODE_NONE);
+  EXPECT_FALSE((bool)result);
+
+  params.DeleteAll();
+}
+
+
+#if defined(INP_SIMULATE_ACTIVE)
+TEST(UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, PlatformKeyClickByTextPropagatesStatus)
+{
+  INPSIMULATE* inpsimulate = GEN_INPFACTORY.CreateSimulator();
+  ASSERT_NE(inpsimulate, (INPSIMULATE*)NULL);
+
+  EXPECT_TRUE(inpsimulate->Key_ClickByText(__L(""), 1));
+  EXPECT_TRUE(inpsimulate->Key_ClickByText(__L("Qa1"), 1));
+  EXPECT_FALSE(inpsimulate->Key_ClickByText(__L("~"), 1));
+
+  GEN_INPFACTORY.DeleteSimulator(inpsimulate);
+}
+#endif
 #endif

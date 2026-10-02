@@ -1,0 +1,21 @@
+Note: Google Test filter = TEST_SCRIPTLIBINPUTSIMULATE.*
+[==========] Running 6 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 6 tests from TEST_SCRIPTLIBINPUTSIMULATE
+[ RUN      ] TEST_SCRIPTLIBINPUTSIMULATE.IdentityAndRegistration
+[       OK ] TEST_SCRIPTLIBINPUTSIMULATE.IdentityAndRegistration (0 ms)
+[ RUN      ] TEST_SCRIPTLIBINPUTSIMULATE.TwoArgumentFunctionsRejectOneArgument
+[       OK ] TEST_SCRIPTLIBINPUTSIMULATE.TwoArgumentFunctionsRejectOneArgument (0 ms)
+[ RUN      ] TEST_SCRIPTLIBINPUTSIMULATE.KeyClickByTextReturnsTrueForSupportedText
+[       OK ] TEST_SCRIPTLIBINPUTSIMULATE.KeyClickByTextReturnsTrueForSupportedText (108 ms)
+[ RUN      ] TEST_SCRIPTLIBINPUTSIMULATE.KeyClickByTextReturnsTrueForEmptyText
+[       OK ] TEST_SCRIPTLIBINPUTSIMULATE.KeyClickByTextReturnsTrueForEmptyText (0 ms)
+[ RUN      ] TEST_SCRIPTLIBINPUTSIMULATE.KeyClickByTextReturnsFalseForUnsupportedCharacter
+[       OK ] TEST_SCRIPTLIBINPUTSIMULATE.KeyClickByTextReturnsFalseForUnsupportedCharacter (93 ms)
+[ RUN      ] TEST_SCRIPTLIBINPUTSIMULATE.PlatformKeyClickByTextPropagatesStatus
+[       OK ] TEST_SCRIPTLIBINPUTSIMULATE.PlatformKeyClickByTextPropagatesStatus (79 ms)
+[----------] 6 tests from TEST_SCRIPTLIBINPUTSIMULATE (283 ms total)
+
+[----------] Global test environment tear-down
+[==========] 6 tests from 1 test suite ran. (284 ms total)
+[  PASSED  ] 6 tests.

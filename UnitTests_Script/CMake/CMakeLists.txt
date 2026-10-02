@@ -41,6 +41,7 @@ option(SCRIPT_JAVASCRIPT_FEATURE                                "JavaScript inte
 option(SCRIPT_LIB_SYSTEM_FEATURE                                "Script System library"                                   ON )
 option(SCRIPT_LIB_PROCESS_FEATURE                               "Script Process library"                                  ON )
 option(SCRIPT_LIB_WEBCLIENT_FEATURE                             "Script WebClient library"                                ON )
+option(SCRIPT_LIB_TRACESERVER_FEATURE                           "Script TraceServer library"                              ON )
 option(DIO_SCRAPERWEB_PUBLICIP_FEATURE                          "Scraper Web Public IP"                                   ON )
 option(DIO_SCRAPERWEB_GEOLOCATIONIP_FEATURE                     "Scraper Web Geolocation IP"                              ON )
 option(DIO_SCRAPERWEB_WEATHER_FEATURE                           "Scraper Web Weather"                                     ON )
@@ -48,7 +49,7 @@ option(DIO_SCRAPERWEB_TRANSLATION_FEATURE                       "Scraper Web Tra
 option(DIO_SCRAPERWEB_MACMANUFACTURER_FEATURE                   "Scraper Web MAC Manufacturer"                            ON )
 option(SCRIPT_LIB_LOG_FEATURE                                   "Script Log library"                                      ON )
 option(SCRIPT_LIB_CONSOLE_FEATURE                               "Script Console library"                                  ON )
-option(SCRIPT_LIB_WINDOW_FEATURE                                "Script Window library"                                   ON )
+option(SCRIPT_LIB_SCREEN_FEATURE                                "Script Screen library"                                   ON )
 option(SCRIPT_LIB_CFG_FEATURE                                   "Script CFG library"                                      ON )
 option(SCRIPT_LIB_INPUTSIMULATE_FEATURE                         "Script Input Simulate library"                           ON )
 option(SCRIPT_LIB_DEVTEST_FEATURE                               "Script development test library"                         ON )
@@ -100,7 +101,7 @@ set(UNITTESTS_SCRIPT_MODULES
   ScriptLibSystem
   ScriptLibTimer
   ScriptLibTrace
-  ScriptLibWindow
+  ScriptLibScreen
 )
 
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Script.cpp")

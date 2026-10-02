@@ -61,7 +61,7 @@ option(SCRIPT_LIB_SYSTEM_FEATURE                                "Script Lib Syst
 option(SCRIPT_LIB_PROCESS_FEATURE                               "Script Lib Process"                                      ON )    
 option(SCRIPT_LIB_LOG_FEATURE                                   "Script Lib Log"                                          ON )    
 option(SCRIPT_LIB_CONSOLE_FEATURE                               "Script Lib Console"                                      ON ) 
-option(SCRIPT_LIB_WINDOW_FEATURE                                "Script Lib Window"                                       ON ) 
+option(SCRIPT_LIB_SCREEN_FEATURE                                "Script Lib Screen"                                       ON ) 
 option(SCRIPT_LIB_INPUTSIMULATE_FEATURE                         "Script Lib Input Simulated"                              ON ) 
 
 option(USERINTERFACE_FEATURE                                    "User Interace"                                           ON )

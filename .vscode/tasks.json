@@ -1,0 +1,52 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "genTest",
+      "type": "pickString",
+      "description": "Test GEN a configurar con CMake Tools",
+      "options": [
+        "DevTests_Canvas2D",
+        "DevTests_Console",
+        "DevTests_Devices",
+        "UnitTests_Cipher",
+        "UnitTests_Compress",
+        "UnitTests_AppFlow",
+        "UnitTests_Databases",
+        "UnitTests_DataIO",
+        "UnitTests_Input",
+        "UnitTests_Script",
+        "UnitTests_Sound",
+        "UnitTests_Graphic",
+        "UnitTests_UserInterface",
+        "UnitTests_XUtils"
+      ],
+      "default": "DevTests_Console"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "GEN: Seleccionar test",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/.vscode/select-test.ps1",
+        "${input:genTest}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "focus": true
+      }
+    }
+  ]
+}

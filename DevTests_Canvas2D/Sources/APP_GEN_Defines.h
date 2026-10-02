@@ -31,6 +31,6 @@
 
 /*---- DEFINES & ENUMS  ----------------------------------------------------------------------------------------------*/
 
-#define SCRIPT_LIB_WINDOWS_DEBUG
+#define SCRIPT_LIB_SCREEN_DEBUG
 
 

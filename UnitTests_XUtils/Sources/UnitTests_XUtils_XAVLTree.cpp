@@ -222,7 +222,11 @@ TEST(UNITTESTS_XAVLTREE_CLASSNAME, FindReturnsIndexForExistingAndNotFoundForMiss
 TEST(UNITTESTS_XAVLTREE_CLASSNAME, MultiModeAllowsDuplicatesAndGetMultipleReturnsAll)
 {
   // Default ctor argument is `multi = true`.
+  // Use the out-parameter GetMultiple overload: XLIST has no proper copy ctor, so
+  // assigning from the by-value overload double-frees and crashes (SEH 0xc0000005).
   XAVLTREE<int> tree;
+  XLIST<int>    matches;
+
   tree.Add(5);
   tree.Add(5);
   tree.Add(5);
@@ -230,7 +234,7 @@ TEST(UNITTESTS_XAVLTREE_CLASSNAME, MultiModeAllowsDuplicatesAndGetMultipleReturn
 
   EXPECT_EQ(tree.GetSize(), (XDWORD)4);
 
-  XLIST<int> matches = tree.GetMultiple(5);
+  tree.GetMultiple(5, matches);
   EXPECT_EQ(matches.GetSize(), (XDWORD)3);
 }
 

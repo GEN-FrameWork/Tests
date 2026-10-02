@@ -67,6 +67,7 @@
 #include "XScheduler_XEvent.h"
 #include "XThread.h"
 #include "XTrace.h"
+#include "XTraceServer.h"
 #include "XObserver.h"
 #include "XSharedMemoryManager.h"
 #include "XProcessManager.h"
@@ -118,6 +119,8 @@
 #include "DIOStreamIPLocalEnumDevices.h"
 #include "DIOStreamTCPIPConfig.h"
 #include "DIOStreamTCPIP.h"
+#include "DIOStreamUDPConfig.h"
+#include "DIOStreamUDP.h"
 #include "DIOStreamTCPIPServer.h"
 #include "DIOStreamBluetoothLocalEnumDevices.h"
 #include "DIOStreamBluetoothRemoteEnumDevices.h"
@@ -192,7 +195,7 @@
 #include "APPFlowExtended_ApplicationStatus.h"
 #include "APPFlowExtended_InternetStatus.h"
 
-#include "ID_IBAN.h"
+#include "XID_IBAN.h"
 
 #ifdef WINDOWS
   #include "XWINDOWSAccessControlLists.h"
@@ -352,7 +355,7 @@ bool DEVTESTS_CONSOLE::AppProc_Ini()
   //--------------------------------------------------------------------------------------------------
 
   //ACTIVATEXTHREADGROUP(XTHREADGROUPID_SCHEDULER);
-  //ACTIVATEXTHREADGROUP(XTHREADGROUPID_DIOSTREAM);
+  ACTIVATEXTHREADGROUP(XTHREADGROUPID_DIOSTREAM);
   //ACTIVATEXTHREADGROUP(XTHREADGROUPID_APPOWNER);
 
   //--------------------------------------------------------------------------------------------------
@@ -717,6 +720,7 @@ bool DEVTESTS_CONSOLE::Do_Tests()
                                                     //{ false  , Test_XVectorSTL                    , __L("Test XVector STL")                     },
                                                       { false  , Test_XRand                         , __L("Test_XRand")                           },
                                                       { false  , Test_XTrace                        , __L("Test XTrace")                          },
+                                                      { true   , Test_XTraceServer                  , __L("Test XTraceServer")                    },
                                                       { false  , Test_XLogs                         , __L("Test XLogs")                           },
                                                       { false  , Test_XTimer                        , __L("Test XTimer")                          },
                                                       { false  , Test_XTree                         , __L("Test XTree")                           },
@@ -729,8 +733,8 @@ bool DEVTESTS_CONSOLE::Do_Tests()
                                                       { false  , Test_SharedMemory                  , __L("Test SharedMemory")                    },
                                                       { false  , Test_GPIO                          , __L("Test GPIO")                            },
                                                       { false  , Test_WebClient                     , __L("Test WebClient")                       },
-                                                      { true   , Test_ScraperWeb                    , __L("Test Scraper Script (IP+Geo+Wx+Trans+MAC)") },
                                                       { false  , Test_MPSSE                         , __L("Test MPSSE")                           },
+                                                      { false  , Test_ScraperWeb                    , __L("Test Scraper Script (IP+Geo+Wx+Trans+MAC)") },
                                                       { false  , Test_DNSResolver                   , __L("Test DNS Resolver")                    },
                                                       { false  , Test_DNSProtocolMitMServer         , __L("Test DNS Protocol MitM Server")        },
                                                       { false  , Test_DIOCheckTCPIPConnections      , __L("Test DIOCheckTCPIPConnections")        },
@@ -776,7 +780,7 @@ bool DEVTESTS_CONSOLE::Do_Tests()
                                                       { false  , Test_InputSimulate                 , __L("Test Input Simulate")                  },
                                                       { false  , Test_Scheduler                     , __L("Test Scheduler")                       },
                                                       { false  , Test_DynDNS                        , __L("Test DynDNS")                          }, 
-                                                      { false  , Test_ID_IBAN                       , __L("Test ID IBAN")                         }, 
+                                                      { false  , Test_ID_IBAN                       , __L("Test XID IBAN")                        }, 
                                                       { false  , Test_Compress                      , __L("Test Compress")                        }, 
                                                       { false  , Test_DIOStreamTCPIPServer          , __L("Test DIO Stream TCPIP Server")         },  
                                                       { false  , Test_XPath                         , __L("Test eXtended Path")                   },  
@@ -1203,6 +1207,207 @@ bool DEVTESTS_CONSOLE::Test_XTrace(DEVTESTS_CONSOLE* tests)
     }
 
   return true;
+}
+
+
+/**-------------------------------------------------------------------------------------------------------------------
+*
+* @fn         bool DEVTESTS_CONSOLE::Test_XTraceServer(DEVTESTS_CONSOLE* tests)
+* @brief      Runs the xtraceserver UDP receive test.
+* @ingroup    TESTS
+*
+* @param[in]  tests : test application instance used by the test.
+*
+* @return     bool : true if it is successful.
+*
+* --------------------------------------------------------------------------------------------------------------------*/
+bool DEVTESTS_CONSOLE::Test_XTraceServer(DEVTESTS_CONSOLE* tests)
+{
+#if !(defined(DIO_ACTIVE) && defined(DIO_STREAMUDP_ACTIVE))
+  if(tests && tests->console)
+    {
+      tests->console->Printf(__L("XTraceServer UDP not available in this build.\n"));
+    }
+  return false;
+#else
+
+  if(!tests) return false;
+  if(!tests->console) return false;
+  if(!XTRACE::instance) return false;
+
+  const XWORD  serverport = 29101;
+  XSTRING      marker1;
+  XSTRING      marker2;
+  XSTRING      address(__L("127.0.0.1"));
+  bool         status = false;
+
+  marker1.Format(__L("XTRACESERVER_TEST_MSG1_%d"), serverport);
+  marker2.Format(__L("XTRACESERVER_TEST_MSG2_%d"), serverport);
+
+  tests->console->Printf(__L(" XTraceServer listen *:%d ...\n"), serverport);
+
+  XTRACESERVER traceserver;
+  if(!traceserver.Ini(serverport))
+    {
+      tests->console->Printf(__L(" Error: Ini UDP server failed.\n"));
+      return false;
+    }
+
+  if(!traceserver.IsOpenUDP())
+    {
+      tests->console->Printf(__L(" Error: server not open.\n"));
+      traceserver.End();
+      return false;
+    }
+
+  GEN_XSLEEP.MilliSeconds(50);
+
+  DIOSTREAMUDPCONFIG  udpcfg;
+  DIOSTREAMUDP*       udpclient = NULL;
+  XDATETIME           xtime;
+  XBUFFER             packet1;
+  XBUFFER             packet2;
+
+  udpcfg.SetMode(DIOSTREAMMODE_CLIENT);
+  udpcfg.SetIsUsedDatagrams(true);
+  udpcfg.GetRemoteURL()->Set(address);
+  udpcfg.SetRemotePort(serverport);
+
+  udpclient = (DIOSTREAMUDP*)GEN_DIOFACTORY.CreateStreamIO(&udpcfg);
+  if(!udpclient || !udpclient->Open())
+    {
+      tests->console->Printf(__L(" Error: UDP client open failed.\n"));
+      if(udpclient)
+        {
+          GEN_DIOFACTORY.DeleteStreamIO(udpclient);
+        }
+      traceserver.End();
+      return false;
+    }
+
+  xtime.Read();
+
+  if(!XTRACE::instance->SetTraceTextToXBuffer(0, 0x7F000001, XTRACE_COLOR_GREEN, 1, &xtime, marker1.Get(), packet1))
+    {
+      tests->console->Printf(__L(" Error: build packet 1 failed.\n"));
+      udpclient->Close();
+      GEN_DIOFACTORY.DeleteStreamIO(udpclient);
+      traceserver.End();
+      return false;
+    }
+
+  if(!XTRACE::instance->SetTraceTextToXBuffer(0, 0x7F000001, XTRACE_COLOR_BLUE, 2, &xtime, marker2.Get(), packet2))
+    {
+      tests->console->Printf(__L(" Error: build packet 2 failed.\n"));
+      udpclient->Close();
+      GEN_DIOFACTORY.DeleteStreamIO(udpclient);
+      traceserver.End();
+      return false;
+    }
+
+  if(!udpclient->WriteDatagram(address, serverport, packet1))
+    {
+      tests->console->Printf(__L(" Error: send packet 1 failed.\n"));
+      udpclient->Close();
+      GEN_DIOFACTORY.DeleteStreamIO(udpclient);
+      traceserver.End();
+      return false;
+    }
+
+  if(!udpclient->WriteDatagram(address, serverport, packet2))
+    {
+      tests->console->Printf(__L(" Error: send packet 2 failed.\n"));
+      udpclient->Close();
+      GEN_DIOFACTORY.DeleteStreamIO(udpclient);
+      traceserver.End();
+      return false;
+    }
+
+  udpclient->WaitToWriteDatagramsEmpty(1000);
+  GEN_XSLEEP.MilliSeconds(100);
+
+  XTRACESERVER_MSG msg1;
+  XTRACESERVER_MSG msg2;
+
+  if(!traceserver.WaitPop(msg1, 3000))
+    {
+      tests->console->Printf(__L(" Error: timeout waiting message 1 (count=%d dropped=%d).\n"), traceserver.GetCount(), traceserver.GetDroppedCount());
+      udpclient->Close();
+      GEN_DIOFACTORY.DeleteStreamIO(udpclient);
+      traceserver.End();
+      return false;
+    }
+
+  if(!traceserver.WaitPop(msg2, 3000))
+    {
+      tests->console->Printf(__L(" Error: timeout waiting message 2 (count=%d dropped=%d).\n"), traceserver.GetCount(), traceserver.GetDroppedCount());
+      udpclient->Close();
+      GEN_DIOFACTORY.DeleteStreamIO(udpclient);
+      traceserver.End();
+      return false;
+    }
+
+  tests->console->Printf(__L(" Recv1 seq=%d text=[%s]\n"), msg1.sequence, msg1.text.Get());
+  tests->console->Printf(__L(" Recv2 seq=%d text=[%s]\n"), msg2.sequence, msg2.text.Get());
+
+  status = true;
+
+  if(msg1.text.Find(marker1.Get(), true) == XSTRING_NOTFOUND)
+    {
+      tests->console->Printf(__L(" Error: marker1 not found in message 1.\n"));
+      status = false;
+    }
+
+  if(msg2.text.Find(marker2.Get(), true) == XSTRING_NOTFOUND)
+    {
+      tests->console->Printf(__L(" Error: marker2 not found in message 2.\n"));
+      status = false;
+    }
+
+  if(msg1.sequence != 1)
+    {
+      tests->console->Printf(__L(" Error: unexpected sequence 1 (%d).\n"), msg1.sequence);
+      status = false;
+    }
+
+  if(msg2.sequence != 2)
+    {
+      tests->console->Printf(__L(" Error: unexpected sequence 2 (%d).\n"), msg2.sequence);
+      status = false;
+    }
+
+  traceserver.Clear();
+  if(traceserver.GetCount() != 0)
+    {
+      tests->console->Printf(__L(" Error: Clear left %d messages.\n"), traceserver.GetCount());
+      status = false;
+    }
+
+  udpclient->Close();
+  GEN_DIOFACTORY.DeleteStreamIO(udpclient);
+  traceserver.End();
+
+  if(status)
+    {
+      tests->console->Printf(__L(" XTraceServer UDP receive OK.\n"));
+    }
+
+  {
+    FILE* result = fopen("xtraceserver_test_result.txt", "wt");
+    if(result)
+      {
+        fprintf(result, "%s\n", status ? "OK" : "ERROR");
+        if(status)
+          {
+            fprintf(result, "Recv1 seq=%u\n", (unsigned)msg1.sequence);
+            fprintf(result, "Recv2 seq=%u\n", (unsigned)msg2.sequence);
+          }
+        fclose(result);
+      }
+  }
+
+  return status;
+#endif
 }
 
 
@@ -7752,7 +7957,7 @@ bool DEVTESTS_CONSOLE::Test_DynDNS(DEVTESTS_CONSOLE* tests)
 /**-------------------------------------------------------------------------------------------------------------------
 *
 * @fn         bool DEVTESTS_CONSOLE::Test_ID_IBAN(DEVTESTS_CONSOLE* tests)
-* @brief      Runs the id iban test.
+* @brief      Runs the XID IBAN test.
 * @ingroup    TESTS
 *
 * @param[in]  tests : test application instance used by the test.
@@ -7762,8 +7967,8 @@ bool DEVTESTS_CONSOLE::Test_DynDNS(DEVTESTS_CONSOLE* tests)
 * --------------------------------------------------------------------------------------------------------------------*/
 bool DEVTESTS_CONSOLE::Test_ID_IBAN(DEVTESTS_CONSOLE* tests)
 {
-  ID_IBAN IBAN;
-  bool    status = false;	
+  XID_IBAN IBAN;
+  bool     status = false;	
 
   if(!tests->console) 
     {

@@ -171,6 +171,7 @@ class DEVTESTS_CONSOLE : public APPFLOWCONSOLE, public XOBSERVER, public XFSMACH
     static bool                     Test_XBuffer                        (DEVTESTS_CONSOLE* tests);
     static bool                     Test_XRand                          (DEVTESTS_CONSOLE* tests);
     static bool                     Test_XTrace                         (DEVTESTS_CONSOLE* tests);
+    static bool                     Test_XTraceServer                   (DEVTESTS_CONSOLE* tests);
     static bool                     Test_XLogs                          (DEVTESTS_CONSOLE* tests);
     static bool                     Test_XTimer                         (DEVTESTS_CONSOLE* tests);
     static bool                     Test_XVector                        (DEVTESTS_CONSOLE* tests);

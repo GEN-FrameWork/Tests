@@ -153,7 +153,7 @@ option(APPFLOW_CFG_DNSRESOLVER_FEATURE                          "Application Flo
 option(APPFLOW_CFG_ALERTS_FEATURE                               "Application Flow CFG Alerts"                             ON )  
 option(APPFLOW_CFG_DIOLOCATION_FEATURE                          "Application Flow CFG Location"                           ON )  
 
-option(IDENTIFICATION_FEATURE                                   "Identification"                                          ON )
+option(XID_IBAN_FEATURE                                         "IBAN (International Bank Account Number)"                ON )
      
 
 # --------------------------------------------------------------------

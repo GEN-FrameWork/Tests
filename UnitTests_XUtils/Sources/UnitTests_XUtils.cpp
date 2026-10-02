@@ -44,6 +44,7 @@
 #include "XTranslation.h"
 
 #include "XThreadListNonPreemptive.h"
+#include "XThreadCollected.h"
 
 
 /*---- PRECOMPILATION INCLUDES ---------------------------------------------------------------------------------------*/
@@ -116,6 +117,8 @@ bool UNITTESTS_XUTILS::AppProc_Ini()
 
   XTRACE_ADDTARGET(XTRACE_TYPE_NET, GEN_XTRACE_NET_DEFAULT_01);  
   XTRACE_ADDTARGET(XTRACE_TYPE_NET, __L("*:10001"));  
+
+  ACTIVATEXTHREADGROUP(XTHREADGROUPID_DIOSTREAM);
 
   XTRACE_CLEARSCREEN;
   XTRACE_CLEARMSGSSTATUS;

@@ -95,8 +95,8 @@
 #include "APPFlowLog.h"
 #include "APPFlowExtended.h"
 
-#ifdef SCRIPT_LIB_WINDOW_ACTIVE  
-#include "Script_Lib_Window.h"
+#ifdef SCRIPT_LIB_SCREEN_ACTIVE  
+#include "Script_Lib_Screen.h"
 #endif
 #include "Script_Language_G.h"
 #include "Script_Language_Lua.h"
@@ -865,7 +865,7 @@ void DEVTESTS_CANVAS2D::AdjustLibraries(SCRIPT* script)
   SCRIPT_SET_LIB_CFG(script, APPFLOW_CFG);
   #endif
 
-  #ifdef SCRIPT_LIB_WINDOWS_DEBUG  
+  #ifdef SCRIPT_LIB_SCREEN_DEBUG  
   SCRIPT_SET_LIB_APPFLOWGRAPHICS(script, devtests_canvas2d)
   #endif
 }

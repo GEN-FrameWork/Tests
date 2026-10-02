@@ -1,9 +1,9 @@
 /**-------------------------------------------------------------------------------------------------------------------
 *
-* @file       UnitTests_Script_ScriptLibWindow.h
+* @file       UnitTests_Databases_DB_SQL_Query.h
 *
-* @class      UNITTESTS_SCRIPT_SCRIPTLIBWINDOW
-* @brief      Unit tests for SCRIPT_LIB_WINDOW
+* @class      UNITTESTS_DATABASES_DB_SQL_QUERY
+* @brief      Databases unit tests for DB_SQL_QUERY class
 * @ingroup    TESTS
 *
 * @copyright  EndoraSoft. All rights reserved.
@@ -25,7 +25,17 @@
 * @endcond
 *
 * --------------------------------------------------------------------------------------------------------------------*/
-
 #pragma once
 
-#define UNITTESTS_SCRIPTLIBWINDOW_CLASSNAME  TEST_SCRIPTLIBWINDOW
+/*---- INCLUDES ------------------------------------------------------------------------------------------------------*/
+
+
+/*---- DEFINES & ENUMS  ----------------------------------------------------------------------------------------------*/
+
+#define UNITTESTS_DB_SQL_QUERY_CLASSNAME  TEST_DB_SQL_QUERY
+
+
+/*---- CLASS ---------------------------------------------------------------------------------------------------------*/
+
+
+/*---- INLINE FUNCTIONS + PROTOTYPES ---------------------------------------------------------------------------------*/

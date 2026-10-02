@@ -413,9 +413,12 @@ TEST(UNITTESTS_XVARIANT_CLASSNAME, GetTypeStringSupported)
 
 TEST(UNITTESTS_XVARIANT_CLASSNAME, GetTypeStringUnsupported) 
 {
-  void*     ptr = (void*)0x1234;
-  XVARIANT  variant(ptr);
+  // POINTER (and the other concrete types) are named by GetType(XSTRING&);
+  // only an unknown/out-of-range tag hits the default branch and returns false.
+  XVARIANT  variant;
   XSTRING   typestr;
+
+  variant.SetType(XVARIANT_TYPE_UNKNOWN);
 
   EXPECT_EQ(variant.GetType(typestr), false);
 }
