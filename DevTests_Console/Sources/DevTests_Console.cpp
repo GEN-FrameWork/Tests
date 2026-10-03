@@ -165,6 +165,11 @@
 #ifdef DIO_SCRAPERWEB_MACMANUFACTURER_ACTIVE
 #include "DIOScraperWebMACManufacturer.h"
 #endif
+
+#ifdef DIO_SCRAPERWEB_USERAGENTID_ACTIVE
+#include "DIOURL.h"
+#include "DIOScraperWebUserAgentID.h"
+#endif
 #include "DIOWifiManagerMode.h"
 #include "DIOATCMDS.h"
 #include "DIOATCMDGSM.h"
@@ -493,9 +498,16 @@ bool DEVTESTS_CONSOLE::AppProc_Update()
                                                                                                         KeyValidSecuences(key);
                                                                                                       }
                                                                        
-                                                                                                    #ifdef DEVTESTS_CONSOLE_NOKEY                                                    
-                                                                                                    Do_Tests(); 
-                                                                                                    #endif                  
+                                                                                                    #ifdef DEVTESTS_CONSOLE_NOKEY
+                                                                                                    {
+                                                                                                      static bool nokey_tests_done = false;
+                                                                                                      if(!nokey_tests_done)
+                                                                                                        {
+                                                                                                          nokey_tests_done = true;
+                                                                                                          Do_Tests();
+                                                                                                        }
+                                                                                                    }
+                                                                                                    #endif
                                                                                                   }                                                          
                                                                                                 break;
 
@@ -720,7 +732,7 @@ bool DEVTESTS_CONSOLE::Do_Tests()
                                                     //{ false  , Test_XVectorSTL                    , __L("Test XVector STL")                     },
                                                       { false  , Test_XRand                         , __L("Test_XRand")                           },
                                                       { false  , Test_XTrace                        , __L("Test XTrace")                          },
-                                                      { true   , Test_XTraceServer                  , __L("Test XTraceServer")                    },
+                                                      { false  , Test_XTraceServer                  , __L("Test XTraceServer")                    },
                                                       { false  , Test_XLogs                         , __L("Test XLogs")                           },
                                                       { false  , Test_XTimer                        , __L("Test XTimer")                          },
                                                       { false  , Test_XTree                         , __L("Test XTree")                           },
@@ -734,7 +746,7 @@ bool DEVTESTS_CONSOLE::Do_Tests()
                                                       { false  , Test_GPIO                          , __L("Test GPIO")                            },
                                                       { false  , Test_WebClient                     , __L("Test WebClient")                       },
                                                       { false  , Test_MPSSE                         , __L("Test MPSSE")                           },
-                                                      { false  , Test_ScraperWeb                    , __L("Test Scraper Script (IP+Geo+Wx+Trans+MAC)") },
+                                                      { true   , Test_ScraperWeb                    , __L("Test Scraper Script")                  },
                                                       { false  , Test_DNSResolver                   , __L("Test DNS Resolver")                    },
                                                       { false  , Test_DNSProtocolMitMServer         , __L("Test DNS Protocol MitM Server")        },
                                                       { false  , Test_DIOCheckTCPIPConnections      , __L("Test DIOCheckTCPIPConnections")        },
@@ -2182,7 +2194,7 @@ bool DEVTESTS_CONSOLE::Test_WebClient(DEVTESTS_CONSOLE* tests)
 /**-------------------------------------------------------------------------------------------------------------------
 *
 * @fn         bool DEVTESTS_CONSOLE::Test_ScraperWeb(DEVTESTS_CONSOLE* tests)
-* @brief      Dev test for typed scraper facades filled by scripts (PublicIP + Geo + Weather + Translation + MAC).
+* @brief      Dev test for typed scraper facades filled by scripts (PublicIP + Geo + Weather + Translation + MAC + UA).
 * @ingroup    TESTS
 *
 * @param[in]  tests : test application instance used by the test.
@@ -2292,6 +2304,24 @@ bool DEVTESTS_CONSOLE::Test_ScraperWeb(DEVTESTS_CONSOLE* tests)
   const int                       nmac                  = (int)(sizeof(macpaths) / sizeof(macpaths[0]));
   #endif
 
+  #ifdef DIO_SCRAPERWEB_USERAGENTID_ACTIVE
+  DIOSCRAPERWEBUSERAGENTID*       useragentid           = GEN_NEW DIOSCRAPERWEBUSERAGENTID();
+  XCHAR*                          uapaths[]             = {
+                                                            #ifdef SCRIPT_G_ACTIVE
+                                                            __L("useragentid.g")        ,
+                                                            #endif
+
+                                                            #ifdef SCRIPT_JAVASCRIPT_ACTIVE
+                                                            __L("useragentid.js")       ,
+                                                            #endif
+
+                                                            #ifdef SCRIPT_LUA_ACTIVE
+                                                            __L("useragentid.lua")      ,
+                                                            #endif
+                                                          };
+  const int                       nua                   = (int)(sizeof(uapaths) / sizeof(uapaths[0]));
+  #endif
+
 
   DIOIP                           ip;
   XSTRING                         ipstring;
@@ -2320,6 +2350,10 @@ bool DEVTESTS_CONSOLE::Test_ScraperWeb(DEVTESTS_CONSOLE* tests)
       #ifdef DIO_SCRAPERWEB_MACMANUFACTURER_ACTIVE
       || (!macmanufacturer)
       #endif
+
+      #ifdef DIO_SCRAPERWEB_USERAGENTID_ACTIVE
+      || (!useragentid)
+      #endif
     )
     {
       #ifdef DIO_SCRAPERWEB_PUBLICIP_ACTIVE
@@ -2342,11 +2376,16 @@ bool DEVTESTS_CONSOLE::Test_ScraperWeb(DEVTESTS_CONSOLE* tests)
       GEN_DELETE macmanufacturer;
       #endif
 
+      #ifdef DIO_SCRAPERWEB_USERAGENTID_ACTIVE
+      GEN_DELETE useragentid;
+      #endif
+
       tests->console->Printf(__L("Scraper: allocation failed.\n"));
       return false;
     }
 
   GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_SCRAPERS, scriptspath);
+
   tests->console->Printf(__L("Scripts root : %s\n\n"), scriptspath.Get());
 
   tests->console->Printf(__L("--- Public IP (script probe per language) ---\n"));
@@ -2613,6 +2652,62 @@ bool DEVTESTS_CONSOLE::Test_ScraperWeb(DEVTESTS_CONSOLE* tests)
   }
   #endif
 
+  #ifdef DIO_SCRAPERWEB_USERAGENTID_ACTIVE
+  tests->console->Printf(__L("\n--- User Agent ID (script probe per language) ---\n"));
+  {
+    XSTRING uaraw(__L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"));
+    DIOURL  uaencoded;
+
+    uaencoded.EncodeUnsafeCharsFromString(uaraw);
+
+    for(int c = 0; c < nua; c++)
+      {
+        DIOSCRAPERSCRIPT uarunner;
+        XSTRING          uaok;
+        XSTRING          browser;
+        XSTRING          so;
+
+        uarunner.SetArg(__L("ua"), uaencoded.Get());
+        uarunner.SetArgInt(__L("timeout"), timeout);
+        tests->console->Printf(__L("[%s] "), uapaths[c]);
+        if(!uarunner.Run(uapaths[c]))
+          {
+            tests->console->Printf(__L("Run() failed.\n"));
+            status = false;
+          }
+         else
+          {
+            uarunner.GetResult(__L("ok"), uaok);
+            uarunner.GetResult(__L("browser"), browser);
+            uarunner.GetResult(__L("os"), so);
+            tests->console->Printf(__L("ok=%s browser=%s os=%s\n"), uaok.Get(), browser.Get(), so.Get());
+            if(uaok.Compare(__L("1")) != 0)
+              {
+                status = false;
+              }
+          }
+      }
+
+    DIOUSERAGENTID_RESULT uaresult;
+
+    tests->console->Printf(__L("\n--- User Agent ID (facade default .g) ---\n"));
+    if(useragentid->Get(uaraw, uaresult, timeout, NULL, true))
+      {
+        tests->console->Printf(__L("Browser         : %s\n"), uaresult.GetBrowser());
+        tests->console->Printf(__L("Browser version : %s\n"), uaresult.GetBrowserVersion());
+        tests->console->Printf(__L("Browser type    : %s\n"), uaresult.GetBrowserType());
+        tests->console->Printf(__L("OS              : %s\n"), uaresult.GetSO());
+        tests->console->Printf(__L("OS type         : %s\n"), uaresult.GetOSType());
+        tests->console->Printf(__L("OS version      : %s\n"), uaresult.GetOSVersion());
+      }
+     else
+      {
+        tests->console->Printf(__L("User Agent ID facade : Error.\n"));
+        status = false;
+      }
+  }
+  #endif
+
   tests->console->Printf(__L("\nScraper script test : %s\n"), status ? __L("Ok") : __L("Error"));
 
   #ifdef DIO_SCRAPERWEB_PUBLICIP_ACTIVE
@@ -2633,6 +2728,10 @@ bool DEVTESTS_CONSOLE::Test_ScraperWeb(DEVTESTS_CONSOLE* tests)
 
   #ifdef DIO_SCRAPERWEB_MACMANUFACTURER_ACTIVE
   GEN_DELETE macmanufacturer;
+  #endif
+
+  #ifdef DIO_SCRAPERWEB_USERAGENTID_ACTIVE
+  GEN_DELETE useragentid;
   #endif
 
   return status;

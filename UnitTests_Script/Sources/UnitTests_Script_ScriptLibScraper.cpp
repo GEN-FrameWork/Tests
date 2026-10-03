@@ -49,6 +49,10 @@
 #ifdef DIO_SCRAPERWEB_MACMANUFACTURER_ACTIVE
 #include "DIOScraperWebMACManufacturer.h"
 #endif
+#ifdef DIO_SCRAPERWEB_USERAGENTID_ACTIVE
+#include "DIOURL.h"
+#include "DIOScraperWebUserAgentID.h"
+#endif
 #endif
 
 #include "GEN_Control.h"
@@ -466,6 +470,83 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveMACManufacturerScriptInLua)
   ASSERT_TRUE(runner.GetResult(__L("manufacturer"), manufacturer));
   EXPECT_EQ(ok.Compare(__L("1")), 0);
   EXPECT_FALSE(manufacturer.IsEmpty());
+}
+#endif
+#endif
+
+
+#ifdef DIO_SCRAPERWEB_USERAGENTID_ACTIVE
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, UserAgentIDFacadeUsesMockScriptAndCache)
+{
+  DIOSCRAPERWEBUSERAGENTID scraper;
+  DIOUSERAGENTID_RESULT    result;
+  DIOUSERAGENTID_RESULT    cached;
+  XSTRING                  ua(__L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0"));
+
+  ASSERT_TRUE(scraper.SetScriptPath(__L("scrapers/useragentid_mock.g")));
+  ASSERT_TRUE(scraper.Get(ua, result, 5, NULL, true));
+  EXPECT_EQ(XSTRING(result.GetBrowser()).Compare(__L("Chrome")), 0);
+  EXPECT_EQ(XSTRING(result.GetSO()).Compare(__L("Windows 10")), 0);
+
+  ASSERT_TRUE(scraper.Get(ua, cached, 5, NULL, true));
+  EXPECT_EQ(XSTRING(cached.GetBrowser()).Compare(__L("Chrome")), 0);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveUserAgentIDScriptParsesBrowser)
+{
+  DIOSCRAPERSCRIPT runner;
+  DIOURL           uaencoded;
+  XSTRING          ok;
+  XSTRING          browser;
+
+  uaencoded.EncodeUnsafeCharsFromString(__L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"));
+  runner.SetArg(__L("ua"), uaencoded.Get());
+  runner.SetArgInt(__L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(__L("scrapers/useragentid.g")));
+  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(__L("browser"), browser));
+  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  EXPECT_FALSE(browser.IsEmpty());
+}
+
+
+#ifdef SCRIPT_JAVASCRIPT_ACTIVE
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveUserAgentIDScriptInJavascript)
+{
+  DIOSCRAPERSCRIPT runner;
+  DIOURL           uaencoded;
+  XSTRING          ok;
+  XSTRING          browser;
+
+  uaencoded.EncodeUnsafeCharsFromString(__L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"));
+  runner.SetArg(__L("ua"), uaencoded.Get());
+  runner.SetArgInt(__L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(__L("scrapers/useragentid.js")));
+  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(__L("browser"), browser));
+  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  EXPECT_FALSE(browser.IsEmpty());
+}
+#endif
+
+
+#ifdef SCRIPT_LUA_ACTIVE
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveUserAgentIDScriptInLua)
+{
+  DIOSCRAPERSCRIPT runner;
+  DIOURL           uaencoded;
+  XSTRING          ok;
+  XSTRING          browser;
+
+  uaencoded.EncodeUnsafeCharsFromString(__L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"));
+  runner.SetArg(__L("ua"), uaencoded.Get());
+  runner.SetArgInt(__L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(__L("scrapers/useragentid.lua")));
+  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(__L("browser"), browser));
+  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  EXPECT_FALSE(browser.IsEmpty());
 }
 #endif
 #endif

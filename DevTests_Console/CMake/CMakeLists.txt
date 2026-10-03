@@ -81,6 +81,7 @@ option(DIO_SCRAPERWEB_GEOLOCATIONIP_FEATURE                     "Scraper Web Geo
 option(DIO_SCRAPERWEB_WEATHER_FEATURE                           "Scraper Web Weather"                                     ON )
 option(DIO_SCRAPERWEB_TRANSLATION_FEATURE                       "Scraper Web Translation"                                 ON )
 option(DIO_SCRAPERWEB_MACMANUFACTURER_FEATURE                   "Scraper Web MAC Manufacturer"                            ON )
+option(DIO_SCRAPERWEB_USERAGENTID_FEATURE                       "Scraper Web User Agent ID"                                ON )
 option(SCRIPT_LUA_FEATURE                                       "Lua script interpreter"                                  ON )
 option(SCRIPT_JAVASCRIPT_FEATURE                                "JavaScript interpreter"                                  ON )
 option(DIO_GPIO_FEATURE                                         "Data Input/Output GPIO"                                  ON )
@@ -111,6 +112,7 @@ option(DIO_SCRAPERWEB_GEOLOCATIONIP_FEATURE                     "Scraper Web Geo
 option(DIO_SCRAPERWEB_WEATHER_FEATURE                           "Scraper Web Weather"                                     ON )
 option(DIO_SCRAPERWEB_TRANSLATION_FEATURE                       "Scraper Web Translation"                                 ON )
 option(DIO_SCRAPERWEB_MACMANUFACTURER_FEATURE                   "Scraper Web MAC Manufacturer"                            ON )
+option(DIO_SCRAPERWEB_USERAGENTID_FEATURE                       "Scraper Web User Agent ID"                                ON )
 option(DIO_COREPROTOCOL_FEATURE                                 "Core Protocol"                                           ON )
 
 option(SCRIPT_G_FEATURE                                         "G script interpreter"                                    ON )

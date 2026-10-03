@@ -108,6 +108,9 @@ bool UNITTESTS_SCRIPT::AppProc_Ini()
 
   GEN_XPATHSMANAGER.AdjustRootPathDefault(APPLICATION_DIRECTORYMAIN);
   GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_SCRIPTS, APPFLOW_DEFAULT_DIRECTORY_SCRIPTS);
+  // Scraper scripts live under assets/scripts/scrapers; unit tests pass "scrapers/<file>"
+  // so SCRAPERS root must be the scripts directory (not scripts/scrapers).
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_SCRAPERS, APPFLOW_DEFAULT_DIRECTORY_SCRIPTS);
   GEN_XPATHSMANAGER.CreateAllPathSectionOnDisk();
 
   return true;
