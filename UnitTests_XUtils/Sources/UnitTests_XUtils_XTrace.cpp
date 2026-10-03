@@ -38,11 +38,17 @@
 #include "gtest/gtest.h"
 #endif
 
+#include <stdio.h>
+#include <string.h>
+
 #include "XTrace.h"
 #include "XFactory.h"
 #include "XDateTime.h"
 #include "XBuffer.h"
 #include "XString.h"
+#include "XPath.h"
+#include "XPathsManager.h"
+#include "XFile.h"
 
 
 /*---- PRECOMPILATION INCLUDES ---------------------------------------------------------------------------------------*/
@@ -674,6 +680,61 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, GetTraceFromXBufferDetectsACorruptedCRC)
   GEN_XFACTORY.DeleteDateTime(xtimewrite);
   GEN_XFACTORY.DeleteDateTime(xtimeread);
   RestoreXTrace(localtrace, originalinstance);
+}
+
+
+TEST(UNITTESTS_XTRACE_CLASSNAME, TestsCatalogLoadExistsAndGetDescription)
+{
+  XPATH   xpath;
+  XFILE*  xfile = NULL;
+  XBUFFER ascii;
+  FILE*   file  = NULL;
+  const char* json =
+    "{\n"
+    "  \"tests\": [\n"
+    "    { \"id\": 1001, \"description\": \"UI_System: nav Resumen selected\" },\n"
+    "    { \"id\": 1099, \"description\": \"UI_System: chrome close selected\" }\n"
+    "  ]\n"
+    "}\n";
+
+  GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_ROOT, xpath);
+  xpath += __L("unittests_xtrace_tests_catalog.json");
+
+  xfile = GEN_XFACTORY.Create_File();
+  ASSERT_NE(xfile, nullptr);
+  if(xfile->Exist(xpath)) xfile->Erase(xpath);
+
+  xpath.ConvertToASCII(ascii);
+  file = fopen(ascii.GetPtrChar(), "wb");
+  ASSERT_NE(file, nullptr);
+  fwrite(json, 1, strlen(json), file);
+  fclose(file);
+
+  XTRACE* originalinstance = NULL;
+  XTRACE* localtrace = SwapInFreshXTrace(&originalinstance);
+
+  EXPECT_FALSE(localtrace->Tests_Exists(1001));
+  EXPECT_TRUE(localtrace->Tests_Load(xpath.Get()));
+  EXPECT_EQ(localtrace->Tests_GetSize(), (XDWORD)2);
+  EXPECT_TRUE(localtrace->Tests_Exists(1001));
+  EXPECT_TRUE(localtrace->Tests_Exists(1099));
+  EXPECT_FALSE(localtrace->Tests_Exists(42));
+
+  XSTRING description;
+  EXPECT_TRUE(localtrace->Tests_GetDescription(1001, description));
+  EXPECT_STREQ(description.Get(), __L("UI_System: nav Resumen selected"));
+  EXPECT_TRUE(localtrace->Tests_GetDescription(1099, description));
+  EXPECT_STREQ(description.Get(), __L("UI_System: chrome close selected"));
+  EXPECT_FALSE(localtrace->Tests_GetDescription(42, description));
+
+  EXPECT_TRUE(localtrace->Tests_DeleteAll());
+  EXPECT_EQ(localtrace->Tests_GetSize(), (XDWORD)0);
+  EXPECT_FALSE(localtrace->Tests_Exists(1001));
+
+  RestoreXTrace(localtrace, originalinstance);
+
+  if(xfile->Exist(xpath)) xfile->Erase(xpath);
+  GEN_XFACTORY.Delete_File(xfile);
 }
 
 
