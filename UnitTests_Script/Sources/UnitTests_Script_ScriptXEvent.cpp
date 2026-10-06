@@ -48,14 +48,14 @@ TEST(UNITTESTS_SCRIPTXEVENT_CLASSNAME, InitializesAndStoresDiagnosticData)
   event.SetScript(&subject);
   event.SetError(SCRIPT_ERRORCODE_INTERNALERROR);
   event.SetNLine(12);
-  event.GetNameScript()->Set(__L("test.g"));
-  event.GetErrorText()->Set(__L("error"));
-  event.GetCurrentToken()->Set(__L("token"));
+  event.GetNameScript()->Set(_L("test.g"));
+  event.GetErrorText()->Set(_L("error"));
+  event.GetCurrentToken()->Set(_L("token"));
 
   EXPECT_EQ(event.GetScript(), &subject);
   EXPECT_EQ(event.GetError(), SCRIPT_ERRORCODE_INTERNALERROR);
   EXPECT_EQ(event.GetNLine(), 12);
-  EXPECT_EQ(event.GetNameScript()->Compare(__L("test.g")), 0);
+  EXPECT_EQ(event.GetNameScript()->Compare(_L("test.g")), 0);
 }
 
 }

@@ -71,7 +71,7 @@ TEST(UNITTESTS_UI_COLOR_CLASSNAME, ParsesRgbTripleWithOpaqueAlpha)
 {
   UI_COLOR color;
 
-  ASSERT_TRUE(color.SetFromString(__L("10,20,30")));
+  ASSERT_TRUE(color.SetFromString(_L("10,20,30")));
   EXPECT_EQ(color.GetRed(), 10);
   EXPECT_EQ(color.GetGreen(), 20);
   EXPECT_EQ(color.GetBlue(), 30);
@@ -83,7 +83,7 @@ TEST(UNITTESTS_UI_COLOR_CLASSNAME, ParsesRgbPlusPercentAlpha)
 {
   UI_COLOR color;
 
-  ASSERT_TRUE(color.SetFromString(__L("10,20,30,50")));
+  ASSERT_TRUE(color.SetFromString(_L("10,20,30,50")));
   EXPECT_EQ(color.GetRed(), 10);
   EXPECT_EQ(color.GetGreen(), 20);
   EXPECT_EQ(color.GetBlue(), 30);
@@ -95,7 +95,7 @@ TEST(UNITTESTS_UI_COLOR_CLASSNAME, ParsesCssHexRgbAndDefaultsAlphaTo255)
 {
   UI_COLOR color;
 
-  ASSERT_TRUE(color.SetFromString(__L("#112233")));
+  ASSERT_TRUE(color.SetFromString(_L("#112233")));
   EXPECT_TRUE(color.IsValid());
   EXPECT_EQ(color.GetRed(), 0x11);
   EXPECT_EQ(color.GetGreen(), 0x22);
@@ -108,7 +108,7 @@ TEST(UNITTESTS_UI_COLOR_CLASSNAME, ParsesCssHexRgba)
 {
   UI_COLOR color;
 
-  ASSERT_TRUE(color.SetFromString(__L("#11223344")));
+  ASSERT_TRUE(color.SetFromString(_L("#11223344")));
   EXPECT_EQ(color.GetRed(), 0x11);
   EXPECT_EQ(color.GetGreen(), 0x22);
   EXPECT_EQ(color.GetBlue(), 0x33);
@@ -120,8 +120,8 @@ TEST(UNITTESTS_UI_COLOR_CLASSNAME, RejectsEmptyAndMalformedHex)
 {
   UI_COLOR color;
 
-  EXPECT_FALSE(color.SetFromString(__L("")));
-  EXPECT_FALSE(color.SetFromString(__L("#123")));
+  EXPECT_FALSE(color.SetFromString(_L("")));
+  EXPECT_FALSE(color.SetFromString(_L("#123")));
   EXPECT_FALSE(color.SetFromString((XCHAR*)NULL));
 }
 
@@ -131,7 +131,7 @@ TEST(UNITTESTS_UI_COLOR_CLASSNAME, CopyFromAndCopyToRoundTrip)
   UI_COLOR source;
   UI_COLOR dest;
 
-  ASSERT_TRUE(source.SetFromString(__L("1,2,3,100")));
+  ASSERT_TRUE(source.SetFromString(_L("1,2,3,100")));
   ASSERT_TRUE(dest.CopyFrom(&source));
 
   EXPECT_EQ(dest.GetRed(), source.GetRed());
@@ -158,10 +158,10 @@ TEST(UNITTESTS_UI_COLOR_CLASSNAME, CopyFromNullFails)
 
 TEST(UNITTESTS_UI_COLOR_CLASSNAME, ResolvesNamedColorThroughUiColorsRegistry)
 {
-  ASSERT_TRUE(GEN_UI_COLORS.Add(__L("ut_brand"), __L("9,8,7")));
+  ASSERT_TRUE(GEN_UI_COLORS.Add(_L("ut_brand"), _L("9,8,7")));
 
   UI_COLOR color;
-  ASSERT_TRUE(color.SetFromString(__L("ut_brand")));
+  ASSERT_TRUE(color.SetFromString(_L("ut_brand")));
   EXPECT_EQ(color.GetRed(), 9);
   EXPECT_EQ(color.GetGreen(), 8);
   EXPECT_EQ(color.GetBlue(), 7);

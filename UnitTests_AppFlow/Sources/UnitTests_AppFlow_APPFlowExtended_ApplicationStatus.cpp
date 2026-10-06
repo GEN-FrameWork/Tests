@@ -79,9 +79,9 @@ TEST(APPFLOWEXTENDED_APPLICATIONSTATUS, SetMemoryAndSerializeDeserialize)
   ASSERT_NE(status.GetAverange(), (XSTRING*)NULL);
   ASSERT_NE(status.GetCheckResourcesHardware(), (APPFLOWCHECKRESOURCESHARDWARE*)NULL);
 
-  status.GetOSVersion()->Set(__L("UnitTestOS"));
-  status.GetAppVersion()->Set(__L("1.2.3"));
-  status.GetAverange()->Set(__L("avg"));
+  status.GetOSVersion()->Set(_L("UnitTestOS"));
+  status.GetAppVersion()->Set(_L("1.2.3"));
+  status.GetAverange()->Set(_L("avg"));
 
   XFILEJSON filejson;
   XSERIALIZATIONMETHOD* method = XSERIALIZABLE::CreateInstance(filejson);
@@ -96,9 +96,9 @@ TEST(APPFLOWEXTENDED_APPLICATIONSTATUS, SetMemoryAndSerializeDeserialize)
   EXPECT_EQ(restored.GetMemoryTotal(), (XDWORD)2048);
   EXPECT_EQ(restored.GetMemoryFree(), (XDWORD)1024);
   EXPECT_EQ(restored.GetMemoryFreePercent(), (XDWORD)50);
-  EXPECT_EQ(restored.GetOSVersion()->Compare(__L("UnitTestOS")), 0);
-  EXPECT_EQ(restored.GetAppVersion()->Compare(__L("1.2.3")), 0);
-  EXPECT_EQ(restored.GetAverange()->Compare(__L("avg")), 0);
+  EXPECT_EQ(restored.GetOSVersion()->Compare(_L("UnitTestOS")), 0);
+  EXPECT_EQ(restored.GetAppVersion()->Compare(_L("1.2.3")), 0);
+  EXPECT_EQ(restored.GetAverange()->Compare(_L("avg")), 0);
 
   GEN_DELETE method;
 }
@@ -112,13 +112,13 @@ TEST(APPFLOWEXTENDED_APPLICATIONSTATUS, CreateResponseContainsSerializedFields)
   status.SetMemoryTotal(4096);
   status.SetMemoryFree(2048);
   status.SetMemoryFreePercent(50);
-  status.GetOSVersion()->Set(__L("CreateResponseOS"));
+  status.GetOSVersion()->Set(_L("CreateResponseOS"));
 
   XSTRING response;
   EXPECT_TRUE(status.CreateResponse(&response));
   EXPECT_FALSE(response.IsEmpty());
-  EXPECT_NE(response.Find(__L("memorytotal"), true), XSTRING_NOTFOUND);
-  EXPECT_NE(response.Find(__L("CreateResponseOS"), true), XSTRING_NOTFOUND);
+  EXPECT_NE(response.Find(_L("memorytotal"), true), XSTRING_NOTFOUND);
+  EXPECT_NE(response.Find(_L("CreateResponseOS"), true), XSTRING_NOTFOUND);
   EXPECT_FALSE(status.CreateResponse(NULL));
 }
 

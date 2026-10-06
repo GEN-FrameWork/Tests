@@ -36,7 +36,7 @@
 #include "GEN_Control.h"
 
 #if defined(GOOGLETEST_ACTIVE) && defined(SCRIPT_LIB_WEBCLIENT_ACTIVE)
-UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBWEBCLIENT, UNITTESTS_SCRIPTLIBWEBCLIENT_CLASSNAME, SCRIPT_LIB_WEBCLIENT, SCRIPT_LIB_NAME_WEBCLIENT, __L("WebClient_Get"))
+UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBWEBCLIENT, UNITTESTS_SCRIPTLIBWEBCLIENT_CLASSNAME, SCRIPT_LIB_WEBCLIENT, SCRIPT_LIB_NAME_WEBCLIENT, _L("WebClient_Get"))
 
 namespace TEST_SCRIPTLIBWEBCLIENT
 {
@@ -46,15 +46,15 @@ TEST(UNITTESTS_SCRIPTLIBWEBCLIENT_CLASSNAME, RegistersAllWebClientHelpers)
   SCRIPT script;
 
   ASSERT_TRUE(library.AddLibraryFunctions(&script));
-  EXPECT_NE(script.GetLibraryFunction(__L("WebClient_Get")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("WebClient_Post")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("WebClient_GetToFile")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("WebClient_GetBody")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("WebClient_GetStatus")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("WebClient_GetHeader")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("WebClient_GetLastError")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("WebClient_SetLogin")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("WebClient_DoStopHTTPError")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("WebClient_Get")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("WebClient_Post")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("WebClient_GetToFile")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("WebClient_GetBody")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("WebClient_GetStatus")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("WebClient_GetHeader")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("WebClient_GetLastError")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("WebClient_SetLogin")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("WebClient_DoStopHTTPError")), (SCRIPT_LIB_FUNCTION*)NULL);
 }
 
 
@@ -92,7 +92,7 @@ TEST(UNITTESTS_SCRIPTLIBWEBCLIENT_CLASSNAME, GetFailsOnUnreachableLocalPort)
 {
   SCRIPT script;
   SCRIPT_LIB_WEBCLIENT library;
-  XVARIANT url(__L("http://127.0.0.1:1/"));
+  XVARIANT url(_L("http://127.0.0.1:1/"));
   XVARIANT timeout(1);
   XVARIANT result;
   XVECTOR<XVARIANT*> params;
@@ -102,7 +102,7 @@ TEST(UNITTESTS_SCRIPTLIBWEBCLIENT_CLASSNAME, GetFailsOnUnreachableLocalPort)
   params.Add(&timeout); // treated as headers string if string — pass empty header then timeout
   // Rebuild: url, headers "", timeout 1
   params.DeleteAll();
-  XVARIANT headers(__L(""));
+  XVARIANT headers(_L(""));
   params.Add(&url);
   params.Add(&headers);
   params.Add(&timeout);
@@ -123,8 +123,8 @@ TEST(UNITTESTS_SCRIPTLIBWEBCLIENT_CLASSNAME, SetLoginAndDoStopHTTPError)
 {
   SCRIPT script;
   SCRIPT_LIB_WEBCLIENT library;
-  XVARIANT user(__L("user"));
-  XVARIANT password(__L("secret"));
+  XVARIANT user(_L("user"));
+  XVARIANT password(_L("secret"));
   XVARIANT activate(false);
   XVARIANT result;
   XVECTOR<XVARIANT*> params;
@@ -158,7 +158,7 @@ TEST(UNITTESTS_SCRIPTLIBWEBCLIENT_CLASSNAME, AutoRegisteredOnScriptWhenFeatureAc
   SCRIPT script;
 
   ASSERT_TRUE(script.AddInternalLibraries());
-  EXPECT_NE(script.GetLibraryFunction(__L("WebClient_Get")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("WebClient_Get")), (SCRIPT_LIB_FUNCTION*)NULL);
 }
 }
 #endif

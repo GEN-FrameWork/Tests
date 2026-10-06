@@ -148,7 +148,7 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, TargetDefaultConstructionIsTypeNoneWithEmptyAim
   XTRACE_TARGET target;
 
   EXPECT_EQ(target.GetType(), XTRACE_TYPE_NONE);
-  EXPECT_STREQ(target.GetAim(), __L(""));
+  EXPECT_STREQ(target.GetAim(), _L(""));
   EXPECT_EQ(target.GetNSendings(), (XDWORD)0);
 }
 
@@ -160,22 +160,22 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, TargetSetTypeAndSetAimFromCharPointer)
   target.SetType(XTRACE_TYPE_FILE);
   EXPECT_EQ(target.GetType(), XTRACE_TYPE_FILE);
 
-  target.SetAim(__L("/tmp/mytrace.log"));
-  EXPECT_STREQ(target.GetAim(), __L("/tmp/mytrace.log"));
+  target.SetAim(_L("/tmp/mytrace.log"));
+  EXPECT_STREQ(target.GetAim(), _L("/tmp/mytrace.log"));
 
   XSTRING aimstring;
   EXPECT_TRUE(target.GetAim(aimstring));
-  EXPECT_STREQ(aimstring.Get(), __L("/tmp/mytrace.log"));
+  EXPECT_STREQ(aimstring.Get(), _L("/tmp/mytrace.log"));
 }
 
 
 TEST(UNITTESTS_XTRACE_CLASSNAME, TargetSetAimFromXStringReference)
 {
   XTRACE_TARGET target;
-  XSTRING       aim = __L("special-aim");
+  XSTRING       aim = _L("special-aim");
 
   target.SetAim(aim);
-  EXPECT_STREQ(target.GetAim(), __L("special-aim"));
+  EXPECT_STREQ(target.GetAim(), _L("special-aim"));
 }
 
 
@@ -204,13 +204,13 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, TargetCleanResetsTypeAimAndSendingsToDefaults)
   XTRACE_TARGET target;
 
   target.SetType(XTRACE_TYPE_SPECIAL);
-  target.SetAim(__L("something"));
+  target.SetAim(_L("something"));
   target.AddNSendings();
 
   target.Clean();
 
   EXPECT_EQ(target.GetType(), XTRACE_TYPE_NONE);
-  EXPECT_STREQ(target.GetAim(), __L(""));
+  EXPECT_STREQ(target.GetAim(), _L(""));
   EXPECT_EQ(target.GetNSendings(), (XDWORD)0);
 }
 
@@ -222,7 +222,7 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, StatusMsgDefaultConstructionIsZeroedAndOwnsARea
   EXPECT_EQ(statusmsg.GetType(), XTRACE_TYPE_STATUS_MSG_UNKNOWN);
   EXPECT_FALSE(statusmsg.Value_GetBoolean());
   EXPECT_EQ(statusmsg.Value_GetInteger(), 0);
-  EXPECT_STREQ(statusmsg.Value_GetString()->Get(), __L(""));
+  EXPECT_STREQ(statusmsg.Value_GetString()->Get(), _L(""));
   EXPECT_EQ(statusmsg.Value_GetDword(), (XDWORD)0);
   EXPECT_FLOAT_EQ(statusmsg.Value_GetFloat(), 0.0f);
 
@@ -272,10 +272,10 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, StatusMsgGetNameReturnsAMutableEmptyStringByDef
   XTRACE_STATUS_MSG statusmsg;
 
   ASSERT_NE(statusmsg.GetName(), nullptr);
-  EXPECT_STREQ(statusmsg.GetName()->Get(), __L(""));
+  EXPECT_STREQ(statusmsg.GetName()->Get(), _L(""));
 
-  statusmsg.GetName()->Set(__L("counter1"));
-  EXPECT_STREQ(statusmsg.GetName()->Get(), __L("counter1"));
+  statusmsg.GetName()->Set(_L("counter1"));
+  EXPECT_STREQ(statusmsg.GetName()->Get(), _L("counter1"));
 }
 
 
@@ -284,13 +284,13 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, StatusMsgsAddParsesABooleanEncodedLine)
   XTRACE_STATUS_MSGS statusmsgs;
   XSTRING            line;
 
-  line.Format(__L("%s,%s,%c,%s"), XTRACE_IDMSGSTATUS, __L("flag1"), XTRACE_IDMSGSTATUS_BOOLEAN, __L("true"));
+  line.Format(_L("%s,%s,%c,%s"), XTRACE_IDMSGSTATUS, _L("flag1"), XTRACE_IDMSGSTATUS_BOOLEAN, _L("true"));
 
   XTRACE_STATUS_MSG* msg = statusmsgs.StatusMsg_Add(&line);
   ASSERT_NE(msg, nullptr);
   EXPECT_EQ(msg->GetType(), XTRACE_TYPE_STATUS_MSG_BOOLEAN);
   EXPECT_TRUE(msg->Value_GetBoolean());
-  EXPECT_STREQ(msg->GetName()->Get(), __L("flag1"));
+  EXPECT_STREQ(msg->GetName()->Get(), _L("flag1"));
 
   statusmsgs.StatusMsg_DeleteAll();
 }
@@ -301,25 +301,25 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, StatusMsgsAddParsesIntegerDwordFloatAndStringEn
   XTRACE_STATUS_MSGS statusmsgs;
 
   XSTRING lineinteger;
-  lineinteger.Format(__L("%s,%s,%c,%d"), XTRACE_IDMSGSTATUS, __L("counter"), XTRACE_IDMSGSTATUS_INTEGER, -7);
+  lineinteger.Format(_L("%s,%s,%c,%d"), XTRACE_IDMSGSTATUS, _L("counter"), XTRACE_IDMSGSTATUS_INTEGER, -7);
   XTRACE_STATUS_MSG* msginteger = statusmsgs.StatusMsg_Add(&lineinteger);
   ASSERT_NE(msginteger, nullptr);
   EXPECT_EQ(msginteger->GetType(), XTRACE_TYPE_STATUS_MSG_INTEGER);
   EXPECT_EQ(msginteger->Value_GetInteger(), -7);
 
   XSTRING linedword;
-  linedword.Format(__L("%s,%s,%c,%d"), XTRACE_IDMSGSTATUS, __L("dwordval"), XTRACE_IDMSGSTATUS_DWORD, 999);
+  linedword.Format(_L("%s,%s,%c,%d"), XTRACE_IDMSGSTATUS, _L("dwordval"), XTRACE_IDMSGSTATUS_DWORD, 999);
   XTRACE_STATUS_MSG* msgdword = statusmsgs.StatusMsg_Add(&linedword);
   ASSERT_NE(msgdword, nullptr);
   EXPECT_EQ(msgdword->GetType(), XTRACE_TYPE_STATUS_MSG_XDWORD);
   EXPECT_EQ(msgdword->Value_GetDword(), (XDWORD)999);
 
   XSTRING linestring;
-  linestring.Format(__L("%s,%s,%c,%s"), XTRACE_IDMSGSTATUS, __L("textval"), XTRACE_IDMSGSTATUS_STRING, __L("hello"));
+  linestring.Format(_L("%s,%s,%c,%s"), XTRACE_IDMSGSTATUS, _L("textval"), XTRACE_IDMSGSTATUS_STRING, _L("hello"));
   XTRACE_STATUS_MSG* msgstring = statusmsgs.StatusMsg_Add(&linestring);
   ASSERT_NE(msgstring, nullptr);
   EXPECT_EQ(msgstring->GetType(), XTRACE_TYPE_STATUS_MSG_STRING);
-  EXPECT_STREQ(msgstring->Value_GetString()->Get(), __L("hello"));
+  EXPECT_STREQ(msgstring->Value_GetString()->Get(), _L("hello"));
 
   EXPECT_EQ(statusmsgs.StatusMsg_GetAll()->GetSize(), (XDWORD)3);
 
@@ -332,7 +332,7 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, StatusMsgsAddParsesAColorEncodedLine)
   XTRACE_STATUS_MSGS statusmsgs;
   XSTRING            line;
 
-  line.Format(__L("%s,%s,%c,%02X,%02X,%02X"), XTRACE_IDMSGSTATUS, __L("led1"), XTRACE_IDMSGSTATUS_COLOR, 0xAA, 0xBB, 0xCC);
+  line.Format(_L("%s,%s,%c,%02X,%02X,%02X"), XTRACE_IDMSGSTATUS, _L("led1"), XTRACE_IDMSGSTATUS_COLOR, 0xAA, 0xBB, 0xCC);
 
   XTRACE_STATUS_MSG* msg = statusmsgs.StatusMsg_Add(&line);
   ASSERT_NE(msg, nullptr);
@@ -350,15 +350,15 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, StatusMsgsAddOnRepeatedNameUpdatesInPlaceInstea
   XTRACE_STATUS_MSGS statusmsgs;
 
   XSTRING line1;
-  line1.Format(__L("%s,%s,%c,%d"), XTRACE_IDMSGSTATUS, __L("samename"), XTRACE_IDMSGSTATUS_INTEGER, 1);
+  line1.Format(_L("%s,%s,%c,%d"), XTRACE_IDMSGSTATUS, _L("samename"), XTRACE_IDMSGSTATUS_INTEGER, 1);
   statusmsgs.StatusMsg_Add(&line1);
 
   XSTRING line2;
-  line2.Format(__L("%s,%s,%c,%d"), XTRACE_IDMSGSTATUS, __L("samename"), XTRACE_IDMSGSTATUS_INTEGER, 2);
+  line2.Format(_L("%s,%s,%c,%d"), XTRACE_IDMSGSTATUS, _L("samename"), XTRACE_IDMSGSTATUS_INTEGER, 2);
   statusmsgs.StatusMsg_Add(&line2);
 
   EXPECT_EQ(statusmsgs.StatusMsg_GetAll()->GetSize(), (XDWORD)1);
-  EXPECT_EQ(statusmsgs.StatusMsg_Get(__L("samename"))->Value_GetInteger(), 2);
+  EXPECT_EQ(statusmsgs.StatusMsg_Get(_L("samename"))->Value_GetInteger(), 2);
 
   statusmsgs.StatusMsg_DeleteAll();
 }
@@ -367,7 +367,7 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, StatusMsgsAddOnRepeatedNameUpdatesInPlaceInstea
 TEST(UNITTESTS_XTRACE_CLASSNAME, StatusMsgsAddReturnsNullForALineWithoutTheStatusMarker)
 {
   XTRACE_STATUS_MSGS statusmsgs;
-  XSTRING            line = __L("this line has no status marker at all");
+  XSTRING            line = _L("this line has no status marker at all");
 
   EXPECT_EQ(statusmsgs.StatusMsg_Add(&line), nullptr);
   EXPECT_EQ(statusmsgs.StatusMsg_Add(NULL), nullptr);
@@ -379,7 +379,7 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, StatusMsgsAddOnAClearMarkerLineDeletesEverythin
   XTRACE_STATUS_MSGS statusmsgs;
 
   XSTRING line;
-  line.Format(__L("%s,%s,%c,%d"), XTRACE_IDMSGSTATUS, __L("toclear"), XTRACE_IDMSGSTATUS_INTEGER, 5);
+  line.Format(_L("%s,%s,%c,%d"), XTRACE_IDMSGSTATUS, _L("toclear"), XTRACE_IDMSGSTATUS_INTEGER, 5);
   statusmsgs.StatusMsg_Add(&line);
   EXPECT_EQ(statusmsgs.StatusMsg_GetAll()->GetSize(), (XDWORD)1);
 
@@ -397,11 +397,11 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, StatusMsgsGetByIndexAndDeleteAllOnEmptyReturnsF
   EXPECT_FALSE(statusmsgs.StatusMsg_DeleteAll());
 
   XSTRING line;
-  line.Format(__L("%s,%s,%c,%d"), XTRACE_IDMSGSTATUS, __L("byindex"), XTRACE_IDMSGSTATUS_INTEGER, 9);
+  line.Format(_L("%s,%s,%c,%d"), XTRACE_IDMSGSTATUS, _L("byindex"), XTRACE_IDMSGSTATUS_INTEGER, 9);
   statusmsgs.StatusMsg_Add(&line);
 
   ASSERT_NE(statusmsgs.StatusMsg_Get(0), nullptr);
-  EXPECT_STREQ(statusmsgs.StatusMsg_Get(0)->GetName()->Get(), __L("byindex"));
+  EXPECT_STREQ(statusmsgs.StatusMsg_Get(0)->GetName()->Get(), _L("byindex"));
 
   EXPECT_TRUE(statusmsgs.StatusMsg_DeleteAll());
 }
@@ -429,20 +429,20 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, ApplicationNameSetAndGetAllThreeOverloads)
   XTRACE* originalinstance = NULL;
   XTRACE* localtrace = SwapInFreshXTrace(&originalinstance);
 
-  localtrace->Application_SetName(__L("App1"));
-  EXPECT_STREQ(localtrace->Application_GetName(), __L("App1"));
+  localtrace->Application_SetName(_L("App1"));
+  EXPECT_STREQ(localtrace->Application_GetName(), _L("App1"));
 
   // FIXED: the (XCHAR*,XDWORD size) overload (XTrace.cpp) now does
   // "memcpy(this->applicationname, applicationname, size*sizeof(XCHAR))" -- it copies exactly
   // `size` characters into the destination buffer, which was already zeroed by memset just above.
   // Previously it copied "(size+1)*sizeof(XCHAR)" bytes, pulling in one extra live character
   // straight from the source instead of truncating cleanly to `size` characters.
-  localtrace->Application_SetName(__L("App2Extra"), 4);
-  EXPECT_STREQ(localtrace->Application_GetName(), __L("App2"));
+  localtrace->Application_SetName(_L("App2Extra"), 4);
+  EXPECT_STREQ(localtrace->Application_GetName(), _L("App2"));
 
-  XSTRING name3 = __L("App3");
+  XSTRING name3 = _L("App3");
   localtrace->Application_SetName(name3);
-  EXPECT_STREQ(localtrace->Application_GetName(), __L("App3"));
+  EXPECT_STREQ(localtrace->Application_GetName(), _L("App3"));
 
   RestoreXTrace(localtrace, originalinstance);
 }
@@ -471,12 +471,12 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, ApplicationIDSetAndGetBothOverloads)
   XTRACE* originalinstance = NULL;
   XTRACE* localtrace = SwapInFreshXTrace(&originalinstance);
 
-  XSTRING id = __L("ID-1234");
+  XSTRING id = _L("ID-1234");
   localtrace->Application_SetID(id);
-  EXPECT_STREQ(localtrace->Application_GetID(), __L("ID-1234"));
+  EXPECT_STREQ(localtrace->Application_GetID(), _L("ID-1234"));
 
-  localtrace->Application_SetID(__L("ID-5678"), 7);
-  EXPECT_STREQ(localtrace->Application_GetID(), __L("ID-5678"));
+  localtrace->Application_SetID(_L("ID-5678"), 7);
+  EXPECT_STREQ(localtrace->Application_GetID(), _L("ID-5678"));
 
   RestoreXTrace(localtrace, originalinstance);
 }
@@ -488,7 +488,7 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, AddTargetFillsSlotsInOrderAndFailsOnceAllSlotsA
   XTRACE* localtrace = SwapInFreshXTrace(&originalinstance);
 
   int filled = 0;
-  while(localtrace->AddTarget(XTRACE_TYPE_SPECIAL, __L("aim")))
+  while(localtrace->AddTarget(XTRACE_TYPE_SPECIAL, _L("aim")))
     {
       filled++;
       ASSERT_LE(filled, XTRACE_MAXNTARGETS);
@@ -497,7 +497,7 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, AddTargetFillsSlotsInOrderAndFailsOnceAllSlotsA
   EXPECT_EQ(filled, XTRACE_MAXNTARGETS);
 
   // Every slot is now full: one more AddTarget() call must fail.
-  EXPECT_FALSE(localtrace->AddTarget(XTRACE_TYPE_SPECIAL, __L("overflow")));
+  EXPECT_FALSE(localtrace->AddTarget(XTRACE_TYPE_SPECIAL, _L("overflow")));
 
   RestoreXTrace(localtrace, originalinstance);
 }
@@ -508,10 +508,10 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, SetTargetOutOfRangeIndexOrNullAimIsRejected)
   XTRACE* originalinstance = NULL;
   XTRACE* localtrace = SwapInFreshXTrace(&originalinstance);
 
-  EXPECT_FALSE(localtrace->SetTarget(XTRACE_MAXNTARGETS, XTRACE_TYPE_SPECIAL, __L("aim")));
+  EXPECT_FALSE(localtrace->SetTarget(XTRACE_MAXNTARGETS, XTRACE_TYPE_SPECIAL, _L("aim")));
   EXPECT_FALSE(localtrace->SetTarget(0, XTRACE_TYPE_SPECIAL, NULL));
 
-  EXPECT_TRUE(localtrace->SetTarget(0, XTRACE_TYPE_SPECIAL, __L("validaim")));
+  EXPECT_TRUE(localtrace->SetTarget(0, XTRACE_TYPE_SPECIAL, _L("validaim")));
 
   RestoreXTrace(localtrace, originalinstance);
 }
@@ -522,13 +522,13 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, DeactivateAllTargetsResetsEverySlotToTypeNone)
   XTRACE* originalinstance = NULL;
   XTRACE* localtrace = SwapInFreshXTrace(&originalinstance);
 
-  EXPECT_TRUE(localtrace->AddTarget(XTRACE_TYPE_SPECIAL, __L("aim1")));
-  EXPECT_TRUE(localtrace->AddTarget(XTRACE_TYPE_FILE, __L("aim2")));
+  EXPECT_TRUE(localtrace->AddTarget(XTRACE_TYPE_SPECIAL, _L("aim1")));
+  EXPECT_TRUE(localtrace->AddTarget(XTRACE_TYPE_FILE, _L("aim2")));
 
   EXPECT_TRUE(localtrace->DeactivateAllTargets());
 
   // With every slot back to XTRACE_TYPE_NONE, AddTarget() must be able to fill slot 0 again.
-  EXPECT_TRUE(localtrace->SetTarget(0, XTRACE_TYPE_SPECIAL, __L("aimagain")));
+  EXPECT_TRUE(localtrace->SetTarget(0, XTRACE_TYPE_SPECIAL, _L("aimagain")));
 
   RestoreXTrace(localtrace, originalinstance);
 }
@@ -542,11 +542,11 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, PrintPrintHeaderClearScreenAndClearMsgsStatusAr
   XTRACE* originalinstance = NULL;
   XTRACE* localtrace = SwapInFreshXTrace(&originalinstance);
 
-  EXPECT_TRUE(localtrace->Print(0, __L("plain message %d"), 42));
+  EXPECT_TRUE(localtrace->Print(0, _L("plain message %d"), 42));
   EXPECT_TRUE(localtrace->ClearScreen(0));
   EXPECT_TRUE(localtrace->ClearMsgsStatus(0));
 
-  localtrace->PrintHeader(0, __L("A Header"));  // void: only checking it does not crash.
+  localtrace->PrintHeader(0, _L("A Header"));  // void: only checking it does not crash.
 
   XBYTE data[4] = { 0x01, 0x02, 0x03, 0x04 };
   EXPECT_TRUE(localtrace->PrintDataBlock(0, data, 4));
@@ -566,12 +566,12 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, PrintMsgStatusOverloadsAllReturnTrueWithNoTarge
 
   XBYTE color[3] = { 1, 2, 3 };
 
-  EXPECT_TRUE(localtrace->PrintMsgStatus(0, __L("b"), true));
-  EXPECT_TRUE(localtrace->PrintMsgStatus(0, __L("i"), (int)-5));
-  EXPECT_TRUE(localtrace->PrintMsgStatus(0, __L("s"), __L("text")));
-  EXPECT_TRUE(localtrace->PrintMsgStatus(0, __L("d"), (XDWORD)7));
-  EXPECT_TRUE(localtrace->PrintMsgStatus(0, __L("f"), 1.5f));
-  EXPECT_TRUE(localtrace->PrintMsgStatus(0, __L("c"), color));
+  EXPECT_TRUE(localtrace->PrintMsgStatus(0, _L("b"), true));
+  EXPECT_TRUE(localtrace->PrintMsgStatus(0, _L("i"), (int)-5));
+  EXPECT_TRUE(localtrace->PrintMsgStatus(0, _L("s"), _L("text")));
+  EXPECT_TRUE(localtrace->PrintMsgStatus(0, _L("d"), (XDWORD)7));
+  EXPECT_TRUE(localtrace->PrintMsgStatus(0, _L("f"), 1.5f));
+  EXPECT_TRUE(localtrace->PrintMsgStatus(0, _L("c"), color));
 
   RestoreXTrace(localtrace, originalinstance);
 }
@@ -594,7 +594,7 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, SetTraceTextToXBufferAndGetTraceFromXBufferRoun
   XTRACE* localtrace = SwapInFreshXTrace(&originalinstance);
 
   XBUFFER xbufferpacket;
-  EXPECT_TRUE(localtrace->SetTraceTextToXBuffer((XDWORD)0x0A0B0C0D, (XDWORD)0x01020304, (XBYTE)5, (XDWORD)7, xtimewrite, __L("hello trace"), xbufferpacket));
+  EXPECT_TRUE(localtrace->SetTraceTextToXBuffer((XDWORD)0x0A0B0C0D, (XDWORD)0x01020304, (XBYTE)5, (XDWORD)7, xtimewrite, _L("hello trace"), xbufferpacket));
 
   XDWORD    publicIPread = 0;
   XDWORD    localIPread  = 0;
@@ -621,7 +621,7 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, SetTraceTextToXBufferAndGetTraceFromXBufferRoun
 
   XSTRING textread;
   EXPECT_TRUE(localtrace->SetTraceDataToText(dataread, textread));
-  EXPECT_STREQ(textread.Get(), __L("hello trace"));
+  EXPECT_STREQ(textread.Get(), _L("hello trace"));
 
   GEN_XFACTORY.DeleteDateTime(xtimewrite);
   GEN_XFACTORY.DeleteDateTime(xtimeread);
@@ -663,7 +663,7 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, GetTraceFromXBufferDetectsACorruptedCRC)
   XTRACE* localtrace = SwapInFreshXTrace(&originalinstance);
 
   XBUFFER xbufferpacket;
-  EXPECT_TRUE(localtrace->SetTraceTextToXBuffer((XDWORD)1, (XDWORD)2, (XBYTE)3, (XDWORD)4, xtimewrite, __L("crc check"), xbufferpacket));
+  EXPECT_TRUE(localtrace->SetTraceTextToXBuffer((XDWORD)1, (XDWORD)2, (XBYTE)3, (XDWORD)4, xtimewrite, _L("crc check"), xbufferpacket));
 
   // Flip the very last byte (part of the trailing CRC16) so the packet's own CRC no longer matches.
   XBYTE* rawdata = xbufferpacket.Get();
@@ -698,7 +698,7 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, TestsCatalogLoadExistsAndGetDescription)
     "}\n";
 
   GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_ROOT, xpath);
-  xpath += __L("unittests_xtrace_tests_catalog.json");
+  xpath += _L("unittests_xtrace_tests_catalog.json");
 
   xfile = GEN_XFACTORY.Create_File();
   ASSERT_NE(xfile, nullptr);
@@ -722,9 +722,9 @@ TEST(UNITTESTS_XTRACE_CLASSNAME, TestsCatalogLoadExistsAndGetDescription)
 
   XSTRING description;
   EXPECT_TRUE(localtrace->Tests_GetDescription(1001, description));
-  EXPECT_STREQ(description.Get(), __L("UI_System: nav Resumen selected"));
+  EXPECT_STREQ(description.Get(), _L("UI_System: nav Resumen selected"));
   EXPECT_TRUE(localtrace->Tests_GetDescription(1099, description));
-  EXPECT_STREQ(description.Get(), __L("UI_System: chrome close selected"));
+  EXPECT_STREQ(description.Get(), _L("UI_System: chrome close selected"));
   EXPECT_FALSE(localtrace->Tests_GetDescription(42, description));
 
   EXPECT_TRUE(localtrace->Tests_DeleteAll());

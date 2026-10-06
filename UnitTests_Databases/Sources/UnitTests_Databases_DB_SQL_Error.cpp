@@ -79,10 +79,10 @@ TEST(UNITTESTS_DB_SQL_ERROR_CLASSNAME, DescriptionRoundTrip)
   DB_SQL_ERROR error;
   XSTRING      description;
 
-  description = __L("connection refused");
+  description = _L("connection refused");
   error.description = description;
 
-  EXPECT_EQ(error.description.Compare(__L("connection refused"), true), 0);
+  EXPECT_EQ(error.description.Compare(_L("connection refused"), true), 0);
 }
 
 

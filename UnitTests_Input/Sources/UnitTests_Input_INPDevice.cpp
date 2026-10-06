@@ -86,7 +86,7 @@ TEST(UNITTESTS_INPDEVICE_CLASSNAME, CreateButtonThenLookupByIdAndCode)
 {
   INPDEVICE device;
 
-  EXPECT_TRUE(INPBUTTON::CreateButton(device.GetButtons(), 0x41, INPBUTTON_ID_A, __C('A')));
+  EXPECT_TRUE(INPBUTTON::CreateButton(device.GetButtons(), 0x41, INPBUTTON_ID_A, _C('A')));
 
   INPBUTTON* by_id = device.GetButton(INPBUTTON_ID_A);
   ASSERT_NE(by_id, (INPBUTTON*)NULL);
@@ -106,7 +106,7 @@ TEST(UNITTESTS_INPDEVICE_CLASSNAME, IsPressButtonAndReleaseAllButtons)
 {
   INPDEVICE device;
 
-  EXPECT_TRUE(INPBUTTON::CreateButton(device.GetButtons(), 0x41, INPBUTTON_ID_A, __C('A')));
+  EXPECT_TRUE(INPBUTTON::CreateButton(device.GetButtons(), 0x41, INPBUTTON_ID_A, _C('A')));
 
   INPBUTTON* button = device.GetButton(INPBUTTON_ID_A);
   ASSERT_NE(button, (INPBUTTON*)NULL);
@@ -147,7 +147,7 @@ TEST(UNITTESTS_INPDEVICE_CLASSNAME, DeleteAllClears)
 {
   INPDEVICE device;
 
-  EXPECT_TRUE(INPBUTTON::CreateButton(device.GetButtons(), 0x41, INPBUTTON_ID_A, __C('A')));
+  EXPECT_TRUE(INPBUTTON::CreateButton(device.GetButtons(), 0x41, INPBUTTON_ID_A, _C('A')));
 
   INPCURSOR* cursor = GEN_NEW INPCURSOR();
   ASSERT_NE(cursor, (INPCURSOR*)NULL);

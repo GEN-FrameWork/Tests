@@ -39,7 +39,30 @@
 #include "GEN_Control.h"
 
 #if defined(GOOGLETEST_ACTIVE) && defined(SCRIPT_LIB_INPUTSIMULATE_ACTIVE)
-UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBINPUTSIMULATE, UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, SCRIPT_LIB_INPUTSIMULATE, SCRIPT_LIB_NAME_INPUTSIMULATE, __L("InpSim_Key_Press"))
+
+#if defined(INP_SIMULATE_ACTIVE)
+/**-------------------------------------------------------------------------------------------------------------------
+* Probe whether the platform can actually inject keys (Linux Docker often lacks /dev/uinput).
+* --------------------------------------------------------------------------------------------------------------------*/
+static bool UnitTests_Script_CanInjectKeys()
+{
+  INPSIMULATE* inpsimulate = GEN_INPFACTORY.CreateSimulator();
+  if(!inpsimulate)
+    {
+      return false;
+    }
+
+  // SPACEBAR is in the shared KDB table and does not depend on CapsLock state.
+  bool status = inpsimulate->Key_ClickByLiteral(_L("SPACEBAR"), 1);
+
+  GEN_INPFACTORY.DeleteSimulator(inpsimulate);
+
+  return status;
+}
+#endif
+
+
+UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBINPUTSIMULATE, UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, SCRIPT_LIB_INPUTSIMULATE, SCRIPT_LIB_NAME_INPUTSIMULATE, _L("InpSim_Key_Press"))
 
 TEST(UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, TwoArgumentFunctionsRejectOneArgument)
 {
@@ -68,10 +91,17 @@ TEST(UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, TwoArgumentFunctionsRejectOneAr
 
 TEST(UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, KeyClickByTextReturnsTrueForSupportedText)
 {
+  #if defined(INP_SIMULATE_ACTIVE)
+  if(!UnitTests_Script_CanInjectKeys())
+    {
+      GTEST_SKIP() << "Input injection unavailable (e.g. no /dev/uinput)";
+    }
+  #endif
+
   SCRIPT_LIB_INPUTSIMULATE       library;
   UNITTESTS_SCRIPT_ERRORCAPTURE  script;
   XVECTOR<XVARIANT*>             params;
-  XVARIANT                       text(__L("Ab 12"));
+  XVARIANT                       text(_L("Ab 12"));
   XVARIANT                       pressure(1);
   XVARIANT                       result;
 
@@ -92,7 +122,7 @@ TEST(UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, KeyClickByTextReturnsTrueForEmp
   SCRIPT_LIB_INPUTSIMULATE       library;
   UNITTESTS_SCRIPT_ERRORCAPTURE  script;
   XVECTOR<XVARIANT*>             params;
-  XVARIANT                       text(__L(""));
+  XVARIANT                       text(_L(""));
   XVARIANT                       pressure(1);
   XVARIANT                       result;
 
@@ -113,7 +143,7 @@ TEST(UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, KeyClickByTextReturnsFalseForUn
   SCRIPT_LIB_INPUTSIMULATE       library;
   UNITTESTS_SCRIPT_ERRORCAPTURE  script;
   XVECTOR<XVARIANT*>             params;
-  XVARIANT                       text(__L("A\tB"));
+  XVARIANT                       text(_L("A\tB"));
   XVARIANT                       pressure(1);
   XVARIANT                       result;
 
@@ -135,9 +165,16 @@ TEST(UNITTESTS_SCRIPTLIBINPUTSIMULATE_CLASSNAME, PlatformKeyClickByTextPropagate
   INPSIMULATE* inpsimulate = GEN_INPFACTORY.CreateSimulator();
   ASSERT_NE(inpsimulate, (INPSIMULATE*)NULL);
 
-  EXPECT_TRUE(inpsimulate->Key_ClickByText(__L(""), 1));
-  EXPECT_TRUE(inpsimulate->Key_ClickByText(__L("Qa1"), 1));
-  EXPECT_FALSE(inpsimulate->Key_ClickByText(__L("~"), 1));
+  EXPECT_TRUE(inpsimulate->Key_ClickByText(_L(""), 1));
+  EXPECT_FALSE(inpsimulate->Key_ClickByText(_L("~"), 1));
+
+  if(!UnitTests_Script_CanInjectKeys())
+    {
+      GEN_INPFACTORY.DeleteSimulator(inpsimulate);
+      GTEST_SKIP() << "Input injection unavailable (e.g. no /dev/uinput)";
+    }
+
+  EXPECT_TRUE(inpsimulate->Key_ClickByText(_L("Qa1"), 1));
 
   GEN_INPFACTORY.DeleteSimulator(inpsimulate);
 }

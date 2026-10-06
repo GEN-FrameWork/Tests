@@ -63,7 +63,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, ExecutesNumericResult)
   SCRIPT_LNG_LUA script;
   int returnvalue = 0;
 
-  (*script.GetScript()) = __L("return 42");
+  (*script.GetScript()) = _L("return 42");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 42);
 }
@@ -73,7 +73,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, ReportsSyntaxError)
 {
   SCRIPT_LNG_LUA script;
 
-  (*script.GetScript()) = __L("function main(");
+  (*script.GetScript()) = _L("function main(");
   EXPECT_NE(script.Run(), SCRIPT_ERRORCODE_NONE);
 }
 
@@ -83,7 +83,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, ExecutesReturnAfterLoadingChunk)
   SCRIPT_LNG_LUA script;
   int returnvalue = 0;
 
-  (*script.GetScript()) = __L("return 7");
+  (*script.GetScript()) = _L("return 7");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 7);
 }
@@ -94,15 +94,15 @@ TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, ReevaluatesScriptBetweenRuns)
   SCRIPT_LNG_LUA script;
   int returnvalue = 0;
 
-  (*script.GetScript()) = __L("return 7");
+  (*script.GetScript()) = _L("return 7");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 7);
 
-  (*script.GetScript()) = __L("return 9");
+  (*script.GetScript()) = _L("return 9");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 9);
 
-  (*script.GetScript()) = __L("return 3");
+  (*script.GetScript()) = _L("return 3");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 3);
 }
@@ -111,12 +111,12 @@ TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, ReevaluatesScriptBetweenRuns)
 TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, NativeLibraryFunctionsReturnNumbers)
 {
   SCRIPT_LNG_LUA script;
-  SCRIPT_LIB library(__L("UnitTest"));
+  SCRIPT_LIB library(_L("UnitTest"));
   int returnvalue = 0;
 
-  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeInteger"), UnitTests_ScriptLanguageLua_ReturnInteger));
+  ASSERT_TRUE(script.AddLibraryFunction(&library, _L("NativeInteger"), UnitTests_ScriptLanguageLua_ReturnInteger));
 
-  (*script.GetScript()) = __L("return NativeInteger()");
+  (*script.GetScript()) = _L("return NativeInteger()");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 40);
 }
@@ -125,13 +125,13 @@ TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, NativeLibraryFunctionsReturnNumbers)
 TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, NativeFloatAndDoubleReturnAsNumbers)
 {
   SCRIPT_LNG_LUA script;
-  SCRIPT_LIB library(__L("UnitTest"));
+  SCRIPT_LIB library(_L("UnitTest"));
   int returnvalue = 0;
 
-  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeFloat"), UnitTests_ScriptLanguageLua_ReturnFloat));
-  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeDouble"), UnitTests_ScriptLanguageLua_ReturnDouble));
+  ASSERT_TRUE(script.AddLibraryFunction(&library, _L("NativeFloat"), UnitTests_ScriptLanguageLua_ReturnFloat));
+  ASSERT_TRUE(script.AddLibraryFunction(&library, _L("NativeDouble"), UnitTests_ScriptLanguageLua_ReturnDouble));
 
-  (*script.GetScript()) = __L("return (NativeFloat() * 10) + (NativeDouble() * 10)");
+  (*script.GetScript()) = _L("return (NativeFloat() * 10) + (NativeDouble() * 10)");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 40);
 }
@@ -142,7 +142,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGELUA_CLASSNAME, LoadsStandardLibrariesWithInterprete
   SCRIPT_LNG_LUA script;
   int returnvalue = 0;
 
-  (*script.GetScript()) = __L("if os == nil and io == nil then return 0 else return 1 end");
+  (*script.GetScript()) = _L("if os == nil and io == nil then return 0 else return 1 end");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   #ifdef SCRIPT_LIB_SANDBOX_ACTIVE
   // Sandbox: os/io must not be present.

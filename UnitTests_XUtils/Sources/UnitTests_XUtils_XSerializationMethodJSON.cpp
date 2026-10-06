@@ -76,15 +76,15 @@ class TESTJSONWIDGET : public XSERIALIZABLE
 
     virtual bool Serialize()
     {
-      Primitive_Add<int>(counter, __L("counter"));
-      Primitive_Add<XSTRING*>(&label, __L("label"));
+      Primitive_Add<int>(counter, _L("counter"));
+      Primitive_Add<XSTRING*>(&label, _L("label"));
       return true;
     }
 
     virtual bool Deserialize()
     {
-      Primitive_Extract<int>(counter, __L("counter"));
-      Primitive_Extract<XSTRING>(label, __L("label"));
+      Primitive_Extract<int>(counter, _L("counter"));
+      Primitive_Extract<XSTRING>(label, _L("label"));
       return true;
     }
 
@@ -121,8 +121,8 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, AddScalarsFailWithoutFileJSON
 {
   XSERIALIZATIONMETHODJSON method;
 
-  EXPECT_FALSE(method.Add((int)1, __L("x")));
-  EXPECT_FALSE(method.Add(true, __L("x")));
+  EXPECT_FALSE(method.Add((int)1, _L("x")));
+  EXPECT_FALSE(method.Add(true, _L("x")));
 }
 
 
@@ -134,9 +134,9 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, CreateInstanceBuildsARootObje
 
   ASSERT_TRUE(filejson.GetRoot() != NULL);
 
-  EXPECT_TRUE(basemethod->Add((int)42, __L("counter")));
+  EXPECT_TRUE(basemethod->Add((int)42, _L("counter")));
 
-  XFILEJSONVALUE* stored = filejson.GetValue(__L("counter"));
+  XFILEJSONVALUE* stored = filejson.GetValue(_L("counter"));
   ASSERT_TRUE(stored != NULL);
   EXPECT_EQ(stored->GetValueInteger(), 42);
 
@@ -151,17 +151,17 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, AddStringAndAddBoolStoreRealJ
   ASSERT_TRUE(basemethod != NULL);
 
   XSTRING text;
-  text = __L("hello");
+  text = _L("hello");
 
-  EXPECT_TRUE(basemethod->Add(&text, __L("label")));
-  EXPECT_TRUE(basemethod->Add(true, __L("flag")));
+  EXPECT_TRUE(basemethod->Add(&text, _L("label")));
+  EXPECT_TRUE(basemethod->Add(true, _L("flag")));
 
-  XFILEJSONVALUE* storedlabel = filejson.GetValue(__L("label"));
+  XFILEJSONVALUE* storedlabel = filejson.GetValue(_L("label"));
   ASSERT_TRUE(storedlabel != NULL);
   XSTRING storedstring = storedlabel->GetValueString();
-  EXPECT_EQ(storedstring.Compare(__L("hello")), 0);
+  EXPECT_EQ(storedstring.Compare(_L("hello")), 0);
 
-  XFILEJSONVALUE* storedflag = filejson.GetValue(__L("flag"));
+  XFILEJSONVALUE* storedflag = filejson.GetValue(_L("flag"));
   ASSERT_TRUE(storedflag != NULL);
   EXPECT_TRUE(storedflag->GetValueBoolean());
 
@@ -185,11 +185,11 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, AddThenExtractBufferRoundTrip
   XBUFFER payload;
   payload.Add(payloadbytes, 3);
 
-  EXPECT_TRUE(basemethod->Add(&payload, __L("payload")));
-  EXPECT_NE((void*)NULL, (void*)filejson.GetValue(__L("payload")));
+  EXPECT_TRUE(basemethod->Add(&payload, _L("payload")));
+  EXPECT_NE((void*)NULL, (void*)filejson.GetValue(_L("payload")));
 
   XBUFFER readback;
-  EXPECT_TRUE(basemethod->Extract(readback, __L("payload")));
+  EXPECT_TRUE(basemethod->Extract(readback, _L("payload")));
   ASSERT_EQ(readback.GetSize(), (XDWORD)3);
   EXPECT_EQ(readback.GetByte(0), (XBYTE)0xAA);
   EXPECT_EQ(readback.GetByte(1), (XBYTE)0xBB);
@@ -217,11 +217,11 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, AddLongOverloadNowExistsAndRo
 
   long longvalue = 123;
 
-  EXPECT_TRUE(basemethod->Add(longvalue, __L("longfield")));
-  EXPECT_NE((void*)NULL, (void*)filejson.GetValue(__L("longfield")));
+  EXPECT_TRUE(basemethod->Add(longvalue, _L("longfield")));
+  EXPECT_NE((void*)NULL, (void*)filejson.GetValue(_L("longfield")));
 
   long readback = -1;
-  EXPECT_TRUE(basemethod->Extract(readback, __L("longfield")));
+  EXPECT_TRUE(basemethod->Extract(readback, _L("longfield")));
   EXPECT_EQ(readback, 123L);
 
   GEN_DELETE basemethod;
@@ -246,7 +246,7 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, AddStructNowDefaultsToOpenFal
 
   // Explicitly open a struct first (open=true), so there is something on the "fathers" stack for
   // the close call below to attach to.
-  EXPECT_TRUE(method->AddStruct(__L("nested"), true));
+  EXPECT_TRUE(method->AddStruct(_L("nested"), true));
 
   XFILEJSONOBJECT* after = method->GetActualObject();
   EXPECT_NE((void*)before, (void*)after);   // a brand-new struct node was opened
@@ -255,7 +255,7 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, AddStructNowDefaultsToOpenFal
   // matching the base class and XSERIALIZATIONMETHODBINARY -- this closes the struct we just
   // opened, attaching `after` under `before` (XSerializationMethodJSON.cpp AddStruct()'s
   // close branch runs `before->Add(name, after)`), and restores `before` as the actual object.
-  EXPECT_TRUE(method->AddStruct(__L("nested")));
+  EXPECT_TRUE(method->AddStruct(_L("nested")));
   EXPECT_EQ((void*)before, (void*)method->GetActualObject());
 
   GEN_DELETE basemethod;
@@ -270,7 +270,7 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, PolymorphicRoundTripThroughXS
 
   TESTJSONWIDGET source;
   source.SetCounter(42);
-  source.SetLabel(__L("hello"));
+  source.SetLabel(_L("hello"));
 
   // Unlike XSERIALIZATIONMETHODBINARY, XSERIALIZATIONMETHODJSON's Extract() overloads are
   // correctly declared BY REFERENCE (matching the base class exactly), so this really does
@@ -282,7 +282,7 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, PolymorphicRoundTripThroughXS
   EXPECT_TRUE(destination.DoDeserialize(method));
 
   EXPECT_EQ(destination.GetCounter(), 42);
-  EXPECT_EQ(destination.GetLabel().Compare(__L("hello")), 0);
+  EXPECT_EQ(destination.GetLabel().Compare(_L("hello")), 0);
 
   GEN_DELETE method;
 }
@@ -296,7 +296,7 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, EncodedJSONTextContainsTheSer
 
   TESTJSONWIDGET source;
   source.SetCounter(42);
-  source.SetLabel(__L("hello"));
+  source.SetLabel(_L("hello"));
 
   EXPECT_TRUE(source.DoSerialize(method));
 
@@ -307,10 +307,10 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODJSON_CLASSNAME, EncodedJSONTextContainsTheSer
 
   // A sane-looking JSON encoding: quoted field names, the quoted string value, and the plain
   // (unquoted) integer value all present in the produced text.
-  EXPECT_GE(alltext.Find(__L("\"counter\""), false), 0);
-  EXPECT_GE(alltext.Find(__L("\"label\""), false), 0);
-  EXPECT_GE(alltext.Find(__L("\"hello\""), false), 0);
-  EXPECT_GE(alltext.Find(__L("42"), false), 0);
+  EXPECT_GE(alltext.Find(_L("\"counter\""), false), 0);
+  EXPECT_GE(alltext.Find(_L("\"label\""), false), 0);
+  EXPECT_GE(alltext.Find(_L("\"hello\""), false), 0);
+  EXPECT_GE(alltext.Find(_L("42"), false), 0);
 
   GEN_DELETE method;
 }

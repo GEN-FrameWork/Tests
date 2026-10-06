@@ -63,20 +63,20 @@ namespace TEST_DIOWEBHEADER
 TEST(DIOWEBHEADER, AddLinesGetFieldAndDelete)
 {
   DIOWEBHEADER header;
-  XSTRING      line1(__L("HTTP/1.1 200 OK"));
+  XSTRING      line1(_L("HTTP/1.1 200 OK"));
   XSTRING      line2;
 
-  line2  = __L("Content-Type: text/plain");
+  line2  = _L("Content-Type: text/plain");
   EXPECT_TRUE(header.AddLine(line1));
   EXPECT_TRUE(header.AddLine(line2));
-  EXPECT_TRUE(header.AddLine(__L("Content-Length: 4")));
+  EXPECT_TRUE(header.AddLine(_L("Content-Length: 4")));
 
   ASSERT_NE(header.GetLines(), (XVECTOR<XSTRING*>*)NULL);
   EXPECT_EQ(header.GetLines()->GetSize(), (XDWORD)3);
 
-  XCHAR* value = header.GetFieldValue(__L("Content-Length"));
+  XCHAR* value = header.GetFieldValue(_L("Content-Length"));
   ASSERT_NE(value, (XCHAR*)NULL);
-  EXPECT_EQ(XSTRING(value).Compare(__L("4")), 0);
+  EXPECT_EQ(XSTRING(value).Compare(_L("4")), 0);
 
   XSTRING all;
   EXPECT_TRUE(header.GetLines(all));

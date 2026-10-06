@@ -116,11 +116,11 @@ TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentenceGetFindsKnownBuiltInEntriesBy
 {
   XTRANSLATION_GEN_SENTENCE* ok_eng = XTRANSLATION_GEN::GetInstance().Sentence_Get(XTRANSLATION_GEN_ID_OK, XLANGUAGE_ISO_639_3_CODE_ENG);
   ASSERT_NE(ok_eng, nullptr);
-  EXPECT_STREQ(ok_eng->sentence, __L("Ok"));
+  EXPECT_STREQ(ok_eng->sentence, _L("Ok"));
 
   XTRANSLATION_GEN_SENTENCE* ok_spa = XTRANSLATION_GEN::GetInstance().Sentence_Get(XTRANSLATION_GEN_ID_OK, XLANGUAGE_ISO_639_3_CODE_SPA);
   ASSERT_NE(ok_spa, nullptr);
-  EXPECT_STREQ(ok_spa->sentence, __L("Correcto"));
+  EXPECT_STREQ(ok_spa->sentence, _L("Correcto"));
 }
 
 
@@ -133,8 +133,8 @@ TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentenceGetReturnsNullForUnknownIDOrL
 
 TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentenceAddRejectsZeroIDZeroLanguageOrNullSentence)
 {
-  EXPECT_FALSE(XTRANSLATION_GEN::GetInstance().Sentence_Add(0, XLANGUAGE_ISO_639_3_CODE_ENG, __L("text"), 0));
-  EXPECT_FALSE(XTRANSLATION_GEN::GetInstance().Sentence_Add(90001, 0, __L("text"), 0));
+  EXPECT_FALSE(XTRANSLATION_GEN::GetInstance().Sentence_Add(0, XLANGUAGE_ISO_639_3_CODE_ENG, _L("text"), 0));
+  EXPECT_FALSE(XTRANSLATION_GEN::GetInstance().Sentence_Add(90001, 0, _L("text"), 0));
   EXPECT_FALSE(XTRANSLATION_GEN::GetInstance().Sentence_Add(90001, XLANGUAGE_ISO_639_3_CODE_ENG, NULL, 0));
 }
 
@@ -153,14 +153,14 @@ TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentenceAddAndGetRoundTripOnAFreshIDT
 
   EXPECT_EQ(XTRANSLATION_GEN::GetInstance().Sentence_Get(freshID, XLANGUAGE_ISO_639_3_CODE_ENG), nullptr);
 
-  EXPECT_TRUE(XTRANSLATION_GEN::GetInstance().Sentence_Add(freshID, XLANGUAGE_ISO_639_3_CODE_ENG, __L("Fresh sentence"), 0));
+  EXPECT_TRUE(XTRANSLATION_GEN::GetInstance().Sentence_Add(freshID, XLANGUAGE_ISO_639_3_CODE_ENG, _L("Fresh sentence"), 0));
 
   XTRANSLATION_GEN_SENTENCE* added = XTRANSLATION_GEN::GetInstance().Sentence_Get(freshID, XLANGUAGE_ISO_639_3_CODE_ENG);
   ASSERT_NE(added, nullptr);
-  EXPECT_STREQ(added->sentence, __L("Fresh sentence"));
+  EXPECT_STREQ(added->sentence, _L("Fresh sentence"));
 
   // Sentence_Add refuses to add a second entry for the same (ID, codelanguage) pair.
-  EXPECT_FALSE(XTRANSLATION_GEN::GetInstance().Sentence_Add(freshID, XLANGUAGE_ISO_639_3_CODE_ENG, __L("Replacement"), 0));
+  EXPECT_FALSE(XTRANSLATION_GEN::GetInstance().Sentence_Add(freshID, XLANGUAGE_ISO_639_3_CODE_ENG, _L("Replacement"), 0));
 }
 
 
@@ -168,17 +168,17 @@ TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentencesAddToTranslationPushesLangua
 {
   // Confirm the English text AppProc_Ini already pushed into the real, shared GEN_XTRANSLATION
   // singleton at application start-up.
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_GEN_ID_OK), __L("Ok"));
+  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_GEN_ID_OK), _L("Ok"));
 
   // Sentences_AddToTranslation really does overwrite the same IDs in GEN_XTRANSLATION regardless
   // of which language XTRANSLATION currently considers "actual" (Translate_Add always overwrites).
   EXPECT_TRUE(XTRANSLATION_GEN::GetInstance().Sentences_AddToTranslation(XLANGUAGE_ISO_639_3_CODE_SPA));
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_GEN_ID_OK), __L("Correcto"));
+  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_GEN_ID_OK), _L("Correcto"));
 
   // Restore English so the rest of this shared test binary keeps seeing the same real, English
   // translated state AppProc_Ini originally established.
   EXPECT_TRUE(XTRANSLATION_GEN::GetInstance().Sentences_AddToTranslation(XLANGUAGE_ISO_639_3_CODE_ENG));
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_GEN_ID_OK), __L("Ok"));
+  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_GEN_ID_OK), _L("Ok"));
 }
 
 

@@ -69,11 +69,11 @@ TEST(UNITTESTS_UI_TEXT_CLASSNAME, NameAndTextRoundTripThroughSetters)
 {
   UI_TEXT text;
 
-  text.GetName()->Set(__L("caption"));
-  text.GetText()->Set(__L("Hello UI"));
+  text.GetName()->Set(_L("caption"));
+  text.GetText()->Set(_L("Hello UI"));
 
-  EXPECT_EQ(text.GetName()->Compare(__L("caption"), true), 0);
-  EXPECT_EQ(text.GetText()->Compare(__L("Hello UI"), true), 0);
+  EXPECT_EQ(text.GetName()->Compare(_L("caption"), true), 0);
+  EXPECT_EQ(text.GetText()->Compare(_L("Hello UI"), true), 0);
 }
 
 

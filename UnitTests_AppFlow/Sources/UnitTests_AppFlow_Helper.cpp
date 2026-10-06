@@ -117,8 +117,8 @@ bool WriteTextAsset(XCHAR* filename, XCHAR* content)
 bool WriteMinimalAppFlowCfgAsset(XCHAR* cfgfilename)
 {
   XSTRING body;
-  body  = __L("[general]\r\n");
-  body += __L("showdetailinfo=0\r\n");
+  body  = _L("[general]\r\n");
+  body += _L("showdetailinfo=0\r\n");
 
   return WriteTextAsset(cfgfilename, body.Get());
 }
@@ -128,63 +128,63 @@ bool WriteOfflineAppFlowCfgAsset(XCHAR* cfgfilename)
 {
   XSTRING body;
 
-  body  = __L("[general]\r\n");
-  body += __L("showdetailinfo=0\r\n");
+  body  = _L("[general]\r\n");
+  body += _L("showdetailinfo=0\r\n");
 
-  body += __L("[check resources hardware]\r\n");
-  body += __L("memstatuscheckcadenceseconds=0\r\n");
-  body += __L("memstatuslimitpercent=10\r\n");
-  body += __L("totalcpuusagecheckcadenceseconds=0\r\n");
-  body += __L("totalcpuusagelimitpercent=90\r\n");
-  body += __L("appcpuusageprocessname=\r\n");
-  body += __L("appcpuusagecheckcadenceseconds=0\r\n");
-  body += __L("appcpuusagelimitpercent=90\r\n");
+  body += _L("[check resources hardware]\r\n");
+  body += _L("memstatuscheckcadenceseconds=0\r\n");
+  body += _L("memstatuslimitpercent=10\r\n");
+  body += _L("totalcpuusagecheckcadenceseconds=0\r\n");
+  body += _L("totalcpuusagelimitpercent=90\r\n");
+  body += _L("appcpuusageprocessname=\r\n");
+  body += _L("appcpuusagecheckcadenceseconds=0\r\n");
+  body += _L("appcpuusagelimitpercent=90\r\n");
 
-  body += __L("[internet services]\r\n");
-  body += __L("checkinternetstatuscadenceseconds=0\r\n");
-  body += __L("donotletinternetconnectionmatter=si\r\n");
-  body += __L("checkipschangecadenceseconds=0\r\n");
-  body += __L("updatetimebyntpcadencehours=0\r\n");
+  body += _L("[internet services]\r\n");
+  body += _L("checkinternetstatuscadenceseconds=0\r\n");
+  body += _L("donotletinternetconnectionmatter=si\r\n");
+  body += _L("checkipschangecadenceseconds=0\r\n");
+  body += _L("updatetimebyntpcadencehours=0\r\n");
 
-  body += __L("[location]\r\n");
-  body += __L("street=UnitTest Street\r\n");
-  body += __L("city=UnitTestCity\r\n");
-  body += __L("state=UT\r\n");
-  body += __L("country=TC\r\n");
-  body += __L("postalcode=28001\r\n");
+  body += _L("[location]\r\n");
+  body += _L("street=UnitTest Street\r\n");
+  body += _L("city=UnitTestCity\r\n");
+  body += _L("state=UT\r\n");
+  body += _L("country=TC\r\n");
+  body += _L("postalcode=28001\r\n");
 
-  body += __L("[applicationupdate]\r\n");
-  body += __L("isactive=no\r\n");
-  body += __L("url=http://example.invalid/update\r\n");
-  body += __L("port=8080\r\n");
-  body += __L("checkcadenceminutes=0\r\n");
-  body += __L("checktime=\r\n");
-  body += __L("maxrestorations=1\r\n");
+  body += _L("[applicationupdate]\r\n");
+  body += _L("isactive=no\r\n");
+  body += _L("url=http://example.invalid/update\r\n");
+  body += _L("port=8080\r\n");
+  body += _L("checkcadenceminutes=0\r\n");
+  body += _L("checktime=\r\n");
+  body += _L("maxrestorations=1\r\n");
 
-  body += __L("[webserver]\r\n");
-  body += __L("localaddr=127.0.0.1\r\n");
-  body += __L("port=18080\r\n");
-  body += __L("timeouttoserverpage=5\r\n");
-  body += __L("isauthenticatedaccess=no\r\n");
-  body += __L("login=unittest\r\n");
-  body += __L("password=secret\r\n");
+  body += _L("[webserver]\r\n");
+  body += _L("localaddr=127.0.0.1\r\n");
+  body += _L("port=18080\r\n");
+  body += _L("timeouttoserverpage=5\r\n");
+  body += _L("isauthenticatedaccess=no\r\n");
+  body += _L("login=unittest\r\n");
+  body += _L("password=secret\r\n");
 
-  body += __L("[alerts]\r\n");
-  body += __L("isactive=si\r\n");
-  body += __L("smtp_isactive=no\r\n");
-  body += __L("sms_isactive=no\r\n");
-  body += __L("web_isactive=no\r\n");
-  body += __L("udp_isactive=no\r\n");
+  body += _L("[alerts]\r\n");
+  body += _L("isactive=si\r\n");
+  body += _L("smtp_isactive=no\r\n");
+  body += _L("sms_isactive=no\r\n");
+  body += _L("web_isactive=no\r\n");
+  body += _L("udp_isactive=no\r\n");
 
-  body += __L("[log]\r\n");
-  body += __L("isactive=si\r\n");
-  body += __L("backupisactive=no\r\n");
-  body += __L("backupmaxfiles=1\r\n");
-  body += __L("backupiscompress=no\r\n");
-  body += __L("activesectionsID=Ini,General,Status,End\r\n");
-  body += __L("levelmask=000F\r\n");
-  body += __L("maxsize=100\r\n");
-  body += __L("reductionpercent=10\r\n");
+  body += _L("[log]\r\n");
+  body += _L("isactive=si\r\n");
+  body += _L("backupisactive=no\r\n");
+  body += _L("backupmaxfiles=1\r\n");
+  body += _L("backupiscompress=no\r\n");
+  body += _L("activesectionsID=Ini,General,Status,End\r\n");
+  body += _L("levelmask=000F\r\n");
+  body += _L("maxsize=100\r\n");
+  body += _L("reductionpercent=10\r\n");
 
   return WriteTextAsset(cfgfilename, body.Get());
 }

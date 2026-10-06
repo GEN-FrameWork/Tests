@@ -105,10 +105,10 @@ typedef struct
 #define APPLICATION_SUBVERSION                    1
 #define APPLICATION_SUBVERSIONERR                 0
 
-#define APPLICATION_NAMEAPP                       __L("DevTests_Canvas2D")
-#define APPLICATION_NAMEFILE                      __L("devtests_canvas2d")
+#define APPLICATION_NAMEAPP                       _L("DevTests_Canvas2D")
+#define APPLICATION_NAMEFILE                      _L("devtests_canvas2d")
 
-#define APPLICATION_OWNER                         __L("EndoraSoft")
+#define APPLICATION_OWNER                         _L("EndoraSoft")
 
 #define APPLICATION_YEAROFCREATION                2023
 
@@ -117,15 +117,15 @@ typedef struct
 #define APPLICATION_LNG_NAMEFILE                  APPLICATION_NAMEFILE
 #define APPLICATION_LOG_NAMEFILE                  APPLICATION_NAMEFILE
 
-#define APPLICATION_DIRECTORYMAIN                 __L("assets")
-#define APPLICATION_DIRECTORYWEB                  __L("web")
+#define APPLICATION_DIRECTORYMAIN                 _L("assets")
+#define APPLICATION_DIRECTORYWEB                  _L("web")
 
-#define HOMESERVER_PROTOCOLCLI_ID                 __L("homeserver")
+#define HOMESERVER_PROTOCOLCLI_ID                 _L("homeserver")
 
 #define HOMESERVER_MAXCOMPUTER_CHECK              3
 
-#define APPLICATION_GUI_STATUS_VIEWPORT_ID        __L("frame_viewport")
-#define APPLICATION_GUI_MENU_VIEWPORT_ID          __L("menu_viewport")
+#define APPLICATION_GUI_STATUS_VIEWPORT_ID        _L("frame_viewport")
+#define APPLICATION_GUI_MENU_VIEWPORT_ID          _L("menu_viewport")
 
 
 

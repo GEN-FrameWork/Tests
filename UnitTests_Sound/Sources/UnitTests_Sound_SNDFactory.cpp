@@ -78,7 +78,7 @@ TEST(UNITTESTS_SNDFACTORY_CLASSNAME, InactiveCreateItemReturnsNull)
 
   EXPECT_FALSE(factory.IsSoundActive());
   EXPECT_EQ(factory.CreateItem(440, 1000), (SNDITEM*)NULL);
-  EXPECT_EQ(factory.CreateItem(__L("x.wav")), (SNDITEM*)NULL);
+  EXPECT_EQ(factory.CreateItem(_L("x.wav")), (SNDITEM*)NULL);
   EXPECT_FALSE(factory.Sound_Play(NULL));
 
   SNDFACTORY::DelInstance();

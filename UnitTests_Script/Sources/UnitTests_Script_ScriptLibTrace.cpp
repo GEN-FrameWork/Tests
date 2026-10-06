@@ -33,7 +33,7 @@
 #include "GEN_Control.h"
 
 #ifdef GOOGLETEST_ACTIVE
-UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBTRACE, UNITTESTS_SCRIPTLIBTRACE_CLASSNAME, SCRIPT_LIB_TRACE, SCRIPT_LIB_NAME_TRACE, __L("TracePrintColor"))
+UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBTRACE, UNITTESTS_SCRIPTLIBTRACE_CLASSNAME, SCRIPT_LIB_TRACE, SCRIPT_LIB_NAME_TRACE, _L("TracePrintColor"))
 
 TEST(UNITTESTS_SCRIPTLIBTRACE_CLASSNAME, PrintColorRejectsMissingMask)
 {
@@ -75,8 +75,8 @@ TEST(UNITTESTS_SCRIPTLIBTRACE_CLASSNAME, PrintColorPreservesPercentInData)
   UNITTESTS_SCRIPT_ERRORCAPTURE  script;
   XVECTOR<XVARIANT*>             params;
   XVARIANT                       color(1);
-  XVARIANT                       mask(__L("%s"));
-  XVARIANT                       data(__L("100% ready"));
+  XVARIANT                       mask(_L("%s"));
+  XVARIANT                       data(_L("100% ready"));
   XVARIANT                       result;
 
   params.Add(&color);

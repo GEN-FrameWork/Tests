@@ -61,11 +61,11 @@ namespace TEST_DIOREMOTEFILECFG
 
 TEST(DIOREMOTEFILECFG, ConstructAndURLRemotePointer)
 {
-  DIOREMOTEFILECFG cfg(__L("unittests_dataio_remote"));
+  DIOREMOTEFILECFG cfg(_L("unittests_dataio_remote"));
 
   ASSERT_NE(cfg.GetURLRemoteCFG(), (XSTRING*)NULL);
-  cfg.GetURLRemoteCFG()->Set(__L("http://127.0.0.1/cfg"));
-  EXPECT_EQ(cfg.GetURLRemoteCFG()->Compare(__L("http://127.0.0.1/cfg")), 0);
+  cfg.GetURLRemoteCFG()->Set(_L("http://127.0.0.1/cfg"));
+  EXPECT_EQ(cfg.GetURLRemoteCFG()->Compare(_L("http://127.0.0.1/cfg")), 0);
 }
 
 

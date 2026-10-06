@@ -29,6 +29,9 @@ option(LINUX_X11_FEATURE                                        "Linux X11"     
 
 option(XSLEEP_FEATURE                                           "XSleep"                                                  ON )
 option(XUUID_FEATURE                                            "UUID functions"                                          ON )
+option(XTRANSLATION_FEATURE                                     "Translation"                                             ON )
+option(XTRANSLATION_GEN_FEATURE                                 "Translation GEN Internal"                                ON )
+option(XFILE_JSON_FEATURE                                       "XFile JSON format"                                       ON )
 
 option(APPFLOW_FEATURE                                          "Application Flow modules"                                ON )
 option(APPFLOW_EXTENDED_FEATURE                                 "Application Flow Extended"                               ON )

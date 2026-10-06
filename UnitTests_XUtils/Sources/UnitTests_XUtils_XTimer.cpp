@@ -167,7 +167,7 @@ TEST(UNITTESTS_XTIMER_CLASSNAME, GetMeasureString)
   if(xtimer)
     {   
       xtimer->GetMeasureString(measure, true);
-      EXPECT_STREQ(measure.Get(), __L("9 days, 20 hours, 6 minutes, 40 seconds"));
+      EXPECT_STREQ(measure.Get(), _L("9 days, 20 hours, 6 minutes, 40 seconds"));
     }
 
   GEN_XFACTORY.DeleteTimer(xtimer);
@@ -266,7 +266,7 @@ TEST(UNITTESTS_XTIMER_CLASSNAME, GetMeasureStringShortForm)
   if(xtimer)
     {
       xtimer->GetMeasureString(measure, false);
-      EXPECT_STREQ(measure.Get(), __L("01:01:01"));
+      EXPECT_STREQ(measure.Get(), _L("01:01:01"));
     }
 
   GEN_XFACTORY.DeleteTimer(xtimer);

@@ -37,10 +37,10 @@
 #define APPLICATION_SUBVERSION                    0
 #define APPLICATION_SUBVERSIONERR                 1
 
-#define APPLICATION_NAMEAPP                       __L("Cipher Unit Tests")
-#define APPLICATION_NAMEFILE                      __L("unittests_cipher")
+#define APPLICATION_NAMEAPP                       _L("Cipher Unit Tests")
+#define APPLICATION_NAMEFILE                      _L("unittests_cipher")
 
-#define APPLICATION_OWNER                         __L("GEN Framework")
+#define APPLICATION_OWNER                         _L("GEN Framework")
 
 #define APPLICATION_YEAROFCREATION                2026
 
@@ -48,7 +48,7 @@
 #define APPLICATION_LNG_NAMEFILE                  APPLICATION_NAMEFILE
 #define APPLICATION_LOG_NAMEFILE                  APPLICATION_NAMEFILE
 
-#define APPLICATION_DIRECTORYMAIN                 __L("assets")
+#define APPLICATION_DIRECTORYMAIN                 _L("assets")
 
 
 /*---- CLASS ---------------------------------------------------------------------------------------------------------*/

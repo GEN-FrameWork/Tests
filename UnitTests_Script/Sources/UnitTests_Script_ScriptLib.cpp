@@ -37,10 +37,10 @@ namespace TEST_SCRIPTLIB
 
 TEST(UNITTESTS_SCRIPTLIB_CLASSNAME, ConvertsSupportedVariantTypes)
 {
-  SCRIPT_LIB library(__L("Test"));
+  SCRIPT_LIB library(_L("Test"));
   XVARIANT integer(25);
   XVARIANT real(2.5f);
-  XVARIANT text(__L("value"));
+  XVARIANT text(_L("value"));
   int convertedinteger = 0;
   float convertedreal = 0.0f;
   XSTRING convertedtext;
@@ -50,14 +50,14 @@ TEST(UNITTESTS_SCRIPTLIB_CLASSNAME, ConvertsSupportedVariantTypes)
   EXPECT_TRUE(library.GetParamConverted(&real, convertedreal));
   EXPECT_FLOAT_EQ(convertedreal, 2.5f);
   EXPECT_TRUE(library.GetParamConverted(&text, convertedtext));
-  EXPECT_EQ(convertedtext.Compare(__L("value")), 0);
+  EXPECT_EQ(convertedtext.Compare(_L("value")), 0);
   EXPECT_FALSE(library.GetParamConverted(NULL, convertedinteger));
 }
 
 
 TEST(UNITTESTS_SCRIPTLIB_CLASSNAME, ConvertsBooleanAndNumericAliases)
 {
-  SCRIPT_LIB library(__L("Test"));
+  SCRIPT_LIB library(_L("Test"));
   XVARIANT boolean(true);
   XVARIANT integer(7);
   XVARIANT real(3.5);
@@ -79,8 +79,8 @@ TEST(UNITTESTS_SCRIPTLIB_CLASSNAME, ConvertsBooleanAndNumericAliases)
 
 TEST(UNITTESTS_SCRIPTLIB_CLASSNAME, RejectsIncompatibleTargetTypes)
 {
-  SCRIPT_LIB library(__L("Test"));
-  XVARIANT text(__L("not-a-number"));
+  SCRIPT_LIB library(_L("Test"));
+  XVARIANT text(_L("not-a-number"));
   int convertedinteger = 0;
   bool convertedboolean = false;
 

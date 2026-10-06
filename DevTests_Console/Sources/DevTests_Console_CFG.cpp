@@ -128,12 +128,12 @@ bool DEVTESTS_CONSOLE_CFG::DoVariableMapping()
   //-----------------------------------------------------
   // DATABASE
 
-  AddRemark(DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, __L("-------------------------------------------------------"), 0, 1);
-  AddRemark(DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, __L("Database config"), 0, 2);
+  AddRemark(DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, _L("-------------------------------------------------------"), 0, 1);
+  AddRemark(DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, _L("Database config"), 0, 2);
   
-  AddValue(XFILECFG_VALUETYPE_STRING, DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_URL, &db_URL);                       AddRemark(DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_URL, __L("URL for database"), APPFLOW_CFG_DEFAULT_REMARK_COLUMN, 0);
-  AddValue(XFILECFG_VALUETYPE_INT, DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_PORT, &db_port);                      AddRemark(DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_PORT, __L("Port for database"), APPFLOW_CFG_DEFAULT_REMARK_COLUMN, 0);
-  AddValue(XFILECFG_VALUETYPE_STRING, DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_DATABASENAME, &db_databasename);              AddRemark(DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_DATABASENAME, __L("Database Name"), APPFLOW_CFG_DEFAULT_REMARK_COLUMN, 0);
+  AddValue(XFILECFG_VALUETYPE_STRING, DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_URL, &db_URL);                       AddRemark(DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_URL, _L("URL for database"), APPFLOW_CFG_DEFAULT_REMARK_COLUMN, 0);
+  AddValue(XFILECFG_VALUETYPE_INT, DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_PORT, &db_port);                      AddRemark(DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_PORT, _L("Port for database"), APPFLOW_CFG_DEFAULT_REMARK_COLUMN, 0);
+  AddValue(XFILECFG_VALUETYPE_STRING, DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_DATABASENAME, &db_databasename);              AddRemark(DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_DATABASENAME, _L("Database Name"), APPFLOW_CFG_DEFAULT_REMARK_COLUMN, 0);
   AddValue(XFILECFG_VALUETYPE_STRING, DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_USER, &db_user);
   AddValue(XFILECFG_VALUETYPE_STRING, DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_PASSWORD, &db_password);
   AddValue(XFILECFG_VALUETYPE_INT, DEVTESTS_CONSOLE_CFG_SECTION_DATABASE, DEVTESTS_CONSOLE_CFG_DATABASE_TIMEOUTCONNECTION, &db_timeoutconnection);
@@ -183,11 +183,11 @@ bool DEVTESTS_CONSOLE_CFG::DoDefault()
   log_activesectionsID.Empty();
 
   log_activesectionsID                                 += APPFLOW_CFG_LOG_SECTIONID_INITIATION;
-  log_activesectionsID                                 += __L(",");
+  log_activesectionsID                                 += _L(",");
   log_activesectionsID                                 += APPFLOW_CFG_LOG_SECTIONID_GENERIC;
-  log_activesectionsID                                 += __L(",");
+  log_activesectionsID                                 += _L(",");
   log_activesectionsID                                 += APPFLOW_CFG_LOG_SECTIONID_STATUSAPP;
-  log_activesectionsID                                 += __L(",");
+  log_activesectionsID                                 += _L(",");
   log_activesectionsID                                 += APPFLOW_CFG_LOG_SECTIONID_ENDING;
 
   log_levelmask                                         = XLOGLEVEL_ALL;
@@ -196,11 +196,11 @@ bool DEVTESTS_CONSOLE_CFG::DoDefault()
 
   //------------------------------------------------------------------------------
 
-  db_URL                                                = __L("");
+  db_URL                                                = _L("");
   db_port                                               = 0;
-  db_databasename                                       = __L("");
-  db_user                                               = __L("");
-  db_password                                           = __L("");
+  db_databasename                                       = _L("");
+  db_user                                               = _L("");
+  db_password                                           = _L("");
   db_timeoutconnection                                  = 30;
 
   //------------------------------------------------------------------------------

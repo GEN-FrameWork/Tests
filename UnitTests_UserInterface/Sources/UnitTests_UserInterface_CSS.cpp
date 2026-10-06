@@ -91,7 +91,7 @@
 
 /*---- DEFINES & ENUMS  ----------------------------------------------------------------------------------------------*/
 
-#define UI_CSS_UNITTESTS_TEMPDIRNAME      __L("ui_css_unittests_tmp")
+#define UI_CSS_UNITTESTS_TEMPDIRNAME      _L("ui_css_unittests_tmp")
 
 
 /*---- CLASS MEMBERS -------------------------------------------------------------------------------------------------*/
@@ -324,7 +324,7 @@ class UI_CSS_UnitTests_FakeAncestors : public UI_CSSANCESTORPROVIDER
     void AddAncestor(XCHAR* type, XCHAR* singleclass = NULL, XCHAR* singlepseudo = NULL)
     {
       types.Add(UI_CSS_UnitTests_NewStr(type));
-      ids.Add(UI_CSS_UnitTests_NewStr(__L("")));
+      ids.Add(UI_CSS_UnitTests_NewStr(_L("")));
 
       XVECTOR<XSTRING*>* classlist = GEN_NEW XVECTOR<XSTRING*>();
       if(classlist && singleclass) classlist->Add(UI_CSS_UnitTests_NewStr(singleclass));
@@ -382,7 +382,7 @@ TEST(UI_CSSParser, ParsesTypeIdClassAndPseudoOnOneCompoundSelector)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L("button#ok.primary:hover { color: 255,0,0,255; }"));
+  text.Set(_L("button#ok.primary:hover { color: 255,0,0,255; }"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   ASSERT_EQ(sheet.Rules_Count(), 1);
@@ -394,12 +394,12 @@ TEST(UI_CSSParser, ParsesTypeIdClassAndPseudoOnOneCompoundSelector)
   UI_CSSSELECTOR* selector = rule->GetSelectors().Get(0);
   ASSERT_TRUE(selector != NULL);
 
-  EXPECT_EQ(selector->GetType().Compare(__L("button"), true), 0);
-  EXPECT_EQ(selector->GetID().Compare(__L("ok"), true), 0);
+  EXPECT_EQ(selector->GetType().Compare(_L("button"), true), 0);
+  EXPECT_EQ(selector->GetID().Compare(_L("ok"), true), 0);
   ASSERT_EQ((int)selector->GetClasses().GetSize(), 1);
-  EXPECT_EQ(selector->GetClasses().Get(0)->Compare(__L("primary"), true), 0);
+  EXPECT_EQ(selector->GetClasses().Get(0)->Compare(_L("primary"), true), 0);
   ASSERT_EQ((int)selector->GetPseudos().GetSize(), 1);
-  EXPECT_EQ(selector->GetPseudos().Get(0)->Compare(__L("hover"), true), 0);
+  EXPECT_EQ(selector->GetPseudos().Get(0)->Compare(_L("hover"), true), 0);
 }
 
 
@@ -409,7 +409,7 @@ TEST(UI_CSSParser, ParsesCommaSeparatedSelectorGroup)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L(".card, .panel { color: 1,2,3,255; }"));
+  text.Set(_L(".card, .panel { color: 1,2,3,255; }"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   ASSERT_EQ(sheet.Rules_Count(), 1);
@@ -422,7 +422,7 @@ TEST(UI_CSSParser, ParsesCommaSeparatedSelectorGroup)
 
 TEST(UI_CSSParser, ResolveLineColumnOnFirstLineReturnsLineOneAndOffsetPlusOneAsColumn)
 {
-  XSTRING text(__L("button { color: red; }"));
+  XSTRING text(_L("button { color: red; }"));
   int     line = -1, col = -1;
 
   UI_CSSPARSER::ResolveLineColumn(text, 7, line, col);
@@ -434,7 +434,7 @@ TEST(UI_CSSParser, ResolveLineColumnOnFirstLineReturnsLineOneAndOffsetPlusOneAsC
 TEST(UI_CSSParser, ResolveLineColumnCountsEmbeddedNewlines)
 {
   // Offsets: "button {" = 0..7, '\n' at 8, line 2 starts at 9: ' '(9) ' '(10) 'c'(11) 'o'(12) ...
-  XSTRING text(__L("button {\n color: red;\n}"));
+  XSTRING text(_L("button {\n color: red;\n}"));
   int     line = -1, col = -1;
 
   UI_CSSPARSER::ResolveLineColumn(text, 12, line, col);   // 'o' inside "color" on line 2
@@ -445,7 +445,7 @@ TEST(UI_CSSParser, ResolveLineColumnCountsEmbeddedNewlines)
 
 TEST(UI_CSSParser, ResolveLineColumnClampsAnOffsetPastTheEndOfText)
 {
-  XSTRING text(__L("a\nb"));
+  XSTRING text(_L("a\nb"));
   int     line = -1, col = -1;
 
   UI_CSSPARSER::ResolveLineColumn(text, 999, line, col);
@@ -456,7 +456,7 @@ TEST(UI_CSSParser, ResolveLineColumnClampsAnOffsetPastTheEndOfText)
 
 TEST(UI_CSSParser, ResolveLineColumnOnEmptyTextIsLineOneColumnOne)
 {
-  XSTRING text(__L(""));
+  XSTRING text(_L(""));
   int     line = -1, col = -1;
 
   UI_CSSPARSER::ResolveLineColumn(text, 0, line, col);
@@ -478,7 +478,7 @@ TEST(UI_CSSParser, RecoversFromAMalformedRuleAcrossEmbeddedNewlinesJustLikeOnOne
 
   // ".broken" has no ':' before ';' -- ReadDeclarationBlock() discards the declaration and keeps parsing the
   // block; ".ok" is a separate, well-formed rule that must still come through untouched.
-  text.Set(__L(".broken {\n colorred;\n}\n.ok {\n color: red;\n}"));
+  text.Set(_L(".broken {\n colorred;\n}\n.ok {\n color: red;\n}"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   ASSERT_EQ(sheet.Rules_Count(), 1);
@@ -486,7 +486,7 @@ TEST(UI_CSSParser, RecoversFromAMalformedRuleAcrossEmbeddedNewlinesJustLikeOnOne
   UI_CSSSELECTOR* selector = sheet.Rules_GetAll()->Get(0)->GetSelectors().Get(0);
   ASSERT_TRUE(selector != NULL);
   EXPECT_EQ((int)selector->GetClasses().GetSize(), 1);
-  EXPECT_EQ(selector->GetClasses().Get(0)->Compare(__L("ok"), true), 0);
+  EXPECT_EQ(selector->GetClasses().Get(0)->Compare(_L("ok"), true), 0);
 }
 
 
@@ -500,11 +500,11 @@ TEST(UI_CSSParser, SkipsUnsupportedAtRuleAndKeepsParsingFollowingRules)
   XSTRING        text;
 
   // Track B owns @media; use another at-rule to assert recovery still works.
-  text.Set(__L("@font-face { font-family: X; } .ok { color: 1,2,3,255; }"));
+  text.Set(_L("@font-face { font-family: X; } .ok { color: 1,2,3,255; }"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   ASSERT_EQ(sheet.Rules_Count(), 1);
-  EXPECT_EQ(sheet.Rules_GetAll()->Get(0)->GetSelectors().Get(0)->GetClasses().Get(0)->Compare(__L("ok"), true), 0);
+  EXPECT_EQ(sheet.Rules_GetAll()->Get(0)->GetSelectors().Get(0)->GetClasses().Get(0)->Compare(_L("ok"), true), 0);
 }
 
 
@@ -513,7 +513,7 @@ TEST(UI_CSSParser, DiagnosticsCountDiscardedMalformedRules)
 {
   UI_CSSPARSER  parser;
   UI_STYLESHEET sheet;
-  XSTRING       text(__L(".ok { color: 1,2,3,255; } { orphan-block } .also { color: 4,5,6,255; }"));
+  XSTRING       text(_L(".ok { color: 1,2,3,255; } { orphan-block } .also { color: 4,5,6,255; }"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   EXPECT_GE(parser.GetLastRulesKept(), 1);
@@ -527,7 +527,7 @@ TEST(UI_CSSParser, DiagnosticsDetectUnterminatedComment)
   UI_CSSPARSER  parser;
   UI_STYLESHEET sheet;
   // Comment never closed -- rest of file may be swallowed; counter must fire.
-  XSTRING text(__L("/* broken comment without end\n.ok { color: 1,2,3,255; }\n"));
+  XSTRING text(_L("/* broken comment without end\n.ok { color: 1,2,3,255; }\n"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   EXPECT_GE(parser.GetLastUnterminatedComments(), 1);
@@ -538,7 +538,7 @@ TEST(UI_CSSParser, DiagnosticsZeroKeptWhenEverythingDiscarded)
 {
   UI_CSSPARSER  parser;
   UI_STYLESHEET sheet;
-  XSTRING       text(__L("{ only-orphans } {{{"));
+  XSTRING       text(_L("{ only-orphans } {{{"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   EXPECT_EQ(parser.GetLastRulesKept(), 0);
@@ -562,7 +562,7 @@ TEST(UI_Manager, LayoutsReresolveStyleLengthsUpdatesVwAgainstDesignSize)
   ASSERT_TRUE(el != NULL);
   el->SetLayout(layout);
   UI_STYLE bag;
-  bag.Set(__L("width"), __L("10vw"));
+  bag.Set(_L("width"), _L("10vw"));
   el->StoreComputedStyle(bag);
   el->GetBoundaryLine()->x      = 0.0;
   el->GetBoundaryLine()->y      = 0.0;
@@ -588,12 +588,12 @@ TEST(UI_CSSParser, DiscardsDeclarationWithoutColonButKeepsValidOnesInSameBlock)
   XSTRING        text;
   XSTRING        value;
 
-  text.Set(__L(".a { colorred; color: 4,5,6,255; }"));
+  text.Set(_L(".a { colorred; color: 4,5,6,255; }"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   ASSERT_EQ(sheet.Rules_Count(), 1);
-  EXPECT_TRUE(sheet.Rules_GetAll()->Get(0)->GetDeclarations().Get(__L("color"), value));
-  EXPECT_EQ(value.Compare(__L("4,5,6,255"), true), 0);
+  EXPECT_TRUE(sheet.Rules_GetAll()->Get(0)->GetDeclarations().Get(_L("color"), value));
+  EXPECT_EQ(value.Compare(_L("4,5,6,255"), true), 0);
 }
 
 
@@ -605,11 +605,11 @@ TEST(UI_CSSParser, LastIdWinsWhenACompoundSelectorRepeatsHash)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L("#first#second { color: red; }"));
+  text.Set(_L("#first#second { color: red; }"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   ASSERT_EQ(sheet.Rules_Count(), 1);
-  EXPECT_EQ(sheet.Rules_GetAll()->Get(0)->GetSelectors().Get(0)->GetID().Compare(__L("second"), true), 0);
+  EXPECT_EQ(sheet.Rules_GetAll()->Get(0)->GetSelectors().Get(0)->GetID().Compare(_L("second"), true), 0);
 }
 
 
@@ -626,17 +626,17 @@ TEST(UI_CSSParser, DeclarationValueKeepsASemicolonEmbeddedInsideAQuotedString)
   // Before this increment, the value scan stopped at the FIRST ';' it saw, quoted or not -- truncating this to
   // '"A' and leaving '; B"' to be misread as a second (malformed) declaration. The lexer's string-aware scan
   // must treat the whole quoted span as one atomic unit and keep the value intact.
-  text.Set(__L(".a { font-family: \"A; B\"; color: red; }"));
+  text.Set(_L(".a { font-family: \"A; B\"; color: red; }"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   ASSERT_EQ(sheet.Rules_Count(), 1);
 
-  ASSERT_TRUE(sheet.Rules_GetAll()->Get(0)->GetDeclarations().Get(__L("font-family"), value));
-  EXPECT_EQ(value.Compare(__L("\"A; B\""), true), 0);
+  ASSERT_TRUE(sheet.Rules_GetAll()->Get(0)->GetDeclarations().Get(_L("font-family"), value));
+  EXPECT_EQ(value.Compare(_L("\"A; B\""), true), 0);
 
   // The following declaration in the same block must still parse normally.
-  ASSERT_TRUE(sheet.Rules_GetAll()->Get(0)->GetDeclarations().Get(__L("color"), value));
-  EXPECT_EQ(value.Compare(__L("red"), true), 0);
+  ASSERT_TRUE(sheet.Rules_GetAll()->Get(0)->GetDeclarations().Get(_L("color"), value));
+  EXPECT_EQ(value.Compare(_L("red"), true), 0);
 }
 
 
@@ -649,16 +649,16 @@ TEST(UI_CSSParser, DeclarationValueKeepsAClosingBraceEmbeddedInsideAQuotedString
 
   // Same gap as above but with '}' instead of ';': without string-awareness this would end the whole
   // declaration BLOCK early, at the quoted '}', discarding "color" below and corrupting the rest of the parse.
-  text.Set(__L(".a { content: \"x}y\"; color: blue; }"));
+  text.Set(_L(".a { content: \"x}y\"; color: blue; }"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   ASSERT_EQ(sheet.Rules_Count(), 1);
 
-  ASSERT_TRUE(sheet.Rules_GetAll()->Get(0)->GetDeclarations().Get(__L("content"), value));
-  EXPECT_EQ(value.Compare(__L("\"x}y\""), true), 0);
+  ASSERT_TRUE(sheet.Rules_GetAll()->Get(0)->GetDeclarations().Get(_L("content"), value));
+  EXPECT_EQ(value.Compare(_L("\"x}y\""), true), 0);
 
-  ASSERT_TRUE(sheet.Rules_GetAll()->Get(0)->GetDeclarations().Get(__L("color"), value));
-  EXPECT_EQ(value.Compare(__L("blue"), true), 0);
+  ASSERT_TRUE(sheet.Rules_GetAll()->Get(0)->GetDeclarations().Get(_L("color"), value));
+  EXPECT_EQ(value.Compare(_L("blue"), true), 0);
 }
 
 
@@ -676,7 +676,7 @@ TEST(UI_CSSParser, SkipToNextRuleResyncsPastAClosingBraceEmbeddedInsideAnUnsuppo
   // EXTRA rule (garbage selector text "y\" ", but a syntactically valid "{ color: red; }" body) ahead of ".ok",
   // so the sheet ends up with 2 rules instead of 1. SkipToNextRule() must skip the quoted span atomically and
   // resync on the at-rule's OWN (real, unquoted) closing brace instead.
-  text.Set(__L("@media \"x}y\" { color: red; } .ok { color: blue; }"));
+  text.Set(_L("@media \"x}y\" { color: red; } .ok { color: blue; }"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   ASSERT_EQ(sheet.Rules_Count(), 1);
@@ -684,7 +684,7 @@ TEST(UI_CSSParser, SkipToNextRuleResyncsPastAClosingBraceEmbeddedInsideAnUnsuppo
   UI_CSSSELECTOR* selector = sheet.Rules_GetAll()->Get(0)->GetSelectors().Get(0);
   ASSERT_TRUE(selector != NULL);
   EXPECT_EQ((int)selector->GetClasses().GetSize(), 1);
-  EXPECT_EQ(selector->GetClasses().Get(0)->Compare(__L("ok"), true), 0);
+  EXPECT_EQ(selector->GetClasses().Get(0)->Compare(_L("ok"), true), 0);
 }
 
 
@@ -696,7 +696,7 @@ TEST(UI_CSSParser, BackslashEscapeInAClassNameEmbedsALiteralDelimiterCharacter)
 
   // ".foo\.bar" names a class literally containing a dot -- the escaped '.' must NOT be read as the start of a
   // second class fragment.
-  text.Set(__L(".foo\\.bar { color: red; }"));
+  text.Set(_L(".foo\\.bar { color: red; }"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
   ASSERT_EQ(sheet.Rules_Count(), 1);
@@ -704,7 +704,7 @@ TEST(UI_CSSParser, BackslashEscapeInAClassNameEmbedsALiteralDelimiterCharacter)
   UI_CSSSELECTOR* selector = sheet.Rules_GetAll()->Get(0)->GetSelectors().Get(0);
   ASSERT_TRUE(selector != NULL);
   ASSERT_EQ((int)selector->GetClasses().GetSize(), 1);
-  EXPECT_EQ(selector->GetClasses().Get(0)->Compare(__L("foo.bar"), true), 0);
+  EXPECT_EQ(selector->GetClasses().Get(0)->Compare(_L("foo.bar"), true), 0);
 }
 
 
@@ -716,31 +716,31 @@ TEST(UI_CSSParser, ImportURLDecodesABackslashEscapeInsideTheQuotedString)
   // escape decoding on a real, filesystem-portable path: if the backslash were NOT decoded away, the importer
   // would look for a file literally named "lexer_escape_th\eme.css" and fail to find it.
   XPATH themepath;
-  UI_CSS_UnitTests_WriteFile(__L("lexer_escape_theme.css"), __L(".imported { color: 8,8,8,255; }"), themepath);
+  UI_CSS_UnitTests_WriteFile(_L("lexer_escape_theme.css"), _L(".imported { color: 8,8,8,255; }"), themepath);
 
-  XSTRING basecontent = __L("@import \"lexer_escape_th\\eme.css\";");
+  XSTRING basecontent = _L("@import \"lexer_escape_th\\eme.css\";");
 
   XPATH basepath;
-  UI_CSS_UnitTests_WriteFile(__L("lexer_escape_base.css"), basecontent.Get(), basepath);
+  UI_CSS_UnitTests_WriteFile(_L("lexer_escape_base.css"), basecontent.Get(), basepath);
 
   UI_CSSPARSER   parser;
   UI_STYLESHEET  sheet;
   ASSERT_TRUE(parser.ParseFile(basepath, sheet));
   ASSERT_EQ(sheet.Rules_Count(), 1);
 
-  XSTRING              elementtype; elementtype.Set(__L("form"));
+  XSTRING              elementtype; elementtype.Set(_L("form"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("imported")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("imported")));
 
   EXPECT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
   XSTRING color;
-  ASSERT_TRUE(out.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("8,8,8,255"), true), 0);
+  ASSERT_TRUE(out.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("8,8,8,255"), true), 0);
 
   elementclasses.DeleteContents();
 }
@@ -755,26 +755,26 @@ TEST(UI_CSSParser, DescendantCombinatorMatchesAnAncestorAtAnyDepthNotJustTheImme
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L("form .a { color: red; }"));
+  text.Set(_L("form .a { color: red; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   UI_CSS_UnitTests_FakeAncestors ancestors;
-  ancestors.AddAncestor(__L("div"));    // depth 0: immediate parent, does NOT match "form"
-  ancestors.AddAncestor(__L("form"));   // depth 1: grandparent, DOES match "form"
+  ancestors.AddAncestor(_L("div"));    // depth 0: immediate parent, does NOT match "form"
+  ancestors.AddAncestor(_L("form"));   // depth 1: grandparent, DOES match "form"
 
-  XSTRING              elementtype; elementtype.Set(__L("button"));
+  XSTRING              elementtype; elementtype.Set(_L("button"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("a")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("a")));
 
   EXPECT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out, &ancestors));
 
   XSTRING color;
-  ASSERT_TRUE(out.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("red"), true), 0);
+  ASSERT_TRUE(out.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("red"), true), 0);
 
   elementclasses.DeleteContents();
 }
@@ -786,19 +786,19 @@ TEST(UI_CSSParser, DescendantCombinatorFailsWhenNoAncestorMatchesAtAll)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L("form .a { color: red; }"));
+  text.Set(_L("form .a { color: red; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   UI_CSS_UnitTests_FakeAncestors ancestors;
-  ancestors.AddAncestor(__L("div"));   // the only ancestor, and it is not "form"
+  ancestors.AddAncestor(_L("div"));   // the only ancestor, and it is not "form"
 
-  XSTRING              elementtype; elementtype.Set(__L("button"));
+  XSTRING              elementtype; elementtype.Set(_L("button"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("a")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("a")));
 
   EXPECT_FALSE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out, &ancestors));
 
@@ -812,25 +812,25 @@ TEST(UI_CSSParser, ChildCombinatorMatchesWhenTheImmediateParentIsExactlyRight)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L("form > .a { color: green; }"));
+  text.Set(_L("form > .a { color: green; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   UI_CSS_UnitTests_FakeAncestors ancestors;
-  ancestors.AddAncestor(__L("form"));   // depth 0: immediate parent, matches
+  ancestors.AddAncestor(_L("form"));   // depth 0: immediate parent, matches
 
-  XSTRING              elementtype; elementtype.Set(__L("button"));
+  XSTRING              elementtype; elementtype.Set(_L("button"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("a")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("a")));
 
   EXPECT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out, &ancestors));
 
   XSTRING color;
-  ASSERT_TRUE(out.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("green"), true), 0);
+  ASSERT_TRUE(out.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("green"), true), 0);
 
   elementclasses.DeleteContents();
 }
@@ -845,20 +845,20 @@ TEST(UI_CSSParser, ChildCombinatorDoesNotMatchAGrandparentEvenThoughDescendantWo
   // Same ancestor shape as DescendantCombinatorMatchesAnAncestorAtAnyDepthNotJustTheImmediateParent, but with
   // '>' instead of a plain space: the child combinator must reject it, since "form" is the GRANDPARENT here,
   // not the immediate parent ("div" is).
-  text.Set(__L("form > .a { color: red; }"));
+  text.Set(_L("form > .a { color: red; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   UI_CSS_UnitTests_FakeAncestors ancestors;
-  ancestors.AddAncestor(__L("div"));
-  ancestors.AddAncestor(__L("form"));
+  ancestors.AddAncestor(_L("div"));
+  ancestors.AddAncestor(_L("form"));
 
-  XSTRING              elementtype; elementtype.Set(__L("button"));
+  XSTRING              elementtype; elementtype.Set(_L("button"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("a")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("a")));
 
   EXPECT_FALSE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out, &ancestors));
 
@@ -875,16 +875,16 @@ TEST(UI_CSSParser, ACombinatorSelectorNeverMatchesWhenNoAncestorProviderIsGiven)
   // The target element's OWN identity (class "a") matches the subject compound fine; without an ancestor
   // provider (the default, NULL) the ancestor requirement can never be verified, so the whole selector must be
   // treated as non-matching -- conservative failure, never a false positive.
-  text.Set(__L("form .a { color: red; }"));
+  text.Set(_L("form .a { color: red; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
-  XSTRING              elementtype; elementtype.Set(__L("button"));
+  XSTRING              elementtype; elementtype.Set(_L("button"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("a")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("a")));
 
   EXPECT_FALSE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
@@ -900,27 +900,27 @@ TEST(UI_CSSParser, TwoHopCombinatorChainMatchesWhenEachStepMatchesItsOwnAncestor
 
   // "form .a > .b": subject is ".b"; its IMMEDIATE parent must match ".a" (child combinator); some ancestor
   // ABOVE that must match "form" (descendant combinator, any depth).
-  text.Set(__L("form .a > .b { color: purple; }"));
+  text.Set(_L("form .a > .b { color: purple; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   UI_CSS_UnitTests_FakeAncestors ancestors;
-  ancestors.AddAncestor(__L("div"), __L("a"));   // depth 0: immediate parent, matches ".a" (child step)
-  ancestors.AddAncestor(__L("section"));         // depth 1: does not match "form" yet
-  ancestors.AddAncestor(__L("form"));            // depth 2: matches "form" (descendant step)
+  ancestors.AddAncestor(_L("div"), _L("a"));   // depth 0: immediate parent, matches ".a" (child step)
+  ancestors.AddAncestor(_L("section"));         // depth 1: does not match "form" yet
+  ancestors.AddAncestor(_L("form"));            // depth 2: matches "form" (descendant step)
 
-  XSTRING              elementtype; elementtype.Set(__L("span"));
+  XSTRING              elementtype; elementtype.Set(_L("span"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("b")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("b")));
 
   EXPECT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out, &ancestors));
 
   XSTRING color;
-  ASSERT_TRUE(out.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("purple"), true), 0);
+  ASSERT_TRUE(out.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("purple"), true), 0);
 
   elementclasses.DeleteContents();
 }
@@ -935,21 +935,21 @@ TEST(UI_CSSParser, TwoHopCombinatorChainFailsWhenTheChildStepAloneDoesNotMatch)
   // Same as the success case above, EXCEPT the immediate parent (depth 0) does not carry class "a" -- the
   // child combinator does not backtrack/search further out, so this must fail even though "form" IS present
   // higher up the chain.
-  text.Set(__L("form .a > .b { color: purple; }"));
+  text.Set(_L("form .a > .b { color: purple; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   UI_CSS_UnitTests_FakeAncestors ancestors;
-  ancestors.AddAncestor(__L("div"));      // depth 0: immediate parent, does NOT carry class "a"
-  ancestors.AddAncestor(__L("section"));
-  ancestors.AddAncestor(__L("form"));
+  ancestors.AddAncestor(_L("div"));      // depth 0: immediate parent, does NOT carry class "a"
+  ancestors.AddAncestor(_L("section"));
+  ancestors.AddAncestor(_L("form"));
 
-  XSTRING              elementtype; elementtype.Set(__L("span"));
+  XSTRING              elementtype; elementtype.Set(_L("span"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("b")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("b")));
 
   EXPECT_FALSE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out, &ancestors));
 
@@ -965,7 +965,7 @@ TEST(UI_CSSSelector, CombinatorSequenceSpecificityIsTheSumOfEveryCompoundsOwnSpe
 
   // "form"=type(1) + ".a"=class(10) + ".b"=class(10) -- real CSS sums specificity across the whole sequence,
   // not just the subject.
-  text.Set(__L("form .a > .b { color: red; }"));
+  text.Set(_L("form .a > .b { color: red; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   ASSERT_EQ(sheet.Rules_Count(), 1);
@@ -984,7 +984,7 @@ TEST(UI_CSSParser, CombinatorFreeSelectorIsUnaffectedByCombinatorSupport)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L(".a { color: red; }"));
+  text.Set(_L(".a { color: red; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   ASSERT_EQ(sheet.Rules_Count(), 1);
@@ -1000,13 +1000,13 @@ TEST(UI_CSSParser, CombinatorFreeSelectorIsUnaffectedByCombinatorSupport)
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("a")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("a")));
 
   EXPECT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
   XSTRING color;
-  ASSERT_TRUE(out.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("red"), true), 0);
+  ASSERT_TRUE(out.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("red"), true), 0);
 
   elementclasses.DeleteContents();
 }
@@ -1019,10 +1019,10 @@ TEST(UI_CSSSelector, SpecificityMatchesDocumentedWeights)
 {
   UI_CSSSELECTOR selector;
 
-  selector.GetType().Set(__L("button"));
-  selector.GetID().Set(__L("myid"));
-  selector.AddClass(__L("primary"));
-  selector.AddPseudo(__L("hover"));
+  selector.GetType().Set(_L("button"));
+  selector.GetID().Set(_L("myid"));
+  selector.AddClass(_L("primary"));
+  selector.AddPseudo(_L("hover"));
   selector.RecomputeSpecificity();
 
   EXPECT_EQ(selector.GetSpecificity(), 100 + 1 + 10 + 10);
@@ -1047,22 +1047,22 @@ TEST(UI_StyleSheet, HigherSpecificityIdBeatsLowerSpecificityClass)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L(".card { color: 1,1,1,255; } #special { color: 2,2,2,255; }"));
+  text.Set(_L(".card { color: 1,1,1,255; } #special { color: 2,2,2,255; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
-  XSTRING              elementtype;  elementtype.Set(__L("form"));
-  XSTRING              elementid;    elementid.Set(__L("special"));
+  XSTRING              elementtype;  elementtype.Set(_L("form"));
+  XSTRING              elementid;    elementid.Set(_L("special"));
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("card")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("card")));
 
   EXPECT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
   XSTRING color;
-  ASSERT_TRUE(out.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("2,2,2,255"), true), 0);
+  ASSERT_TRUE(out.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("2,2,2,255"), true), 0);
 
   elementclasses.DeleteContents();
 }
@@ -1074,22 +1074,22 @@ TEST(UI_StyleSheet, EqualSpecificityTieBrokenBySourceOrderLaterWins)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L(".a { color: 1,1,1,255; } .a { color: 2,2,2,255; }"));
+  text.Set(_L(".a { color: 1,1,1,255; } .a { color: 2,2,2,255; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
-  XSTRING              elementtype;  elementtype.Set(__L("form"));
+  XSTRING              elementtype;  elementtype.Set(_L("form"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("a")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("a")));
 
   EXPECT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
   XSTRING color;
-  ASSERT_TRUE(out.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("2,2,2,255"), true), 0);
+  ASSERT_TRUE(out.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("2,2,2,255"), true), 0);
 
   elementclasses.DeleteContents();
 }
@@ -1101,31 +1101,31 @@ TEST(UI_StyleSheet, PseudoRuleOnlyMatchesWhenThePseudoIsActive)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L("button.nav-hit:hover { background-color: 255,255,255,6; }"));
+  text.Set(_L("button.nav-hit:hover { background-color: 255,255,255,6; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
-  XSTRING              elementtype; elementtype.Set(__L("button"));
+  XSTRING              elementtype; elementtype.Set(_L("button"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             outnothover;
   UI_STYLE             outhover;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("nav-hit")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("nav-hit")));
 
   // No active pseudo: the rule must NOT match.
   EXPECT_FALSE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, outnothover));
   XSTRING dummy;
-  EXPECT_FALSE(outnothover.Get(__L("background-color"), dummy));
+  EXPECT_FALSE(outnothover.Get(_L("background-color"), dummy));
 
   // ":hover" active: the rule DOES match. This is a direct regression test for the shipped dashboard.css
   // "button.nav-hit:hover { background-color: ... }" rule -- see UI_ELEMENT::ReapplyStyleVisual() Phase 0 fix.
-  activepseudos.Add(UI_CSS_UnitTests_NewStr(__L("hover")));
+  activepseudos.Add(UI_CSS_UnitTests_NewStr(_L("hover")));
   EXPECT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, outhover));
 
   XSTRING background;
-  ASSERT_TRUE(outhover.Get(__L("background-color"), background));
-  EXPECT_EQ(background.Compare(__L("255,255,255,6"), true), 0);
+  ASSERT_TRUE(outhover.Get(_L("background-color"), background));
+  EXPECT_EQ(background.Compare(_L("255,255,255,6"), true), 0);
 
   elementclasses.DeleteContents();
   activepseudos.DeleteContents();
@@ -1144,22 +1144,22 @@ TEST(UI_StyleSheet, UniversalSelectorRuleMatchesAnyElementViaTheUnrestrictedBuck
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L("* { color: 3,3,3,255; }"));
+  text.Set(_L("* { color: 3,3,3,255; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
-  XSTRING              elementtype; elementtype.Set(__L("button"));
-  XSTRING              elementid;   elementid.Set(__L("whatever"));
+  XSTRING              elementtype; elementtype.Set(_L("button"));
+  XSTRING              elementid;   elementid.Set(_L("whatever"));
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("some-class")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("some-class")));
 
   EXPECT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
   XSTRING color;
-  ASSERT_TRUE(out.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("3,3,3,255"), true), 0);
+  ASSERT_TRUE(out.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("3,3,3,255"), true), 0);
 
   elementclasses.DeleteContents();
 }
@@ -1171,10 +1171,10 @@ TEST(UI_StyleSheet, TypeOnlySelectorMatchesAnElementWithNoIdOrClasses)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L("button { color: 4,4,4,255; }"));
+  text.Set(_L("button { color: 4,4,4,255; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
-  XSTRING              elementtype; elementtype.Set(__L("button"));
+  XSTRING              elementtype; elementtype.Set(_L("button"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
   XVECTOR<XSTRING*>    activepseudos;
@@ -1183,11 +1183,11 @@ TEST(UI_StyleSheet, TypeOnlySelectorMatchesAnElementWithNoIdOrClasses)
   EXPECT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
   XSTRING color;
-  ASSERT_TRUE(out.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("4,4,4,255"), true), 0);
+  ASSERT_TRUE(out.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("4,4,4,255"), true), 0);
 
   // A DIFFERENT type must not pick up the type-bucket hit.
-  XSTRING otherfromtype; otherfromtype.Set(__L("label"));
+  XSTRING otherfromtype; otherfromtype.Set(_L("label"));
   UI_STYLE outother;
   EXPECT_FALSE(sheet.Resolve(otherfromtype, elementid, elementclasses, activepseudos, outother));
 }
@@ -1201,44 +1201,44 @@ TEST(UI_StyleSheet, OneRuleWithSelectorsOnDifferentAxesMatchesEachAxisIndependen
 
   // Single rule, comma-separated compound selectors landing in different index buckets (id vs class): the id
   // bucket and the class bucket must each independently surface this same UI_CSSRULE as a candidate.
-  text.Set(__L("#only-id, .only-class { color: 5,5,5,255; }"));
+  text.Set(_L("#only-id, .only-class { color: 5,5,5,255; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
-  XSTRING              elementtype; elementtype.Set(__L("form"));
+  XSTRING              elementtype; elementtype.Set(_L("form"));
   XVECTOR<XSTRING*>    activepseudos;
 
   // Match via the id axis only.
   {
-    XSTRING            elementid; elementid.Set(__L("only-id"));
+    XSTRING            elementid; elementid.Set(_L("only-id"));
     XVECTOR<XSTRING*>  elementclasses;
     UI_STYLE           out;
 
     EXPECT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
     XSTRING color;
-    ASSERT_TRUE(out.Get(__L("color"), color));
-    EXPECT_EQ(color.Compare(__L("5,5,5,255"), true), 0);
+    ASSERT_TRUE(out.Get(_L("color"), color));
+    EXPECT_EQ(color.Compare(_L("5,5,5,255"), true), 0);
   }
 
   // Match via the class axis only.
   {
     XSTRING            elementid;
     XVECTOR<XSTRING*>  elementclasses;
-    elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("only-class")));
+    elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("only-class")));
     UI_STYLE           out;
 
     EXPECT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
     XSTRING color;
-    ASSERT_TRUE(out.Get(__L("color"), color));
-    EXPECT_EQ(color.Compare(__L("5,5,5,255"), true), 0);
+    ASSERT_TRUE(out.Get(_L("color"), color));
+    EXPECT_EQ(color.Compare(_L("5,5,5,255"), true), 0);
 
     elementclasses.DeleteContents();
   }
 
   // Neither axis: no match.
   {
-    XSTRING            elementid; elementid.Set(__L("someone-else"));
+    XSTRING            elementid; elementid.Set(_L("someone-else"));
     XVECTOR<XSTRING*>  elementclasses;
     UI_STYLE           out;
 
@@ -1254,10 +1254,10 @@ TEST(UI_StyleSheet, HasPseudoRulesForFindsABarePseudoSelectorViaTheUnrestrictedB
   XSTRING        text;
 
   // ":hover" alone has no type/id/class, so it can only be found through index_unrestricted.
-  text.Set(__L(":hover { color: 6,6,6,255; }"));
+  text.Set(_L(":hover { color: 6,6,6,255; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
-  XSTRING              elementtype; elementtype.Set(__L("button"));
+  XSTRING              elementtype; elementtype.Set(_L("button"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
 
@@ -1271,10 +1271,10 @@ TEST(UI_StyleSheet, HasPseudoRulesForReturnsFalseWhenNoPseudoRuleExistsAtAll)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L("button { color: 7,7,7,255; }"));
+  text.Set(_L("button { color: 7,7,7,255; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
-  XSTRING              elementtype; elementtype.Set(__L("button"));
+  XSTRING              elementtype; elementtype.Set(_L("button"));
   XSTRING              elementid;
   XVECTOR<XSTRING*>    elementclasses;
 
@@ -1291,7 +1291,7 @@ TEST(UI_StyleSheet, RootVariableExpandsIntoDeclarationValue)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L(":root { --accent: 10,20,30,255; } .x { color: var(--accent); }"));
+  text.Set(_L(":root { --accent: 10,20,30,255; } .x { color: var(--accent); }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   // A ":root"-only block never becomes a regular rule, so Rules_Count() reflects only ".x".
@@ -1303,13 +1303,13 @@ TEST(UI_StyleSheet, RootVariableExpandsIntoDeclarationValue)
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("x")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("x")));
 
   ASSERT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
   XSTRING color;
-  ASSERT_TRUE(out.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("10,20,30,255"), true), 0);
+  ASSERT_TRUE(out.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("10,20,30,255"), true), 0);
 
   elementclasses.DeleteContents();
 }
@@ -1321,7 +1321,7 @@ TEST(UI_StyleSheet, UndefinedVariableFallsBackToItsFallbackValue)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L(".y { color: var(--missing, 9,9,9,255); }"));
+  text.Set(_L(".y { color: var(--missing, 9,9,9,255); }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   XSTRING              elementtype;
@@ -1330,13 +1330,13 @@ TEST(UI_StyleSheet, UndefinedVariableFallsBackToItsFallbackValue)
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("y")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("y")));
 
   ASSERT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
   XSTRING color;
-  ASSERT_TRUE(out.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("9,9,9,255"), true), 0);
+  ASSERT_TRUE(out.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("9,9,9,255"), true), 0);
 
   elementclasses.DeleteContents();
 }
@@ -1351,15 +1351,15 @@ TEST(UI_StyleSheet, StylesheetMadeOnlyOfRootStillCountsAsHavingVariables)
   UI_STYLESHEET  sheet;
   XSTRING        text;
 
-  text.Set(__L(":root { --accent: 1,2,3,255; }"));
+  text.Set(_L(":root { --accent: 1,2,3,255; }"));
   ASSERT_TRUE(parser.ParseText(text, sheet));
 
   EXPECT_EQ(sheet.Rules_Count(), 0);
   EXPECT_GT(sheet.Variables_Count(), 0);
 
   XSTRING value;
-  EXPECT_TRUE(sheet.Variables_Get(__L("--accent"), value));
-  EXPECT_EQ(value.Compare(__L("1,2,3,255"), true), 0);
+  EXPECT_TRUE(sheet.Variables_Get(_L("--accent"), value));
+  EXPECT_EQ(value.Compare(_L("1,2,3,255"), true), 0);
 }
 
 
@@ -1369,10 +1369,10 @@ TEST(UI_StyleSheet, StylesheetMadeOnlyOfRootStillCountsAsHavingVariables)
 TEST(UI_CSSParser, ImportPullsRulesFromAnotherFileResolvedRelativeToTheImportingFile)
 {
   XPATH subpath;
-  UI_CSS_UnitTests_WriteFile(__L("import_sub.css"), __L(".imported { color: 7,7,7,255; }"), subpath);
+  UI_CSS_UnitTests_WriteFile(_L("import_sub.css"), _L(".imported { color: 7,7,7,255; }"), subpath);
 
   XPATH basepath;
-  UI_CSS_UnitTests_WriteFile(__L("import_base.css"), __L("@import \"import_sub.css\"; .local { color: 8,8,8,255; }"), basepath);
+  UI_CSS_UnitTests_WriteFile(_L("import_base.css"), _L("@import \"import_sub.css\"; .local { color: 8,8,8,255; }"), basepath);
 
   UI_CSSPARSER   parser;
   UI_STYLESHEET  sheet;
@@ -1386,13 +1386,13 @@ TEST(UI_CSSParser, ImportPullsRulesFromAnotherFileResolvedRelativeToTheImporting
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("imported")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("imported")));
 
   ASSERT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
   XSTRING color;
-  ASSERT_TRUE(out.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("7,7,7,255"), true), 0);
+  ASSERT_TRUE(out.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("7,7,7,255"), true), 0);
 
   elementclasses.DeleteContents();
 }
@@ -1404,8 +1404,8 @@ TEST(UI_CSSParser, CyclicImportTerminatesInsteadOfRecursingForever)
   // rather than hang or crash; this test itself is the regression guard against a broken cycle detector.
   XPATH apath;
   XPATH bpath;
-  UI_CSS_UnitTests_WriteFile(__L("cycle_a.css"), __L("@import \"cycle_b.css\"; .a { color: 1,1,1,255; }"), apath);
-  UI_CSS_UnitTests_WriteFile(__L("cycle_b.css"), __L("@import \"cycle_a.css\"; .b { color: 2,2,2,255; }"), bpath);
+  UI_CSS_UnitTests_WriteFile(_L("cycle_a.css"), _L("@import \"cycle_b.css\"; .a { color: 1,1,1,255; }"), apath);
+  UI_CSS_UnitTests_WriteFile(_L("cycle_b.css"), _L("@import \"cycle_a.css\"; .b { color: 2,2,2,255; }"), bpath);
 
   UI_CSSPARSER   parser;
   UI_STYLESHEET  sheet;
@@ -1426,10 +1426,10 @@ TEST(UI_CSSParser, ImporterOverridingAVariableAfterTheImportLineWinsOverTheImpor
   // table that did not yet contain base.css's override) and permanently consumed the var() token, so
   // ".imported"'s background-color froze on the fallback forever, no matter what base.css declared later.
   XPATH themepath;
-  UI_CSS_UnitTests_WriteFile(__L("varorder_theme.css"), __L(".imported { background-color: var(--brand-color, 1,1,1,255); }"), themepath);
+  UI_CSS_UnitTests_WriteFile(_L("varorder_theme.css"), _L(".imported { background-color: var(--brand-color, 1,1,1,255); }"), themepath);
 
   XPATH basepath;
-  UI_CSS_UnitTests_WriteFile(__L("varorder_base.css"), __L("@import \"varorder_theme.css\"; :root { --brand-color: 9,9,9,255; }"), basepath);
+  UI_CSS_UnitTests_WriteFile(_L("varorder_base.css"), _L("@import \"varorder_theme.css\"; :root { --brand-color: 9,9,9,255; }"), basepath);
 
   UI_CSSPARSER   parser;
   UI_STYLESHEET  sheet;
@@ -1442,13 +1442,13 @@ TEST(UI_CSSParser, ImporterOverridingAVariableAfterTheImportLineWinsOverTheImpor
   XVECTOR<XSTRING*>    activepseudos;
   UI_STYLE             out;
 
-  elementclasses.Add(UI_CSS_UnitTests_NewStr(__L("imported")));
+  elementclasses.Add(UI_CSS_UnitTests_NewStr(_L("imported")));
 
   ASSERT_TRUE(sheet.Resolve(elementtype, elementid, elementclasses, activepseudos, out));
 
   XSTRING bckgrdcolor;
-  ASSERT_TRUE(out.Get(__L("background-color"), bckgrdcolor));
-  EXPECT_EQ(bckgrdcolor.Compare(__L("9,9,9,255"), true), 0);   // the importer's override, not the fallback
+  ASSERT_TRUE(out.Get(_L("background-color"), bckgrdcolor));
+  EXPECT_EQ(bckgrdcolor.Compare(_L("9,9,9,255"), true), 0);   // the importer's override, not the fallback
 
   elementclasses.DeleteContents();
 }
@@ -1462,7 +1462,7 @@ TEST(UI_Style, GetReturnsFalseForAMissingKey)
   UI_STYLE bag;
   XSTRING  value;
 
-  EXPECT_FALSE(bag.Get(__L("does-not-exist"), value));
+  EXPECT_FALSE(bag.Get(_L("does-not-exist"), value));
 }
 
 
@@ -1471,10 +1471,10 @@ TEST(UI_Style, SetThenGetRoundTripsTheSameValue)
   UI_STYLE bag;
   XSTRING  value;
 
-  bag.Set(__L("width"), __L("120"));
+  bag.Set(_L("width"), _L("120"));
 
-  ASSERT_TRUE(bag.Get(__L("width"), value));
-  EXPECT_EQ(value.Compare(__L("120"), true), 0);
+  ASSERT_TRUE(bag.Get(_L("width"), value));
+  EXPECT_EQ(value.Compare(_L("120"), true), 0);
 }
 
 
@@ -1484,13 +1484,13 @@ TEST(UI_Style, InlineDeclarationsUseTheSameGrammarAsARuleBody)
   UI_STYLE     bag;
   XSTRING      text;
 
-  text.Set(__L("color: 1,2,3,255; background-color: 4,5,6,255;"));
+  text.Set(_L("color: 1,2,3,255; background-color: 4,5,6,255;"));
 
   ASSERT_TRUE(parser.ParseInlineDeclarations(text, bag));
 
   XSTRING color;
-  ASSERT_TRUE(bag.Get(__L("color"), color));
-  EXPECT_EQ(color.Compare(__L("1,2,3,255"), true), 0);
+  ASSERT_TRUE(bag.Get(_L("color"), color));
+  EXPECT_EQ(color.Compare(_L("1,2,3,255"), true), 0);
 }
 
 
@@ -1500,28 +1500,28 @@ TEST(UI_Style, BackgroundColorAliasIsReadableThroughEitherSpelling)
   // to UI_ELEMENT::ReapplyStyleVisual() (state changes) rely on: a value authored as the CSS-natural
   // "background-color" must be reachable through the same first-hit alias lookup as the legacy "bckgrdcolor".
   UI_STYLE bag;
-  bag.Set(__L("background-color"), __L("11,22,33,255"));
+  bag.Set(_L("background-color"), _L("11,22,33,255"));
 
   XSTRING resolved;
-  bool    found = bag.Get(__L("bckgrdcolor"), resolved) && !resolved.IsEmpty();
-  if(!found) found = bag.Get(__L("background-color"), resolved) && !resolved.IsEmpty();
+  bool    found = bag.Get(_L("bckgrdcolor"), resolved) && !resolved.IsEmpty();
+  if(!found) found = bag.Get(_L("background-color"), resolved) && !resolved.IsEmpty();
 
   ASSERT_TRUE(found);
-  EXPECT_EQ(resolved.Compare(__L("11,22,33,255"), true), 0);
+  EXPECT_EQ(resolved.Compare(_L("11,22,33,255"), true), 0);
 }
 
 
 TEST(UI_Style, LegacyBckgrdColorSpellingStillWorksUnchanged)
 {
   UI_STYLE bag;
-  bag.Set(__L("bckgrdcolor"), __L("44,55,66,255"));
+  bag.Set(_L("bckgrdcolor"), _L("44,55,66,255"));
 
   XSTRING resolved;
-  bool    found = bag.Get(__L("bckgrdcolor"), resolved) && !resolved.IsEmpty();
-  if(!found) found = bag.Get(__L("background-color"), resolved) && !resolved.IsEmpty();
+  bool    found = bag.Get(_L("bckgrdcolor"), resolved) && !resolved.IsEmpty();
+  if(!found) found = bag.Get(_L("background-color"), resolved) && !resolved.IsEmpty();
 
   ASSERT_TRUE(found);
-  EXPECT_EQ(resolved.Compare(__L("44,55,66,255"), true), 0);
+  EXPECT_EQ(resolved.Compare(_L("44,55,66,255"), true), 0);
 }
 
 
@@ -1531,23 +1531,23 @@ TEST(UI_Style, LegacyBckgrdColorSpellingStillWorksUnchanged)
 TEST(UI_PropertyRegistry, GetAliasedPrefersPrimaryKeyWhenBothArePresent)
 {
   UI_STYLE bag;
-  bag.Set(__L("bckgrdcolor"), __L("1,2,3,255"));
-  bag.Set(__L("background-color"), __L("9,9,9,255"));
+  bag.Set(_L("bckgrdcolor"), _L("1,2,3,255"));
+  bag.Set(_L("background-color"), _L("9,9,9,255"));
 
   XSTRING resolved;
-  ASSERT_TRUE(UI_PROPERTYREGISTRY::GetAliased(bag, __L("bckgrdcolor"), __L("background-color"), resolved));
-  EXPECT_EQ(resolved.Compare(__L("1,2,3,255"), true), 0);
+  ASSERT_TRUE(UI_PROPERTYREGISTRY::GetAliased(bag, _L("bckgrdcolor"), _L("background-color"), resolved));
+  EXPECT_EQ(resolved.Compare(_L("1,2,3,255"), true), 0);
 }
 
 
 TEST(UI_PropertyRegistry, GetAliasedFallsBackToSecondaryKeyWhenPrimaryIsAbsent)
 {
   UI_STYLE bag;
-  bag.Set(__L("background-color"), __L("11,22,33,255"));
+  bag.Set(_L("background-color"), _L("11,22,33,255"));
 
   XSTRING resolved;
-  ASSERT_TRUE(UI_PROPERTYREGISTRY::GetAliased(bag, __L("bckgrdcolor"), __L("background-color"), resolved));
-  EXPECT_EQ(resolved.Compare(__L("11,22,33,255"), true), 0);
+  ASSERT_TRUE(UI_PROPERTYREGISTRY::GetAliased(bag, _L("bckgrdcolor"), _L("background-color"), resolved));
+  EXPECT_EQ(resolved.Compare(_L("11,22,33,255"), true), 0);
 }
 
 
@@ -1556,13 +1556,13 @@ TEST(UI_PropertyRegistry, GetAliasedReturnsFalseWhenNeitherKeyIsPresent)
   UI_STYLE bag;
 
   XSTRING resolved;
-  EXPECT_FALSE(UI_PROPERTYREGISTRY::GetAliased(bag, __L("bckgrdcolor"), __L("background-color"), resolved));
+  EXPECT_FALSE(UI_PROPERTYREGISTRY::GetAliased(bag, _L("bckgrdcolor"), _L("background-color"), resolved));
 }
 
 
 TEST(UI_PropertyRegistry, ExpandCSSShorthand4WithOneValueAppliesToAllFourSlots)
 {
-  XSTRING text(__L("4"));
+  XSTRING text(_L("4"));
   double  out[4] = { -1.0, -1.0, -1.0, -1.0 };
 
   UI_PROPERTYREGISTRY::ExpandCSSShorthand4(text, out);
@@ -1573,7 +1573,7 @@ TEST(UI_PropertyRegistry, ExpandCSSShorthand4WithOneValueAppliesToAllFourSlots)
 
 TEST(UI_PropertyRegistry, ExpandCSSShorthand4WithTwoValuesPairsOppositeSlots)
 {
-  XSTRING text(__L("4,8"));
+  XSTRING text(_L("4,8"));
   double  out[4] = { -1.0, -1.0, -1.0, -1.0 };
 
   UI_PROPERTYREGISTRY::ExpandCSSShorthand4(text, out);
@@ -1585,7 +1585,7 @@ TEST(UI_PropertyRegistry, ExpandCSSShorthand4WithTwoValuesPairsOppositeSlots)
 
 TEST(UI_PropertyRegistry, ExpandCSSShorthand4WithThreeValuesMirrorsMiddleSlotAcrossOneTwoThree)
 {
-  XSTRING text(__L("4 8 12"));
+  XSTRING text(_L("4 8 12"));
   double  out[4] = { -1.0, -1.0, -1.0, -1.0 };
 
   UI_PROPERTYREGISTRY::ExpandCSSShorthand4(text, out);
@@ -1598,7 +1598,7 @@ TEST(UI_PropertyRegistry, ExpandCSSShorthand4WithThreeValuesMirrorsMiddleSlotAcr
 
 TEST(UI_PropertyRegistry, ExpandCSSShorthand4WithFourValuesAssignsEachSlotInOrder)
 {
-  XSTRING text(__L("1,2,3,4"));
+  XSTRING text(_L("1,2,3,4"));
   double  out[4] = { -1.0, -1.0, -1.0, -1.0 };
 
   UI_PROPERTYREGISTRY::ExpandCSSShorthand4(text, out);
@@ -1610,7 +1610,7 @@ TEST(UI_PropertyRegistry, ExpandCSSShorthand4WithFourValuesAssignsEachSlotInOrde
 // Fase 8: UI_LENGTH_CONTEXT-aware length tokens for stylesheet layouts.
 TEST(UI_PropertyRegistry, ResolveLengthTokenRemUsesRootFontSize)
 {
-  XSTRING           raw(__L("0.5rem"));
+  XSTRING           raw(_L("0.5rem"));
   UI_LENGTH_CONTEXT ctx = { 0.0, 30.0, 16.0, 1440.0, 900.0 };
   double            out = -1.0;
 
@@ -1622,7 +1622,7 @@ TEST(UI_PropertyRegistry, ResolveLengthTokenRemUsesRootFontSize)
 // Track L.2: gap / flex-basis authors use the same ResolveLengthToken path as padding.
 TEST(UI_PropertyRegistry, ResolveLengthTokenOnePointThreeSevenFiveRemIsTwentyTwoPxAtRootSixteen)
 {
-  XSTRING           raw(__L("1.375rem"));
+  XSTRING           raw(_L("1.375rem"));
   UI_LENGTH_CONTEXT ctx = { 0.0, 16.0, 16.0, 1440.0, 900.0 };
   double            out = -1.0;
 
@@ -1633,7 +1633,7 @@ TEST(UI_PropertyRegistry, ResolveLengthTokenOnePointThreeSevenFiveRemIsTwentyTwo
 
 TEST(UI_PropertyRegistry, ResolveLengthTokenVwUsesViewportWidth)
 {
-  XSTRING           raw(__L("10vw"));
+  XSTRING           raw(_L("10vw"));
   UI_LENGTH_CONTEXT ctx = { 0.0, 16.0, 16.0, 1440.0, 900.0 };
   double            out = -1.0;
 
@@ -1644,7 +1644,7 @@ TEST(UI_PropertyRegistry, ResolveLengthTokenVwUsesViewportWidth)
 
 TEST(UI_PropertyRegistry, ExpandCSSShorthand4LengthsResolvesMixedRemAndPx)
 {
-  XSTRING           raw(__L("0.5rem 8"));
+  XSTRING           raw(_L("0.5rem 8"));
   UI_LENGTH_CONTEXT ctx = { 200.0, 16.0, 16.0, 1440.0, 900.0 };
   double            out[4] = { -1.0, -1.0, -1.0, -1.0 };
 
@@ -1660,7 +1660,7 @@ TEST(UI_PropertyRegistry, ExpandCSSShorthand4LengthsResolvesMixedRemAndPx)
 TEST(UI_PropertyRegistry, ResolveMarginEdgesWithLengthContextResolvesRemLonghand)
 {
   UI_STYLE style;
-  style.Set(__L("margin-top"), __L("0.5rem"));
+  style.Set(_L("margin-top"), _L("0.5rem"));
 
   UI_LENGTH_CONTEXT ctx = { 0.0, 16.0, 16.0, 1440.0, 900.0 };
   double            edges[4] = { -1.0, -1.0, -1.0, -1.0 };
@@ -1673,7 +1673,7 @@ TEST(UI_PropertyRegistry, ResolveMarginEdgesWithLengthContextResolvesRemLonghand
 // Phase 0: margin 4-value CSS TRBL expansion (used when a layout has a stylesheet).
 TEST(UI_PropertyRegistry, MarginFourValueTRBLExpansionMatchesPaddingOrder)
 {
-  XSTRING text(__L("10 20 30 40"));
+  XSTRING text(_L("10 20 30 40"));
   double  out[4] = { -1.0, -1.0, -1.0, -1.0 };
 
   UI_PROPERTYREGISTRY::ExpandCSSShorthand4(text, out);
@@ -1690,7 +1690,7 @@ TEST(UI_PropertyRegistry, MarginFourValueTRBLExpansionMatchesPaddingOrder)
 TEST(UI_PropertyRegistry, ResolveMarginEdgesLegacyFourValueKeepsLeftRightUpDownOrder)
 {
   UI_STYLE style;
-  style.Set(__L("margin"), __L("10,20,30,40"));   // LEFT,RIGHT,UP,DOWN when use_css_trbl=false
+  style.Set(_L("margin"), _L("10,20,30,40"));   // LEFT,RIGHT,UP,DOWN when use_css_trbl=false
 
   double edges[4] = { -1.0, -1.0, -1.0, -1.0 };
   ASSERT_TRUE(UI_PROPERTYREGISTRY::ResolveMarginEdges(style, false, false, edges));
@@ -1705,7 +1705,7 @@ TEST(UI_PropertyRegistry, ResolveMarginEdgesLegacyFourValueKeepsLeftRightUpDownO
 TEST(UI_PropertyRegistry, ResolveMarginEdgesWithStylesheetUsesCssTrblOrder)
 {
   UI_STYLE style;
-  style.Set(__L("margin"), __L("10,20,30,40"));   // TOP,RIGHT,BOTTOM,LEFT when use_css_trbl=true
+  style.Set(_L("margin"), _L("10,20,30,40"));   // TOP,RIGHT,BOTTOM,LEFT when use_css_trbl=true
 
   double edges[4] = { -1.0, -1.0, -1.0, -1.0 };
   ASSERT_TRUE(UI_PROPERTYREGISTRY::ResolveMarginEdges(style, true, true, edges));
@@ -1720,9 +1720,9 @@ TEST(UI_PropertyRegistry, ResolveMarginEdgesWithStylesheetUsesCssTrblOrder)
 TEST(UI_PropertyRegistry, ResolveMarginEdgesLonghandsOverrideShorthandOnlyWhenEnabled)
 {
   UI_STYLE style;
-  style.Set(__L("margin"), __L("0,0,0,24"));          // CSS TRBL: left=24
-  style.Set(__L("margin-top"), __L("12"));
-  style.Set(__L("margin-left"), __L("8"));
+  style.Set(_L("margin"), _L("0,0,0,24"));          // CSS TRBL: left=24
+  style.Set(_L("margin-top"), _L("12"));
+  style.Set(_L("margin-left"), _L("8"));
 
   double with_lh[4] = { -1.0, -1.0, -1.0, -1.0 };
   ASSERT_TRUE(UI_PROPERTYREGISTRY::ResolveMarginEdges(style, true, true, with_lh));
@@ -1742,9 +1742,9 @@ TEST(UI_PropertyRegistry, ResolveMarginEdgesIgnoresLonghandsOnLegacyPathEvenIfPr
 {
   // XML-only layouts must not honour margin-* keys (isolation contract for UI_Options).
   UI_STYLE style;
-  style.Set(__L("margin"), __L("5,6,7,8"));           // legacy L,R,U,D
-  style.Set(__L("margin-top"), __L("99"));
-  style.Set(__L("margin-left"), __L("88"));
+  style.Set(_L("margin"), _L("5,6,7,8"));           // legacy L,R,U,D
+  style.Set(_L("margin-top"), _L("99"));
+  style.Set(_L("margin-left"), _L("88"));
 
   double edges[4] = { -1.0, -1.0, -1.0, -1.0 };
   ASSERT_TRUE(UI_PROPERTYREGISTRY::ResolveMarginEdges(style, false, false, edges));
@@ -1759,8 +1759,8 @@ TEST(UI_PropertyRegistry, ResolveMarginEdgesIgnoresLonghandsOnLegacyPathEvenIfPr
 TEST(UI_PropertyRegistry, ResolveMarginEdgesLonghandsAloneWorkWithoutShorthand)
 {
   UI_STYLE style;
-  style.Set(__L("margin-top"), __L("12"));
-  style.Set(__L("margin-left"), __L("24"));
+  style.Set(_L("margin-top"), _L("12"));
+  style.Set(_L("margin-left"), _L("24"));
 
   double edges[4] = { -1.0, -1.0, -1.0, -1.0 };
   ASSERT_TRUE(UI_PROPERTYREGISTRY::ResolveMarginEdges(style, true, true, edges));
@@ -1775,7 +1775,7 @@ TEST(UI_PropertyRegistry, ResolveMarginEdgesLonghandsAloneWorkWithoutShorthand)
 TEST(UI_PropertyRegistry, ResolveMarginEdgesReturnsFalseWhenNoMarginKeysPresent)
 {
   UI_STYLE style;
-  style.Set(__L("color"), __L("255,0,0"));
+  style.Set(_L("color"), _L("255,0,0"));
 
   double edges[4] = { 1.0, 2.0, 3.0, 4.0 };
   EXPECT_FALSE(UI_PROPERTYREGISTRY::ResolveMarginEdges(style, true, true, edges));
@@ -1786,7 +1786,7 @@ TEST(UI_PropertyRegistry, ResolveMarginEdgesReturnsFalseWhenNoMarginKeysPresent)
 
 TEST(UI_PropertyRegistry, TokenizeNumbersStopsAtCapacityAndAcceptsMixedSeparators)
 {
-  XSTRING text(__L("1 2,3\t4 5"));
+  XSTRING text(_L("1 2,3\t4 5"));
   double  vals[3] = { -1.0, -1.0, -1.0 };
 
   XDWORD  n = UI_PROPERTYREGISTRY::TokenizeNumbers(text, vals, 3);
@@ -1801,42 +1801,42 @@ TEST(UI_PropertyRegistry, TokenizeNumbersStopsAtCapacityAndAcceptsMixedSeparator
 
 TEST(UI_PropertyRegistry, ParseBoxShadowWithThreeTokensLeavesBlurAtZero)
 {
-  XSTRING raw(__L("2 4 red"));
+  XSTRING raw(_L("2 4 red"));
   double  x = -1.0, y = -1.0, blur = -1.0;
   XSTRING color;
 
   ASSERT_TRUE(UI_PROPERTYREGISTRY::ParseBoxShadow(raw, x, y, blur, color));
   EXPECT_EQ(x, 2.0); EXPECT_EQ(y, 4.0); EXPECT_EQ(blur, 0.0);
-  EXPECT_TRUE(!color.Compare(__L("red"), true));
+  EXPECT_TRUE(!color.Compare(_L("red"), true));
 }
 
 TEST(UI_PropertyRegistry, ParseBoxShadowWithFourTokensReadsBlur)
 {
-  XSTRING raw(__L("2 4 8 #FF0000FF"));
+  XSTRING raw(_L("2 4 8 #FF0000FF"));
   double  x = 0.0, y = 0.0, blur = 0.0;
   XSTRING color;
 
   ASSERT_TRUE(UI_PROPERTYREGISTRY::ParseBoxShadow(raw, x, y, blur, color));
   EXPECT_EQ(x, 2.0); EXPECT_EQ(y, 4.0); EXPECT_EQ(blur, 8.0);
-  EXPECT_TRUE(!color.Compare(__L("#FF0000FF"), true));
+  EXPECT_TRUE(!color.Compare(_L("#FF0000FF"), true));
 }
 
 TEST(UI_PropertyRegistry, ParseBoxShadowTreatsACommaTupleColorAsNonNumericEvenWhenItStartsWithADigit)
 {
   // "0,0,0,120" starts with a digit like an offset would, but its interior comma marks it as a GEN
   // "R,G,B[,A]" colour tuple, not a third numeric (blur) token -- see the has_comma check.
-  XSTRING raw(__L("2 4 0,0,0,120"));
+  XSTRING raw(_L("2 4 0,0,0,120"));
   double  x = -1.0, y = -1.0, blur = -1.0;
   XSTRING color;
 
   ASSERT_TRUE(UI_PROPERTYREGISTRY::ParseBoxShadow(raw, x, y, blur, color));
   EXPECT_EQ(x, 2.0); EXPECT_EQ(y, 4.0); EXPECT_EQ(blur, 0.0);
-  EXPECT_TRUE(!color.Compare(__L("0,0,0,120"), true));
+  EXPECT_TRUE(!color.Compare(_L("0,0,0,120"), true));
 }
 
 TEST(UI_PropertyRegistry, ParseBoxShadowReturnsFalseWhenTheColorIsMissing)
 {
-  XSTRING raw(__L("2 4"));
+  XSTRING raw(_L("2 4"));
   double  x = 0.0, y = 0.0, blur = 0.0;
   XSTRING color;
 
@@ -1845,7 +1845,7 @@ TEST(UI_PropertyRegistry, ParseBoxShadowReturnsFalseWhenTheColorIsMissing)
 
 TEST(UI_PropertyRegistry, ParseBoxShadowReturnsFalseForAnEmptyString)
 {
-  XSTRING raw(__L(""));
+  XSTRING raw(_L(""));
   double  x = 0.0, y = 0.0, blur = 0.0;
   XSTRING color;
 
@@ -1858,7 +1858,7 @@ TEST(UI_PropertyRegistry, ParseBoxShadowReturnsFalseForAnEmptyString)
 
 TEST(UI_Length, ParsesAPlainNumberAsNumberType)
 {
-  XSTRING   raw(__L("42"));
+  XSTRING   raw(_L("42"));
   UI_LENGTH length;
 
   ASSERT_TRUE(length.Parse(raw));
@@ -1869,7 +1869,7 @@ TEST(UI_Length, ParsesAPlainNumberAsNumberType)
 
 TEST(UI_Length, ParsesATrailingPercentSignAsPercentType)
 {
-  XSTRING   raw(__L("50%"));
+  XSTRING   raw(_L("50%"));
   UI_LENGTH length;
 
   ASSERT_TRUE(length.Parse(raw));
@@ -1880,13 +1880,13 @@ TEST(UI_Length, ParsesATrailingPercentSignAsPercentType)
 
 TEST(UI_Length, ParsesANonNumericTokenAsKeywordType)
 {
-  XSTRING   raw(__L("left"));
+  XSTRING   raw(_L("left"));
   UI_LENGTH length;
 
   ASSERT_TRUE(length.Parse(raw));
   EXPECT_EQ(length.GetType(), UI_LENGTH_TYPE_KEYWORD);
-  EXPECT_TRUE(length.IsKeyword(__L("LEFT")));  // case-insensitive, matching the rest of this subsystem
-  EXPECT_FALSE(length.IsKeyword(__L("right")));
+  EXPECT_TRUE(length.IsKeyword(_L("LEFT")));  // case-insensitive, matching the rest of this subsystem
+  EXPECT_FALSE(length.IsKeyword(_L("right")));
 }
 
 
@@ -1902,7 +1902,7 @@ TEST(UI_Length, ParseReturnsFalseForAnEmptyString)
 
 TEST(UI_Length, ResolveAppliesPercentAgainstTheGivenBasis)
 {
-  XSTRING   raw(__L("25%"));
+  XSTRING   raw(_L("25%"));
   UI_LENGTH length;
   double    out = -1.0;
 
@@ -1914,7 +1914,7 @@ TEST(UI_Length, ResolveAppliesPercentAgainstTheGivenBasis)
 
 TEST(UI_Length, ResolveIgnoresBasisForANumber)
 {
-  XSTRING   raw(__L("42"));
+  XSTRING   raw(_L("42"));
   UI_LENGTH length;
   double    out = -1.0;
 
@@ -1926,7 +1926,7 @@ TEST(UI_Length, ResolveIgnoresBasisForANumber)
 
 TEST(UI_Length, ResolveReturnsFalseForAKeyword)
 {
-  XSTRING   raw(__L("auto"));
+  XSTRING   raw(_L("auto"));
   UI_LENGTH length;
   double    out = -1.0;
 
@@ -1940,7 +1940,7 @@ TEST(UI_Length, ResolveReturnsFalseForAKeyword)
 
 TEST(UI_Length, ParsesAnEmSuffixAsEmType)
 {
-  XSTRING   raw(__L("1.5em"));
+  XSTRING   raw(_L("1.5em"));
   UI_LENGTH length;
 
   ASSERT_TRUE(length.Parse(raw));
@@ -1951,7 +1951,7 @@ TEST(UI_Length, ParsesAnEmSuffixAsEmType)
 
 TEST(UI_Length, ParsesARemSuffixAsRemTypeNotEm)
 {
-  XSTRING   raw(__L("2rem"));
+  XSTRING   raw(_L("2rem"));
   UI_LENGTH length;
 
   ASSERT_TRUE(length.Parse(raw));
@@ -1962,7 +1962,7 @@ TEST(UI_Length, ParsesARemSuffixAsRemTypeNotEm)
 
 TEST(UI_Length, ParsesAVwSuffixAsVwType)
 {
-  XSTRING   raw(__L("50vw"));
+  XSTRING   raw(_L("50vw"));
   UI_LENGTH length;
 
   ASSERT_TRUE(length.Parse(raw));
@@ -1973,7 +1973,7 @@ TEST(UI_Length, ParsesAVwSuffixAsVwType)
 
 TEST(UI_Length, ParsesAVhSuffixAsVhType)
 {
-  XSTRING   raw(__L("25vh"));
+  XSTRING   raw(_L("25vh"));
   UI_LENGTH length;
 
   ASSERT_TRUE(length.Parse(raw));
@@ -1984,7 +1984,7 @@ TEST(UI_Length, ParsesAVhSuffixAsVhType)
 
 TEST(UI_Length, ResolveWithContextAppliesEmAgainstTheElementsOwnFontSize)
 {
-  XSTRING            raw(__L("2em"));
+  XSTRING            raw(_L("2em"));
   UI_LENGTH          length;
   UI_LENGTH_CONTEXT  context = { 0.0, 16.0, 10.0, 1440.0, 900.0 };
   double             out = -1.0;
@@ -1997,7 +1997,7 @@ TEST(UI_Length, ResolveWithContextAppliesEmAgainstTheElementsOwnFontSize)
 
 TEST(UI_Length, ResolveWithContextAppliesRemAgainstTheRootFontSizeNotTheElementsOwn)
 {
-  XSTRING            raw(__L("2rem"));
+  XSTRING            raw(_L("2rem"));
   UI_LENGTH          length;
   UI_LENGTH_CONTEXT  context = { 0.0, 30.0, 10.0, 1440.0, 900.0 };   // element font-size deliberately different
   double             out = -1.0;
@@ -2010,8 +2010,8 @@ TEST(UI_Length, ResolveWithContextAppliesRemAgainstTheRootFontSizeNotTheElements
 
 TEST(UI_Length, ResolveWithContextAppliesVwAndVhAgainstTheViewport)
 {
-  XSTRING            rawwidth(__L("50vw"));
-  XSTRING            rawheight(__L("10vh"));
+  XSTRING            rawwidth(_L("50vw"));
+  XSTRING            rawheight(_L("10vh"));
   UI_LENGTH          width, height;
   UI_LENGTH_CONTEXT  context = { 0.0, 16.0, 16.0, 1440.0, 900.0 };
   double             outwidth = -1.0, outheight = -1.0;
@@ -2027,7 +2027,7 @@ TEST(UI_Length, ResolveWithContextAppliesVwAndVhAgainstTheViewport)
 
 TEST(UI_Length, OldBasisOnlyResolveOverloadReturnsFalseForANewUnitType)
 {
-  XSTRING   raw(__L("2em"));
+  XSTRING   raw(_L("2em"));
   UI_LENGTH length;
   double    out = -1.0;
 
@@ -2038,7 +2038,7 @@ TEST(UI_Length, OldBasisOnlyResolveOverloadReturnsFalseForANewUnitType)
 
 TEST(UI_Length, CalcAddsAPercentAndAPixelLength)
 {
-  XSTRING            raw(__L("calc(100% - 20)"));
+  XSTRING            raw(_L("calc(100% - 20)"));
   UI_LENGTH          length;
   UI_LENGTH_CONTEXT  context = { 200.0, 16.0, 16.0, 1440.0, 900.0 };
   double             out = -1.0;
@@ -2052,7 +2052,7 @@ TEST(UI_Length, CalcAddsAPercentAndAPixelLength)
 
 TEST(UI_Length, CalcRespectsMultiplicationPrecedenceOverAddition)
 {
-  XSTRING            raw(__L("calc(10 + 2 * 3)"));
+  XSTRING            raw(_L("calc(10 + 2 * 3)"));
   UI_LENGTH          length;
   UI_LENGTH_CONTEXT  context = { 0.0, 16.0, 16.0, 1440.0, 900.0 };
   double             out = -1.0;
@@ -2065,7 +2065,7 @@ TEST(UI_Length, CalcRespectsMultiplicationPrecedenceOverAddition)
 
 TEST(UI_Length, CalcHonoursExplicitParentheses)
 {
-  XSTRING            raw(__L("calc((10 + 2) * 3)"));
+  XSTRING            raw(_L("calc((10 + 2) * 3)"));
   UI_LENGTH          length;
   UI_LENGTH_CONTEXT  context = { 0.0, 16.0, 16.0, 1440.0, 900.0 };
   double             out = -1.0;
@@ -2078,7 +2078,7 @@ TEST(UI_Length, CalcHonoursExplicitParentheses)
 
 TEST(UI_Length, CalcCanMixEmAndVwOperands)
 {
-  XSTRING            raw(__L("calc(1em + 10vw)"));
+  XSTRING            raw(_L("calc(1em + 10vw)"));
   UI_LENGTH          length;
   UI_LENGTH_CONTEXT  context = { 0.0, 16.0, 16.0, 1000.0, 900.0 };
   double             out = -1.0;
@@ -2091,7 +2091,7 @@ TEST(UI_Length, CalcCanMixEmAndVwOperands)
 
 TEST(UI_Length, CalcDivisionByZeroFailsResolveRatherThanReturningInfinity)
 {
-  XSTRING            raw(__L("calc(10 / 0)"));
+  XSTRING            raw(_L("calc(10 / 0)"));
   UI_LENGTH          length;
   UI_LENGTH_CONTEXT  context = { 0.0, 16.0, 16.0, 1440.0, 900.0 };
   double             out = -1.0;
@@ -2103,18 +2103,18 @@ TEST(UI_Length, CalcDivisionByZeroFailsResolveRatherThanReturningInfinity)
 
 TEST(UI_Length, MalformedCalcFallsBackToKeywordInsteadOfFailingParse)
 {
-  XSTRING   raw(__L("calc(100% -)"));           // dangling operator, no right-hand operand
+  XSTRING   raw(_L("calc(100% -)"));           // dangling operator, no right-hand operand
   UI_LENGTH length;
 
   ASSERT_TRUE(length.Parse(raw));               // Parse() itself never fails except for empty input
   EXPECT_EQ(length.GetType(), UI_LENGTH_TYPE_KEYWORD);
-  EXPECT_TRUE(length.IsKeyword(__L("calc(100% -)")));
+  EXPECT_TRUE(length.IsKeyword(_L("calc(100% -)")));
 }
 
 
 TEST(UI_Length, LeadingAndTrailingWhitespaceIsTrimmedBeforeClassification)
 {
-  XSTRING   raw(__L(" 42 "));
+  XSTRING   raw(_L(" 42 "));
   UI_LENGTH length;
 
   ASSERT_TRUE(length.Parse(raw));
@@ -2129,10 +2129,10 @@ TEST(UI_Length, LeadingAndTrailingWhitespaceIsTrimmedBeforeClassification)
 TEST(UI_ComputedStyle, GetLengthParsesTheRawStringAtTheGivenKey)
 {
   UI_COMPUTEDSTYLE style;
-  style.Set(__L("width"), __L("75%"));
+  style.Set(_L("width"), _L("75%"));
 
   UI_LENGTH width;
-  ASSERT_TRUE(style.GetLength(__L("width"), width));
+  ASSERT_TRUE(style.GetLength(_L("width"), width));
   EXPECT_EQ(width.GetType(), UI_LENGTH_TYPE_PERCENT);
   EXPECT_EQ(width.GetValue(), 75.0);
 }
@@ -2143,17 +2143,17 @@ TEST(UI_ComputedStyle, GetLengthReturnsFalseForAMissingKey)
   UI_COMPUTEDSTYLE style;
 
   UI_LENGTH width;
-  EXPECT_FALSE(style.GetLength(__L("width"), width));
+  EXPECT_FALSE(style.GetLength(_L("width"), width));
 }
 
 
 TEST(UI_ComputedStyle, GetLengthAliasedPrefersThePrimaryKey)
 {
   UI_COMPUTEDSTYLE style;
-  style.Set(__L("xpos"), __L("10"));
+  style.Set(_L("xpos"), _L("10"));
 
   UI_LENGTH resolved;
-  ASSERT_TRUE(style.GetLength(__L("xpos"), __L("x"), resolved));
+  ASSERT_TRUE(style.GetLength(_L("xpos"), _L("x"), resolved));
   EXPECT_EQ(resolved.GetValue(), 10.0);
 }
 
@@ -2161,10 +2161,10 @@ TEST(UI_ComputedStyle, GetLengthAliasedPrefersThePrimaryKey)
 TEST(UI_ComputedStyle, GetColorParsesAnRGBATuple)
 {
   UI_COMPUTEDSTYLE style;
-  style.Set(__L("color"), __L("10,20,30,255"));
+  style.Set(_L("color"), _L("10,20,30,255"));
 
   UI_COLOR color;
-  ASSERT_TRUE(style.GetColor(__L("color"), color));
+  ASSERT_TRUE(style.GetColor(_L("color"), color));
   EXPECT_EQ(color.GetRed(), 10);
   EXPECT_EQ(color.GetGreen(), 20);
   EXPECT_EQ(color.GetBlue() , 30);
@@ -2174,10 +2174,10 @@ TEST(UI_ComputedStyle, GetColorParsesAnRGBATuple)
 TEST(UI_ComputedStyle, GetColorAliasedFallsBackToTheCSSNaturalName)
 {
   UI_COMPUTEDSTYLE style;
-  style.Set(__L("background-color"), __L("1,2,3,255"));
+  style.Set(_L("background-color"), _L("1,2,3,255"));
 
   UI_COLOR color;
-  ASSERT_TRUE(style.GetColor(__L("bckgrdcolor"), __L("background-color"), color));
+  ASSERT_TRUE(style.GetColor(_L("bckgrdcolor"), _L("background-color"), color));
   EXPECT_EQ(color.GetRed(), 1);
 }
 
@@ -2188,10 +2188,10 @@ TEST(UI_ComputedStyle, InheritsTheUnderlyingBagUnchanged)
   // plain string/double Get()/Set() keep working exactly as before -- this is what lets it be a drop-in
   // replacement everywhere GetLayoutElement_Base() used to build a plain UI_STYLE.
   UI_COMPUTEDSTYLE style;
-  style.Set(__L("sizefont"), __L("14"));
+  style.Set(_L("sizefont"), _L("14"));
 
   double sizefont = 0.0;
-  ASSERT_TRUE(style.Get(__L("sizefont"), sizefont));
+  ASSERT_TRUE(style.Get(_L("sizefont"), sizefont));
   EXPECT_EQ(sizefont, 14.0);
 }
 
@@ -2202,7 +2202,7 @@ TEST(UI_ComputedStyle, InheritsTheUnderlyingBagUnchanged)
 TEST(UI_ComputedStyle, GetBoxSizingReadsBorderBox)
 {
   UI_COMPUTEDSTYLE style;
-  style.Set(__L("box-sizing"), __L("border-box"));
+  style.Set(_L("box-sizing"), _L("border-box"));
 
   UI_BOXSIZING boxsizing = UI_BOXSIZING_CONTENTBOX;
   ASSERT_TRUE(style.GetBoxSizing(boxsizing));
@@ -2213,7 +2213,7 @@ TEST(UI_ComputedStyle, GetBoxSizingReadsBorderBox)
 TEST(UI_ComputedStyle, GetBoxSizingReadsContentBoxExplicitly)
 {
   UI_COMPUTEDSTYLE style;
-  style.Set(__L("box-sizing"), __L("content-box"));
+  style.Set(_L("box-sizing"), _L("content-box"));
 
   UI_BOXSIZING boxsizing = UI_BOXSIZING_BORDERBOX;   // deliberately pre-set to the OTHER value
   ASSERT_TRUE(style.GetBoxSizing(boxsizing));
@@ -2234,7 +2234,7 @@ TEST(UI_ComputedStyle, GetBoxSizingDefaultsToContentBoxWhenAbsent)
 TEST(UI_ComputedStyle, GetBoxSizingDefaultsToContentBoxForAnUnrecognizedKeyword)
 {
   UI_COMPUTEDSTYLE style;
-  style.Set(__L("box-sizing"), __L("padding-box"));  // real CSS, but not one GEN CSS Lite supports
+  style.Set(_L("box-sizing"), _L("padding-box"));  // real CSS, but not one GEN CSS Lite supports
 
   UI_BOXSIZING boxsizing = UI_BOXSIZING_BORDERBOX;
   EXPECT_FALSE(style.GetBoxSizing(boxsizing));
@@ -2247,7 +2247,7 @@ TEST(UI_ComputedStyle, ClampToMinMaxLeavesValueUnchangedWhenNeitherBoundIsPresen
   UI_COMPUTEDSTYLE  style;
   UI_LENGTH_CONTEXT context = { 0.0, 16.0, 16.0, 1440.0, 900.0 };
 
-  EXPECT_EQ(style.ClampToMinMax(150.0, __L("min-width"), __L("max-width"), context), 150.0);
+  EXPECT_EQ(style.ClampToMinMax(150.0, _L("min-width"), _L("max-width"), context), 150.0);
 }
 
 
@@ -2255,9 +2255,9 @@ TEST(UI_ComputedStyle, ClampToMinMaxPullsAValueUpToTheMinimum)
 {
   UI_COMPUTEDSTYLE  style;
   UI_LENGTH_CONTEXT context = { 0.0, 16.0, 16.0, 1440.0, 900.0 };
-  style.Set(__L("min-width"), __L("100"));
+  style.Set(_L("min-width"), _L("100"));
 
-  EXPECT_EQ(style.ClampToMinMax(40.0, __L("min-width"), __L("max-width"), context), 100.0);
+  EXPECT_EQ(style.ClampToMinMax(40.0, _L("min-width"), _L("max-width"), context), 100.0);
 }
 
 
@@ -2265,9 +2265,9 @@ TEST(UI_ComputedStyle, ClampToMinMaxPullsAValueDownToTheMaximum)
 {
   UI_COMPUTEDSTYLE  style;
   UI_LENGTH_CONTEXT context = { 0.0, 16.0, 16.0, 1440.0, 900.0 };
-  style.Set(__L("max-width"), __L("200"));
+  style.Set(_L("max-width"), _L("200"));
 
-  EXPECT_EQ(style.ClampToMinMax(500.0, __L("min-width"), __L("max-width"), context), 200.0);
+  EXPECT_EQ(style.ClampToMinMax(500.0, _L("min-width"), _L("max-width"), context), 200.0);
 }
 
 
@@ -2275,9 +2275,9 @@ TEST(UI_ComputedStyle, ClampToMinMaxResolvesBoundsThroughTheGivenContextIncludin
 {
   UI_COMPUTEDSTYLE  style;
   UI_LENGTH_CONTEXT context = { 400.0, 16.0, 16.0, 1440.0, 900.0 };
-  style.Set(__L("max-width"), __L("50%"));         // 50% of the 400 basis = 200
+  style.Set(_L("max-width"), _L("50%"));         // 50% of the 400 basis = 200
 
-  EXPECT_EQ(style.ClampToMinMax(500.0, __L("min-width"), __L("max-width"), context), 200.0);
+  EXPECT_EQ(style.ClampToMinMax(500.0, _L("min-width"), _L("max-width"), context), 200.0);
 }
 
 
@@ -2285,10 +2285,10 @@ TEST(UI_ComputedStyle, ClampToMinMaxMinWinsOverMaxWhenTheAuthorContradictsThemse
 {
   UI_COMPUTEDSTYLE  style;
   UI_LENGTH_CONTEXT context = { 0.0, 16.0, 16.0, 1440.0, 900.0 };
-  style.Set(__L("min-width"), __L("300"));
-  style.Set(__L("max-width"), __L("100"));         // max < min: CSS says MIN wins
+  style.Set(_L("min-width"), _L("300"));
+  style.Set(_L("max-width"), _L("100"));         // max < min: CSS says MIN wins
 
-  EXPECT_EQ(style.ClampToMinMax(50.0, __L("min-width"), __L("max-width"), context), 300.0);
+  EXPECT_EQ(style.ClampToMinMax(50.0, _L("min-width"), _L("max-width"), context), 300.0);
 }
 
 
@@ -2296,9 +2296,9 @@ TEST(UI_ComputedStyle, ClampToMinMaxTreatsMaxNoneAsUnconstrained)
 {
   UI_COMPUTEDSTYLE  style;
   UI_LENGTH_CONTEXT context = { 0.0, 16.0, 16.0, 1440.0, 900.0 };
-  style.Set(__L("max-width"), __L("none"));        // real CSS keyword for "no maximum"
+  style.Set(_L("max-width"), _L("none"));        // real CSS keyword for "no maximum"
 
-  EXPECT_EQ(style.ClampToMinMax(5000.0, __L("min-width"), __L("max-width"), context), 5000.0);
+  EXPECT_EQ(style.ClampToMinMax(5000.0, _L("min-width"), _L("max-width"), context), 5000.0);
 }
 
 
@@ -5592,17 +5592,17 @@ TEST(UI_StyleSheet, AncestorSelectedCombinatorRestylesDescendantWhenAncestorHasS
   UI_STYLESHEET sheet;
   XSTRING       text;
 
-  text.Set(__L("form.nav-row:selected .nav-label { color: 88,166,255,255; }\n" ".nav-label { color: 139,148,158,255; }\n"));
+  text.Set(_L("form.nav-row:selected .nav-label { color: 88,166,255,255; }\n" ".nav-label { color: 139,148,158,255; }\n"));
 
   EXPECT_TRUE(parser.ParseText(text, sheet));
 
   UI_CSS_UnitTests_FakeAncestors ancestors;
-  ancestors.AddAncestor(__L("form"), __L("nav-row"), __L("selected"));
+  ancestors.AddAncestor(_L("form"), _L("nav-row"), _L("selected"));
 
-  XSTRING           etype(__L("text"));
-  XSTRING           eid(__L("nav-resumen-text"));
+  XSTRING           etype(_L("text"));
+  XSTRING           eid(_L("nav-resumen-text"));
   XVECTOR<XSTRING*> eclasses;
-  XSTRING           c_label(__L("nav-label"));
+  XSTRING           c_label(_L("nav-label"));
   eclasses.Add(&c_label);
   XVECTOR<XSTRING*> emptypseudos;
 
@@ -5610,8 +5610,8 @@ TEST(UI_StyleSheet, AncestorSelectedCombinatorRestylesDescendantWhenAncestorHasS
   EXPECT_TRUE(sheet.Resolve(etype, eid, eclasses, emptypseudos, bag, &ancestors));
 
   XSTRING color;
-  EXPECT_TRUE(bag.Get(__L("color"), color));
-  EXPECT_TRUE(color.Find(__L("88"), true) != NOTFOUND);
+  EXPECT_TRUE(bag.Get(_L("color"), color));
+  EXPECT_TRUE(color.Find(_L("88"), true) != NOTFOUND);
 
   EXPECT_TRUE(sheet.HasPseudoRulesFor(etype, eid, eclasses, &ancestors));
 }
@@ -5622,15 +5622,15 @@ TEST(UI_CSSParser, MediaMaxWidthRuleAppliesOnlyInsideViewport)
 {
   UI_CSSPARSER  parser;
   UI_STYLESHEET sheet;
-  XSTRING       text(__L( ".card { color: 1,1,1,100; }\n" "@media (max-width: 1000px) {\n" " .card { color: 9,9,9,100; }\n" "}\n"));
+  XSTRING       text(_L( ".card { color: 1,1,1,100; }\n" "@media (max-width: 1000px) {\n" " .card { color: 9,9,9,100; }\n" "}\n"));
 
   ASSERT_TRUE(parser.ParseText(text, sheet));
   EXPECT_GE(sheet.Rules_Count(), 2);
 
-  XSTRING           etype(__L("form"));
-  XSTRING           eid(__L("x"));
+  XSTRING           etype(_L("form"));
+  XSTRING           eid(_L("x"));
   XVECTOR<XSTRING*> eclasses;
-  XSTRING           c(__L("card"));
+  XSTRING           c(_L("card"));
   eclasses.Add(&c);
   XVECTOR<XSTRING*> nopseudos;
 
@@ -5638,15 +5638,15 @@ TEST(UI_CSSParser, MediaMaxWidthRuleAppliesOnlyInsideViewport)
   UI_STYLE narrow;
   ASSERT_TRUE(sheet.Resolve(etype, eid, eclasses, nopseudos, narrow));
   XSTRING color_n;
-  ASSERT_TRUE(narrow.Get(__L("color"), color_n));
-  EXPECT_TRUE(color_n.Find(__L("9,9,9"), true) != NOTFOUND);
+  ASSERT_TRUE(narrow.Get(_L("color"), color_n));
+  EXPECT_TRUE(color_n.Find(_L("9,9,9"), true) != NOTFOUND);
 
   sheet.SetMediaViewport(1440, 900);
   UI_STYLE wide;
   ASSERT_TRUE(sheet.Resolve(etype, eid, eclasses, nopseudos, wide));
   XSTRING color_w;
-  ASSERT_TRUE(wide.Get(__L("color"), color_w));
-  EXPECT_TRUE(color_w.Find(__L("1,1,1"), true) != NOTFOUND);
+  ASSERT_TRUE(wide.Get(_L("color"), color_w));
+  EXPECT_TRUE(color_w.Find(_L("1,1,1"), true) != NOTFOUND);
 }
 
 
@@ -5654,15 +5654,15 @@ TEST(UI_CSSParser, MediaMinWidthAndMaxWidthCombined)
 {
   UI_CSSPARSER  parser;
   UI_STYLESHEET sheet;
-  XSTRING       text(__L( "@media (min-width: 800px) and (max-width: 1200px) {\n" " .hit { background-color: 2,2,2,100; }\n" "}\n"));
+  XSTRING       text(_L( "@media (min-width: 800px) and (max-width: 1200px) {\n" " .hit { background-color: 2,2,2,100; }\n" "}\n"));
 
   ASSERT_TRUE(parser.ParseText(text, sheet));
   EXPECT_EQ(sheet.Rules_Count(), 1);
 
-  XSTRING           etype(__L("form"));
-  XSTRING           eid(__L("x"));
+  XSTRING           etype(_L("form"));
+  XSTRING           eid(_L("x"));
   XVECTOR<XSTRING*> eclasses;
-  XSTRING           c(__L("hit"));
+  XSTRING           c(_L("hit"));
   eclasses.Add(&c);
   XVECTOR<XSTRING*> nopseudos;
 
@@ -5670,7 +5670,7 @@ TEST(UI_CSSParser, MediaMinWidthAndMaxWidthCombined)
   UI_STYLE mid;
   EXPECT_TRUE(sheet.Resolve(etype, eid, eclasses, nopseudos, mid));
   XSTRING bg;
-  EXPECT_TRUE(mid.Get(__L("background-color"), bg));
+  EXPECT_TRUE(mid.Get(_L("background-color"), bg));
 
   sheet.SetMediaViewport(700, 600);
   UI_STYLE low;

@@ -76,35 +76,35 @@ TEST(UNITTESTS_SNDITEM_CLASSNAME, TypeAndStatusStringMaps)
 
   item.SetType(SNDITEM_TYPE_FILE);
   EXPECT_TRUE(item.GetType(text));
-  EXPECT_EQ(text.Compare(__L("File"), true), 0);
+  EXPECT_EQ(text.Compare(_L("File"), true), 0);
 
   item.SetType(SNDITEM_TYPE_NOTE);
   EXPECT_TRUE(item.GetType(text));
-  EXPECT_EQ(text.Compare(__L("Note"), true), 0);
+  EXPECT_EQ(text.Compare(_L("Note"), true), 0);
 
   item.SetStatus(SNDITEM_STATUS_NONE);
   EXPECT_TRUE(item.GetStatus(text));
-  EXPECT_EQ(text.Compare(__L("None"), true), 0);
+  EXPECT_EQ(text.Compare(_L("None"), true), 0);
 
   item.SetStatus(SNDITEM_STATUS_PLAY);
   EXPECT_TRUE(item.GetStatus(text));
-  EXPECT_EQ(text.Compare(__L("Play"), true), 0);
+  EXPECT_EQ(text.Compare(_L("Play"), true), 0);
 
   item.SetStatus(SNDITEM_STATUS_INI);
   EXPECT_TRUE(item.GetStatus(text));
-  EXPECT_EQ(text.Compare(__L("Ini"), true), 0);
+  EXPECT_EQ(text.Compare(_L("Ini"), true), 0);
 
   item.SetStatus(SNDITEM_STATUS_PAUSE);
   EXPECT_TRUE(item.GetStatus(text));
-  EXPECT_EQ(text.Compare(__L("Pause"), true), 0);
+  EXPECT_EQ(text.Compare(_L("Pause"), true), 0);
 
   item.SetStatus(SNDITEM_STATUS_STOP);
   EXPECT_TRUE(item.GetStatus(text));
-  EXPECT_EQ(text.Compare(__L("Stop"), true), 0);
+  EXPECT_EQ(text.Compare(_L("Stop"), true), 0);
 
   item.SetStatus(SNDITEM_STATUS_END);
   EXPECT_TRUE(item.GetStatus(text));
-  EXPECT_EQ(text.Compare(__L("End"), true), 0);
+  EXPECT_EQ(text.Compare(_L("End"), true), 0);
 }
 
 

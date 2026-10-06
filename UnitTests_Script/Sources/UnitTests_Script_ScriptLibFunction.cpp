@@ -37,12 +37,12 @@ namespace TEST_SCRIPTLIBFUNCTION
 
 TEST(UNITTESTS_SCRIPTLIBFUNCTION_CLASSNAME, StoresAndUpdatesDescriptor)
 {
-  SCRIPT_LIB first(__L("First"));
-  SCRIPT_LIB second(__L("Second"));
-  SCRIPT_LIB_FUNCTION function(&first, __L("Function"), UnitTests_Script_DummyFunction);
+  SCRIPT_LIB first(_L("First"));
+  SCRIPT_LIB second(_L("Second"));
+  SCRIPT_LIB_FUNCTION function(&first, _L("Function"), UnitTests_Script_DummyFunction);
 
   EXPECT_EQ(function.GetLibrary(), &first);
-  EXPECT_EQ(function.GetName()->Compare(__L("Function")), 0);
+  EXPECT_EQ(function.GetName()->Compare(_L("Function")), 0);
   SCRFUNCIONLIBRARY expectedfunction = UnitTests_Script_DummyFunction;
 
   EXPECT_EQ(function.GetFunctionLibrary(), expectedfunction);

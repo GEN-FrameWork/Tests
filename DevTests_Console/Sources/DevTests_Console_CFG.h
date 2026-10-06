@@ -33,13 +33,13 @@
 
 /*---- DEFINES & ENUMS  ----------------------------------------------------------------------------------------------*/
 
-#define DEVTESTS_CONSOLE_CFG_SECTION_DATABASE                         __L("database")
-#define DEVTESTS_CONSOLE_CFG_DATABASE_URL                             __L("url")
-#define DEVTESTS_CONSOLE_CFG_DATABASE_PORT                            __L("port")
-#define DEVTESTS_CONSOLE_CFG_DATABASE_DATABASENAME                    __L("databasename")
-#define DEVTESTS_CONSOLE_CFG_DATABASE_USER                            __L("user")
-#define DEVTESTS_CONSOLE_CFG_DATABASE_PASSWORD                        __L("password")
-#define DEVTESTS_CONSOLE_CFG_DATABASE_TIMEOUTCONNECTION               __L("timeoutconnection")
+#define DEVTESTS_CONSOLE_CFG_SECTION_DATABASE                         _L("database")
+#define DEVTESTS_CONSOLE_CFG_DATABASE_URL                             _L("url")
+#define DEVTESTS_CONSOLE_CFG_DATABASE_PORT                            _L("port")
+#define DEVTESTS_CONSOLE_CFG_DATABASE_DATABASENAME                    _L("databasename")
+#define DEVTESTS_CONSOLE_CFG_DATABASE_USER                            _L("user")
+#define DEVTESTS_CONSOLE_CFG_DATABASE_PASSWORD                        _L("password")
+#define DEVTESTS_CONSOLE_CFG_DATABASE_TIMEOUTCONNECTION               _L("timeoutconnection")
 
 /*---- CLASS ---------------------------------------------------------------------------------------------------------*/
 

@@ -85,10 +85,10 @@ enum DEVTESTS_CONSOLE_GPIOENTRYID
 #define APPLICATION_SUBVERSION                    1
 #define APPLICATION_SUBVERSIONERR                 0
 
-#define APPLICATION_NAMEAPP                       __L("Developed Tests Console")
-#define APPLICATION_NAMEFILE                      __L("devtests_console")
+#define APPLICATION_NAMEAPP                       _L("Developed Tests Console")
+#define APPLICATION_NAMEFILE                      _L("devtests_console")
 
-#define APPLICATION_OWNER                         __L("EndoraSoft")
+#define APPLICATION_OWNER                         _L("EndoraSoft")
 
 #define APPLICATION_YEAROFCREATION                2022
 

@@ -65,7 +65,7 @@ namespace TEST_XFSTRING
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToIntParsesLeadingInteger)
 {
-  XFSTRING string(__L("123abc"));
+  XFSTRING string(_L("123abc"));
 
   EXPECT_EQ(string.Fast_ConvertToInt(), 123);
 }
@@ -73,7 +73,7 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToIntParsesLeadingInteger)
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToIntHonoursStartIndex)
 {
-  XFSTRING string(__L("ab42"));
+  XFSTRING string(_L("ab42"));
 
   EXPECT_EQ(string.Fast_ConvertToInt(2), 42);
 }
@@ -81,7 +81,7 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToIntHonoursStartIndex)
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToDWordParsesUnsigned)
 {
-  XFSTRING string(__L("4000000000"));
+  XFSTRING string(_L("4000000000"));
 
   EXPECT_EQ(string.Fast_ConvertToDWord(), (XDWORD)4000000000UL);
 }
@@ -89,7 +89,7 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToDWordParsesUnsigned)
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToQWordParsesLargeValue)
 {
-  XFSTRING string(__L("123456789012"));
+  XFSTRING string(_L("123456789012"));
 
   EXPECT_EQ(string.Fast_ConvertToQWord(), (XQWORD)123456789012ULL);
 }
@@ -97,7 +97,7 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToQWordParsesLargeValue)
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToSQWordParsesSignedValue)
 {
-  XFSTRING string(__L("-987654321"));
+  XFSTRING string(_L("-987654321"));
 
   EXPECT_EQ(string.Fast_ConvertToSQWord(), (XQWORDSIG)(-987654321LL));
 }
@@ -105,7 +105,7 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToSQWordParsesSignedValue)
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToFloatParsesDecimal)
 {
-  XFSTRING string(__L("3.5"));
+  XFSTRING string(_L("3.5"));
 
   EXPECT_FLOAT_EQ(string.Fast_ConvertToFloat(), 3.5f);
 }
@@ -113,7 +113,7 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToFloatParsesDecimal)
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToDoubleParsesDecimal)
 {
-  XFSTRING string(__L("2.25"));
+  XFSTRING string(_L("2.25"));
 
   EXPECT_DOUBLE_EQ(string.Fast_ConvertToDouble(), 2.25);
 }
@@ -121,7 +121,7 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertToDoubleParsesDecimal)
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, FastConvertOnNonNumericTextReturnsZero)
 {
-  XFSTRING string(__L("abc"));
+  XFSTRING string(_L("abc"));
 
   EXPECT_EQ(string.Fast_ConvertToInt(), 0);
 }
@@ -141,18 +141,18 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, FastAddCharacterOnEmptyStringGrowsToOneCharac
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, FastAddCharacterAppendsToExistingString)
 {
-  XFSTRING string(__L("ab"));
+  XFSTRING string(_L("ab"));
 
   EXPECT_TRUE(string.Fast_AddCharacter(L'c'));
 
   EXPECT_EQ(string.GetSize(), (XDWORD)3);
-  EXPECT_EQ(0, string.Compare(__L("abc"), false));
+  EXPECT_EQ(0, string.Compare(_L("abc"), false));
 }
 
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, FastEmptyClearsSizeButKeepsObjectUsable)
 {
-  XFSTRING string(__L("hello"));
+  XFSTRING string(_L("hello"));
 
   EXPECT_EQ(string.GetSize(), (XDWORD)5);
   EXPECT_TRUE(string.Fast_Empty());
@@ -173,34 +173,34 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, FastEmptyOnAlreadyEmptyStringSucceeds)
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, ScanParsesIntegerFromInternalBuffer)
 {
-  XFSTRING string(__L("77 rest"));
+  XFSTRING string(_L("77 rest"));
 
   int value = 0;
-  EXPECT_EQ(string.Scan(__L("%d"), &value), 1);
+  EXPECT_EQ(string.Scan(_L("%d"), &value), 1);
   EXPECT_EQ(value, 77);
 }
 
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, ScanReturnsZeroWhenMaskDoesNotMatch)
 {
-  XFSTRING string(__L("notanumber"));
+  XFSTRING string(_L("notanumber"));
 
   int value = 0;
-  EXPECT_EQ(string.Scan(__L("%d"), &value), 0);
+  EXPECT_EQ(string.Scan(_L("%d"), &value), 0);
 }
 
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, ExplodeSplitsOnTokenIntoOwnedFragments)
 {
-  XFSTRING string(__L("aa,bb,ccc"));
+  XFSTRING string(_L("aa,bb,ccc"));
   XVECTOR<XFSTRING*> parts;
 
   EXPECT_TRUE(string.Explode(L',', &parts));
 
   ASSERT_EQ(parts.GetSize(), (XDWORD)3);
-  EXPECT_EQ(0, parts.Get(0)->Compare(__L("aa"), false));
-  EXPECT_EQ(0, parts.Get(1)->Compare(__L("bb"), false));
-  EXPECT_EQ(0, parts.Get(2)->Compare(__L("ccc"), false));
+  EXPECT_EQ(0, parts.Get(0)->Compare(_L("aa"), false));
+  EXPECT_EQ(0, parts.Get(1)->Compare(_L("bb"), false));
+  EXPECT_EQ(0, parts.Get(2)->Compare(_L("ccc"), false));
 
   for(XDWORD c = 0; c < parts.GetSize(); c++) { GEN_DELETE parts.Get(c); }
   parts.DeleteAll();
@@ -211,14 +211,14 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, ExplodeSkipsEmptyFieldsBetweenConsecutiveToke
 {
   // Explode only Add()s a fragment when (end-start)>0, so back-to-back tokens ("a,,b")
   // produce just the non-empty fragments, not an empty string in between.
-  XFSTRING string(__L("a,,b"));
+  XFSTRING string(_L("a,,b"));
   XVECTOR<XFSTRING*> parts;
 
   EXPECT_TRUE(string.Explode(L',', &parts));
 
   ASSERT_EQ(parts.GetSize(), (XDWORD)2);
-  EXPECT_EQ(0, parts.Get(0)->Compare(__L("a"), false));
-  EXPECT_EQ(0, parts.Get(1)->Compare(__L("b"), false));
+  EXPECT_EQ(0, parts.Get(0)->Compare(_L("a"), false));
+  EXPECT_EQ(0, parts.Get(1)->Compare(_L("b"), false));
 
   for(XDWORD c = 0; c < parts.GetSize(); c++) { GEN_DELETE parts.Get(c); }
   parts.DeleteAll();
@@ -227,13 +227,13 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, ExplodeSkipsEmptyFieldsBetweenConsecutiveToke
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, ExplodeWithNoTokenPresentReturnsWholeStringAsOneFragment)
 {
-  XFSTRING string(__L("noseparatorhere"));
+  XFSTRING string(_L("noseparatorhere"));
   XVECTOR<XFSTRING*> parts;
 
   EXPECT_TRUE(string.Explode(L',', &parts));
 
   ASSERT_EQ(parts.GetSize(), (XDWORD)1);
-  EXPECT_EQ(0, parts.Get(0)->Compare(__L("noseparatorhere"), false));
+  EXPECT_EQ(0, parts.Get(0)->Compare(_L("noseparatorhere"), false));
 
   for(XDWORD c = 0; c < parts.GetSize(); c++) { GEN_DELETE parts.Get(c); }
   parts.DeleteAll();
@@ -246,24 +246,24 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, AssignmentOperatorFromCharSetsContent)
 
   string = "hello";
 
-  EXPECT_EQ(0, string.Compare(__L("hello"), false));
+  EXPECT_EQ(0, string.Compare(_L("hello"), false));
 }
 
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, AppendOperatorFromXCharAppendsCharacter)
 {
-  XFSTRING string(__L("ab"));
+  XFSTRING string(_L("ab"));
 
   string += L'c';
 
-  EXPECT_EQ(0, string.Compare(__L("abc"), false));
+  EXPECT_EQ(0, string.Compare(_L("abc"), false));
 }
 
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, RelationalOperatorsMatchCompareResult)
 {
-  XFSTRING lower(__L("apple"));
-  XFSTRING upper(__L("banana"));
+  XFSTRING lower(_L("apple"));
+  XFSTRING upper(_L("banana"));
 
   EXPECT_TRUE(lower < upper);
   EXPECT_TRUE(upper > lower);
@@ -275,7 +275,7 @@ TEST(UNITTESTS_XFSTRING_CLASSNAME, RelationalOperatorsMatchCompareResult)
 
 TEST(UNITTESTS_XFSTRING_CLASSNAME, IndexOperatorReturnsCharacterAtPosition)
 {
-  XFSTRING string(__L("xyz"));
+  XFSTRING string(_L("xyz"));
 
   EXPECT_EQ(string[0], L'x');
   EXPECT_EQ(string[2], L'z');

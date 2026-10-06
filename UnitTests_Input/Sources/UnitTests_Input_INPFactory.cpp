@@ -89,7 +89,7 @@ TEST(UNITTESTS_INPFACTORY_CLASSNAME, CreateSimulatorAndDelete)
   if(simulator)
     {
       ALTERNATIVE_KEY altkey = ALTERNATIVE_KEY_NONE;
-      EXPECT_EQ(simulator->GetKDBCodeByLiteral(__L("A"), altkey), (XBYTE)0x41);
+      EXPECT_EQ(simulator->GetKDBCodeByLiteral(_L("A"), altkey), (XBYTE)0x41);
       EXPECT_EQ(altkey, ALTERNATIVE_KEY_NONE);
 
       EXPECT_TRUE(factory.DeleteSimulator(simulator));

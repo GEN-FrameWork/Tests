@@ -116,7 +116,7 @@ TEST(UNITTESTS_XLICENSE_CLASSNAME, GetBufferKeyFromMachineIDProducesSixteenByteD
   XBUFFER  keyA;
   XBUFFER  keyB;
 
-  appID = __L("com.endorasoft.unittest");
+  appID = _L("com.endorasoft.unittest");
 
   EXPECT_TRUE(xlicense.GetBufferKeyFromMachineID(appID, keyA));
   EXPECT_TRUE(xlicense.GetBufferKeyFromMachineID(appID, keyB));
@@ -138,8 +138,8 @@ TEST(UNITTESTS_XLICENSE_CLASSNAME, GetBufferKeyFromMachineIDDiffersByApplication
   XBUFFER  keyone;
   XBUFFER  keytwo;
 
-  appIDone = __L("app.one");
-  appIDtwo = __L("app.two");
+  appIDone = _L("app.one");
+  appIDtwo = _L("app.two");
 
   EXPECT_TRUE(xlicense.GetBufferKeyFromMachineID(appIDone, keyone));
   EXPECT_TRUE(xlicense.GetBufferKeyFromMachineID(appIDtwo, keytwo));
@@ -161,17 +161,17 @@ TEST(UNITTESTS_XLICENSE_CLASSNAME, CipherExpirationDateRoundTrip)
   XSTRING  appID;
   XSTRING  date;
 
-  appID = __L("com.endorasoft.unittest");
-  date  = __L("2030/01/01 00:00:00");
+  appID = _L("com.endorasoft.unittest");
+  date  = _L("2030/01/01 00:00:00");
 
   EXPECT_TRUE(xlicense.CipherExpirationDate(true, appID, date));
 
   // Ciphered form must no longer be the plain-text date.
-  EXPECT_STRNE(date.Get(), __L("2030/01/01 00:00:00"));
+  EXPECT_STRNE(date.Get(), _L("2030/01/01 00:00:00"));
 
   EXPECT_TRUE(xlicense.CipherExpirationDate(false, appID, date));
 
-  EXPECT_STREQ(date.Get(), __L("2030/01/01 00:00:00"));
+  EXPECT_STREQ(date.Get(), _L("2030/01/01 00:00:00"));
 }
 
 
@@ -182,7 +182,7 @@ TEST(UNITTESTS_XLICENSE_CLASSNAME, GenerateProducesNonEmptyCipheredLicenseBuffer
   XSTRING    appID;
   XBUFFER    license;
 
-  appID = __L("com.endorasoft.unittest");
+  appID = _L("com.endorasoft.unittest");
 
   EXPECT_TRUE(xlicense.GenerateMachineID(xlicenseID));
   EXPECT_TRUE(xlicense.Generate(xlicenseID, &appID, &license));
@@ -199,7 +199,7 @@ TEST(UNITTESTS_XLICENSE_CLASSNAME, GenerateIsDeterministicForSameLicenseIDAndApp
   XBUFFER    licenseA;
   XBUFFER    licenseB;
 
-  appID = __L("com.endorasoft.unittest");
+  appID = _L("com.endorasoft.unittest");
 
   EXPECT_TRUE(xlicense.GenerateMachineID(xlicenseID));
 
@@ -253,7 +253,7 @@ TEST(UNITTESTS_XLICENSE_CLASSNAME, GenerateThenLoadFromFileFullRoundTrip)
   // section/keys), then reads it back through LoadFromFile() -- exercising GenerateMachineID's
   // determinism, Generate()'s AES cipher, and LoadFromBuffer()'s machine-ID verification gate
   // together, all without touching the buggy CHECKLICENSEFULLLOCAL macro.
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xlicense_roundtrip.ini"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xlicense_roundtrip.ini"));
   XLICENSE   xlicense;
   XLICENSEID xlicenseID;
   XSTRING    appID;
@@ -261,7 +261,7 @@ TEST(UNITTESTS_XLICENSE_CLASSNAME, GenerateThenLoadFromFileFullRoundTrip)
   XSTRING    licenseIDstring;
   XSTRING    licensehexstring;
 
-  appID = __L("com.endorasoft.unittest");
+  appID = _L("com.endorasoft.unittest");
 
   EXPECT_TRUE(xlicense.GenerateMachineID(xlicenseID));
   EXPECT_TRUE(xlicense.Generate(xlicenseID, &appID, &license));
@@ -274,9 +274,9 @@ TEST(UNITTESTS_XLICENSE_CLASSNAME, GenerateThenLoadFromFileFullRoundTrip)
 
     ASSERT_TRUE(fileini.Create(xpath));
 
-    fileini.CreateSection(__L("LICENSE"));
-    fileini.WriteValue(__L("LICENSE"), __L("licenseID"), licenseIDstring);
-    fileini.WriteValue(__L("LICENSE"), __L("license"), licensehexstring);
+    fileini.CreateSection(_L("LICENSE"));
+    fileini.WriteValue(_L("LICENSE"), _L("licenseID"), licenseIDstring);
+    fileini.WriteValue(_L("LICENSE"), _L("license"), licensehexstring);
 
     fileini.Close();
   }
@@ -306,23 +306,23 @@ TEST(UNITTESTS_XLICENSE_CLASSNAME, LoadFromFileWithMismatchedMachineIDFails)
 {
   // LoadFromBuffer() recomputes this machine's real ID and rejects the file if the stored
   // 'licenseID' does not match -- a fabricated, clearly-wrong UUID string must be rejected.
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xlicense_mismatch.ini"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xlicense_mismatch.ini"));
   XSTRING appID;
   XSTRING wronglicenseIDstring;
   XSTRING licensehexstring;
 
-  appID                = __L("com.endorasoft.unittest");
-  wronglicenseIDstring = __L("00000000-0000-0000-0000-000000000000");
-  licensehexstring     = __L("AABBCCDD");
+  appID                = _L("com.endorasoft.unittest");
+  wronglicenseIDstring = _L("00000000-0000-0000-0000-000000000000");
+  licensehexstring     = _L("AABBCCDD");
 
   {
     XFILEINI fileini;
 
     ASSERT_TRUE(fileini.Create(xpath));
 
-    fileini.CreateSection(__L("LICENSE"));
-    fileini.WriteValue(__L("LICENSE"), __L("licenseID"), wronglicenseIDstring);
-    fileini.WriteValue(__L("LICENSE"), __L("license"), licensehexstring);
+    fileini.CreateSection(_L("LICENSE"));
+    fileini.WriteValue(_L("LICENSE"), _L("licenseID"), wronglicenseIDstring);
+    fileini.WriteValue(_L("LICENSE"), _L("license"), licensehexstring);
 
     fileini.Close();
   }

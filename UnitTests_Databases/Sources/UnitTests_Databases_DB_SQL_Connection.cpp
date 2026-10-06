@@ -71,11 +71,11 @@ TEST(UNITTESTS_DB_SQL_CONNECTION_CLASSNAME, SetOptionAndFindOptionRoundTrip)
   ASSERT_NE(db, (DB_SQL_DATABASE*)NULL);
   ASSERT_NE(connection, (DB_SQL_CONNECTION*)NULL);
 
-  EXPECT_TRUE(connection->SetOption(__L("TIMEOUT"), __L("5")));
+  EXPECT_TRUE(connection->SetOption(_L("TIMEOUT"), _L("5")));
 
   DB_SQL_STRING found;
-  EXPECT_TRUE(connection->FindOption(__L("TIMEOUT"), &found));
-  EXPECT_EQ(found.Compare(__L("5"), true), 0);
+  EXPECT_TRUE(connection->FindOption(_L("TIMEOUT"), &found));
+  EXPECT_EQ(found.Compare(_L("5"), true), 0);
 
   UNITTESTS_DATABASES_HELPER::CloseAndDelete(db, connection);
 #endif
@@ -92,7 +92,7 @@ TEST(UNITTESTS_DB_SQL_CONNECTION_CLASSNAME, FindOptionMissingKeyReturnsFalse)
   ASSERT_NE(connection, (DB_SQL_CONNECTION*)NULL);
 
   DB_SQL_STRING found;
-  EXPECT_FALSE(connection->FindOption(__L("MISSING_KEY"), &found));
+  EXPECT_FALSE(connection->FindOption(_L("MISSING_KEY"), &found));
 
   UNITTESTS_DATABASES_HELPER::CloseAndDelete(db, connection);
 #endif
@@ -109,7 +109,7 @@ TEST(UNITTESTS_DB_SQL_CONNECTION_CLASSNAME, OpenRejectsMissingDatabaseOption)
   DB_SQL_CONNECTION* connection = db->CreateConnection();
   ASSERT_NE(connection, (DB_SQL_CONNECTION*)NULL);
 
-  EXPECT_TRUE(connection->SetOption(__L("PATH"), __L("")));
+  EXPECT_TRUE(connection->SetOption(_L("PATH"), _L("")));
   EXPECT_FALSE(db->Open());
 
   db->SetConnection(NULL);

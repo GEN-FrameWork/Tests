@@ -72,10 +72,10 @@ TEST(DIOIP, SetFromStringAndGetXString)
   DIOIP   ip;
   XSTRING out;
 
-  EXPECT_TRUE(ip.Set(__L("192.168.1.10")));
+  EXPECT_TRUE(ip.Set(_L("192.168.1.10")));
   EXPECT_FALSE(ip.IsEmpty());
   EXPECT_TRUE(ip.GetXString(out));
-  EXPECT_EQ(out.Compare(__L("192.168.1.10")), 0);
+  EXPECT_EQ(out.Compare(_L("192.168.1.10")), 0);
 }
 
 
@@ -94,8 +94,8 @@ TEST(DIOIP, CompareAddresses)
   DIOIP a;
   DIOIP b;
 
-  EXPECT_TRUE(a.Set(__L("10.0.0.1")));
-  EXPECT_TRUE(b.Set(__L("10.0.0.1")));
+  EXPECT_TRUE(a.Set(_L("10.0.0.1")));
+  EXPECT_TRUE(b.Set(_L("10.0.0.1")));
   EXPECT_TRUE(a.Compare(b));
 }
 

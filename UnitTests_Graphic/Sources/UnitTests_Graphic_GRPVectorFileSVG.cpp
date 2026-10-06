@@ -63,9 +63,9 @@ namespace TEST_GRPVECTORFILESVG
 TEST(UNITTESTS_GRPVECTORFILESVG_CLASSNAME, LoadMinimalSvgOkAndGetRoot)
 {
   XSTRING content;
-  content  = __L("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"32\">");
-  content += __L("<rect x=\"0\" y=\"0\" width=\"32\" height=\"32\" fill=\"#0000FF\"/>");
-  content += __L("</svg>");
+  content  = _L("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"32\">");
+  content += _L("<rect x=\"0\" y=\"0\" width=\"32\" height=\"32\" fill=\"#0000FF\"/>");
+  content += _L("</svg>");
 
   GRPVECTORFILESVG svg;
   EXPECT_EQ(svg.Load(content), GRPVECTORFILERESULT_OK);
@@ -75,7 +75,7 @@ TEST(UNITTESTS_GRPVECTORFILESVG_CLASSNAME, LoadMinimalSvgOkAndGetRoot)
 
 TEST(UNITTESTS_GRPVECTORFILESVG_CLASSNAME, LoadBadContentNotOk)
 {
-  XSTRING content(__L("not-an-svg-document"));
+  XSTRING content(_L("not-an-svg-document"));
 
   GRPVECTORFILESVG svg;
   EXPECT_NE(svg.Load(content), GRPVECTORFILERESULT_OK);

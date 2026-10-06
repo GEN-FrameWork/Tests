@@ -71,10 +71,10 @@ TEST(UNITTESTS_UI_ELEMENT_CLASSNAME, SetTypeAndNameRoundTrip)
   UI_ELEMENT element;
 
   element.SetType(UI_ELEMENT_TYPE_BUTTON);
-  element.GetName()->Set(__L("ok_button"));
+  element.GetName()->Set(_L("ok_button"));
 
   EXPECT_EQ(element.GetType(), UI_ELEMENT_TYPE_BUTTON);
-  EXPECT_EQ(element.GetName()->Compare(__L("ok_button"), true), 0);
+  EXPECT_EQ(element.GetName()->Compare(_L("ok_button"), true), 0);
 }
 
 
@@ -93,11 +93,11 @@ TEST(UNITTESTS_UI_ELEMENT_CLASSNAME, ClassNamesParseAndHasClassMatchesTokens)
 {
   UI_ELEMENT element;
 
-  element.SetClassNames(__L("card flex-row primary"));
-  EXPECT_TRUE(element.HasClass(__L("card")));
-  EXPECT_TRUE(element.HasClass(__L("flex-row")));
-  EXPECT_TRUE(element.HasClass(__L("primary")));
-  EXPECT_FALSE(element.HasClass(__L("missing")));
+  element.SetClassNames(_L("card flex-row primary"));
+  EXPECT_TRUE(element.HasClass(_L("card")));
+  EXPECT_TRUE(element.HasClass(_L("flex-row")));
+  EXPECT_TRUE(element.HasClass(_L("primary")));
+  EXPECT_FALSE(element.HasClass(_L("missing")));
 }
 
 
@@ -106,8 +106,8 @@ TEST(UNITTESTS_UI_ELEMENT_CLASSNAME, FatherAndComposeTreeLinkWithoutOwningDuplic
   UI_ELEMENT* parent = new UI_ELEMENT();
   UI_ELEMENT* child  = new UI_ELEMENT();
 
-  parent->GetName()->Set(__L("parent"));
-  child->GetName()->Set(__L("child"));
+  parent->GetName()->Set(_L("parent"));
+  child->GetName()->Set(_L("child"));
 
   child->SetFather(parent);
   parent->GetComposeElements()->Add(child);

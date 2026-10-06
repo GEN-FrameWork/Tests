@@ -369,7 +369,7 @@ bool DEVTESTS_CANVAS2D::AppProc_FirstUpdate()
 
       // if(backgroundbmp) canvas->PutBitmapNoAlpha(0, 0, backgroundbmp);
 
-      canvas->RasterFont_Select(__L("verdana18"));
+      canvas->RasterFont_Select(_L("verdana18"));
     }
 
   //--------------------------------------------------------------------------------
@@ -517,10 +517,10 @@ bool DEVTESTS_CANVAS2D::KeyValidSecuences(int key)
 {
   XCHAR character = (XCHAR)key;
 
-  if((character<32) || (character>127)) character = __C('?');
-  APPFLOW_LOG_ENTRY(XLOGLEVEL_WARNING, APPFLOW_CFG_LOG_SECTIONID_STATUSAPP, false, __L("Key pressed: 0x%02X [%c]"), key, character);
+  if((character<32) || (character>127)) character = _C('?');
+  APPFLOW_LOG_ENTRY(XLOGLEVEL_WARNING, APPFLOW_CFG_LOG_SECTIONID_STATUSAPP, false, _L("Key pressed: 0x%02X [%c]"), key, character);
 
-  console->Printf(__L("\r \r"));
+  console->Printf(_L("\r \r"));
 
   switch(key)
     {
@@ -554,19 +554,19 @@ bool DEVTESTS_CANVAS2D::UpdateInput()
               switch(motiondir)
                 {
                   case INPCURSORMOTION_DIR_DOWN       :
-                  case INPCURSORMOTION_DIR_RIGHTUP    : makeaction = __L("WALK NORTH");
+                  case INPCURSORMOTION_DIR_RIGHTUP    : makeaction = _L("WALK NORTH");
                                                         break;
 
                   case INPCURSORMOTION_DIR_RIGHT      :
-                  case INPCURSORMOTION_DIR_LEFTUP     : makeaction = __L("WALK WEST" );
+                  case INPCURSORMOTION_DIR_LEFTUP     : makeaction = _L("WALK WEST" );
                                                         break;
 
                   case INPCURSORMOTION_DIR_LEFT       :
-                  case INPCURSORMOTION_DIR_RIGHTDOWN  : makeaction = __L("WALK EAST" );
+                  case INPCURSORMOTION_DIR_RIGHTDOWN  : makeaction = _L("WALK EAST" );
                                                         break;
 
                   case INPCURSORMOTION_DIR_UP         :
-                  case INPCURSORMOTION_DIR_LEFTDOWN   : makeaction = __L("WALK SOUTH");
+                  case INPCURSORMOTION_DIR_LEFTDOWN   : makeaction = _L("WALK SOUTH");
                                                         break;
 
                                           default     : break;
@@ -609,10 +609,10 @@ bool DEVTESTS_CANVAS2D::UpdateInput()
             {
               switch(c)
                 {
-                  case DEVTESTS_CANVAS2D_BUTTON_UP     : makeaction = __L("WALK NORTH");   break;
-                  case DEVTESTS_CANVAS2D_BUTTON_DOWN   : makeaction = __L("WALK SOUTH");   break;
-                  case DEVTESTS_CANVAS2D_BUTTON_LEFT   : makeaction = __L("WALK WEST" );   break;
-                  case DEVTESTS_CANVAS2D_BUTTON_RIGHT  : makeaction = __L("WALK EAST" );   break;               
+                  case DEVTESTS_CANVAS2D_BUTTON_UP     : makeaction = _L("WALK NORTH");   break;
+                  case DEVTESTS_CANVAS2D_BUTTON_DOWN   : makeaction = _L("WALK SOUTH");   break;
+                  case DEVTESTS_CANVAS2D_BUTTON_LEFT   : makeaction = _L("WALK WEST" );   break;
+                  case DEVTESTS_CANVAS2D_BUTTON_RIGHT  : makeaction = _L("WALK EAST" );   break;               
                 }
             }
 
@@ -649,7 +649,7 @@ bool DEVTESTS_CANVAS2D::Ini_Graphics(GRPSCREEN* screen)
       /*
       GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_GRAPHICS, xpath);
       xpath.Slash_Add();
-      xpath.Add(__L("background.png"));
+      xpath.Add(_L("background.png"));
 
       backgroundbmp = bitmapfile->Load(xpath, GetMainScreen()->GetMode());
       if(!backgroundbmp) return false;
@@ -664,7 +664,7 @@ bool DEVTESTS_CANVAS2D::Ini_Graphics(GRPSCREEN* screen)
         
       GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_GRAPHICS, xpathbitmapref);
       xpathbitmapref.Slash_Add();
-      xpathbitmapref.Add(__L("ref.png"));
+      xpathbitmapref.Add(_L("ref.png"));
 
       GRPBITMAPFILE* bitmapfileref = GEN_NEW GRPBITMAPFILE(xpathbitmapref);
       if(bitmapfileref)
@@ -710,7 +710,7 @@ bool DEVTESTS_CANVAS2D::Ini_Graphics(GRPSCREEN* screen)
 
   GetMainScreen()->CreateViewport(GRPVIEWPORT_ID_MAIN, 0.0f, 0.0f, (float)screen->GetWidth(), (float)screen->GetHeight(), 0, 0, (APPFLOW_CFG.Screen_GetMaxWidth()), (APPFLOW_CFG.Screen_GetMaxHeight()));
 
-  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("[Main Screen] Width %d, height %d"), screen->GetWidth(), screen->GetHeight());
+  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("[Main Screen] Width %d, height %d"), screen->GetWidth(), screen->GetHeight());
 
   return true;
 }
@@ -743,10 +743,10 @@ bool DEVTESTS_CANVAS2D::DrawFrame()
   int poscanvas_x = (int)viewport->GetCanvasPositionX();
   int poscanvas_y = (int)viewport->GetCanvasPositionX();
 
-  if(makeaction.Compare(__L("WALK NORTH"), true))   { poscanvas_y++;  }
-  if(makeaction.Compare(__L("WALK WEST" ), true))   { poscanvas_x++;  }
-  if(makeaction.Compare(__L("WALK EAST" ), true))   { poscanvas_x--;  }
-  if(makeaction.Compare(__L("WALK SOUTH"), true))   { poscanvas_y--;  }
+  if(makeaction.Compare(_L("WALK NORTH"), true))   { poscanvas_y++;  }
+  if(makeaction.Compare(_L("WALK WEST" ), true))   { poscanvas_x++;  }
+  if(makeaction.Compare(_L("WALK EAST" ), true))   { poscanvas_x--;  }
+  if(makeaction.Compare(_L("WALK SOUTH"), true))   { poscanvas_y--;  }
   
   viewport->SetCanvasPosition((float)poscanvas_x, (float)poscanvas_y);
 
@@ -773,8 +773,8 @@ bool DEVTESTS_CANVAS2D::DrawFrame()
 * --------------------------------------------------------------------------------------------------------------------*/
 bool DEVTESTS_CANVAS2D::Do_Tests()
 {
-  DEVTESTS_CANVAS2D_LIST_FUNCTION listfunctions[] =  {   { true   , Test_ScriptLibInputSimulated     , __L("Test Script Lib Input Simulated")                    },
-                                                         { false  , Test_LoadVectorFileDXF           , __L("Test Load Vector File DXF")                          }                                                     
+  DEVTESTS_CANVAS2D_LIST_FUNCTION listfunctions[] =  {   { true   , Test_ScriptLibInputSimulated     , _L("Test Script Lib Input Simulated")                    },
+                                                         { false  , Test_LoadVectorFileDXF           , _L("Test Load Vector File DXF")                          }                                                     
                                                      };
 
   for(int c=0; c<(sizeof(listfunctions)/sizeof(DEVTESTS_CANVAS2D_LIST_FUNCTION)); c++)
@@ -826,19 +826,19 @@ bool DEVTESTS_CANVAS2D::Test_LoadVectorFileDXF(DEVTESTS_CANVAS2D* tests)
 
   GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_GRAPHICS, pathfile);  
   pathfile.Slash_Add();
-  pathfile.Add(__L("diamond.dxf"));    
+  pathfile.Add(_L("diamond.dxf"));    
 
   GRPVECTORFILE* vectorfile = GRPVECTORFILE::CreateInstance(pathfile);
   if(vectorfile)
     {  
       tests->SubscribeEvent(GRPVECTORFILE_XEVENTTYPE_PARTUNKNOWN, vectorfile);   
 
-      XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("[Vector File Load] File [%s] "), pathfile.Get()); 
+      XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("[Vector File Load] File [%s] "), pathfile.Get()); 
                 
       result = vectorfile->Load(); 
       if(result != GRPVECTORFILERESULT_OK)
         {
-          XTRACE_PRINTCOLOR(XTRACE_COLOR_RED, __L("[Vector File Load] Error %d "), result);
+          XTRACE_PRINTCOLOR(XTRACE_COLOR_RED, _L("[Vector File Load] Error %d "), result);
         }
 
       GEN_DELETE vectorfile;
@@ -909,10 +909,10 @@ void DEVTESTS_CANVAS2D::HandleEvent_Script(SCRIPT_XEVENT* event)
 {
   switch(event->GetEventType())
     {
-      case SCRIPT_XEVENT_TYPE_ERROR    : XTRACE_PRINTCOLOR(4, __L("Script ERROR [%d]: %s line %d -> \"%s\""), event->GetError(), event->GetErrorText()->Get(), event->GetNLine(), event->GetCurrentToken()->Get());
+      case SCRIPT_XEVENT_TYPE_ERROR    : XTRACE_PRINTCOLOR(4, _L("Script ERROR [%d]: %s line %d -> \"%s\""), event->GetError(), event->GetErrorText()->Get(), event->GetNLine(), event->GetCurrentToken()->Get());
                                          break;
 
-      case SCRIPT_XEVENT_TYPE_BREAK    : XTRACE_PRINTCOLOR(4, __L("Script BREAK: line %d -> \"%s\""), event->GetNLine(), event->GetCurrentToken()->Get());
+      case SCRIPT_XEVENT_TYPE_BREAK    : XTRACE_PRINTCOLOR(4, _L("Script BREAK: line %d -> \"%s\""), event->GetNLine(), event->GetCurrentToken()->Get());
                                          break;
 
     }
@@ -936,7 +936,7 @@ void DEVTESTS_CANVAS2D::HandleEvent_VectorFile(GRPVECTORFILE_XEVENT* event)
    {
       case GRPVECTORFILE_XEVENTTYPE_UNKNOWN         :  break;
 
-      case GRPVECTORFILE_XEVENTTYPE_PARTUNKNOWN     :  XTRACE_PRINTCOLOR(XTRACE_COLOR_WARNING, __L("[Vector File] Type %s \"%s\" -> [%s]"), GRPVECTORFILE::GetTypeText(event->GetType()), event->GetMsg()->Get(), event->GetPath()->Get());    
+      case GRPVECTORFILE_XEVENTTYPE_PARTUNKNOWN     :  XTRACE_PRINTCOLOR(XTRACE_COLOR_WARNING, _L("[Vector File] Type %s \"%s\" -> [%s]"), GRPVECTORFILE::GetTypeText(event->GetType()), event->GetMsg()->Get(), event->GetPath()->Get());    
                                                        break;                                                                                
    }
 }

@@ -73,9 +73,9 @@ TEST(UNITTESTS_DB_SQL_QUERY_CLASSNAME, SetAndGetValueRoundTrip)
   DB_SQL_QUERY* query = db->CreateQuery();
   ASSERT_NE(query, (DB_SQL_QUERY*)NULL);
 
-  EXPECT_TRUE(query->Set(__L("SELECT 1")));
+  EXPECT_TRUE(query->Set(_L("SELECT 1")));
   ASSERT_NE(query->GetValue(), (DB_SQL_STRING*)NULL);
-  EXPECT_EQ(query->GetValue()->Compare(__L("SELECT 1"), true), 0);
+  EXPECT_EQ(query->GetValue()->Compare(_L("SELECT 1"), true), 0);
 
   GEN_DELETE query;
   GEN_DELETE db;
@@ -95,7 +95,7 @@ TEST(UNITTESTS_DB_SQL_QUERY_CLASSNAME, BindUnbindAllDoesNotCrash)
   DB_SQL_QUERY* query = db->CreateQuery();
   ASSERT_NE(query, (DB_SQL_QUERY*)NULL);
 
-  EXPECT_TRUE(query->Set(__L("SELECT 1")));
+  EXPECT_TRUE(query->Set(_L("SELECT 1")));
   EXPECT_TRUE(query->Bind(0, 1));
   EXPECT_TRUE(query->Bind(1, 2));
   EXPECT_TRUE(query->UnbindAll());

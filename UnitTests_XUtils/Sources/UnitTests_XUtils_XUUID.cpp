@@ -347,7 +347,7 @@ TEST(UNITTESTS_XUUID_CLASSNAME, GetToBufferAndGetToStringOnNeverSetUUID)
 
   EXPECT_TRUE(ID.GetToString(IDstr));
   EXPECT_EQ((XDWORD)36, IDstr.GetSize());
-  EXPECT_EQ(0, IDstr.Compare(__L("00000000-0000-0000-0000-000000000000"), false));
+  EXPECT_EQ(0, IDstr.Compare(_L("00000000-0000-0000-0000-000000000000"), false));
 }
 
 
@@ -359,7 +359,7 @@ TEST(UNITTESTS_XUUID_CLASSNAME, SetFromStringMalformedStillReturnsTrue)
   // UnFormat() and the method unconditionally returns true afterwards regardless of
   // whether UnFormat() actually parsed anything meaningful.
   XUUID   ID;
-  XSTRING malformed(__L("not-a-valid-uuid-at-all"));
+  XSTRING malformed(_L("not-a-valid-uuid-at-all"));
 
   EXPECT_TRUE(ID.SetFromString(malformed));
 }

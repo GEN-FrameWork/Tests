@@ -95,14 +95,14 @@ TEST(APPFLOWLOG, IniAndEndWithDefaultCfg)
   #endif
 
   APPFLOWLOG& log = APPFLOWLOG::GetInstance();
-  EXPECT_TRUE(log.Ini(&cfg, __L("UnitTests_AppFlow")));
+  EXPECT_TRUE(log.Ini(&cfg, _L("UnitTests_AppFlow")));
   EXPECT_TRUE(log.End());
 
   EXPECT_TRUE(APPFLOWLOG::DelInstance());
   EXPECT_TRUE(cfg.End());
 
   XPATH xpath;
-  if(UNITTESTS_APPFLOW_HELPER::BuildAssetPath(xpath, __L("UnitTests_AppFlow.log")))
+  if(UNITTESTS_APPFLOW_HELPER::BuildAssetPath(xpath, _L("UnitTests_AppFlow.log")))
     {
       UNITTESTS_APPFLOW_HELPER::EraseAsset(xpath);
     }

@@ -62,7 +62,7 @@ TEST(UNITTESTS_INPSIMULATE_CLASSNAME, EmptyLiteralReturnsZero)
   INPSIMULATE simulate;
   ALTERNATIVE_KEY altkey = ALTERNATIVE_KEY_SHIFT;
 
-  EXPECT_EQ(simulate.GetKDBCodeByLiteral(__L(""), altkey), (XBYTE)0);
+  EXPECT_EQ(simulate.GetKDBCodeByLiteral(_L(""), altkey), (XBYTE)0);
 }
 
 
@@ -71,7 +71,7 @@ TEST(UNITTESTS_INPSIMULATE_CLASSNAME, LiteralAReturns0x41)
   INPSIMULATE simulate;
   ALTERNATIVE_KEY altkey = ALTERNATIVE_KEY_NONE;
 
-  EXPECT_EQ(simulate.GetKDBCodeByLiteral(__L("A"), altkey), (XBYTE)0x41);
+  EXPECT_EQ(simulate.GetKDBCodeByLiteral(_L("A"), altkey), (XBYTE)0x41);
   EXPECT_EQ(altkey, ALTERNATIVE_KEY_NONE);
 }
 
@@ -81,7 +81,7 @@ TEST(UNITTESTS_INPSIMULATE_CLASSNAME, LiteralEnterReturns0x0D)
   INPSIMULATE simulate;
   ALTERNATIVE_KEY altkey = ALTERNATIVE_KEY_NONE;
 
-  EXPECT_EQ(simulate.GetKDBCodeByLiteral(__L("ENTER"), altkey), (XBYTE)0x0D);
+  EXPECT_EQ(simulate.GetKDBCodeByLiteral(_L("ENTER"), altkey), (XBYTE)0x0D);
   EXPECT_EQ(altkey, ALTERNATIVE_KEY_NONE);
 }
 
@@ -91,7 +91,7 @@ TEST(UNITTESTS_INPSIMULATE_CLASSNAME, LiteralSpacebarReturns0x20)
   INPSIMULATE simulate;
   ALTERNATIVE_KEY altkey = ALTERNATIVE_KEY_NONE;
 
-  EXPECT_EQ(simulate.GetKDBCodeByLiteral(__L("SPACEBAR"), altkey), (XBYTE)0x20);
+  EXPECT_EQ(simulate.GetKDBCodeByLiteral(_L("SPACEBAR"), altkey), (XBYTE)0x20);
   EXPECT_EQ(altkey, ALTERNATIVE_KEY_NONE);
 }
 
@@ -101,7 +101,7 @@ TEST(UNITTESTS_INPSIMULATE_CLASSNAME, LiteralEscReturns0x1B)
   INPSIMULATE simulate;
   ALTERNATIVE_KEY altkey = ALTERNATIVE_KEY_NONE;
 
-  EXPECT_EQ(simulate.GetKDBCodeByLiteral(__L("ESC"), altkey), (XBYTE)0x1B);
+  EXPECT_EQ(simulate.GetKDBCodeByLiteral(_L("ESC"), altkey), (XBYTE)0x1B);
   EXPECT_EQ(altkey, ALTERNATIVE_KEY_NONE);
 }
 
@@ -111,7 +111,7 @@ TEST(UNITTESTS_INPSIMULATE_CLASSNAME, LiteralExclamationRequiresShift)
   INPSIMULATE simulate;
   ALTERNATIVE_KEY altkey = ALTERNATIVE_KEY_NONE;
 
-  EXPECT_EQ(simulate.GetKDBCodeByLiteral(__L("!"), altkey), (XBYTE)0x31);
+  EXPECT_EQ(simulate.GetKDBCodeByLiteral(_L("!"), altkey), (XBYTE)0x31);
   EXPECT_EQ(altkey, ALTERNATIVE_KEY_SHIFT);
 }
 
@@ -121,7 +121,7 @@ TEST(UNITTESTS_INPSIMULATE_CLASSNAME, UnknownLiteralReturnsZero)
   INPSIMULATE simulate;
   ALTERNATIVE_KEY altkey = ALTERNATIVE_KEY_NONE;
 
-  EXPECT_EQ(simulate.GetKDBCodeByLiteral(__L("NOT_A_REAL_KEY"), altkey), (XBYTE)0);
+  EXPECT_EQ(simulate.GetKDBCodeByLiteral(_L("NOT_A_REAL_KEY"), altkey), (XBYTE)0);
 }
 
 

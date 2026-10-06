@@ -100,7 +100,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, IniStartsAtZero)
   xmpinteger.LeftSet(0);
 
   EXPECT_EQ(xmpinteger.GetSign(), 1);
-  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), __L("0"));
+  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), _L("0"));
   EXPECT_EQ(xmpinteger.CompareSignedValues(0), 0);
 }
 
@@ -117,10 +117,10 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, LeftSetPositiveAndNegative)
   negative.LeftSet(-5);
 
   EXPECT_EQ(positive.GetSign(), 1);
-  EXPECT_STREQ(GetDecimal(positive).Get(), __L("5"));
+  EXPECT_STREQ(GetDecimal(positive).Get(), _L("5"));
 
   EXPECT_EQ(negative.GetSign(), -1);
-  EXPECT_STREQ(GetDecimal(negative).Get(), __L("-5"));
+  EXPECT_STREQ(GetDecimal(negative).Get(), _L("-5"));
 }
 
 
@@ -128,9 +128,9 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, SetFromStringAndGetToStringDecimalRoundTrip
 {
   XMPINTEGER xmpinteger;
 
-  SetDecimal(xmpinteger, __L("12345"));
+  SetDecimal(xmpinteger, _L("12345"));
 
-  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), __L("12345"));
+  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), _L("12345"));
 }
 
 
@@ -138,9 +138,9 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, SetFromStringAndGetToStringNegativeDecimalR
 {
   XMPINTEGER xmpinteger;
 
-  SetDecimal(xmpinteger, __L("-42"));
+  SetDecimal(xmpinteger, _L("-42"));
 
-  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), __L("-42"));
+  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), _L("-42"));
 }
 
 
@@ -150,11 +150,11 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, SetFromStringAndGetToStringHexRoundTrip)
   XSTRING    result;
 
   xmpinteger.Ini();
-  xmpinteger.SetFromString(16, (XCHAR*)__L("1A2B"));
+  xmpinteger.SetFromString(16, (XCHAR*)_L("1A2B"));
 
   xmpinteger.GetToString(16, result);
 
-  EXPECT_STREQ(result.Get(), __L("1A2B"));
+  EXPECT_STREQ(result.Get(), _L("1A2B"));
 }
 
 
@@ -162,7 +162,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, LargeValueBeyondNativeIntegerRoundTrip)
 {
   // 2^128 - 1 : does not fit in a native int/long/long long (even 64-bit), proving the
   // "multi-precision" part of XMPINTEGER actually works, not just small-value arithmetic.
-  XCHAR* value2pow128minus1 = __L("340282366920938463463374607431768211455");
+  XCHAR* value2pow128minus1 = _L("340282366920938463463374607431768211455");
 
   XMPINTEGER xmpinteger;
 
@@ -232,7 +232,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, AdditionSignedPositivePlusPositive)
   result.Ini();
 
   EXPECT_TRUE(result.AdditionSigned(&a, &b));
-  EXPECT_STREQ(GetDecimal(result).Get(), __L("579"));
+  EXPECT_STREQ(GetDecimal(result).Get(), _L("579"));
 }
 
 
@@ -251,7 +251,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, AdditionSignedPositivePlusNegative)
   result.Ini();
 
   EXPECT_TRUE(result.AdditionSigned(&a, &b));
-  EXPECT_STREQ(GetDecimal(result).Get(), __L("70"));
+  EXPECT_STREQ(GetDecimal(result).Get(), _L("70"));
 }
 
 
@@ -270,7 +270,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, SubtractionSignedBasic)
   result.Ini();
 
   EXPECT_TRUE(result.SubtractionSigned(&a, &b));
-  EXPECT_STREQ(GetDecimal(result).Get(), __L("999"));
+  EXPECT_STREQ(GetDecimal(result).Get(), _L("999"));
 }
 
 
@@ -289,7 +289,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, SubtractionSignedNegativeResult)
   result.Ini();
 
   EXPECT_TRUE(result.SubtractionSigned(&a, &b));
-  EXPECT_STREQ(GetDecimal(result).Get(), __L("-5"));
+  EXPECT_STREQ(GetDecimal(result).Get(), _L("-5"));
 }
 
 
@@ -308,7 +308,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, MultiplicationBasic)
   result.Ini();
 
   EXPECT_TRUE(result.Multiplication(&a, &b));
-  EXPECT_STREQ(GetDecimal(result).Get(), __L("56088"));
+  EXPECT_STREQ(GetDecimal(result).Get(), _L("56088"));
 }
 
 
@@ -328,7 +328,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, MultiplicationWithPositiveIntOverload)
   result.Ini();
 
   EXPECT_TRUE(result.Multiplication(&a, 7));
-  EXPECT_STREQ(GetDecimal(result).Get(), __L("42"));
+  EXPECT_STREQ(GetDecimal(result).Get(), _L("42"));
 }
 
 
@@ -349,8 +349,8 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, DivisionQuotientAndRemainder)
   remainder.Ini();
 
   EXPECT_TRUE(quotient.Division(&quotient, &remainder, &a, &b));
-  EXPECT_STREQ(GetDecimal(quotient).Get(), __L("14"));
-  EXPECT_STREQ(GetDecimal(remainder).Get(), __L("2"));
+  EXPECT_STREQ(GetDecimal(quotient).Get(), _L("14"));
+  EXPECT_STREQ(GetDecimal(remainder).Get(), _L("2"));
 }
 
 
@@ -369,7 +369,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, ModuleOperator)
   remainder.Ini();
 
   EXPECT_TRUE(remainder.Module(&remainder, &a, &b));
-  EXPECT_STREQ(GetDecimal(remainder).Get(), __L("2"));
+  EXPECT_STREQ(GetDecimal(remainder).Get(), _L("2"));
 }
 
 
@@ -396,10 +396,10 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, LeftShiftAndRightShiftRoundTrip)
   xmpinteger.LeftSet(1);
 
   EXPECT_TRUE(xmpinteger.LeftShift(4));
-  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), __L("16"));
+  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), _L("16"));
 
   EXPECT_TRUE(xmpinteger.RightShift(4));
-  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), __L("1"));
+  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), _L("1"));
 }
 
 
@@ -413,7 +413,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, ImportFromBinaryAndExportToBinaryRoundTrip)
   xmpinteger.Ini();
 
   EXPECT_TRUE(xmpinteger.ImportFromBinary(inputbytes, 3));
-  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), __L("66051")); // 0x010203
+  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), _L("66051")); // 0x010203
 
   EXPECT_TRUE(xmpinteger.ExportToBinary(outputbytes, 3));
 
@@ -437,7 +437,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, SetFromXBufferAndGetToXBufferRoundTrip)
   xmpinteger.Ini();
 
   EXPECT_TRUE(xmpinteger.SetFromXBuffer(inputbuffer));
-  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), __L("66051"));
+  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), _L("66051"));
 
   EXPECT_TRUE(xmpinteger.GetToXBuffer(outputbuffer, 3));
 
@@ -526,7 +526,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, ShrinkToSmallerSizeNowSucceedsAndPreservesS
   // branch at all).
   XMPINTEGER xmpinteger;
 
-  SetDecimal(xmpinteger, __L("340282366920938463463374607431768211455")); // 2^128 - 1, 4 limbs
+  SetDecimal(xmpinteger, _L("340282366920938463463374607431768211455")); // 2^128 - 1, 4 limbs
 
   XDWORD nlimbsbefore = xmpinteger.GetNLimbs();
   ASSERT_GT(nlimbsbefore, (XDWORD)1);
@@ -538,7 +538,7 @@ TEST(UNITTESTS_XMPINTEGER_CLASSNAME, ShrinkToSmallerSizeNowSucceedsAndPreservesS
   // succeeds instead of bailing out before doing anything.
   EXPECT_TRUE(xmpinteger.Shrink(1));
   EXPECT_EQ(xmpinteger.GetNLimbs(), nlimbsbefore);
-  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), __L("340282366920938463463374607431768211455"));
+  EXPECT_STREQ(GetDecimal(xmpinteger).Get(), _L("340282366920938463463374607431768211455"));
 }
 
 

@@ -70,9 +70,9 @@ TEST(APPFLOWBASE, ApplicationNameAndExitTypeString)
   APPFLOWBASE* application = GEN_appmain.GetApplication();
   ASSERT_NE(application, (APPFLOWBASE*)NULL);
 
-  application->Application_SetName(__L("UnitTests_AppFlow"));
+  application->Application_SetName(_L("UnitTests_AppFlow"));
   ASSERT_NE(application->Application_GetName(), (XSTRING*)NULL);
-  EXPECT_EQ(application->Application_GetName()->Compare(__L("UnitTests_AppFlow")), 0);
+  EXPECT_EQ(application->Application_GetName()->Compare(_L("UnitTests_AppFlow")), 0);
 
   application->SetExitType(APPFLOWBASE_EXITTYPE_BY_USER);
   EXPECT_EQ(application->GetExitType(), APPFLOWBASE_EXITTYPE_BY_USER);

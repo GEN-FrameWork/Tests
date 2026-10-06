@@ -87,7 +87,7 @@ TEST(UNITTESTS_HASHHMAC_CLASSNAME, KnownAnswerVector_HMAC_MD5_RFC2202)
 
   XSTRING stringhex;
   EXPECT_TRUE(hmac.GetResultString(stringhex));
-  EXPECT_EQ(0, stringhex.Compare(__L("9294727a3638bb1c13f48ef8158bfc9d"), true));
+  EXPECT_EQ(0, stringhex.Compare(_L("9294727a3638bb1c13f48ef8158bfc9d"), true));
 }
 
 
@@ -115,7 +115,7 @@ TEST(UNITTESTS_HASHHMAC_CLASSNAME, KnownAnswerVector_HMAC_SHA1_RFC2202)
 
   XSTRING stringhex;
   EXPECT_TRUE(hmac.GetResultString(stringhex));
-  EXPECT_EQ(0, stringhex.Compare(__L("b617318655057264e28bc0b6fb378c8ef146be00"), true));
+  EXPECT_EQ(0, stringhex.Compare(_L("b617318655057264e28bc0b6fb378c8ef146be00"), true));
 }
 
 

@@ -65,7 +65,7 @@ namespace TEST_GRPBITMAPFILEJPG
 TEST(UNITTESTS_GRPBITMAPFILEJPG_CLASSNAME, SaveLoadJpgDimensions)
 {
   XPATH xpath;
-  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, __L("unittests_graphic_roundtrip.jpg")));
+  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, _L("unittests_graphic_roundtrip.jpg")));
 
   GRPBITMAP* source = GRPFACTORY::GetInstance().CreateBitmap(16, 12, GRPPROPERTYMODE_32_RGBA_8888);
   ASSERT_NE(source, (GRPBITMAP*)NULL);
@@ -91,7 +91,7 @@ TEST(UNITTESTS_GRPBITMAPFILEJPG_CLASSNAME, SaveLoadJpgDimensions)
 TEST(UNITTESTS_GRPBITMAPFILEJPG_CLASSNAME, LoadMissingFileReturnsNull)
 {
   XPATH xpath;
-  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, __L("unittests_graphic_missing_no_such.jpg")));
+  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, _L("unittests_graphic_missing_no_such.jpg")));
 
   GRPBITMAPFILE file;
   EXPECT_EQ(file.Load(xpath), (GRPBITMAP*)NULL);

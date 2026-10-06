@@ -82,7 +82,7 @@ TEST(UNITTESTS_HASHSHA2_CLASSNAME, KnownAnswerVector_SHA256_abc)
 
   XSTRING stringhex;
   EXPECT_TRUE(hash.GetResultString(stringhex));
-  EXPECT_EQ(0, stringhex.Compare(__L("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"), true));
+  EXPECT_EQ(0, stringhex.Compare(_L("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"), true));
 }
 
 
@@ -94,7 +94,7 @@ TEST(UNITTESTS_HASHSHA2_CLASSNAME, KnownAnswerVector_SHA256_EmptyString)
 
   XSTRING stringhex;
   EXPECT_TRUE(hash.GetResultString(stringhex));
-  EXPECT_EQ(0, stringhex.Compare(__L("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"), true));
+  EXPECT_EQ(0, stringhex.Compare(_L("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"), true));
 }
 
 
@@ -118,7 +118,7 @@ TEST(UNITTESTS_HASHSHA2_CLASSNAME, KnownAnswerVector_SHA224_abc)
 
   XSTRING stringhex;
   EXPECT_TRUE(hash.GetResultString(stringhex));
-  EXPECT_EQ(0, stringhex.Compare(__L("23097d223405d8228642a477bda255b32aadbce4bda0b3f7e36c9da7"), true));
+  EXPECT_EQ(0, stringhex.Compare(_L("23097d223405d8228642a477bda255b32aadbce4bda0b3f7e36c9da7"), true));
 }
 
 
@@ -143,7 +143,7 @@ TEST(UNITTESTS_HASHSHA2_CLASSNAME, KnownAnswerVector_SHA384_abc)
 
   XSTRING stringhex;
   EXPECT_TRUE(hash.GetResultString(stringhex));
-  EXPECT_EQ(0, stringhex.Compare(__L("cb00753f45a35e8bb5a03d699ac65007272c32ab0eded1631a8b605a43ff5bed8086072ba1e7cc2358baeca134c825a7"), true));
+  EXPECT_EQ(0, stringhex.Compare(_L("cb00753f45a35e8bb5a03d699ac65007272c32ab0eded1631a8b605a43ff5bed8086072ba1e7cc2358baeca134c825a7"), true));
 }
 
 
@@ -168,7 +168,7 @@ TEST(UNITTESTS_HASHSHA2_CLASSNAME, KnownAnswerVector_SHA512_abc)
 
   XSTRING stringhex;
   EXPECT_TRUE(hash.GetResultString(stringhex));
-  EXPECT_EQ(0, stringhex.Compare(__L("ddaf35a193617abacc417349ae20413112e6fa4e89a97ea20a9eeee64b55d39a2192992a274fc1a836ba3c23a3feebbd454d4423643ce80e2a9ac94fa54ca49f"), true));
+  EXPECT_EQ(0, stringhex.Compare(_L("ddaf35a193617abacc417349ae20413112e6fa4e89a97ea20a9eeee64b55d39a2192992a274fc1a836ba3c23a3feebbd454d4423643ce80e2a9ac94fa54ca49f"), true));
 }
 
 

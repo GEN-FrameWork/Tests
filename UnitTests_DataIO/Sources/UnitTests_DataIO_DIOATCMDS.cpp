@@ -64,10 +64,10 @@ TEST(DIOATCMD, SetCommandFields)
 {
   DIOATCMD cmd;
 
-  EXPECT_TRUE(cmd.Set(DIOATCMD_TYPE_BASIC, __L("AT"), false));
+  EXPECT_TRUE(cmd.Set(DIOATCMD_TYPE_BASIC, _L("AT"), false));
   EXPECT_EQ(cmd.GetType(), (XDWORD)DIOATCMD_TYPE_BASIC);
   ASSERT_NE(cmd.GetCommand(), (XCHAR*)NULL);
-  EXPECT_EQ(XSTRING(cmd.GetCommand()).Compare(__L("AT")), 0);
+  EXPECT_EQ(XSTRING(cmd.GetCommand()).Compare(_L("AT")), 0);
   EXPECT_FALSE(cmd.IsUnSolicited());
 }
 

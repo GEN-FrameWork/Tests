@@ -110,16 +110,16 @@ TEST(UNITTESTS_XTRANSLATION_CLASSNAME, TranslateGetSentenceReturnsTheRealEnglish
   // assets/unittests_xutils.lng registers languages ["Spanish","English","French"] (indices 0,1,2)
   // and translation ID "00100" as [0, "hola radiola", "hi radiola", "jau radiola"] - with the
   // active language English (languageindex 1), Translate_Load() picks array slot languageindex+1=2.
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(100), __L("hi radiola"));
+  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(100), _L("hi radiola"));
 
   // ID "00101" is [70, "mas mensage", "more message", "jau radiola"] - same slot 2 -> English text.
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(101), __L("more message"));
+  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(101), _L("more message"));
 }
 
 
 TEST(UNITTESTS_XTRANSLATION_CLASSNAME, TranslateGetSentenceOnAnUnregisteredIDFallsBackToTheEmptySentence)
 {
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(55555), __L("--"));
+  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(55555), _L("--"));
 }
 
 
@@ -127,8 +127,8 @@ TEST(UNITTESTS_XTRANSLATION_CLASSNAME, TranslateGetSentenceAtOrBeyondTheArrayBou
 {
   // Translate_GetSentence bounds-checks ID against XTRANSLATION_MAXSENTENCES before ever touching
   // the sentences[] array, so this is a safe, non-corrupting way to probe the boundary.
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_MAXSENTENCES), __L("--"));
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_MAXSENTENCES + 1000), __L("--"));
+  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_MAXSENTENCES), _L("--"));
+  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_MAXSENTENCES + 1000), _L("--"));
 }
 
 
@@ -147,8 +147,8 @@ TEST(UNITTESTS_XTRANSLATION_CLASSNAME, TranslateAddAndGetSentenceRoundTripOnAFre
   // correct and idempotent regardless of how many times it runs.
   const XDWORD freshID = 9500;
 
-  EXPECT_TRUE(GEN_XTRANSLATION.Translate_Add(freshID, __L("Fresh unit test sentence"), 0));
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(freshID), __L("Fresh unit test sentence"));
+  EXPECT_TRUE(GEN_XTRANSLATION.Translate_Add(freshID, _L("Fresh unit test sentence"), 0));
+  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(freshID), _L("Fresh unit test sentence"));
 }
 
 
@@ -156,14 +156,14 @@ TEST(UNITTESTS_XTRANSLATION_CLASSNAME, TranslateAddTruncatesToTheFixedLengthWhen
 {
   const XDWORD freshID = 9501;
 
-  EXPECT_TRUE(GEN_XTRANSLATION.Translate_Add(freshID, __L("HelloWorldThisIsLong"), 5));
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(freshID), __L("Hello"));
+  EXPECT_TRUE(GEN_XTRANSLATION.Translate_Add(freshID, _L("HelloWorldThisIsLong"), 5));
+  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(freshID), _L("Hello"));
 }
 
 
 TEST(UNITTESTS_XTRANSLATION_CLASSNAME, TranslateAddRejectsZeroIDOrNullSentence)
 {
-  EXPECT_FALSE(GEN_XTRANSLATION.Translate_Add(0, __L("text"), 0));
+  EXPECT_FALSE(GEN_XTRANSLATION.Translate_Add(0, _L("text"), 0));
   EXPECT_FALSE(GEN_XTRANSLATION.Translate_Add(9502, NULL, 0));
 }
 

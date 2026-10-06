@@ -62,7 +62,7 @@ TEST(UNITTESTS_SNDFILEOGG_CLASSNAME, CreateMissingOggReturnsNull)
 {
   XPATH xpath;
 
-  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(xpath, __L("unittests_sound_missing_ogg.ogg")));
+  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(xpath, _L("unittests_sound_missing_ogg.ogg")));
   EXPECT_EQ(SNDFILE::Create(xpath), (SNDFILE*)NULL);
 }
 
@@ -72,7 +72,7 @@ TEST(UNITTESTS_SNDFILEOGG_CLASSNAME, CreateWithOggExtensionRequiresExistingFile)
   XPATH xpath;
 
   // Offline-safe Create path only: missing .ogg must not invent a loadable object.
-  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(xpath, __L("unittests_sound_requires_existing.ogg")));
+  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(xpath, _L("unittests_sound_requires_existing.ogg")));
   EXPECT_EQ(SNDFILE::Create(xpath), (SNDFILE*)NULL);
 }
 

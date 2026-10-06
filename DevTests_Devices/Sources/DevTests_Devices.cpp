@@ -174,14 +174,14 @@ bool DEVTESTS_DEVICES::AppProc_Ini()
     XTRACE_SETTARGET(0, XTRACE_TYPE_SPECIAL , XTRACE_DEFAULT_SPECIALAIM);
   #else
     XTRACE_SETTARGET(0, XTRACE_TYPE_NET, GEN_XTRACE_NET_DEFAULT_01);
-    XTRACE_SETTARGET(1, XTRACE_TYPE_NET, __L("*:10001"));
+    XTRACE_SETTARGET(1, XTRACE_TYPE_NET, _L("*:10001"));
   #endif
 
     
   XTRACE_CLEARSCREEN;
   XTRACE_CLEARMSGSSTATUS;
   
-  XTRACE_PRINTCOLOR(1, __L("Start Application"));
+  XTRACE_PRINTCOLOR(1, _L("Start Application"));
 
   #ifdef HW_STM32
   STM32_Heap_Usage();  
@@ -213,17 +213,17 @@ bool DEVTESTS_DEVICES::AppProc_Ini()
 bool DEVTESTS_DEVICES::AppProc_FirstUpdate()
 {
 
-  DEVTESTS_CONSOLE_LIST_FUNCTION listfunctions[] = {   { false  , Test_Random                    , __L("Test Random")                     },
-                                                      { false  , Test_DirFunctions              , __L("Test Dir Functions")              },
-                                                      { false  , Test_FileFunctions             , __L("Test File Functions")             },
-                                                      { false  , Test_DIOStreamUART             , __L("Test DIOStream UART")             },
-                                                      { false  , Test_DIOStreamUSB              , __L("Test DIOStream USB")              },
-                                                      { false  , Test_DIOStreamI2C              , __L("Test DIOStream I2C")              },
-                                                      { false  , Test_DIOStreamSPI              , __L("Test DIOStream SPI")              },
-                                                      { true   , Test_DIOGPIO                   , __L("Test DIOGPIO")                    },
-                                                      { false  , Test_DIOGPIO_Interrupt         , __L("Test DIOGPIO Interrupt")          },
-                                                      { false  , Test_EEPROMMemory              , __L("Test EEPROM Memory")              },
-                                                      { false  , Test_DIONeoPixel               , __L("Test DIO NeoPixel")               }
+  DEVTESTS_CONSOLE_LIST_FUNCTION listfunctions[] = {   { false  , Test_Random                    , _L("Test Random")                     },
+                                                      { false  , Test_DirFunctions              , _L("Test Dir Functions")              },
+                                                      { false  , Test_FileFunctions             , _L("Test File Functions")             },
+                                                      { false  , Test_DIOStreamUART             , _L("Test DIOStream UART")             },
+                                                      { false  , Test_DIOStreamUSB              , _L("Test DIOStream USB")              },
+                                                      { false  , Test_DIOStreamI2C              , _L("Test DIOStream I2C")              },
+                                                      { false  , Test_DIOStreamSPI              , _L("Test DIOStream SPI")              },
+                                                      { true   , Test_DIOGPIO                   , _L("Test DIOGPIO")                    },
+                                                      { false  , Test_DIOGPIO_Interrupt         , _L("Test DIOGPIO Interrupt")          },
+                                                      { false  , Test_EEPROMMemory              , _L("Test EEPROM Memory")              },
+                                                      { false  , Test_DIONeoPixel               , _L("Test DIO NeoPixel")               }
 
                                                       #ifdef WINDOWS
                                                       #endif
@@ -372,7 +372,7 @@ bool DEVTESTS_DEVICES::Test_DIOStreamUART(DEVTESTS_DEVICES* tests)
 
   while(!exit)
     {
-      //XTRACE_PRINTCOLOR(1, __L("-1-"));
+      //XTRACE_PRINTCOLOR(1, _L("-1-"));
 
       br = diostreamuart->GetInXBuffer()->GetSize();
       if(br)
@@ -466,7 +466,7 @@ bool DEVTESTS_DEVICES::Test_DIOStreamUSB(DEVTESTS_DEVICES* tests)
 
   if(!diostreamusb->Open()) return false;
 
-  XTRACE_PRINTCOLOR(1, __L("Open USB ..."));
+  XTRACE_PRINTCOLOR(1, _L("Open USB ..."));
 
   /*
   #define IDLITTLEPROTOCOL 0xFE
@@ -534,7 +534,7 @@ bool DEVTESTS_DEVICES::I2CTest_6AxisTrackingLSM303DLHC(DEVTESTS_DEVICES* tests, 
   if(lsm303dlhc)
     {
       status = lsm303dlhc->Ini(port, DIOI2CLSM303DLHC_ADDR_ACCELEROMETER, DIOI2CLSM303DLHC_ADDR_COMPASS, timeout);        
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device 6 Axis Tracking LSM303DLHC Addr[ Accelerometer 0x%02X, Compass 0x%02X]: %s"), DIOI2CLSM303DLHC_ADDR_ACCELEROMETER, DIOI2CLSM303DLHC_ADDR_COMPASS, (status?__L("Ok."):__L("Error!")));      
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device 6 Axis Tracking LSM303DLHC Addr[ Accelerometer 0x%02X, Compass 0x%02X]: %s"), DIOI2CLSM303DLHC_ADDR_ACCELEROMETER, DIOI2CLSM303DLHC_ADDR_COMPASS, (status?_L("Ok."):_L("Error!")));      
       if(status)      
         {          
           lsm303dlhc->SetOffset(0.00f, 0.00f, 0.00f);
@@ -554,7 +554,7 @@ bool DEVTESTS_DEVICES::I2CTest_6AxisTrackingLSM303DLHC(DEVTESTS_DEVICES* tests, 
               
               status = lsm303dlhc->Read(accelerometer_x, accelerometer_y, accelerometer_z, compass_x, compass_y, compass_z);
 
-              XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("accelerometer: %d, %d, %d compass: %d, %d, %d"), (int)accelerometer_x, (int)accelerometer_y, (int)accelerometer_z, (int)compass_x, (int)compass_y, (int)compass_z);
+              XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("accelerometer: %d, %d, %d compass: %d, %d, %d"), (int)accelerometer_x, (int)accelerometer_y, (int)accelerometer_z, (int)compass_x, (int)compass_y, (int)compass_z);
 
               //GEN_XSLEEP.MilliSeconds(200);
               if(!status) break;
@@ -636,7 +636,7 @@ bool DEVTESTS_DEVICES::I2CTest_ADDAConverterPCF8591(DEVTESTS_DEVICES* tests, int
 	if(converterPCF8591) 
     {
       status = converterPCF8591->Ini(port, DIOI2CADDACONVERTERPCF8591_ADDR, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device Analog/Digital-Digital/Analog converter PCF8591 Address [0x%02X]: %s"), DIOI2CADDACONVERTERPCF8591_ADDR, (status?__L("Ok."):__L("Error!")));        
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device Analog/Digital-Digital/Analog converter PCF8591 Address [0x%02X]: %s"), DIOI2CADDACONVERTERPCF8591_ADDR, (status?_L("Ok."):_L("Error!")));        
       if(status)
         {	
           int c = 0;
@@ -647,13 +647,13 @@ bool DEVTESTS_DEVICES::I2CTest_ADDAConverterPCF8591(DEVTESTS_DEVICES* tests, int
               for(; d<0xFF; d++)
                 {
                   converterPCF8591->WriteDAChannel((XBYTE)d);														
-                  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("DAChannel [0x%02X]"), d);        
+                  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("DAChannel [0x%02X]"), d);        
                 }
 
               for(; d>0xA0; d--)
                 {
                   converterPCF8591->WriteDAChannel((XBYTE)d);														
-                  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("DAChannel [0x%02X]"), d);        
+                  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("DAChannel [0x%02X]"), d);        
                 }
         
               c++;
@@ -700,7 +700,7 @@ bool DEVTESTS_DEVICES::I2CTest_AirQualityCCS811(DEVTESTS_DEVICES* tests, int por
   if(airqualityCCS811)
     {      
       status = airqualityCCS811->Ini(port, DIOI2CAIRQUALITYCCS811_ADDR2, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device Air Quality CCS811 Address [0x%02X]: %s"), DIOI2CAIRQUALITYCCS811_ADDR2, (status?__L("Ok."):__L("Error!")));        
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device Air Quality CCS811 Address [0x%02X]: %s"), DIOI2CAIRQUALITYCCS811_ADDR2, (status?_L("Ok."):_L("Error!")));        
       if(status)
         {
           XBYTE hwversion   = 0;
@@ -709,13 +709,13 @@ bool DEVTESTS_DEVICES::I2CTest_AirQualityCCS811(DEVTESTS_DEVICES* tests, int por
           bool  status;
           
           status = airqualityCCS811->GetHW_Version(hwversion);
-          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_GREEN:XTRACE_COLOR_RED), __L("Hardware Version    : %02X"), hwversion);
+          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_GREEN:XTRACE_COLOR_RED), _L("Hardware Version    : %02X"), hwversion);
 
           status = airqualityCCS811->GetBoot_Version(bootversion);
-          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_GREEN:XTRACE_COLOR_RED), __L("Boot Version        : %04X"), bootversion);
+          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_GREEN:XTRACE_COLOR_RED), _L("Boot Version        : %04X"), bootversion);
 
           status = airqualityCCS811->GetApp_Version(appversion);
-          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_GREEN:XTRACE_COLOR_RED), __L("Application Version : %04X"), appversion);
+          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_GREEN:XTRACE_COLOR_RED), _L("Application Version : %04X"), appversion);
 
           #ifdef AIRQUALITYCCS811_NTC
           float temperature;
@@ -748,11 +748,11 @@ bool DEVTESTS_DEVICES::I2CTest_AirQualityCCS811(DEVTESTS_DEVICES* tests, int por
                           XWORD CO2    = 0;
 
                           status = airqualityCCS811->ReadData(TVOC, CO2);
-                          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Read data: TVOC %6d, CO2 %6d : %s"), TVOC, CO2, (status?__L("Ok!"):__L("Error!")));
+                          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Read data: TVOC %6d, CO2 %6d : %s"), TVOC, CO2, (status?_L("Ok!"):_L("Error!")));
 
                           #ifdef AIRQUALITYCCS811_NTC
                           status = airqualityCCS811->ReadNTC(temperature, resistance);
-                          XTRACE_PRINTCOLOR((status?2:4), __L("NTC read: Temperature %f, Resistance %f. "), (double)temperature, (double)resistance);
+                          XTRACE_PRINTCOLOR((status?2:4), _L("NTC read: Temperature %f, Resistance %f. "), (double)temperature, (double)resistance);
                           if(status) airqualityCCS811->SetEnvironmentalData(50.00f, temperature);
                           #endif 
                           
@@ -760,7 +760,7 @@ bool DEVTESTS_DEVICES::I2CTest_AirQualityCCS811(DEVTESTS_DEVICES* tests, int por
                         }
                        else
                         {
-                           //XTRACE_PRINTCOLOR(XTRACE_COLOR_RED,__L("Not Read data yet!"));
+                           //XTRACE_PRINTCOLOR(XTRACE_COLOR_RED,_L("Not Read data yet!"));
                         }
                     }
                    else
@@ -770,17 +770,17 @@ bool DEVTESTS_DEVICES::I2CTest_AirQualityCCS811(DEVTESTS_DEVICES* tests, int por
 
                       switch(errorcode)
                         {
-                          case DIOI2CAIRQUALITYCCS811_ERROR_WRITE_REG_INVALID   : errorstr = __L("The CCS811 received an I2C write request addressed to this station but with invalid register address ID");  break;
-                          case DIOI2CAIRQUALITYCCS811_ERROR_READ_REG_INVALID    : errorstr = __L("The CCS811 received an I2C read request to a mailbox ID that is invalid");                                  break;
-                          case DIOI2CAIRQUALITYCCS811_ERROR_MEASMODE_INVALID    : errorstr = __L("The CCS811 received an I2C request to write an unsupported mode to MEAS_MODE");                             break;
-                          case DIOI2CAIRQUALITYCCS811_ERROR_MAX_RESISTANCE      : errorstr = __L("The sensor resistance measurement has reached or exceeded the maximum range");                              break;
-                          case DIOI2CAIRQUALITYCCS811_ERROR_HEATER_FAULT        : errorstr = __L("The Heater current in the CCS811 is not in range");                                                         break;
-                          case DIOI2CAIRQUALITYCCS811_ERROR_HEATER_SUPPLY       : errorstr = __L("The Heater voltage is not being applied correctly");                                                        break;
+                          case DIOI2CAIRQUALITYCCS811_ERROR_WRITE_REG_INVALID   : errorstr = _L("The CCS811 received an I2C write request addressed to this station but with invalid register address ID");  break;
+                          case DIOI2CAIRQUALITYCCS811_ERROR_READ_REG_INVALID    : errorstr = _L("The CCS811 received an I2C read request to a mailbox ID that is invalid");                                  break;
+                          case DIOI2CAIRQUALITYCCS811_ERROR_MEASMODE_INVALID    : errorstr = _L("The CCS811 received an I2C request to write an unsupported mode to MEAS_MODE");                             break;
+                          case DIOI2CAIRQUALITYCCS811_ERROR_MAX_RESISTANCE      : errorstr = _L("The sensor resistance measurement has reached or exceeded the maximum range");                              break;
+                          case DIOI2CAIRQUALITYCCS811_ERROR_HEATER_FAULT        : errorstr = _L("The Heater current in the CCS811 is not in range");                                                         break;
+                          case DIOI2CAIRQUALITYCCS811_ERROR_HEATER_SUPPLY       : errorstr = _L("The Heater voltage is not being applied correctly");                                                        break;
                           case DIOI2CAIRQUALITYCCS811_ERROR_RESERVED1           :
-                          case DIOI2CAIRQUALITYCCS811_ERROR_RESERVED2           : errorstr = __L("Reserved for Future Use");                                                                                  break;
+                          case DIOI2CAIRQUALITYCCS811_ERROR_RESERVED2           : errorstr = _L("Reserved for Future Use");                                                                                  break;
                         }
 
-                      XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("Error [%d] in sensor: %s"), errorcode, errorstr.Get());
+                      XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("Error [%d] in sensor: %s"), errorcode, errorstr.Get());
                     }
 
                   GEN_XSLEEP.Seconds(10);                                   
@@ -825,7 +825,7 @@ bool DEVTESTS_DEVICES::I2CTest_EEprom24XXX(DEVTESTS_DEVICES* tests, int port, in
 	    eeprom24xxx->SetType(DIOI2CEEPROM24XXXTYPE_08);
 
       status = eeprom24xxx->Ini(port, DIOI2CEEPROM2408_ADDR, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device EEPROM 24XXX Address [0x%02X]: %s"), DIOI2CEEPROM2408_ADDR, (status?__L("Ok."):__L("Error!")));        
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device EEPROM 24XXX Address [0x%02X]: %s"), DIOI2CEEPROM2408_ADDR, (status?_L("Ok."):_L("Error!")));        
 	    if(status)
 		    {
           /*
@@ -914,11 +914,11 @@ bool DEVTESTS_DEVICES::I2CTest_EEprom24XXX(DEVTESTS_DEVICES* tests, int port, in
 			    XDWORD c = 0;
 
           status = eeprom24xxx->Write(0x0, datawrite);
-          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("EEPROM 24XXX Write: %s"), (status?__L("Ok."):__L("Error!")));    
+          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("EEPROM 24XXX Write: %s"), (status?_L("Ok."):_L("Error!")));    
 			    
 		
 			    //status = eeprom24xxx->Write(0x0, dataDPO2COMP, 16); 						
-			    //XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("EEPROM 24XXX Write: %s"), (status?__L("Ok."):__L("Error!")));    
+			    //XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("EEPROM 24XXX Write: %s"), (status?_L("Ok."):_L("Error!")));    
 			    
 
 			    for(c=0; c<eeprom24xxx->GetSize(); c+=128)
@@ -926,7 +926,7 @@ bool DEVTESTS_DEVICES::I2CTest_EEprom24XXX(DEVTESTS_DEVICES* tests, int port, in
 					    dataread.Delete();			
 
 					    status = eeprom24xxx->Read(c, 128, dataread);
-              XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("EEPROM 24XXX Read: %s"), (status?__L("Ok."):__L("Error!")));    								 
+              XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("EEPROM 24XXX Read: %s"), (status?_L("Ok."):_L("Error!")));    								 
 					    XTRACE_PRINTDATABLOCKCOLOR(XTRACE_COLOR_BLUE, dataread);
 			    	}						
 	
@@ -962,7 +962,7 @@ bool DEVTESTS_DEVICES::I2CTest_GPIOMCP2317(DEVTESTS_DEVICES* tests, int port, in
 	if(mcp2317) 
     {
       status = mcp2317->Ini(port, DIOI2CGPIOMCP2317_ADDR, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device GPIO Extended MCP2317 Address [0x%02X]: %s"), DIOI2CGPIOMCP2317_ADDR, (status?__L("Ok."):__L("Error!")));
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device GPIO Extended MCP2317 Address [0x%02X]: %s"), DIOI2CGPIOMCP2317_ADDR, (status?_L("Ok."):_L("Error!")));
       if(status)
         {         
           mcp2317->Configure();
@@ -981,11 +981,11 @@ bool DEVTESTS_DEVICES::I2CTest_GPIOMCP2317(DEVTESTS_DEVICES* tests, int port, in
                     {					                                          
                       if(mcp2317->ReadInputs(DIOI2CGPIOMCP2317PORT_A, rvalue)) 
                         {
-                          XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("Inputs: %02X"), rvalue); 
+                          XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("Inputs: %02X"), rvalue); 
                         }
                        else 
                         {
-                          XTRACE_PRINTCOLOR(XTRACE_COLOR_RED, __L("Inputs: No read.")); 
+                          XTRACE_PRINTCOLOR(XTRACE_COLOR_RED, _L("Inputs: No read.")); 
                         }
                       
 
@@ -1029,7 +1029,7 @@ bool DEVTESTS_DEVICES::I2CTest_GPIOPCF8574(DEVTESTS_DEVICES* tests, int port, in
 	if(pcf8574) 
     {
       status =  pcf8574->Ini(port, DIOI2CGPIOPCF8574_ADDR, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device GPIO Extended PCF8574 Address [0x%02X]: %s"), DIOI2CGPIOPCF8574_ADDR, (status?__L("Ok."):__L("Error!")));        
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device GPIO Extended PCF8574 Address [0x%02X]: %s"), DIOI2CGPIOPCF8574_ADDR, (status?_L("Ok."):_L("Error!")));        
       if(status)
         {
           XBYTE data  = 0;
@@ -1048,7 +1048,7 @@ bool DEVTESTS_DEVICES::I2CTest_GPIOPCF8574(DEVTESTS_DEVICES* tests, int port, in
 							 
                   pcf8574->Read(data2); 							 
                   
-                  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("Read [0x%02X]  Write [0x%02X] "), data2, data);        							 						
+                  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("Read [0x%02X]  Write [0x%02X] "), data2, data);        							 						
                   
                   //GEN_XSLEEP.MilliSeconds(150);			
                 }
@@ -1085,13 +1085,13 @@ bool DEVTESTS_DEVICES::I2CTest_LightSensorTSL2561(DEVTESTS_DEVICES* tests, int p
 
   DIOI2CLIGHTSENSORTSL2561* lightsensor;
 
-  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("Connect I2C device Light Sensor TSL2561 Addr[0x%02X]"), DIOI2CLIGHTSENSORTSL2561_ADDR3);  
+  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("Connect I2C device Light Sensor TSL2561 Addr[0x%02X]"), DIOI2CLIGHTSENSORTSL2561_ADDR3);  
 
   lightsensor =  GEN_NEW DIOI2CLIGHTSENSORTSL2561();
   if(lightsensor)
     {
       status = lightsensor->Ini(port, DIOI2CLIGHTSENSORTSL2561_ADDR3, timeout);      
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device Light Sensor TSL2561 Addr[0x%02X]: %s"), DIOI2CLIGHTSENSORTSL2561_ADDR3, (status?__L("Ok."):__L("Error!")));      
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device Light Sensor TSL2561 Addr[0x%02X]: %s"), DIOI2CLIGHTSENSORTSL2561_ADDR3, (status?_L("Ok."):_L("Error!")));      
       if(status) 
         {
           status = lightsensor->SetIntegrationTime(DIOI2CLIGHTSENSORTSL2561INTEGRATIONTIME_101MS);
@@ -1109,7 +1109,7 @@ bool DEVTESTS_DEVICES::I2CTest_LightSensorTSL2561(DEVTESTS_DEVICES* tests, int p
                   while(c < 100)
                     {
                       status = lightsensor->Get(fullspectrum, infrared, lux, false);
-                      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Broadband: %d - Inflared: %d - Lux: %d  [%s]"), fullspectrum, infrared, lux, (status?__L("Ok."):__L("Error!")));                      
+                      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Broadband: %d - Inflared: %d - Lux: %d  [%s]"), fullspectrum, infrared, lux, (status?_L("Ok."):_L("Error!")));                      
                       if(!status) break;
                     
                       c++;
@@ -1148,7 +1148,7 @@ bool DEVTESTS_DEVICES::I2CTest_OLEDDisplaySSD1306(DEVTESTS_DEVICES* tests, int p
   if(OLEDdisplaySSD1306) 
     {
       status = OLEDdisplaySSD1306->Ini(1, DIOI2COLEDDISPLAYSSD1306_ADDR, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device Display OLED display SSD1306 Address [0x%02X]: %s"), DIOI2COLEDDISPLAYSSD1306_ADDR, (status?__L("Ok."):__L("Error!")));        
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device Display OLED display SSD1306 Address [0x%02X]: %s"), DIOI2COLEDDISPLAYSSD1306_ADDR, (status?_L("Ok."):_L("Error!")));        
       if(status)
         {          
           XBYTE* buffer = GEN_NEW XBYTE[OLEDdisplaySSD1306->GetSizeBuffer()];
@@ -1160,7 +1160,7 @@ bool DEVTESTS_DEVICES::I2CTest_OLEDDisplaySSD1306(DEVTESTS_DEVICES* tests, int p
 
               for(int c=0; c<8; c++)
                 {
-                  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("Put Pixel x3 ... "));        
+                  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("Put Pixel x3 ... "));        
                   
                   OLEDdisplaySSD1306->PutPixel(0+c, 0+c, true);
                   OLEDdisplaySSD1306->PutPixel((OLEDdisplaySSD1306->GetWidth()/2)-c-1, (OLEDdisplaySSD1306->GetHeight()/2)-c-1, true);
@@ -1169,7 +1169,7 @@ bool DEVTESTS_DEVICES::I2CTest_OLEDDisplaySSD1306(DEVTESTS_DEVICES* tests, int p
                   OLEDdisplaySSD1306->Update(buffer);                  
                 }
               
-              XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("Clear Display ... "));        
+              XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("Clear Display ... "));        
               status = OLEDdisplaySSD1306->Clear(0xFF);
 
               GEN_DELETE_ARRAY buffer;
@@ -1206,14 +1206,14 @@ bool DEVTESTS_DEVICES::I2CTest_PWMControlerPCA9685(DEVTESTS_DEVICES* tests, int 
 	if(pca9685) 
     {	
       status = pca9685->Ini(port, DIOI2CPWMCONTROLERPCA9685_ADDR, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device PWM Controler PCA9685 Address [0x%02X]: %s"), DIOI2CPWMCONTROLERPCA9685_ADDR, (status?__L("Ok."):__L("Error!")));          
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device PWM Controler PCA9685 Address [0x%02X]: %s"), DIOI2CPWMCONTROLERPCA9685_ADDR, (status?_L("Ok."):_L("Error!")));          
 	    if(status)
 		    {			    
           int c = 0;
 
 			    if(!pca9685->SetPWMFrequency(60)) 
 				    {
-					    XTRACE_PRINTCOLOR(XTRACE_COLOR_RED, __L(" Error PWM frecuency! "));						
+					    XTRACE_PRINTCOLOR(XTRACE_COLOR_RED, _L(" Error PWM frecuency! "));						
 				    }
 					       
           while(c < 10)
@@ -1222,11 +1222,11 @@ bool DEVTESTS_DEVICES::I2CTest_PWMControlerPCA9685(DEVTESTS_DEVICES* tests, int 
 				        {
 					        if(!pca9685->SetPWM(d, 10, 150))
 						        {
-							        XTRACE_PRINTCOLOR(XTRACE_COLOR_RED, __L("Channel %02d Error Set PWM!"), d);						
+							        XTRACE_PRINTCOLOR(XTRACE_COLOR_RED, _L("Channel %02d Error Set PWM!"), d);						
 						        } 
                    else
                     {
-                      XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("Channel %02d Set PWM"), d);		
+                      XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("Channel %02d Set PWM"), d);		
                     }
 				        }
   				
@@ -1234,11 +1234,11 @@ bool DEVTESTS_DEVICES::I2CTest_PWMControlerPCA9685(DEVTESTS_DEVICES* tests, int 
 				        {
 					        if(!pca9685->SetPWM(d, 30, 130))
 						        {
-							        XTRACE_PRINTCOLOR(XTRACE_COLOR_RED, __L("Channel %02d Error Set PWM!"), d);						
+							        XTRACE_PRINTCOLOR(XTRACE_COLOR_RED, _L("Channel %02d Error Set PWM!"), d);						
 						        }
                    else
                     {
-                      XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("Channel %02d Set PWM"), d);		
+                      XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("Channel %02d Set PWM"), d);		
                     }
 				        }
 
@@ -1249,11 +1249,11 @@ bool DEVTESTS_DEVICES::I2CTest_PWMControlerPCA9685(DEVTESTS_DEVICES* tests, int 
 				    {
 					    if(!pca9685->SetPWM(d, 0, 0))
 						    {
-							    XTRACE_PRINTCOLOR(XTRACE_COLOR_RED, __L("Channel %02d Error Set PWM to zero!"), d);						
+							    XTRACE_PRINTCOLOR(XTRACE_COLOR_RED, _L("Channel %02d Error Set PWM to zero!"), d);						
 						    } 
                 else
                 {
-                  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("Channel %02d Set PWM to zero"), d);		
+                  XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("Channel %02d Set PWM to zero"), d);		
                 }
 				    }  							   			   
         } 
@@ -1288,7 +1288,7 @@ bool DEVTESTS_DEVICES::I2CTest_TemHumSensorAM2315(DEVTESTS_DEVICES* tests, int p
   if(temhumsensorAM2315)
     { 
       status = temhumsensorAM2315->Ini(port, DIOI2CTEMHUMSENSORAM2315_ADDRESS, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device Temperature Humidity AM 2315 Address [0x%02X]: %s"), DIOI2CTEMHUMSENSORAM2315_ADDRESS, (status?__L("Ok."):__L("Error!")));          
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device Temperature Humidity AM 2315 Address [0x%02X]: %s"), DIOI2CTEMHUMSENSORAM2315_ADDRESS, (status?_L("Ok."):_L("Error!")));          
       if(status)
         {          
           int c = 0;
@@ -1300,9 +1300,9 @@ bool DEVTESTS_DEVICES::I2CTest_TemHumSensorAM2315(DEVTESTS_DEVICES* tests, int p
 
               if(temhumsensorAM2315->Read(temperature, humidity))
                 {
-                  XTRACE_PRINTCOLOR(1, __L("AM2315 Read Temperature: %2.2fC Relative Humidity %3.2f%% "), temperature, humidity);
+                  XTRACE_PRINTCOLOR(1, _L("AM2315 Read Temperature: %2.2fC Relative Humidity %3.2f%% "), temperature, humidity);
 
-                } else XTRACE_PRINTCOLOR(4, __L("Error read I2C device..."));
+                } else XTRACE_PRINTCOLOR(4, _L("Error read I2C device..."));
               
               c++;
             }               
@@ -1339,7 +1339,7 @@ bool DEVTESTS_DEVICES::I2CTest_TemHumSensorSHT20(DEVTESTS_DEVICES* tests, int po
     {
       if(temhumsensorSHT20->Ini(1, DIOI2CTEMHUMSENSORSHT20_ADDRESS, 3))
         {
-          XTRACE_PRINTCOLOR(1, __L("Connect I2C device... Ok!"));
+          XTRACE_PRINTCOLOR(1, _L("Connect I2C device... Ok!"));
           
           int c = 0;
 
@@ -1350,9 +1350,9 @@ bool DEVTESTS_DEVICES::I2CTest_TemHumSensorSHT20(DEVTESTS_DEVICES* tests, int po
 
               if(temhumsensorSHT20->Read(temperature, humidity))
                 {
-                  XTRACE_PRINTCOLOR(1, __L("SHT20 Read Temperature: %2.2fC Relative Humidity %3.2f%% "), temperature, humidity);
+                  XTRACE_PRINTCOLOR(1, _L("SHT20 Read Temperature: %2.2fC Relative Humidity %3.2f%% "), temperature, humidity);
 
-                } else XTRACE_PRINTCOLOR(4, __L("Error read I2C device..."));
+                } else XTRACE_PRINTCOLOR(4, _L("Error read I2C device..."));
 
               GEN_XSLEEP.Seconds(1);
 
@@ -1362,7 +1362,7 @@ bool DEVTESTS_DEVICES::I2CTest_TemHumSensorSHT20(DEVTESTS_DEVICES* tests, int po
           
           c++;
 
-        } else XTRACE_PRINTCOLOR(4, __L("Error to connect I2C device..."));
+        } else XTRACE_PRINTCOLOR(4, _L("Error to connect I2C device..."));
 
       GEN_DELETE temhumsensorSHT20;
     }
@@ -1391,7 +1391,7 @@ bool DEVTESTS_DEVICES::I2CTest_MonitorGaugeLTC2942(DEVTESTS_DEVICES* tests, int 
   if(monitorgaugeLTC2942)
     {      
       status = monitorgaugeLTC2942->Ini(port, DIOI2CMONITORGAUGELTC2942_ADDR, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device Monitor Gauge LTC2942 Address [0x%02X]: %s"), DIOI2CMONITORGAUGELTC2942_ADDR, (status?__L("Ok."):__L("Error!")));          
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device Monitor Gauge LTC2942 Address [0x%02X]: %s"), DIOI2CMONITORGAUGELTC2942_ADDR, (status?_L("Ok."):_L("Error!")));          
       if(status)
         {
           int c = 0;
@@ -1399,7 +1399,7 @@ bool DEVTESTS_DEVICES::I2CTest_MonitorGaugeLTC2942(DEVTESTS_DEVICES* tests, int 
           while(c < 100)
             {          
               XWORD ACvalue = monitorgaugeLTC2942->GetAC();                   
-              XTRACE_PRINTCOLOR(1, __L("AC Value: %d "), ACvalue);                
+              XTRACE_PRINTCOLOR(1, _L("AC Value: %d "), ACvalue);                
               
               c++;
             }          
@@ -1441,7 +1441,7 @@ bool DEVTESTS_DEVICES::I2CTest_BatteryChargerBQ24295(DEVTESTS_DEVICES* tests, in
       batterychargerBQ24295->SetGPIOEntryID(DIOI2CBATTERYCHARGERBQ24295_GPIOENTRYID_INT, DIOGPIO_ID_NOTDEFINED);
 
       status = batterychargerBQ24295->Ini(port, DIOI2CBATTERYCHARGERBQ24295_ADDR, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device Battery Charger BQ24295 Address [0x%02X]: %s"), DIOI2CBATTERYCHARGERBQ24295_ADDR, (status?__L("Ok."):__L("Error!")));          
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device Battery Charger BQ24295 Address [0x%02X]: %s"), DIOI2CBATTERYCHARGERBQ24295_ADDR, (status?_L("Ok."):_L("Error!")));          
       if(status)
         {
           int c = 0;
@@ -1485,7 +1485,7 @@ bool DEVTESTS_DEVICES::I2CTest_TouchSensorAT42QT1060(DEVTESTS_DEVICES* tests, in
       touchsensorAT42QT1060->SetGPIOInterruptEntryID(DIOGPIO_ID_NOTDEFINED);
       
       status = touchsensorAT42QT1060->Ini(port, DIOI2CBATTERYCHARGERBQ24295_ADDR, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Connect I2C device Touch Sensor AT42QT1060 Address [0x%02X]: %s"), DIOI2CBATTERYCHARGERBQ24295_ADDR, (status?__L("Ok."):__L("Error!")));          
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Connect I2C device Touch Sensor AT42QT1060 Address [0x%02X]: %s"), DIOI2CBATTERYCHARGERBQ24295_ADDR, (status?_L("Ok."):_L("Error!")));          
       if(status)
         {
           int c = 0;
@@ -1641,21 +1641,21 @@ bool DEVTESTS_DEVICES::SPITest_LCDDisplayPCF8833(DEVTESTS_DEVICES* tests, int po
       LCDdisplayPCF8833->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_RESET, DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_RESET); 
       
       status  = LCDdisplayPCF8833->Ini(port, chipselect, timeout);
-      XTRACE_PRINTCOLOR(1, __L("[LCD Display PCF8833] Ini Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?__L("Ok!"):__L("Error!"));
+      XTRACE_PRINTCOLOR(1, _L("[LCD Display PCF8833] Ini Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?_L("Ok!"):_L("Error!"));
       if(status)
         {
-          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[LCD Display PCF8833] Resolution %d x %d"), LCDdisplayPCF8833->GetWidth(), LCDdisplayPCF8833->GetHeight());
+          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[LCD Display PCF8833] Resolution %d x %d"), LCDdisplayPCF8833->GetWidth(), LCDdisplayPCF8833->GetHeight());
 
           status = LCDdisplayPCF8833->Clear(DIOSPILCDDISPLAYPCF8833_COLOR_RED);
-          XTRACE_PRINTCOLOR(1, __L("Send display Clean : %s "), status?__L("Ok!"):__L("Error!"));
+          XTRACE_PRINTCOLOR(1, _L("Send display Clean : %s "), status?_L("Ok!"):_L("Error!"));
           GEN_XSLEEP.Seconds(1);
 
           status = LCDdisplayPCF8833->Clear(DIOSPILCDDISPLAYPCF8833_COLOR_GREEN);
-          XTRACE_PRINTCOLOR(1, __L("Send display Clean : %s "), status?__L("Ok!"):__L("Error!"));
+          XTRACE_PRINTCOLOR(1, _L("Send display Clean : %s "), status?_L("Ok!"):_L("Error!"));
           GEN_XSLEEP.Seconds(1);
 
           status = LCDdisplayPCF8833->Clear(DIOSPILCDDISPLAYPCF8833_COLOR_BLUE);
-          XTRACE_PRINTCOLOR(1, __L("Send display Clean : %s "), status?__L("Ok!"):__L("Error!"));
+          XTRACE_PRINTCOLOR(1, _L("Send display Clean : %s "), status?_L("Ok!"):_L("Error!"));
           GEN_XSLEEP.Seconds(1);
 
           /*  
@@ -1672,12 +1672,12 @@ bool DEVTESTS_DEVICES::SPITest_LCDDisplayPCF8833(DEVTESTS_DEVICES* tests, int po
 
 
               XWORD*  buffer = NULL;
-              XTRACE_PRINTCOLOR(1, __L("Create Random..."));
+              XTRACE_PRINTCOLOR(1, _L("Create Random..."));
 
               buffer = GEN_NEW XWORD[LCDdisplayPCF8833->GetNPixels()];
               if(buffer)
                 {
-                  XTRACE_PRINTCOLOR(1, __L("Create Buffer Random..."));
+                  XTRACE_PRINTCOLOR(1, _L("Create Buffer Random..."));
 
                   int nframes = 0;
 
@@ -1689,16 +1689,16 @@ bool DEVTESTS_DEVICES::SPITest_LCDDisplayPCF8833(DEVTESTS_DEVICES* tests, int po
                         }
 
                       LCDdisplayPCF8833->Update((XBYTE*)buffer);
-                      XTRACE_PRINTCOLOR(1, __L("Send display Update: %05d  %s    "), nframes,  status?__L("Ok!"):__L("Error!"));
+                      XTRACE_PRINTCOLOR(1, _L("Send display Update: %05d  %s    "), nframes,  status?_L("Ok!"):_L("Error!"));
 
                       nframes++;
                     }  
 
                   GEN_DELETE_ARRAY buffer;
 
-                } else XTRACE_PRINTCOLOR(1, __L("Error Create Buffer Random..."));
+                } else XTRACE_PRINTCOLOR(1, _L("Error Create Buffer Random..."));
            
-            } else XTRACE_PRINTCOLOR(1, __L("Error Create Random..."));
+            } else XTRACE_PRINTCOLOR(1, _L("Error Create Random..."));
 
           GEN_XFACTORY.DeleteRand(rnd);         
           */
@@ -1706,7 +1706,7 @@ bool DEVTESTS_DEVICES::SPITest_LCDDisplayPCF8833(DEVTESTS_DEVICES* tests, int po
         }
 
       status = LCDdisplayPCF8833->End();
-      XTRACE_PRINTCOLOR(1, __L("[LCD Display PCF8833] End : %s "), status?__L("Ok!"):__L("Error!"));
+      XTRACE_PRINTCOLOR(1, _L("[LCD Display PCF8833] End : %s "), status?_L("Ok!"):_L("Error!"));
 
       GEN_DELETE LCDdisplayPCF8833;
     }
@@ -1741,10 +1741,10 @@ bool DEVTESTS_DEVICES::SPITest_OLEDDisplaySSD1306(DEVTESTS_DEVICES* tests, int p
       OLEDdisplaySSD1306->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_DC, DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_DC);
       
       status = OLEDdisplaySSD1306->Ini(port, chipselect, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1306] Ini  Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?__L("Ok!"):__L("Error!"));
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[Oled Display SSD1306] Ini  Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?_L("Ok!"):_L("Error!"));
       if(status)
         {     
-          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1306] Resolution %d x %d"), OLEDdisplaySSD1306->GetWidth(), OLEDdisplaySSD1306->GetHeight());
+          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[Oled Display SSD1306] Resolution %d x %d"), OLEDdisplaySSD1306->GetWidth(), OLEDdisplaySSD1306->GetHeight());
           XBYTE* buffer = GEN_NEW XBYTE[OLEDdisplaySSD1306->GetSizeBuffer()];
           if(buffer)
             {
@@ -1755,17 +1755,17 @@ bool DEVTESTS_DEVICES::SPITest_OLEDDisplaySSD1306(DEVTESTS_DEVICES* tests, int p
                 {
                   status = OLEDdisplaySSD1306->Clear(0x00);                
 
-                  XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1306] Clear FULL 0x00: %s"), status?__L("Ok!"):__L("Error!"));
+                  XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[Oled Display SSD1306] Clear FULL 0x00: %s"), status?_L("Ok!"):_L("Error!"));
 
                   OLEDdisplaySSD1306->PutPixel(0+c, 0+c, true);
                   OLEDdisplaySSD1306->PutPixel(64-c-1, 32-c-1, true);
                   OLEDdisplaySSD1306->PutPixel(OLEDdisplaySSD1306->GetWidth()-c-1, OLEDdisplaySSD1306->GetHeight()-c-1, true);
 
                   status = OLEDdisplaySSD1306->Update(buffer);
-                  XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1306] Update : %s"), status?__L("Ok!"):__L("Error!"));
+                  XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[Oled Display SSD1306] Update : %s"), status?_L("Ok!"):_L("Error!"));
 
                   status = OLEDdisplaySSD1306->Clear(0xFF);                
-                  XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1306] Clear FULL 0xFF: %s"), status?__L("Ok!"):__L("Error!"));
+                  XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[Oled Display SSD1306] Clear FULL 0xFF: %s"), status?_L("Ok!"):_L("Error!"));
 
                   GEN_XSLEEP.Seconds(1);
                 }
@@ -1777,7 +1777,7 @@ bool DEVTESTS_DEVICES::SPITest_OLEDDisplaySSD1306(DEVTESTS_DEVICES* tests, int p
 
       
       status = OLEDdisplaySSD1306->End();
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1306] End : %s "), status?__L("Ok!"):__L("Error!"));      
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[Oled Display SSD1306] End : %s "), status?_L("Ok!"):_L("Error!"));      
 
       GEN_DELETE OLEDdisplaySSD1306;      
     }
@@ -1811,29 +1811,29 @@ bool DEVTESTS_DEVICES::SPITest_OLEDDisplaySSD1331(DEVTESTS_DEVICES* tests, int p
       OLEDdisplaySSD1331->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_DC, DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_DC);
 
       status  =  OLEDdisplaySSD1331->Ini(port, chipselect, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1331] Ini  Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?__L("Ok!"):__L("Error!"));
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[Oled Display SSD1331] Ini  Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?_L("Ok!"):_L("Error!"));
       if(status)
         {
-          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1331] Resolution %d x %d"), OLEDdisplaySSD1331->GetWidth(), OLEDdisplaySSD1331->GetHeight());
+          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[Oled Display SSD1331] Resolution %d x %d"), OLEDdisplaySSD1331->GetWidth(), OLEDdisplaySSD1331->GetHeight());
           for(int c=0; c<5; c++)
             {
               status = OLEDdisplaySSD1331->Clear(DIOSPIOLEDDISPLAYSSD1331_COLOR_RED);
-              XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1331] Clear RED: %s"), status?__L("Ok!"):__L("Error!"));
+              XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[Oled Display SSD1331] Clear RED: %s"), status?_L("Ok!"):_L("Error!"));
               GEN_XSLEEP.Seconds(1); 
               
               status = OLEDdisplaySSD1331->Clear(DIOSPIOLEDDISPLAYSSD1331_COLOR_GREEN);
-              XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1331] Clear GREEN: %s"), status?__L("Ok!"):__L("Error!"));
+              XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[Oled Display SSD1331] Clear GREEN: %s"), status?_L("Ok!"):_L("Error!"));
               GEN_XSLEEP.Seconds(1); 
               
               status = OLEDdisplaySSD1331->Clear(DIOSPIOLEDDISPLAYSSD1331_COLOR_BLUE);
-              XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1331] Clear BLUE: %s"), status?__L("Ok!"):__L("Error!"));
+              XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[Oled Display SSD1331] Clear BLUE: %s"), status?_L("Ok!"):_L("Error!"));
               GEN_XSLEEP.Seconds(1); 
               
               c++;
             }
 
           status = OLEDdisplaySSD1331->End();
-          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[Oled Display SSD1331] End : %s "), status?__L("Ok!"):__L("Error!"));      
+          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[Oled Display SSD1331] End : %s "), status?_L("Ok!"):_L("Error!"));      
         }
       
       GEN_DELETE OLEDdisplaySSD1331;
@@ -1868,21 +1868,21 @@ bool DEVTESTS_DEVICES::SPITest_TFTDisplayILI9341(DEVTESTS_DEVICES* tests, int po
       TFTdisplayILI9341->SetGPIOEntryID(DIODISPLAYDEVICE_INDEX_GPIOENTRYID_DC, DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_DC);                 
       
       status  = TFTdisplayILI9341->Ini(port, chipselect, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[TFT Display ILI9341] Ini  Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?__L("Ok!"):__L("Error!"));
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[TFT Display ILI9341] Ini  Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?_L("Ok!"):_L("Error!"));
       if(status)
         {
-          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[TFT Display ILI9341] Resolution %d x %d"), TFTdisplayILI9341->GetWidth(), TFTdisplayILI9341->GetHeight());
+          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[TFT Display ILI9341] Resolution %d x %d"), TFTdisplayILI9341->GetWidth(), TFTdisplayILI9341->GetHeight());
 
           status = TFTdisplayILI9341->Clear(DIOSPITFTDISPLAYILI9341_COLOR_RED);
-          XTRACE_PRINTCOLOR(1, __L("[TFT Display ILI9341] Clean RED  : %s "), status?__L("Ok!"):__L("Error!"));
+          XTRACE_PRINTCOLOR(1, _L("[TFT Display ILI9341] Clean RED  : %s "), status?_L("Ok!"):_L("Error!"));
           GEN_XSLEEP.Seconds(1);
 
           status = TFTdisplayILI9341->Clear(DIOSPITFTDISPLAYILI9341_COLOR_GREEN);
-          XTRACE_PRINTCOLOR(1, __L("[TFT Display ILI9341] Clean GREEN: %s "), status?__L("Ok!"):__L("Error!"));
+          XTRACE_PRINTCOLOR(1, _L("[TFT Display ILI9341] Clean GREEN: %s "), status?_L("Ok!"):_L("Error!"));
           GEN_XSLEEP.Seconds(1);
 
           status = TFTdisplayILI9341->Clear(DIOSPITFTDISPLAYILI9341_COLOR_BLUE);
-          XTRACE_PRINTCOLOR(1, __L("[TFT Display ILI9341] Clean BLUE : %s "), status?__L("Ok!"):__L("Error!"));
+          XTRACE_PRINTCOLOR(1, _L("[TFT Display ILI9341] Clean BLUE : %s "), status?_L("Ok!"):_L("Error!"));
           GEN_XSLEEP.Seconds(1);
 
 
@@ -1890,7 +1890,7 @@ bool DEVTESTS_DEVICES::SPITest_TFTDisplayILI9341(DEVTESTS_DEVICES* tests, int po
           GEN_XSLEEP.Seconds(2);
 
           status = TFTdisplayILI9341->End();
-          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[TFT Display ILI9341] End : %s "), status?__L("Ok!"):__L("Error!"));      
+          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[TFT Display ILI9341] End : %s "), status?_L("Ok!"):_L("Error!"));      
         }
 
       GEN_DELETE TFTdisplayILI9341;
@@ -1929,21 +1929,21 @@ bool DEVTESTS_DEVICES::SPITest_TFTDisplayST7789(DEVTESTS_DEVICES* tests, int por
       GEN_DIOGPIO.SetValue(DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_CS, true);
       
       status  = TFTdisplayST7789->Ini(port, chipselect, timeout);
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[TFT Display ST7789] Ini Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?__L("Ok!"):__L("Error!"));
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[TFT Display ST7789] Ini Port [%d] Chipselect [%d]  : %s "), port, chipselect, status?_L("Ok!"):_L("Error!"));
       if(status)
         {
-          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("TFT Display ST7789] Resolution %d x %d"), TFTdisplayST7789->GetWidth(), TFTdisplayST7789->GetHeight());
+          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("TFT Display ST7789] Resolution %d x %d"), TFTdisplayST7789->GetWidth(), TFTdisplayST7789->GetHeight());
 
           status = TFTdisplayST7789->Clear(DIOSPITFTDISPLAYST7789_COLOR_RED);
-          XTRACE_PRINTCOLOR(1, __L("[TFT Display ST7789] Clean RED  : %s "), status?__L("Ok!"):__L("Error!"));
+          XTRACE_PRINTCOLOR(1, _L("[TFT Display ST7789] Clean RED  : %s "), status?_L("Ok!"):_L("Error!"));
           GEN_XSLEEP.Seconds(1);
 
           status = TFTdisplayST7789->Clear(DIOSPITFTDISPLAYST7789_COLOR_GREEN);
-          XTRACE_PRINTCOLOR(1, __L("[TFT Display ST7789] Clean GREEN: %s "), status?__L("Ok!"):__L("Error!"));
+          XTRACE_PRINTCOLOR(1, _L("[TFT Display ST7789] Clean GREEN: %s "), status?_L("Ok!"):_L("Error!"));
           GEN_XSLEEP.Seconds(1);
 
           status = TFTdisplayST7789->Clear(DIOSPITFTDISPLAYST7789_COLOR_BLUE);
-          XTRACE_PRINTCOLOR(1, __L("[TFT Display ST7789] Clean BLUE : %s "), status?__L("Ok!"):__L("Error!"));
+          XTRACE_PRINTCOLOR(1, _L("[TFT Display ST7789] Clean BLUE : %s "), status?_L("Ok!"):_L("Error!"));
           GEN_XSLEEP.Seconds(1);
                      
           
@@ -1955,7 +1955,7 @@ bool DEVTESTS_DEVICES::SPITest_TFTDisplayST7789(DEVTESTS_DEVICES* tests, int por
           GEN_XSLEEP.Seconds(1);
           
           status = TFTdisplayST7789->End();
-          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("[TFT Display ST7789] End : %s "), status?__L("Ok!"):__L("Error!"));  
+          XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("[TFT Display ST7789] End : %s "), status?_L("Ok!"):_L("Error!"));  
         }
       
       GEN_DIOGPIO.SetValue(DEVTESTS_DEVICES_GPIOENTRYID_SPI_DISPLAY_CS, false);
@@ -2104,7 +2104,7 @@ bool DEVTESTS_DEVICES::Test_DIOGPIO(DEVTESTS_DEVICES* tests)
       
       if(press_btn) 
         {
-          XTRACE_PRINTCOLOR(XTRACE_COLOR_PURPLE, __L("[Press button Blue]"));
+          XTRACE_PRINTCOLOR(XTRACE_COLOR_PURPLE, _L("[Press button Blue]"));
         }
       
       switch(counter)
@@ -2141,7 +2141,7 @@ bool DEVTESTS_DEVICES::Test_DIOGPIO(DEVTESTS_DEVICES* tests)
       counter++;
       if(counter >= 4) counter =0;
       
-      XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("Counter %d"), counter);
+      XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("Counter %d"), counter);
       
       final++;
     }
@@ -2212,7 +2212,7 @@ bool DEVTESTS_DEVICES::Test_EEPROMMemory(DEVTESTS_DEVICES* tests)
   GEN_XEEPROMMEMORYMANAGER.Read(0, mark);
   if(mark != SRAMMARK)
     {
-      XTRACE_PRINTCOLOR(3, __L("SRAM Mark NOT found 0x%X."), mark);
+      XTRACE_PRINTCOLOR(3, _L("SRAM Mark NOT found 0x%X."), mark);
 
       XBYTE data2[8] = { 1,2,3,4,5,6,7,8 };
 
@@ -2225,17 +2225,17 @@ bool DEVTESTS_DEVICES::Test_EEPROMMemory(DEVTESTS_DEVICES* tests)
       mark = 0;
       GEN_XEEPROMMEMORYMANAGER.Read(0, mark);
 
-      XTRACE_PRINTCOLOR(2, __L("SRAM Mark Set 0x%X."), mark);
+      XTRACE_PRINTCOLOR(2, _L("SRAM Mark Set 0x%X."), mark);
 
     }
     else
     {
-      XTRACE_PRINTCOLOR(2, __L("SRAM Mark FOUND  !!!"));
+      XTRACE_PRINTCOLOR(2, _L("SRAM Mark FOUND  !!!"));
     }
 
   GEN_XEEPROMMEMORYMANAGER.Read(4, data, 8);
 
-  XTRACE_PRINTCOLOR(2, __L("SRAM data:"));
+  XTRACE_PRINTCOLOR(2, _L("SRAM data:"));
   XTRACE_PRINTDATABLOCKCOLOR(2, data, 8);
 
   GEN_XEEPROMMEMORYMANAGER.End();
@@ -2343,15 +2343,15 @@ bool DEVTESTS_DEVICES::Test_DirFunctions(DEVTESTS_DEVICES* tests)
       GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_ROOT, xpath);
       xpath.Slash_Add();
                        
-      if(xdir->FirstSearch(xpath, __L("*"), &element))
+      if(xdir->FirstSearch(xpath, _L("*"), &element))
         {
-          do{ XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, __L("[%s] %s"), (element.GetType()==XDIRELEMENTTYPE_DIR?__L("dir"):__L("fil")), element.GetNameFile()->Get());
+          do{ XTRACE_PRINTCOLOR(XTRACE_COLOR_BLUE, _L("[%s] %s"), (element.GetType()==XDIRELEMENTTYPE_DIR?_L("dir"):_L("fil")), element.GetNameFile()->Get());
 
             } while(xdir->NextSearch(&element));          
         }
 
-      xdir->Make(__L("TestDir\\Prueba\\"), true);
-      xdir->Delete(__L("TestDir"), true);
+      xdir->Make(_L("TestDir\\Prueba\\"), true);
+      xdir->Delete(_L("TestDir"), true);
       
 
       GEN_XFACTORY.Delete_Dir(xdir);  
@@ -2384,13 +2384,13 @@ bool DEVTESTS_DEVICES::Test_FileFunctions(DEVTESTS_DEVICES* tests)
     {
       GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_ROOT, xpath);
       xpath.Slash_Add();
-      xpath += __L("testfile.txt");
+      xpath += _L("testfile.txt");
             
       if(xfile->Create(xpath))
         {
           XSTRING text;
             
-          text = __L("Hola Radiola");
+          text = _L("Hola Radiola");
 
           XBUFFER charstr;
  
@@ -2402,7 +2402,7 @@ bool DEVTESTS_DEVICES::Test_FileFunctions(DEVTESTS_DEVICES* tests)
           xfile->Close();
         }
       
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Create/Write file [%s] : %s"), xpath.Get(), (status?__L("Ok"):__L("Error!")));
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Create/Write file [%s] : %s"), xpath.Get(), (status?_L("Ok"):_L("Error!")));
         
       status = false;
       xbuffer.Empty();
@@ -2420,7 +2420,7 @@ bool DEVTESTS_DEVICES::Test_FileFunctions(DEVTESTS_DEVICES* tests)
           xfile->Close();          
         }
       
-      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), __L("Open/Read file [%s] : %s"), xpath.Get(), (status?__L("Ok"):__L("Error!")));
+      XTRACE_PRINTCOLOR((status?XTRACE_COLOR_BLUE:XTRACE_COLOR_RED), _L("Open/Read file [%s] : %s"), xpath.Get(), (status?_L("Ok"):_L("Error!")));
 
       GEN_XFACTORY.Delete_File(xfile);
     }
@@ -2442,7 +2442,7 @@ bool DEVTESTS_DEVICES::Test_FileFunctions(DEVTESTS_DEVICES* tests)
 * --------------------------------------------------------------------------------------------------------------------*/
 void DEVTESTS_DEVICES::Test_Callback_Interrupt(void* param)
 {
-  XTRACE_PRINTCOLOR(XTRACE_COLOR_PURPLE, __L("Interrupt made!"));
+  XTRACE_PRINTCOLOR(XTRACE_COLOR_PURPLE, _L("Interrupt made!"));
 }
 
 

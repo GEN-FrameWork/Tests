@@ -177,7 +177,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeToStringStandard)
   datetime->SetMilliSeconds(100);
 
   datetime->GetDateTimeToString(XDATETIME_FORMAT_STANDARD, string);
-  EXPECT_EQ(string.Compare(__L("31/12/2000 11:59:59")), 0);
+  EXPECT_EQ(string.Compare(_L("31/12/2000 11:59:59")), 0);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }
@@ -201,7 +201,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeToStringStandardMilliSeconds)
   datetime->SetMilliSeconds(100);
 
   datetime->GetDateTimeToString(XDATETIME_FORMAT_STANDARD | XDATETIME_FORMAT_TIMEWITHMILLISECONDS, string);
-  EXPECT_EQ(string.Compare(__L("31/12/2000 11:59:59.100")), 0);
+  EXPECT_EQ(string.Compare(_L("31/12/2000 11:59:59.100")), 0);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }
@@ -225,7 +225,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeToStringISO8601Standard)
   datetime->SetMilliSeconds(100);
 
   datetime->GetDateTimeToStringISO8601(XDATETIME_FORMAT_ISO8601_STANDARD | XDATETIME_FORMAT_TIMEWITHMILLISECONDS, string);
-  EXPECT_EQ(string.Compare(__L("2000-12-31T11:59:59.100Z")), 0);
+  EXPECT_EQ(string.Compare(_L("2000-12-31T11:59:59.100Z")), 0);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }
@@ -251,7 +251,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeToStringStandardAddDay)
   datetime->AddDays(1);
 
   datetime->GetDateTimeToString(XDATETIME_FORMAT_STANDARD, string);
-  EXPECT_EQ(string.Compare(__L("01/01/2001 11:59:59")), 0);
+  EXPECT_EQ(string.Compare(_L("01/01/2001 11:59:59")), 0);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }
@@ -277,7 +277,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeToStringStandardMilliSecondsAddDa
   datetime->AddDays(1);
 
   datetime->GetDateTimeToString(XDATETIME_FORMAT_STANDARD | XDATETIME_FORMAT_TIMEWITHMILLISECONDS, string);
-  EXPECT_EQ(string.Compare(__L("01/01/2001 11:59:59.100")), 0);
+  EXPECT_EQ(string.Compare(_L("01/01/2001 11:59:59.100")), 0);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }
@@ -303,7 +303,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeToStringISO8601StandardAddDay)
   datetime->AddDays(1);
 
   datetime->GetDateTimeToStringISO8601(XDATETIME_FORMAT_ISO8601_STANDARD | XDATETIME_FORMAT_TIMEWITHMILLISECONDS, string);
-  EXPECT_EQ(string.Compare(__L("2001-01-01T11:59:59.100Z")), 0);
+  EXPECT_EQ(string.Compare(_L("2001-01-01T11:59:59.100Z")), 0);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }
@@ -316,7 +316,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeFromStringStandard)
 
   EXPECT_NE((void*)datetime, (void*)NULL);   
     
-  string = __L("31/12/2000 11:59:59");
+  string = _L("31/12/2000 11:59:59");
   datetime->SetToZero();
   datetime->GetDateTimeFromString(string, XDATETIME_FORMAT_STANDARD);
   EXPECT_EQ(datetime->GetDay(), 31);
@@ -337,7 +337,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeFromStringStandarMilliSeconds)
   
   EXPECT_NE((void*)datetime, (void*)NULL);   
       
-  string = __L("31/12/2000 11:59:59.100");
+  string = _L("31/12/2000 11:59:59.100");
   datetime->SetToZero();
   datetime->GetDateTimeFromString(string, XDATETIME_FORMAT_STANDARD | XDATETIME_FORMAT_TIMEWITHMILLISECONDS);
   EXPECT_EQ(datetime->GetDay(), 31);
@@ -359,7 +359,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeFromStringISO8601Standard)
   
   EXPECT_NE((void*)datetime, (void*)NULL);   
       
-  string = __L("2000-12-31T11:59:59.100");
+  string = _L("2000-12-31T11:59:59.100");
   datetime->SetToZero();
   datetime->GetDateTimeFromStringISO8601(string, XDATETIME_FORMAT_ISO8601_STANDARD | XDATETIME_FORMAT_TIMEWITHMILLISECONDS);
   EXPECT_EQ(datetime->GetDay(), 31);
@@ -381,7 +381,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeFromStringStandard2)
  
   EXPECT_NE((void*)datetime, (void*)NULL);   
     
-  string = __L("01/01/2001 11:59:59");
+  string = _L("01/01/2001 11:59:59");
   datetime->SetToZero();
   datetime->GetDateTimeFromString(string, XDATETIME_FORMAT_STANDARD);
   EXPECT_EQ(datetime->GetDay(), 1);
@@ -403,7 +403,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeFromStringStandardMilliSeconds2)
 
   EXPECT_NE((void*)datetime, (void*)NULL);   
 
-  string = __L("01/01/2001 11:59:59.100");
+  string = _L("01/01/2001 11:59:59.100");
   datetime->SetToZero();
   datetime->GetDateTimeFromString(string, XDATETIME_FORMAT_STANDARD | XDATETIME_FORMAT_TIMEWITHMILLISECONDS);
   EXPECT_EQ(datetime->GetDay(), 1);
@@ -425,7 +425,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeFromStringISO8601StandardMilliSec
 
   EXPECT_NE((void*)datetime, (void*)NULL);   
    
-  string = __L("2001-01-01T11:59:59.100");
+  string = _L("2001-01-01T11:59:59.100");
   datetime->SetToZero();
   datetime->GetDateTimeFromStringISO8601(string, XDATETIME_FORMAT_ISO8601_STANDARD | XDATETIME_FORMAT_TIMEWITHMILLISECONDS);
   EXPECT_EQ(datetime->GetDay(), 1);
@@ -450,7 +450,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeToStringStandardDateWithDash)
   SetKnownDateTime(datetime, 31, 12, 2000, 11, 59, 59, 0);
 
   datetime->GetDateTimeToString(XDATETIME_FORMAT_STANDARD | XDATETIME_FORMAT_DATEWITHDASH, string);
-  EXPECT_EQ(string.Compare(__L("31-12-2000 11:59:59")), 0);
+  EXPECT_EQ(string.Compare(_L("31-12-2000 11:59:59")), 0);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }
@@ -463,7 +463,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, GetDateTimeFromStringStandardDateWithDash)
 
   EXPECT_NE((void*)datetime, (void*)NULL);
 
-  string = __L("31-12-2000 11:59:59");
+  string = _L("31-12-2000 11:59:59");
   datetime->SetToZero();
   datetime->GetDateTimeFromString(string, XDATETIME_FORMAT_STANDARD | XDATETIME_FORMAT_DATEWITHDASH);
   EXPECT_EQ(datetime->GetDay(), 31);
@@ -506,7 +506,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, AddSecondsAcrossMidnight)
   datetime->AddSeconds(1);
 
   datetime->GetDateTimeToString(XDATETIME_FORMAT_STANDARD, string);
-  EXPECT_EQ(string.Compare(__L("01/01/2001 00:00:00")), 0);
+  EXPECT_EQ(string.Compare(_L("01/01/2001 00:00:00")), 0);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }
@@ -523,7 +523,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, SubtractDaysAcrossYear)
   datetime->SubtractDays(1);
 
   datetime->GetDateTimeToString(XDATETIME_FORMAT_STANDARD, string);
-  EXPECT_EQ(string.Compare(__L("31/12/2000 11:59:59")), 0);
+  EXPECT_EQ(string.Compare(_L("31/12/2000 11:59:59")), 0);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }
@@ -598,11 +598,11 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, AddMonthsAndAddYears)
   datetime->AddMonths(12);
 
   datetime->GetDateTimeToString(XDATETIME_FORMAT_STANDARD, string);
-  EXPECT_EQ(string.Compare(__L("31/12/2001 11:59:59")), 0);
+  EXPECT_EQ(string.Compare(_L("31/12/2001 11:59:59")), 0);
 
   datetime->AddYears(1);
   datetime->GetDateTimeToString(XDATETIME_FORMAT_STANDARD, string);
-  EXPECT_EQ(string.Compare(__L("31/12/2002 11:59:59")), 0);
+  EXPECT_EQ(string.Compare(_L("31/12/2002 11:59:59")), 0);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }
@@ -790,7 +790,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, SubtractSecondsAcrossMidnight)
   datetime->SubtractSeconds(1);
 
   datetime->GetDateTimeToString(XDATETIME_FORMAT_STANDARD, string);
-  EXPECT_EQ(string.Compare(__L("31/12/2000 23:59:59")), 0);
+  EXPECT_EQ(string.Compare(_L("31/12/2000 23:59:59")), 0);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }
@@ -809,7 +809,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, StringFormatsPostgreSQLAndFirstTime)
 
   // PostgreSQL format (Y/M/D)
   datetimeA->GetDateTimeToString(XDATETIME_FORMAT_POSTGRESQL, string);
-  EXPECT_EQ(string.Compare(__L("2000/12/31 11:59:59")), 0);
+  EXPECT_EQ(string.Compare(_L("2000/12/31 11:59:59")), 0);
 
   datetimeB->SetToZero();
   EXPECT_TRUE(datetimeB->GetDateTimeFromString(string, XDATETIME_FORMAT_POSTGRESQL));
@@ -817,7 +817,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, StringFormatsPostgreSQLAndFirstTime)
 
   // Date only (DMY)
   datetimeA->GetDateTimeToString(XDATETIME_FORMAT_DMY, string);
-  EXPECT_EQ(string.Compare(__L("31/12/2000")), 0);
+  EXPECT_EQ(string.Compare(_L("31/12/2000")), 0);
 
   datetimeB->SetToZero();
   EXPECT_TRUE(datetimeB->GetDateTimeFromString(string, XDATETIME_FORMAT_DMY));
@@ -827,7 +827,7 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, StringFormatsPostgreSQLAndFirstTime)
 
   // First time (time + date)
   datetimeA->GetDateTimeToString(XDATETIME_FORMAT_STANDARD | XDATETIME_FORMAT_FIRSTTIME, string);
-  EXPECT_EQ(string.Compare(__L("11:59:59 31/12/2000")), 0);
+  EXPECT_EQ(string.Compare(_L("11:59:59 31/12/2000")), 0);
 
   datetimeB->SetToZero();
   EXPECT_TRUE(datetimeB->GetDateTimeFromString(string, XDATETIME_FORMAT_STANDARD | XDATETIME_FORMAT_FIRSTTIME));
@@ -908,17 +908,17 @@ TEST(UNITTESTS_XDATETIME_CLASSNAME, MonthStringAndDayOfWeekString)
 
   SetKnownDateTime(datetime, 1, 1, 2001, 0, 0, 0, 0);
   EXPECT_TRUE(datetime->GetMonthString(string));
-  EXPECT_EQ(string.Compare(__L("January")), 0);
+  EXPECT_EQ(string.Compare(_L("January")), 0);
 
   // Dec 31, 2000 was a Sunday
   SetKnownDateTime(datetime, 31, 12, 2000, 0, 0, 0, 0);
   EXPECT_TRUE(datetime->GetDayOfWeekString(string));
-  EXPECT_EQ(string.Compare(__L("Sunday")), 0);
+  EXPECT_EQ(string.Compare(_L("Sunday")), 0);
 
   // Jan 1, 2001 was a Monday
   SetKnownDateTime(datetime, 1, 1, 2001, 0, 0, 0, 0);
   EXPECT_TRUE(datetime->GetDayOfWeekString(string));
-  EXPECT_EQ(string.Compare(__L("Monday")), 0);
+  EXPECT_EQ(string.Compare(_L("Monday")), 0);
 
   GEN_XFACTORY.DeleteDateTime(datetime);
 }

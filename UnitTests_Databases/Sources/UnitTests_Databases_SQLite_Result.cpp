@@ -73,19 +73,19 @@ TEST(UNITTESTS_SQLITE_RESULT_CLASSNAME, GetNumColumnsMatchesSelect)
   ASSERT_NE(db, (DB_SQL_DATABASE*)NULL);
   ASSERT_NE(connection, (DB_SQL_CONNECTION*)NULL);
 
-  XCHAR* fields[] = { __L("id int PRIMARY KEY"), __L("name varchar(50)") };
-  ASSERT_TRUE(db->Table_Create(__L("t"), fields, 2));
+  XCHAR* fields[] = { _L("id int PRIMARY KEY"), _L("name varchar(50)") };
+  ASSERT_TRUE(db->Table_Create(_L("t"), fields, 2));
 
   DB_SQL_QUERY* query = db->CreateQuery();
   ASSERT_NE(query, (DB_SQL_QUERY*)NULL);
 
-  ASSERT_TRUE(query->Set(__L("INSERT INTO t (id,name) VALUES (?,?);")));
+  ASSERT_TRUE(query->Set(_L("INSERT INTO t (id,name) VALUES (?,?);")));
   EXPECT_TRUE(query->Bind(0, 1));
-  EXPECT_TRUE(query->Bind(1, __L("one")));
+  EXPECT_TRUE(query->Bind(1, _L("one")));
   ASSERT_TRUE(db->Execute(query));
   EXPECT_TRUE(query->UnbindAll());
 
-  ASSERT_TRUE(query->Set(__L("SELECT id,name FROM t;")));
+  ASSERT_TRUE(query->Set(_L("SELECT id,name FROM t;")));
   ASSERT_TRUE(db->Execute(query));
 
   DB_SQL_RESULT* result = query->GetResult();
@@ -105,25 +105,25 @@ TEST(UNITTESTS_SQLITE_RESULT_CLASSNAME, FirstHasNextProcessRowNavigates)
   ASSERT_NE(db, (DB_SQL_DATABASE*)NULL);
   ASSERT_NE(connection, (DB_SQL_CONNECTION*)NULL);
 
-  XCHAR* fields[] = { __L("id int PRIMARY KEY"), __L("name varchar(50)") };
-  ASSERT_TRUE(db->Table_Create(__L("t"), fields, 2));
+  XCHAR* fields[] = { _L("id int PRIMARY KEY"), _L("name varchar(50)") };
+  ASSERT_TRUE(db->Table_Create(_L("t"), fields, 2));
 
   DB_SQL_QUERY* query = db->CreateQuery();
   ASSERT_NE(query, (DB_SQL_QUERY*)NULL);
 
-  ASSERT_TRUE(query->Set(__L("INSERT INTO t (id,name) VALUES (?,?);")));
+  ASSERT_TRUE(query->Set(_L("INSERT INTO t (id,name) VALUES (?,?);")));
 
   EXPECT_TRUE(query->Bind(0, 1));
-  EXPECT_TRUE(query->Bind(1, __L("first")));
+  EXPECT_TRUE(query->Bind(1, _L("first")));
   ASSERT_TRUE(db->Execute(query));
   EXPECT_TRUE(query->UnbindAll());
 
   EXPECT_TRUE(query->Bind(0, 2));
-  EXPECT_TRUE(query->Bind(1, __L("second")));
+  EXPECT_TRUE(query->Bind(1, _L("second")));
   ASSERT_TRUE(db->Execute(query));
   EXPECT_TRUE(query->UnbindAll());
 
-  ASSERT_TRUE(query->Set(__L("SELECT id,name FROM t ORDER BY id;")));
+  ASSERT_TRUE(query->Set(_L("SELECT id,name FROM t ORDER BY id;")));
   ASSERT_TRUE(db->Execute(query));
 
   DB_SQL_RESULT* result = query->GetResult();
@@ -140,7 +140,7 @@ TEST(UNITTESTS_SQLITE_RESULT_CLASSNAME, FirstHasNextProcessRowNavigates)
 
   XSTRING name;
   name = (XCHAR*)row->Get(1);
-  EXPECT_EQ(name.Compare(__L("first"), true), 0);
+  EXPECT_EQ(name.Compare(_L("first"), true), 0);
 
   EXPECT_TRUE(result->Next());
   EXPECT_TRUE(result->HasNext());
@@ -151,7 +151,7 @@ TEST(UNITTESTS_SQLITE_RESULT_CLASSNAME, FirstHasNextProcessRowNavigates)
   EXPECT_EQ((int)row->Get(0), 2);
 
   name = (XCHAR*)row->Get(1);
-  EXPECT_EQ(name.Compare(__L("second"), true), 0);
+  EXPECT_EQ(name.Compare(_L("second"), true), 0);
 
   EXPECT_TRUE(result->Next());
   EXPECT_FALSE(result->HasNext());

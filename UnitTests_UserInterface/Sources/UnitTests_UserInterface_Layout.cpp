@@ -78,20 +78,20 @@ TEST(UNITTESTS_UI_LAYOUT_CLASSNAME, ElementsAddRejectsNullAndStoresLookupByName)
 
   UI_ELEMENT* button = new UI_ELEMENT();
   button->SetType(UI_ELEMENT_TYPE_BUTTON);
-  button->GetName()->Set(__L("save"));
+  button->GetName()->Set(_L("save"));
 
   ASSERT_TRUE(layout.Elements_Add(button));
   ASSERT_EQ(layout.Elements_Get()->GetSize(), 1);
 
-  UI_ELEMENT* found = layout.Elements_Get(__L("save"));
+  UI_ELEMENT* found = layout.Elements_Get(_L("save"));
   ASSERT_NE(found, (UI_ELEMENT*)NULL);
   EXPECT_EQ(found, button);
 
-  UI_ELEMENT* typed = layout.Elements_Get(__L("save"), UI_ELEMENT_TYPE_BUTTON);
+  UI_ELEMENT* typed = layout.Elements_Get(_L("save"), UI_ELEMENT_TYPE_BUTTON);
   EXPECT_EQ(typed, button);
 
-  EXPECT_EQ(layout.Elements_Get(__L("save"), UI_ELEMENT_TYPE_TEXT), (UI_ELEMENT*)NULL);
-  EXPECT_EQ(layout.Elements_Get(__L("missing")), (UI_ELEMENT*)NULL);
+  EXPECT_EQ(layout.Elements_Get(_L("save"), UI_ELEMENT_TYPE_TEXT), (UI_ELEMENT*)NULL);
+  EXPECT_EQ(layout.Elements_Get(_L("missing")), (UI_ELEMENT*)NULL);
 
   // Destructor / Elements_DeleteAll owns the element pointers.
 }
@@ -117,8 +117,8 @@ TEST(UNITTESTS_UI_LAYOUT_CLASSNAME, NameIdRoundTrips)
   UI_LAYOUT layout(NULL);
   layout.SetOwnsSkin(false);
 
-  layout.GetNameID()->Set(__L("dashboard"));
-  EXPECT_EQ(layout.GetNameID()->Compare(__L("dashboard"), true), 0);
+  layout.GetNameID()->Set(_L("dashboard"));
+  EXPECT_EQ(layout.GetNameID()->Compare(_L("dashboard"), true), 0);
 }
 
 

@@ -67,8 +67,8 @@ TEST(DIOSTREAMICMPCONFIG, DefaultsLocalAndRemote)
   ASSERT_NE(cfg.GetRemoteURL(), (DIOURL*)NULL);
   ASSERT_NE(cfg.GetResolvedRemoteURL(), (XSTRING*)NULL);
 
-  cfg.GetRemoteURL()->Set(__L("127.0.0.1"));
-  EXPECT_EQ(cfg.GetRemoteURL()->Compare(__L("127.0.0.1")), 0);
+  cfg.GetRemoteURL()->Set(_L("127.0.0.1"));
+  EXPECT_EQ(cfg.GetRemoteURL()->Compare(_L("127.0.0.1")), 0);
 }
 
 

@@ -67,16 +67,16 @@ TEST(DIOALERT, SettersAndCopy)
 
   a.SetID(1001);
   a.SetLevel(DIOALERTLEVEL_WARNING);
-  a.GetOrigin()->Set(__L("unit"));
-  a.GetTitle()->Set(__L("title"));
-  a.Get_Message()->Set(__L("message"));
+  a.GetOrigin()->Set(_L("unit"));
+  a.GetTitle()->Set(_L("title"));
+  a.Get_Message()->Set(_L("message"));
   EXPECT_TRUE(a.Application_SetVersion(1, 2, 3));
 
   EXPECT_EQ(a.GetID(), (XDWORD)1001);
   EXPECT_EQ(a.GetLevel(), DIOALERTLEVEL_WARNING);
-  EXPECT_EQ(a.GetOrigin()->Compare(__L("unit")), 0);
-  EXPECT_EQ(a.GetTitle()->Compare(__L("title")), 0);
-  EXPECT_EQ(a.Get_Message()->Compare(__L("message")), 0);
+  EXPECT_EQ(a.GetOrigin()->Compare(_L("unit")), 0);
+  EXPECT_EQ(a.GetTitle()->Compare(_L("title")), 0);
+  EXPECT_EQ(a.Get_Message()->Compare(_L("message")), 0);
 
   EXPECT_TRUE(a.CopyFrom(&a));
   EXPECT_TRUE(b.CopyFrom(&a));
@@ -89,10 +89,10 @@ TEST(DIOALERTS, CreateAlertWithoutSend)
   DIOALERTS& alerts = DIOALERTS::GetInstance();
 
   EXPECT_TRUE(alerts.Application_SetVersion(0, 0, 1));
-  alerts.Application_GetID()->Set(__L("UnitTests_DataIO"));
-  alerts.GetOrigin()->Set(__L("gtest"));
+  alerts.Application_GetID()->Set(_L("UnitTests_DataIO"));
+  alerts.GetOrigin()->Set(_L("gtest"));
 
-  DIOALERT* alert = alerts.CreateAlert(DIOALERTLEVEL_INFO, __L("t"), __L("m"));
+  DIOALERT* alert = alerts.CreateAlert(DIOALERTLEVEL_INFO, _L("t"), _L("m"));
   ASSERT_NE(alert, (DIOALERT*)NULL);
   EXPECT_EQ(alert->GetLevel(), DIOALERTLEVEL_INFO);
 

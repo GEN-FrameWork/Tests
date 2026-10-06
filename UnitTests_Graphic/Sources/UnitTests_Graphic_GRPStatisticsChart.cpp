@@ -80,15 +80,15 @@ static bool FillMinimalChartData(GRPSTATISTICSCHART& chart)
   if(!chart.GetData())    return false;
   if(!chart.GetConfig())  return false;
 
-  if(!chart.GetData()->AddCategory(__L("Q1"))) return false;
-  if(!chart.GetData()->AddCategory(__L("Q2"))) return false;
+  if(!chart.GetData()->AddCategory(_L("Q1"))) return false;
+  if(!chart.GetData()->AddCategory(_L("Q2"))) return false;
 
-  GRPSTATISTICSCHARTSERIE* serie = chart.GetData()->AddSerie(__L("Sales"));
+  GRPSTATISTICSCHARTSERIE* serie = chart.GetData()->AddSerie(_L("Sales"));
   if(!serie) return false;
   if(!serie->AddValue(5.0))  return false;
   if(!serie->AddValue(15.0)) return false;
 
-  chart.GetConfig()->SetTitle(__L("Unit Test Chart"));
+  chart.GetConfig()->SetTitle(_L("Unit Test Chart"));
   chart.GetConfig()->SetShowLegend(false);
   chart.GetConfig()->SetShowValues(false);
 
@@ -106,7 +106,7 @@ static void ExpectGenerateSvgOk(GRPSTATISTICSCHART& chart)
   XSTRING svg;
   EXPECT_TRUE(builder.GetResult(svg));
   EXPECT_GT(svg.GetSize(), 0);
-  EXPECT_NE(svg.Find(__L("<svg"), true), XSTRING_NOTFOUND);
+  EXPECT_NE(svg.Find(_L("<svg"), true), XSTRING_NOTFOUND);
 }
 
 
@@ -117,19 +117,19 @@ TEST(UNITTESTS_GRPSTATISTICSCHART_CLASSNAME, DataAndConfigBasics)
   ASSERT_NE(chart.GetData(), (GRPSTATISTICSCHARTDATA*)NULL);
   ASSERT_NE(chart.GetConfig(), (GRPSTATISTICSCHARTCONFIG*)NULL);
 
-  EXPECT_TRUE(chart.GetData()->AddCategory(__L("A")));
-  EXPECT_TRUE(chart.GetData()->AddCategory(__L("B")));
+  EXPECT_TRUE(chart.GetData()->AddCategory(_L("A")));
+  EXPECT_TRUE(chart.GetData()->AddCategory(_L("B")));
   EXPECT_EQ(chart.GetData()->GetNCategories(), 2u);
 
-  GRPSTATISTICSCHARTSERIE* serie = chart.GetData()->AddSerie(__L("S1"));
+  GRPSTATISTICSCHARTSERIE* serie = chart.GetData()->AddSerie(_L("S1"));
   ASSERT_NE(serie, (GRPSTATISTICSCHARTSERIE*)NULL);
   EXPECT_TRUE(serie->AddValue(10.0));
   EXPECT_TRUE(serie->AddValue(20.0));
   EXPECT_EQ(serie->GetNValues(), 2u);
 
-  chart.GetConfig()->SetTitle(__L("Unit Test Chart"));
+  chart.GetConfig()->SetTitle(_L("Unit Test Chart"));
   chart.GetConfig()->SetShowLegend(false);
-  EXPECT_EQ(chart.GetConfig()->GetTitle().Compare(__L("Unit Test Chart")), 0);
+  EXPECT_EQ(chart.GetConfig()->GetTitle().Compare(_L("Unit Test Chart")), 0);
   EXPECT_FALSE(chart.GetConfig()->GetShowLegend());
 }
 

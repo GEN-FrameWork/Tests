@@ -76,15 +76,15 @@ TEST(UNITTESTS_GRP2DVECTORFILEDXFRENDERAGG_CLASSNAME, DefaultsAndNullGuards)
 TEST(UNITTESTS_GRP2DVECTORFILEDXFRENDERAGG_CLASSNAME, RenderLineOnCanvas)
 {
   XSTRING dxfcontent;
-  dxfcontent  = __L("0\nSECTION\n2\nHEADER\n0\nENDSEC\n");
-  dxfcontent += __L("0\nSECTION\n2\nENTITIES\n");
-  dxfcontent += __L("0\nLINE\n8\n0\n10\n0.0\n20\n0.0\n11\n10.0\n21\n10.0\n");
-  dxfcontent += __L("0\nENDSEC\n0\nEOF\n");
+  dxfcontent  = _L("0\nSECTION\n2\nHEADER\n0\nENDSEC\n");
+  dxfcontent += _L("0\nSECTION\n2\nENTITIES\n");
+  dxfcontent += _L("0\nLINE\n8\n0\n10\n0.0\n20\n0.0\n11\n10.0\n21\n10.0\n");
+  dxfcontent += _L("0\nENDSEC\n0\nEOF\n");
 
-  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::WriteTextAsset(__L("unittests_graphic_render.dxf"), dxfcontent.Get()));
+  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::WriteTextAsset(_L("unittests_graphic_render.dxf"), dxfcontent.Get()));
 
   XPATH xpath;
-  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, __L("unittests_graphic_render.dxf")));
+  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, _L("unittests_graphic_render.dxf")));
 
   GRPVECTORFILEDXF dxf;
   dxf.GetPathFile()->Set(xpath);

@@ -40,7 +40,7 @@
 #define DEVTESTS_DEVICES_VERSION            0
 #define DEVTESTS_DEVICES_SUBVERSION         1
 #define DEVTESTS_DEVICES_SUBVERSIONERR      0
-#define DEVTESTS_DEVICES_NAMEAPP            __L("DevTests_Devices")
+#define DEVTESTS_DEVICES_NAMEAPP            _L("DevTests_Devices")
 
 
 class DEVTESTS_DEVICES;

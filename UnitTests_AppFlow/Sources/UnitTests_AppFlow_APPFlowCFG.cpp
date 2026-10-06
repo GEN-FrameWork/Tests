@@ -93,11 +93,11 @@ TEST(APPFLOWCFG, DoVariableMappingAndDoDefault)
 TEST(APPFLOWCFG, IniEndWithMinimalAsset)
 {
   XSTRING cfgname;
-  cfgname = __L("unittests_appflow_offline");
+  cfgname = _L("unittests_appflow_offline");
 
   XSTRING cfgfilename;
   cfgfilename  = cfgname;
-  cfgfilename += __L(".ini");
+  cfgfilename += _L(".ini");
 
   ASSERT_TRUE(UNITTESTS_APPFLOW_HELPER::WriteMinimalAppFlowCfgAsset(cfgfilename.Get()));
 
@@ -133,11 +133,11 @@ TEST(APPFLOWCFG, IniEndWithMinimalAsset)
 TEST(APPFLOWCFG, LoadOfflineExtendedBlocks)
 {
   XSTRING cfgname;
-  cfgname = __L("unittests_appflow_offline_blocks");
+  cfgname = _L("unittests_appflow_offline_blocks");
 
   XSTRING cfgfilename;
   cfgfilename  = cfgname;
-  cfgfilename += __L(".ini");
+  cfgfilename += _L(".ini");
 
   ASSERT_TRUE(UNITTESTS_APPFLOW_HELPER::WriteOfflineAppFlowCfgAsset(cfgfilename.Get()));
 
@@ -170,21 +170,21 @@ TEST(APPFLOWCFG, LoadOfflineExtendedBlocks)
 
     #ifdef APPFLOW_CFG_DIOLOCATION_ACTIVE
     ASSERT_NE(cfg.Location_GetStreet(), (XSTRING*)NULL);
-    EXPECT_EQ(cfg.Location_GetStreet()->Compare(__L("UnitTest Street")), 0);
-    EXPECT_EQ(cfg.Location_GetCity()->Compare(__L("UnitTestCity")), 0);
-    EXPECT_EQ(cfg.Location_GetState()->Compare(__L("UT")), 0);
-    EXPECT_EQ(cfg.Location_GetCountry()->Compare(__L("TC")), 0);
+    EXPECT_EQ(cfg.Location_GetStreet()->Compare(_L("UnitTest Street")), 0);
+    EXPECT_EQ(cfg.Location_GetCity()->Compare(_L("UnitTestCity")), 0);
+    EXPECT_EQ(cfg.Location_GetState()->Compare(_L("UT")), 0);
+    EXPECT_EQ(cfg.Location_GetCountry()->Compare(_L("TC")), 0);
     EXPECT_EQ(cfg.Location_GetPostalCode(), 28001);
     #endif
 
     #ifdef APPFLOW_CFG_WEBSERVER_ACTIVE
     ASSERT_NE(cfg.WebServer_GetLocalAddress(), (XSTRING*)NULL);
-    EXPECT_EQ(cfg.WebServer_GetLocalAddress()->Compare(__L("127.0.0.1")), 0);
+    EXPECT_EQ(cfg.WebServer_GetLocalAddress()->Compare(_L("127.0.0.1")), 0);
     EXPECT_EQ(cfg.WebServer_GetPort(), 18080);
     EXPECT_EQ(cfg.WebServer_GetTimeoutToServerPage(), 5);
     EXPECT_FALSE(cfg.WebServer_IsAuthenticatedAccess());
-    EXPECT_EQ(cfg.WebServer_GetLogin()->Compare(__L("unittest")), 0);
-    EXPECT_EQ(cfg.WebServer_GetPassword()->Compare(__L("secret")), 0);
+    EXPECT_EQ(cfg.WebServer_GetLogin()->Compare(_L("unittest")), 0);
+    EXPECT_EQ(cfg.WebServer_GetPassword()->Compare(_L("secret")), 0);
     #endif
 
     #ifdef APPFLOW_CFG_ALERTS_ACTIVE
@@ -198,7 +198,7 @@ TEST(APPFLOWCFG, LoadOfflineExtendedBlocks)
     #ifdef APPFLOW_CFG_APPUPDATE_ACTIVE
     EXPECT_FALSE(cfg.ApplicationUpdate_IsActive());
     EXPECT_EQ(cfg.ApplicationUpdate_GetPort(), 8080);
-    EXPECT_EQ(cfg.ApplicationUpdate_GetURL()->Compare(__L("http://example.invalid/update")), 0);
+    EXPECT_EQ(cfg.ApplicationUpdate_GetURL()->Compare(_L("http://example.invalid/update")), 0);
     #endif
 
     EXPECT_TRUE(cfg.End());

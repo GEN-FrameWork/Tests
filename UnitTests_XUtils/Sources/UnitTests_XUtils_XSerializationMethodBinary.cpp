@@ -77,15 +77,15 @@ class TESTBINARYWIDGET : public XSERIALIZABLE
 
     virtual bool Serialize()
     {
-      Primitive_Add<int>(value, __L("value"));
-      Primitive_Add<XSTRING*>(&label, __L("label"));
+      Primitive_Add<int>(value, _L("value"));
+      Primitive_Add<XSTRING*>(&label, _L("label"));
       return true;
     }
 
     virtual bool Deserialize()
     {
-      Primitive_Extract<int>(value, __L("value"));
-      Primitive_Extract<XSTRING>(label, __L("label"));
+      Primitive_Extract<int>(value, _L("value"));
+      Primitive_Extract<XSTRING>(label, _L("label"));
       return true;
     }
 
@@ -117,9 +117,9 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODBINARY_CLASSNAME, AddScalarsFailWithoutBuffer
 {
   XSERIALIZATIONMETHODBINARY method;
 
-  EXPECT_FALSE(method.Add(true, __L("x")));
-  EXPECT_FALSE(method.Add((int)1, __L("x")));
-  EXPECT_FALSE(method.Add((XDWORD)1, __L("x")));
+  EXPECT_FALSE(method.Add(true, _L("x")));
+  EXPECT_FALSE(method.Add((int)1, _L("x")));
+  EXPECT_FALSE(method.Add((XDWORD)1, _L("x")));
 }
 
 
@@ -129,7 +129,7 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODBINARY_CLASSNAME, AddIntWritesTypeTagByteThen
   XBUFFER                    buffer;
   method.SetBufferData(&buffer);
 
-  EXPECT_TRUE(method.Add((int)0x11223344, __L("value")));
+  EXPECT_TRUE(method.Add((int)0x11223344, _L("value")));
 
   ASSERT_EQ(buffer.GetSize(), 1u + 4u);
   EXPECT_EQ(buffer.GetByte(0), (XBYTE)XSERIALIZATIONMETHODBINARY_TYPEELEMENT_INTEGER);
@@ -146,7 +146,7 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODBINARY_CLASSNAME, AddBoolWritesTypeTagByteThe
   XBUFFER                    buffer;
   method.SetBufferData(&buffer);
 
-  EXPECT_TRUE(method.Add(true, __L("flag")));
+  EXPECT_TRUE(method.Add(true, _L("flag")));
 
   ASSERT_EQ(buffer.GetSize(), 1u + 1u);
   EXPECT_EQ(buffer.GetByte(0), (XBYTE)XSERIALIZATIONMETHODBINARY_TYPEELEMENT_BOOLEAN);
@@ -161,9 +161,9 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODBINARY_CLASSNAME, AddStringWritesTypeTagAndUT
   method.SetBufferData(&buffer);
 
   XSTRING text;
-  text = __L("hi");
+  text = _L("hi");
 
-  EXPECT_TRUE(method.Add(&text, __L("label")));
+  EXPECT_TRUE(method.Add(&text, _L("label")));
 
   ASSERT_GT(buffer.GetSize(), 1u);
   EXPECT_EQ(buffer.GetByte(0), (XBYTE)XSERIALIZATIONMETHODBINARY_TYPEELEMENT_XSTRING);
@@ -183,12 +183,12 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODBINARY_CLASSNAME, AddStructIsAValidityCheckOn
   XBUFFER                    buffer;
   method.SetBufferData(&buffer);
 
-  EXPECT_TRUE(method.AddStruct(__L("s"), true));
+  EXPECT_TRUE(method.AddStruct(_L("s"), true));
   EXPECT_EQ(buffer.GetSize(), 0u);
 
   buffer.Empty();
 
-  EXPECT_TRUE(method.AddArray(5, __L("a"), true));
+  EXPECT_TRUE(method.AddArray(5, _L("a"), true));
   ASSERT_EQ(buffer.GetSize(), 2u + 4u);   // ARRAY_ID (XWORD) + nelements (XDWORD)
   XWORD arrayid = 0;
   ASSERT_TRUE(buffer.Get(arrayid, 0));
@@ -215,12 +215,12 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODBINARY_CLASSNAME, AddThenExtractVariantRoundT
   XVARIANT variant;
   variant = (int)123;
 
-  EXPECT_TRUE(method.Add(&variant, __L("v")));
+  EXPECT_TRUE(method.Add(&variant, _L("v")));
   EXPECT_GT(buffer.GetSize(), 0u);
   EXPECT_EQ(buffer.GetByte(0), (XBYTE)XSERIALIZATIONMETHODBINARY_TYPEELEMENT_XVARIANT);
 
   XVARIANT readback;
-  EXPECT_TRUE(method.Extract(readback, __L("v")));
+  EXPECT_TRUE(method.Extract(readback, _L("v")));
   EXPECT_EQ(readback.GetType(), XVARIANT_TYPE_INTEGER);
   EXPECT_EQ((int)readback, 123);
 }
@@ -242,13 +242,13 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODBINARY_CLASSNAME, AddThenExtractBufferRoundTr
   XBUFFER payload;
   payload.Add(payloadbytes, 4);
 
-  EXPECT_TRUE(method.Add(&payload, __L("payload")));
+  EXPECT_TRUE(method.Add(&payload, _L("payload")));
 
   ASSERT_GT(buffer.GetSize(), 1u);
   EXPECT_EQ(buffer.GetByte(0), (XBYTE)XSERIALIZATIONMETHODBINARY_TYPEELEMENT_XBUFFER);
 
   XBUFFER readback;
-  EXPECT_TRUE(method.Extract(readback, __L("payload")));
+  EXPECT_TRUE(method.Extract(readback, _L("payload")));
   ASSERT_EQ(readback.GetSize(), (XDWORD)4);
   EXPECT_EQ(readback.GetByte(0), (XBYTE)0xAA);
   EXPECT_EQ(readback.GetByte(1), (XBYTE)0xBB);
@@ -270,10 +270,10 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODBINARY_CLASSNAME, DirectExtractGenuinelyReads
   XBUFFER                    buffer;
   method.SetBufferData(&buffer);
 
-  method.Add((int)999, __L("value"));
+  method.Add((int)999, _L("value"));
 
   int readback = 12345;
-  EXPECT_TRUE(method.Extract(readback, __L("value")));
+  EXPECT_TRUE(method.Extract(readback, _L("value")));
   EXPECT_EQ(readback, 999);
 }
 
@@ -290,19 +290,19 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODBINARY_CLASSNAME, ExtractArrayNowValidatesAga
   XSERIALIZATIONMETHODBINARY method;
 
   // No buffer set at all: ExtractStruct() still trivially succeeds (nothing to read)...
-  EXPECT_TRUE(method.ExtractStruct(__L("s")));
+  EXPECT_TRUE(method.ExtractStruct(_L("s")));
   // ... but ExtractArray() now correctly fails, since there is no ARRAY_ID marker to read.
-  EXPECT_FALSE(method.ExtractArray(3, __L("a")));
+  EXPECT_FALSE(method.ExtractArray(3, _L("a")));
 
   XBUFFER buffer;
   method.SetBufferData(&buffer);
 
-  EXPECT_TRUE(method.AddArray(3, __L("a"), true));
-  EXPECT_TRUE(method.ExtractArray(3, __L("a")));   // real marker + matching count: succeeds
+  EXPECT_TRUE(method.AddArray(3, _L("a"), true));
+  EXPECT_TRUE(method.ExtractArray(3, _L("a")));   // real marker + matching count: succeeds
 
   buffer.Empty();
-  EXPECT_TRUE(method.AddArray(3, __L("a"), true));
-  EXPECT_FALSE(method.ExtractArray(5, __L("a")));  // real marker but a mismatched count: fails
+  EXPECT_TRUE(method.AddArray(3, _L("a"), true));
+  EXPECT_FALSE(method.ExtractArray(5, _L("a")));  // real marker but a mismatched count: fails
 }
 
 
@@ -323,7 +323,7 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODBINARY_CLASSNAME, PolymorphicRoundTripThrough
 
   TESTBINARYWIDGET source;
   source.SetValue(42);
-  source.SetLabel(__L("hello"));
+  source.SetLabel(_L("hello"));
 
   EXPECT_TRUE(source.DoSerialize(&method));
   // Real bytes were actually produced: a working, well-formed write path.
@@ -334,7 +334,7 @@ TEST(UNITTESTS_XSERIALIZATIONMETHODBINARY_CLASSNAME, PolymorphicRoundTripThrough
 
   EXPECT_TRUE(destination.DoDeserialize(&method));
   EXPECT_EQ(destination.GetValue(), 42);
-  EXPECT_STREQ(destination.GetLabel().Get(), __L("hello"));
+  EXPECT_STREQ(destination.GetLabel().Get(), _L("hello"));
 }
 
 

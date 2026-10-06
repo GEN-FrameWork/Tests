@@ -81,17 +81,17 @@ class COUNTINGOBSERVER : public XOBSERVER
 
 TEST(UNITTESTS_XASN1_CLASSNAME, GetOIDPropertyKnownLookupReturnsDescriptionAndConstructedFlag)
 {
-  XASN1_OID_PROPERTY* property = XASN1::GetOIDProperty((XCHAR*)__L("2.16.840.1.101.3.4.2.1"));
+  XASN1_OID_PROPERTY* property = XASN1::GetOIDProperty((XCHAR*)_L("2.16.840.1.101.3.4.2.1"));
 
   ASSERT_NE((void*)property, (void*)NULL);
-  EXPECT_STREQ(property->description, __L("sha256"));
+  EXPECT_STREQ(property->description, _L("sha256"));
   EXPECT_FALSE(property->isconstructed);
 }
 
 
 TEST(UNITTESTS_XASN1_CLASSNAME, GetOIDPropertyUnknownOIDReturnsNull)
 {
-  XASN1_OID_PROPERTY* property = XASN1::GetOIDProperty((XCHAR*)__L("9.9.9.9.9.9"));
+  XASN1_OID_PROPERTY* property = XASN1::GetOIDProperty((XCHAR*)_L("9.9.9.9.9.9"));
 
   EXPECT_EQ((void*)property, (void*)NULL);
 }
@@ -99,11 +99,11 @@ TEST(UNITTESTS_XASN1_CLASSNAME, GetOIDPropertyUnknownOIDReturnsNull)
 
 TEST(UNITTESTS_XASN1_CLASSNAME, GetOIDPropertyDescriptionKnownAndUnknown)
 {
-  XCHAR* known   = XASN1::GetOIDPropertyDescription((XCHAR*)__L("1.3.14.3.2.26"));
-  XCHAR* unknown = XASN1::GetOIDPropertyDescription((XCHAR*)__L("9.9.9.9.9.9"));
+  XCHAR* known   = XASN1::GetOIDPropertyDescription((XCHAR*)_L("1.3.14.3.2.26"));
+  XCHAR* unknown = XASN1::GetOIDPropertyDescription((XCHAR*)_L("9.9.9.9.9.9"));
 
   ASSERT_NE((void*)known, (void*)NULL);
-  EXPECT_STREQ(known, __L("sha1"));
+  EXPECT_STREQ(known, _L("sha1"));
   EXPECT_EQ((void*)unknown, (void*)NULL);
 }
 

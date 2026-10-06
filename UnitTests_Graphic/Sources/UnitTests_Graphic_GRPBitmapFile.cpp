@@ -68,18 +68,18 @@ TEST(UNITTESTS_GRPBITMAPFILE_CLASSNAME, GetTypeFromExtension)
 {
   GRPBITMAPFILE file;
 
-  EXPECT_EQ(file.GetTypeFromExtenxion(__L("sample.bmp")), GRPBITMAPFILE_TYPE_BMP);
-  EXPECT_EQ(file.GetTypeFromExtenxion(__L("sample.PNG")), GRPBITMAPFILE_TYPE_PNG);
-  EXPECT_EQ(file.GetTypeFromExtenxion(__L("sample.jpg")), GRPBITMAPFILE_TYPE_JPG);
-  EXPECT_EQ(file.GetTypeFromExtenxion(__L("sample.tga")), GRPBITMAPFILE_TYPE_TGA);
-  EXPECT_EQ(file.GetTypeFromExtenxion(__L("sample.xyz")), GRPBITMAPFILE_TYPE_UNKNOWN);
+  EXPECT_EQ(file.GetTypeFromExtenxion(_L("sample.bmp")), GRPBITMAPFILE_TYPE_BMP);
+  EXPECT_EQ(file.GetTypeFromExtenxion(_L("sample.PNG")), GRPBITMAPFILE_TYPE_PNG);
+  EXPECT_EQ(file.GetTypeFromExtenxion(_L("sample.jpg")), GRPBITMAPFILE_TYPE_JPG);
+  EXPECT_EQ(file.GetTypeFromExtenxion(_L("sample.tga")), GRPBITMAPFILE_TYPE_TGA);
+  EXPECT_EQ(file.GetTypeFromExtenxion(_L("sample.xyz")), GRPBITMAPFILE_TYPE_UNKNOWN);
 }
 
 
 TEST(UNITTESTS_GRPBITMAPFILE_CLASSNAME, SaveLoadBmpRoundTrip)
 {
   XPATH xpath;
-  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, __L("unittests_graphic_roundtrip.bmp")));
+  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, _L("unittests_graphic_roundtrip.bmp")));
 
   GRPBITMAP* source = GRPFACTORY::GetInstance().CreateBitmap(8, 8, GRPPROPERTYMODE_32_RGBA_8888);
   ASSERT_NE(source, (GRPBITMAP*)NULL);
@@ -116,7 +116,7 @@ TEST(UNITTESTS_GRPBITMAPFILE_CLASSNAME, SaveLoadBmpRoundTrip)
 TEST(UNITTESTS_GRPBITMAPFILE_CLASSNAME, LoadMissingFileReturnsNull)
 {
   XPATH xpath;
-  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, __L("unittests_graphic_missing_no_such.bmp")));
+  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, _L("unittests_graphic_missing_no_such.bmp")));
 
   GRPBITMAPFILE file;
   EXPECT_EQ(file.Load(xpath), (GRPBITMAP*)NULL);

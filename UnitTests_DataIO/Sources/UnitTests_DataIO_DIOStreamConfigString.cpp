@@ -64,7 +64,7 @@ TEST(DIOSTREAMCONFIGSTRING, SetFromStringAndGetToString)
   DIOSTREAMCONFIGSTRING cfg;
   XSTRING               text;
 
-  EXPECT_TRUE(cfg.SetFromString(__L("127.0.0.1:5555")));
+  EXPECT_TRUE(cfg.SetFromString(_L("127.0.0.1:5555")));
   EXPECT_TRUE(cfg.GetToString(text));
   EXPECT_FALSE(text.IsEmpty());
 }

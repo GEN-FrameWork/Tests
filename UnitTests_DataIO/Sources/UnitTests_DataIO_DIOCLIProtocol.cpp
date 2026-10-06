@@ -64,9 +64,9 @@ TEST(DIOCLIPROTOCOLCOMMAND, SetGetCommand)
 {
   DIOCLIPROTOCOLCOMMAND cmd;
 
-  EXPECT_TRUE(cmd.Set(__L("HELP"), 0));
+  EXPECT_TRUE(cmd.Set(_L("HELP"), 0));
   ASSERT_NE(cmd.GetCommand(), (XCHAR*)NULL);
-  EXPECT_EQ(XSTRING(cmd.GetCommand()).Compare(__L("HELP")), 0);
+  EXPECT_EQ(XSTRING(cmd.GetCommand()).Compare(_L("HELP")), 0);
   EXPECT_EQ(cmd.GetNParams(), 0);
 }
 
@@ -75,13 +75,13 @@ TEST(DIOCLIPROTOCOLANSWER, OriginCommandAnswerStrings)
 {
   DIOCLIPROTOCOLANSWER answer;
 
-  answer.GetOriginID()->Set(__L("A"));
-  answer.GetCommand()->Set(__L("CMD"));
-  answer.GetAnswer()->Set(__L("ok"));
+  answer.GetOriginID()->Set(_L("A"));
+  answer.GetCommand()->Set(_L("CMD"));
+  answer.GetAnswer()->Set(_L("ok"));
 
-  EXPECT_EQ(answer.GetOriginID()->Compare(__L("A")), 0);
-  EXPECT_EQ(answer.GetCommand()->Compare(__L("CMD")), 0);
-  EXPECT_EQ(answer.GetAnswer()->Compare(__L("ok")), 0);
+  EXPECT_EQ(answer.GetOriginID()->Compare(_L("A")), 0);
+  EXPECT_EQ(answer.GetCommand()->Compare(_L("CMD")), 0);
+  EXPECT_EQ(answer.GetAnswer()->Compare(_L("ok")), 0);
 }
 
 

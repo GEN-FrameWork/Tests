@@ -73,7 +73,7 @@ TEST(UNITTESTS_SQLITE_DATABASE_CLASSNAME, GetTypeAndTypeName)
 
   XSTRING name;
   name = db->GetTypeName();
-  EXPECT_EQ(name.Compare(__L("SQLite"), true), 0);
+  EXPECT_EQ(name.Compare(_L("SQLite"), true), 0);
 
   GEN_DELETE db;
 }
@@ -108,15 +108,15 @@ TEST(UNITTESTS_SQLITE_DATABASE_CLASSNAME, TableCreateIsThereGetNRecordsDelete)
     ASSERT_NE(db, (DB_SQL_DATABASE*)NULL);
     ASSERT_NE(connection, (DB_SQL_CONNECTION*)NULL);
 
-    XCHAR* fields[] = { __L("id int PRIMARY KEY"), __L("name varchar(50)") };
-    ASSERT_TRUE(db->Table_Create(__L("t"), fields, 2));
+    XCHAR* fields[] = { _L("id int PRIMARY KEY"), _L("name varchar(50)") };
+    ASSERT_TRUE(db->Table_Create(_L("t"), fields, 2));
 
     bool isexist = false;
-    EXPECT_TRUE(db->Table_IsThere(__L("t"), __L("id"), isexist));
+    EXPECT_TRUE(db->Table_IsThere(_L("t"), _L("id"), isexist));
     EXPECT_TRUE(isexist);
 
     XQWORD nrecords = 999;
-    EXPECT_TRUE(db->Table_GetNRecords(__L("t"), nrecords));
+    EXPECT_TRUE(db->Table_GetNRecords(_L("t"), nrecords));
     EXPECT_EQ(nrecords, (XQWORD)0);
 
     UNITTESTS_DATABASES_HELPER::CloseAndDelete(db, connection);
@@ -129,14 +129,14 @@ TEST(UNITTESTS_SQLITE_DATABASE_CLASSNAME, TableCreateIsThereGetNRecordsDelete)
     ASSERT_NE(db, (DB_SQL_DATABASE*)NULL);
     ASSERT_NE(connection, (DB_SQL_CONNECTION*)NULL);
 
-    XCHAR* fields[] = { __L("id int PRIMARY KEY"), __L("name varchar(50)") };
-    ASSERT_TRUE(db->Table_Create(__L("t"), fields, 2));
+    XCHAR* fields[] = { _L("id int PRIMARY KEY"), _L("name varchar(50)") };
+    ASSERT_TRUE(db->Table_Create(_L("t"), fields, 2));
 
-    EXPECT_TRUE(db->Table_Delete(__L("t")));
+    EXPECT_TRUE(db->Table_Delete(_L("t")));
 
     // Table_IsThere returns false when the SELECT fails (table gone); isexist is cleared to false first.
     bool isexist = true;
-    db->Table_IsThere(__L("t"), __L("id"), isexist);
+    db->Table_IsThere(_L("t"), _L("id"), isexist);
     EXPECT_FALSE(isexist);
 
     UNITTESTS_DATABASES_HELPER::CloseAndDelete(db, connection);
@@ -152,22 +152,22 @@ TEST(UNITTESTS_SQLITE_DATABASE_CLASSNAME, TransactionRollbackLeavesZeroRecords)
   ASSERT_NE(db, (DB_SQL_DATABASE*)NULL);
   ASSERT_NE(connection, (DB_SQL_CONNECTION*)NULL);
 
-  XCHAR* fields[] = { __L("id int PRIMARY KEY"), __L("name varchar(50)") };
-  ASSERT_TRUE(db->Table_Create(__L("t"), fields, 2));
+  XCHAR* fields[] = { _L("id int PRIMARY KEY"), _L("name varchar(50)") };
+  ASSERT_TRUE(db->Table_Create(_L("t"), fields, 2));
 
   DB_SQL_QUERY* query = db->CreateQuery();
   ASSERT_NE(query, (DB_SQL_QUERY*)NULL);
 
   ASSERT_TRUE(db->Transaction());
-  ASSERT_TRUE(query->Set(__L("INSERT INTO t (id,name) VALUES (?,?);")));
+  ASSERT_TRUE(query->Set(_L("INSERT INTO t (id,name) VALUES (?,?);")));
   EXPECT_TRUE(query->Bind(0, 1));
-  EXPECT_TRUE(query->Bind(1, __L("rollback")));
+  EXPECT_TRUE(query->Bind(1, _L("rollback")));
   ASSERT_TRUE(db->Execute(query));
   EXPECT_TRUE(query->UnbindAll());
   ASSERT_TRUE(db->Rollback());
 
   XQWORD nrecords = 999;
-  EXPECT_TRUE(db->Table_GetNRecords(__L("t"), nrecords));
+  EXPECT_TRUE(db->Table_GetNRecords(_L("t"), nrecords));
   EXPECT_EQ(nrecords, (XQWORD)0);
 
   GEN_DELETE query;
@@ -183,22 +183,22 @@ TEST(UNITTESTS_SQLITE_DATABASE_CLASSNAME, TransactionCommitKeepsRecords)
   ASSERT_NE(db, (DB_SQL_DATABASE*)NULL);
   ASSERT_NE(connection, (DB_SQL_CONNECTION*)NULL);
 
-  XCHAR* fields[] = { __L("id int PRIMARY KEY"), __L("name varchar(50)") };
-  ASSERT_TRUE(db->Table_Create(__L("t"), fields, 2));
+  XCHAR* fields[] = { _L("id int PRIMARY KEY"), _L("name varchar(50)") };
+  ASSERT_TRUE(db->Table_Create(_L("t"), fields, 2));
 
   DB_SQL_QUERY* query = db->CreateQuery();
   ASSERT_NE(query, (DB_SQL_QUERY*)NULL);
 
   ASSERT_TRUE(db->Transaction());
-  ASSERT_TRUE(query->Set(__L("INSERT INTO t (id,name) VALUES (?,?);")));
+  ASSERT_TRUE(query->Set(_L("INSERT INTO t (id,name) VALUES (?,?);")));
   EXPECT_TRUE(query->Bind(0, 1));
-  EXPECT_TRUE(query->Bind(1, __L("commit")));
+  EXPECT_TRUE(query->Bind(1, _L("commit")));
   ASSERT_TRUE(db->Execute(query));
   EXPECT_TRUE(query->UnbindAll());
   ASSERT_TRUE(db->Commit());
 
   XQWORD nrecords = 0;
-  EXPECT_TRUE(db->Table_GetNRecords(__L("t"), nrecords));
+  EXPECT_TRUE(db->Table_GetNRecords(_L("t"), nrecords));
   EXPECT_GT(nrecords, (XQWORD)0);
 
   GEN_DELETE query;

@@ -193,7 +193,7 @@ static void BuildMinimalDFUImage(XBUFFER& buffer, XBYTE lastdatabyte)
 TEST(UNITTESTS_XFILEDFU_CLASSNAME, ReadAllParsesAWellFormedPrefixImageElementAndSuffix)
 {
   XPATH xpath;
-  BuildTestFilePath(xpath, __L("unittests_xutils_dfu_good.dfu"));
+  BuildTestFilePath(xpath, _L("unittests_xutils_dfu_good.dfu"));
   RemoveIfExists(xpath);
 
   XBUFFER filedata;
@@ -248,7 +248,7 @@ TEST(UNITTESTS_XFILEDFU_CLASSNAME, ReadAllParsesAWellFormedPrefixImageElementAnd
 TEST(UNITTESTS_XFILEDFU_CLASSNAME, ReadAllRejectsAFileWhoseContentWasCorruptedAfterTheCRCWasComputed)
 {
   XPATH xpath;
-  BuildTestFilePath(xpath, __L("unittests_xutils_dfu_badcrc.dfu"));
+  BuildTestFilePath(xpath, _L("unittests_xutils_dfu_badcrc.dfu"));
   RemoveIfExists(xpath);
 
   XBUFFER filedata;
@@ -277,7 +277,7 @@ TEST(UNITTESTS_XFILEDFU_CLASSNAME, ReadAllRejectsAFileWhoseContentWasCorruptedAf
 TEST(UNITTESTS_XFILEDFU_CLASSNAME, OpenOfANonexistentFileFailsGracefully)
 {
   XPATH xpath;
-  BuildTestFilePath(xpath, __L("unittests_xutils_dfu_does_not_exist.dfu"));
+  BuildTestFilePath(xpath, _L("unittests_xutils_dfu_does_not_exist.dfu"));
   RemoveIfExists(xpath);
 
   XFILEDFU dfu;

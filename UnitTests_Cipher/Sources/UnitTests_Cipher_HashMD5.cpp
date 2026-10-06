@@ -76,7 +76,7 @@ TEST(UNITTESTS_HASHMD5_CLASSNAME, KnownAnswerVector_EmptyString)
 
   XSTRING stringhex;
   EXPECT_TRUE(hash.GetResultString(stringhex));
-  EXPECT_EQ(0, stringhex.Compare(__L("d41d8cd98f00b204e9800998ecf8427e"), true));
+  EXPECT_EQ(0, stringhex.Compare(_L("d41d8cd98f00b204e9800998ecf8427e"), true));
 }
 
 
@@ -98,7 +98,7 @@ TEST(UNITTESTS_HASHMD5_CLASSNAME, KnownAnswerVector_abc)
 
   XSTRING stringhex;
   EXPECT_TRUE(hash.GetResultString(stringhex));
-  EXPECT_EQ(0, stringhex.Compare(__L("900150983cd24fb0d6963f7d28e17f72"), true));
+  EXPECT_EQ(0, stringhex.Compare(_L("900150983cd24fb0d6963f7d28e17f72"), true));
 }
 
 

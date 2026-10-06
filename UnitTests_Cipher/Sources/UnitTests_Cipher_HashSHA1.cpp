@@ -78,7 +78,7 @@ TEST(UNITTESTS_HASHSHA1_CLASSNAME, KnownAnswerVector_EmptyString)
 
   XSTRING stringhex;
   EXPECT_TRUE(hash.GetResultString(stringhex));
-  EXPECT_EQ(0, stringhex.Compare(__L("da39a3ee5e6b4b0d3255bfef95601890afd80709"), true));
+  EXPECT_EQ(0, stringhex.Compare(_L("da39a3ee5e6b4b0d3255bfef95601890afd80709"), true));
 }
 
 
@@ -100,7 +100,7 @@ TEST(UNITTESTS_HASHSHA1_CLASSNAME, KnownAnswerVector_abc)
 
   XSTRING stringhex;
   EXPECT_TRUE(hash.GetResultString(stringhex));
-  EXPECT_EQ(0, stringhex.Compare(__L("a9993e364706816aba3e25717850c26c9cd0d89d"), true));
+  EXPECT_EQ(0, stringhex.Compare(_L("a9993e364706816aba3e25717850c26c9cd0d89d"), true));
 }
 
 
@@ -132,7 +132,7 @@ TEST(UNITTESTS_HASHSHA1_CLASSNAME, MultiBlockMessageMatchesKnownVector)
 
   XSTRING stringhex;
   EXPECT_TRUE(hash.GetResultString(stringhex));
-  EXPECT_EQ(0, stringhex.Compare(__L("84983e441c3bd26ebaae4aa1f95129e5e54670f1"), true));
+  EXPECT_EQ(0, stringhex.Compare(_L("84983e441c3bd26ebaae4aa1f95129e5e54670f1"), true));
 }
 
 

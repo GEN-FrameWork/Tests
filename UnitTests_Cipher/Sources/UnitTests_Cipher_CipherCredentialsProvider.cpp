@@ -66,7 +66,7 @@ namespace TEST_CIPHERCREDENTIALSPROVIDER
 TEST(UNITTESTS_CIPHERCREDENTIALSPROVIDER_CLASSNAME, SecretProviderStringReturnsConfiguredSource)
 {
   XSTRING source;
-  source.Set(__L("s3cr3t-password"));
+  source.Set(_L("s3cr3t-password"));
 
   CIPHERSECRETPROVIDERSTRING provider;
   provider.SetSource(&source);

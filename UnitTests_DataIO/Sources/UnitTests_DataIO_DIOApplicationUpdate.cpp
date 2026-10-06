@@ -82,8 +82,8 @@ TEST(DIOAPPLICATIONUPDATE_VERSIONDATA, SetCompareCopy)
 
 TEST(DIOAPPLICATIONUPDATE, ConstructVersionsNoDownload)
 {
-  XPATH xpath(__L("."));
-  DIOAPPLICATIONUPDATE update(1, 0, 0, __L("UnitTests_DataIO"), xpath);
+  XPATH xpath(_L("."));
+  DIOAPPLICATIONUPDATE update(1, 0, 0, _L("UnitTests_DataIO"), xpath);
 
   EXPECT_EQ(update.Application_GetVersion(), (XDWORD)1);
   EXPECT_EQ(update.GetApplicationSubversion(), (XDWORD)0);

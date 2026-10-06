@@ -65,7 +65,7 @@ TEST(DIOCOREPROTOCOL_HEADER, SettersAndCopyCompare)
 
   a.SetMessageType(DIOCOREPROTOCOL_HEADER_MESSAGETYPE_REQUEST);
   a.SetOperation(DIOCOREPROTOCOL_HEADER_OPERATION_COMMAND);
-  a.GetOperationParam()->Set(__L("ping"));
+  a.GetOperationParam()->Set(_L("ping"));
   a.SetContentType(DIOCOREPROTOCOL_HEADER_CONTENTTYPE_TEXT);
   a.SetBlockIndex(1);
   a.SetBlockAmount(2);
@@ -75,7 +75,7 @@ TEST(DIOCOREPROTOCOL_HEADER, SettersAndCopyCompare)
 
   EXPECT_EQ(a.GetMessageType(), DIOCOREPROTOCOL_HEADER_MESSAGETYPE_REQUEST);
   EXPECT_EQ(a.GetOperation(), DIOCOREPROTOCOL_HEADER_OPERATION_COMMAND);
-  EXPECT_EQ(a.GetOperationParam()->Compare(__L("ping")), 0);
+  EXPECT_EQ(a.GetOperationParam()->Compare(_L("ping")), 0);
   EXPECT_EQ(a.GetContentType(), DIOCOREPROTOCOL_HEADER_CONTENTTYPE_TEXT);
   EXPECT_EQ(a.GetBlockIndex(), (XDWORD)1);
   EXPECT_EQ(a.GetBlockAmount(), (XDWORD)2);

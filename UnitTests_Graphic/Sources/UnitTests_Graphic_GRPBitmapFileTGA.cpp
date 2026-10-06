@@ -65,7 +65,7 @@ namespace TEST_GRPBITMAPFILETGA
 TEST(UNITTESTS_GRPBITMAPFILETGA_CLASSNAME, SaveLoadTgaRoundTrip)
 {
   XPATH xpath;
-  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, __L("unittests_graphic_roundtrip.tga")));
+  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, _L("unittests_graphic_roundtrip.tga")));
 
   GRPBITMAP* source = GRPFACTORY::GetInstance().CreateBitmap(8, 8, GRPPROPERTYMODE_32_RGBA_8888);
   ASSERT_NE(source, (GRPBITMAP*)NULL);
@@ -97,7 +97,7 @@ TEST(UNITTESTS_GRPBITMAPFILETGA_CLASSNAME, SaveLoadTgaRoundTrip)
 TEST(UNITTESTS_GRPBITMAPFILETGA_CLASSNAME, LoadMissingFileReturnsNull)
 {
   XPATH xpath;
-  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, __L("unittests_graphic_missing_no_such.tga")));
+  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, _L("unittests_graphic_missing_no_such.tga")));
 
   GRPBITMAPFILE file;
   EXPECT_EQ(file.Load(xpath), (GRPBITMAP*)NULL);

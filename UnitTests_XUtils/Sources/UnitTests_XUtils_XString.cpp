@@ -51,7 +51,7 @@
 /*---- GENERAL VARIABLE ----------------------------------------------------------------------------------------------*/
 
 char*  UNITTESTS_hellostringOEM = (char*)("Hello, world!");
-XCHAR* UNITTESTS_hellostring    = __L("Hello, world!");
+XCHAR* UNITTESTS_hellostring    = _L("Hello, world!");
 
 
 /*---- CLASS MEMBERS -------------------------------------------------------------------------------------------------*/
@@ -136,7 +136,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, CompareOneCharacter)
 {
   XSTRING string = "0";
 
-  EXPECT_EQ(-1, string.Compare(__L("1"), false));
+  EXPECT_EQ(-1, string.Compare(_L("1"), false));
 }
 
 
@@ -144,13 +144,13 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, CompareOneCharacterIgnoreCase)
 {
   XSTRING string = "A";
 
-  EXPECT_EQ(0, string.Compare(__L("a"), true));
+  EXPECT_EQ(0, string.Compare(_L("a"), true));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII) 
 {
-  XSTRING string1 = __L("Hello world!");
+  XSTRING string1 = _L("Hello world!");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -163,7 +163,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_codepage437) 
 {
-  XSTRING string1 = __L("Hello 437! ÇüéâäàåçêëèïîìÄÅÉÖÜñÑ");
+  XSTRING string1 = _L("Hello 437! ÇüéâäàåçêëèïîìÄÅÉÖÜñÑ");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -176,7 +176,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_codepage437)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_codepage850) 
 {
-  XSTRING string1 = __L("Hello 850! áéíóú üñÑ çÇ ß Øø Åå");
+  XSTRING string1 = _L("Hello 850! áéíóú üñÑ çÇ ß Øø Åå");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -189,7 +189,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_codepage850)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_codepage852) 
 {
-  XSTRING string1 = __L("Hello 852! Ąą Ćć Ęę Łł Ńń Óó Śś Źź Żż");
+  XSTRING string1 = _L("Hello 852! Ąą Ćć Ęę Łł Ńń Óó Śś Źź Żż");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -202,7 +202,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_codepage852)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_codepage866) 
 {
-  XSTRING string1 = __L("Hello 866! Привет мир! Ёё Жж Йй Яя Юю");
+  XSTRING string1 = _L("Hello 866! Привет мир! Ёё Жж Йй Яя Юю");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -215,7 +215,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_codepage866)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_ISO_8859_1) 
 {
-  XSTRING string1 = __L("Hello 8859-1! àèìòù Ññ ÁÉÍÓÚ üç ß");
+  XSTRING string1 = _L("Hello 8859-1! àèìòù Ññ ÁÉÍÓÚ üç ß");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -228,7 +228,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_ISO_8859_1)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_ISO_8859_2) 
 {
-  XSTRING string1 = __L("Hello 8859-2! Ąą Ćć Ęę Łł Ńń Óó Śś Źź Żż");
+  XSTRING string1 = _L("Hello 8859-2! Ąą Ćć Ęę Łł Ńń Óó Śś Źź Żż");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -241,7 +241,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_ISO_8859_2)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_ISO_8859_3) 
 {
-  XSTRING string1 = __L("Hello 8859-3! Ħħ Ġġ Ċċ Żż àèìòù");
+  XSTRING string1 = _L("Hello 8859-3! Ħħ Ġġ Ċċ Żż àèìòù");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -254,7 +254,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_ISO_8859_3)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_ISO_8859_4) 
 {
-  XSTRING string1 = __L("Hello 8859-4! Āā Ēē Ģģ Īī Ķķ Ļļ Ņņ Šš Ūū Žž");
+  XSTRING string1 = _L("Hello 8859-4! Āā Ēē Ģģ Īī Ķķ Ļļ Ņņ Šš Ūū Žž");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -267,7 +267,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_ISO_8859_4)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_WINDOWS_1250) 
 {
-  XSTRING string1 = __L("Hello 1250! Ąą Čč Ďď Ęę Ěě Łł Ňň Řř Šš Ťť Ůů Žž");
+  XSTRING string1 = _L("Hello 1250! Ąą Čč Ďď Ęę Ěě Łł Ňň Řř Šš Ťť Ůů Žž");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -280,7 +280,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_WINDOWS_1250)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_WINDOWS_1251) 
 {
-  XSTRING string1 = __L("Hello 1251! Привет мир! Ёё Жж Йй Яя Юю");
+  XSTRING string1 = _L("Hello 1251! Привет мир! Ёё Жж Йй Яя Юю");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -293,7 +293,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_WINDOWS_1251)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_WINDOWS_1252) 
 {
-  XSTRING string1 = __L("Hello 1252! àèìòù Ññ ÁÉÍÓÚ üç € “ ” ‘ ’ — …");
+  XSTRING string1 = _L("Hello 1252! àèìòù Ññ ÁÉÍÓÚ üç € “ ” ‘ ’ — …");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -306,7 +306,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_WINDOWS_1252)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_WINDOWS_1253) 
 {
-  XSTRING string1 = __L("Hello 1253! Γειά σου κόσμε! Αα Ββ Γγ Δδ Εε Ζζ Ηη Θθ");
+  XSTRING string1 = _L("Hello 1253! Γειά σου κόσμε! Αα Ββ Γγ Δδ Εε Ζζ Ηη Θθ");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -319,7 +319,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_WINDOWS_1253)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_WINDOWS_1254) 
 {
-  XSTRING string1 = __L("Hello 1254! Türkçe: Ğğ İı Şş Çç Öö Üü");
+  XSTRING string1 = _L("Hello 1254! Türkçe: Ğğ İı Şş Çç Öö Üü");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -332,7 +332,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertASCII_WINDOWS_1254)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertUTF8) 
 {
-  XSTRING string1 = __L("แผ่นดินฮั่นเสื่อมโทรมแสนสังเวช");
+  XSTRING string1 = _L("แผ่นดินฮั่นเสื่อมโทรมแสนสังเวช");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -345,7 +345,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertUTF8)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertUTF16) 
 {
-  XSTRING string1 = __L("𠜎 𠜱 𠝹 𠱓 𠱸 𠲖 𠳏 𠳕 𠴕 𠵼 𠵿 𠸎 𠸏 𠹷 𠺝 𠺢 𠻗 𠻹 𠻺 𠼭 𠼮 𠽌 𠾴 𠾼 𠿪");
+  XSTRING string1 = _L("𠜎 𠜱 𠝹 𠱓 𠱸 𠲖 𠳏 𠳕 𠴕 𠵼 𠵿 𠸎 𠸏 𠹷 𠺝 𠺢 𠻗 𠻹 𠻺 𠼭 𠼮 𠽌 𠾴 𠾼 𠿪");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -358,7 +358,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertUTF16)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertUTF32) 
 {
-  XSTRING string1 = __L("𠜎 𠜱 𠝹 𠱓 𠱸 𠲖 𠳏 𠳕 𠴕 𠵼 𠵿 𠸎 𠸏 𠹷 𠺝 𠺢 𠻗 𠻹 𠻺 𠼭 𠼮 𠽌 𠾴 𠾼 𠿪");
+  XSTRING string1 = _L("𠜎 𠜱 𠝹 𠱓 𠱸 𠲖 𠳏 𠳕 𠴕 𠵼 𠵿 𠸎 𠸏 𠹷 𠺝 𠺢 𠻗 𠻹 𠻺 𠼭 𠼮 𠽌 𠾴 𠾼 𠿪");
   XSTRING string2;
   XBUFFER buffer;
 
@@ -375,7 +375,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, Base64)
   XSTRING string2;
   XBUFFER buffer;
 
-  string = __L("MIIDdTCCAl2gAwIBAgILBAAAAAABFUtaw5QwDQYJKoZIhvcNAQEFBQAwVzELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExEDAOBgNVBAsTB1Jvb3QgQ0ExGzAZBgNVBAMTEkdsb2JhbFNpZ24gUm9vdCBDQTAeFw05ODA5MDExMjAwMDBaFw0yODAxMjgxMjAwMDBaMFcxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMRAwDgYDVQQLEwdSb290IENBMRswGQYDVQQDExJHbG9iYWxTaWduIFJvb3QgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDaDuaZjc6j40+Kfvvxi4Mla+pIH/EqsLmVEQS98GPR4mdmzxzdzxtIK+6NiY6arymAZavpxy0Sy6scTHAHoT0KMM0VjU/43dSMUBUc71DuxC73/OlS8pF94G3VNTCOXkNz8kHp1Wrjsok6Vjk4bwY8iGlbKk3Fp1S4bInMm/k8yuX9ifUSPJJ4ltbcdG6TRGHRjcdGsnUOhugZitVtbNV4FpWi6cgKOOvyJBNPc1STE4U6G7weNLWLBYy5d4ux2x8gkasJU26Qzns3dLlwR5EiUWMWea6xrkEmCMgZK9FGqkjWZCrXgzT/LCrBbBlDSgeF59N89iFo7+ryUp9/k5DPAgMBAAGjQjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRge2YaRQ2XyolQL30EzTSo//z9SzANBgkqhkiG9w0BAQUFAAOCAQEA1nPnfE920I2/7LqivjTFKDK1fPxsnCwrvQmeU79rXqoRSLblCKOzyj1hTdNGCbM+w6DjY1Ub8rrvrTnhQ7k4o+YviiY776BQVvnGCv04zcQLcFGUl5gE38NflNUVyRRBnMRddWQVDf9VMOyGj/8N7yy5Y0b2qvzfvGn9LhJIZJrglfCm7ymPAbEVtQwdpf5pLGkkeB6zpxxxYu7KyJesF12KwvhHhm4qxFYxldBniYUr+WymXUadDKqC5JlR3XC321Y9YeRq4VzW9v493kHMB65jUr9TU/Qr6cf9tveCX4XSQRjbgbMEHMUfpIBvFSDJ3gyICh3WZlXi/EjJKSZp4A==");
+  string = _L("MIIDdTCCAl2gAwIBAgILBAAAAAABFUtaw5QwDQYJKoZIhvcNAQEFBQAwVzELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExEDAOBgNVBAsTB1Jvb3QgQ0ExGzAZBgNVBAMTEkdsb2JhbFNpZ24gUm9vdCBDQTAeFw05ODA5MDExMjAwMDBaFw0yODAxMjgxMjAwMDBaMFcxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMRAwDgYDVQQLEwdSb290IENBMRswGQYDVQQDExJHbG9iYWxTaWduIFJvb3QgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDaDuaZjc6j40+Kfvvxi4Mla+pIH/EqsLmVEQS98GPR4mdmzxzdzxtIK+6NiY6arymAZavpxy0Sy6scTHAHoT0KMM0VjU/43dSMUBUc71DuxC73/OlS8pF94G3VNTCOXkNz8kHp1Wrjsok6Vjk4bwY8iGlbKk3Fp1S4bInMm/k8yuX9ifUSPJJ4ltbcdG6TRGHRjcdGsnUOhugZitVtbNV4FpWi6cgKOOvyJBNPc1STE4U6G7weNLWLBYy5d4ux2x8gkasJU26Qzns3dLlwR5EiUWMWea6xrkEmCMgZK9FGqkjWZCrXgzT/LCrBbBlDSgeF59N89iFo7+ryUp9/k5DPAgMBAAGjQjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRge2YaRQ2XyolQL30EzTSo//z9SzANBgkqhkiG9w0BAQUFAAOCAQEA1nPnfE920I2/7LqivjTFKDK1fPxsnCwrvQmeU79rXqoRSLblCKOzyj1hTdNGCbM+w6DjY1Ub8rrvrTnhQ7k4o+YviiY776BQVvnGCv04zcQLcFGUl5gE38NflNUVyRRBnMRddWQVDf9VMOyGj/8N7yy5Y0b2qvzfvGn9LhJIZJrglfCm7ymPAbEVtQwdpf5pLGkkeB6zpxxxYu7KyJesF12KwvhHhm4qxFYxldBniYUr+WymXUadDKqC5JlR3XC321Y9YeRq4VzW9v493kHMB65jUr9TU/Qr6cf9tveCX4XSQRjbgbMEHMUfpIBvFSDJ3gyICh3WZlXi/EjJKSZp4A==");
 
   string.ConvertBase64ToBinary(buffer);    
   string2.ConvertBinaryToBase64(buffer);
@@ -406,10 +406,10 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, OperatorPlusEqual)
 {
   XSTRING string;
 
-  string  = __L("Hello");
-  string += __L(", ");
+  string  = _L("Hello");
+  string += _L(", ");
   string += "world";
-  string += __C('!');
+  string += _C('!');
 
   EXPECT_EQ(0, string.Compare(UNITTESTS_hellostring, false));
 }
@@ -417,40 +417,40 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, OperatorPlusEqual)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, DeleteCharactersMiddle) 
 {
-  XSTRING string = __L("abcdef");
+  XSTRING string = _L("abcdef");
 
   EXPECT_TRUE(string.DeleteCharacters(2, 2));
-  EXPECT_EQ(0, string.Compare(__L("abef"), false));
+  EXPECT_EQ(0, string.Compare(_L("abef"), false));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, DeleteCharacterAllString) 
 {
-  XSTRING string = __L("--a--b--");
+  XSTRING string = _L("--a--b--");
 
-  EXPECT_TRUE(string.DeleteCharacter(__C('-'), XSTRINGCONTEXT_ALLSTRING));
-  EXPECT_EQ(0, string.Compare(__L("ab"), false));
+  EXPECT_TRUE(string.DeleteCharacter(_C('-'), XSTRINGCONTEXT_ALLSTRING));
+  EXPECT_EQ(0, string.Compare(_L("ab"), false));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, InsertAtPosition) 
 {
-  XSTRING string = __L("ac");
+  XSTRING string = _L("ac");
 
-  EXPECT_TRUE(string.Insert(__L("b"), 1));
-  EXPECT_EQ(0, string.Compare(__L("abc"), false));
+  EXPECT_TRUE(string.Insert(_L("b"), 1));
+  EXPECT_EQ(0, string.Compare(_L("abc"), false));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ReplaceFirstAndReplaceAll) 
 {
-  XSTRING string = __L("one two one two");
+  XSTRING string = _L("one two one two");
 
-  EXPECT_EQ(0, string.ReplaceFirst(__L("one"), __L("1")));
-  EXPECT_EQ(0, string.Compare(__L("1 two one two"), false));
+  EXPECT_EQ(0, string.ReplaceFirst(_L("one"), _L("1")));
+  EXPECT_EQ(0, string.Compare(_L("1 two one two"), false));
 
-  EXPECT_EQ(2, string.Replace(__L("two"), __L("2")));
-  EXPECT_EQ(0, string.Compare(__L("1 2 one 2"), false));
+  EXPECT_EQ(2, string.Replace(_L("two"), _L("2")));
+  EXPECT_EQ(0, string.Compare(_L("1 2 one 2"), false));
 }
 
 
@@ -465,9 +465,9 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertIntRoundtrip)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, OperatorsCompareAndEquality) 
 {
-  XSTRING a = __L("abc");
-  XSTRING b = __L("abd");
-  XSTRING c = __L("abc");
+  XSTRING a = _L("abc");
+  XSTRING b = _L("abd");
+  XSTRING c = _L("abc");
 
   EXPECT_TRUE(a < b);
   EXPECT_FALSE(b < a);
@@ -482,50 +482,50 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, OperatorsCompareAndEquality)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, OperatorIndexBounds) 
 {
-  XSTRING string = __L("abcd");
+  XSTRING string = _L("abcd");
 
-  EXPECT_EQ(__C('a'), string[0]);
-  EXPECT_EQ(__C('a'), string[-1]);
-  EXPECT_EQ(__C('d'), string[100]);
+  EXPECT_EQ(_C('a'), string[0]);
+  EXPECT_EQ(_C('a'), string[-1]);
+  EXPECT_EQ(_C('d'), string[100]);
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, FillChar) 
 {
-  XSTRING string = __L("----");
+  XSTRING string = _L("----");
 
-  EXPECT_TRUE(string.FillChar(__C('A')));
-  EXPECT_EQ(0, string.Compare(__L("AAAA"), false));
+  EXPECT_TRUE(string.FillChar(_C('A')));
+  EXPECT_EQ(0, string.Compare(_L("AAAA"), false));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, FindAndCountCharacter) 
 {
-  XSTRING string = __L("abcaBCa");
+  XSTRING string = _L("abcaBCa");
 
-  EXPECT_EQ(0, string.Find(__L("abc"), true, 0));
-  EXPECT_EQ(1, string.Find(__L("bc"), false, 0));
-  EXPECT_EQ(4, string.Find(__L("BC"), false, 0));
+  EXPECT_EQ(0, string.Find(_L("abc"), true, 0));
+  EXPECT_EQ(1, string.Find(_L("bc"), false, 0));
+  EXPECT_EQ(4, string.Find(_L("BC"), false, 0));
 
-  EXPECT_EQ(3, (int)string.CountCharacter(__C('a')));
+  EXPECT_EQ(3, (int)string.CountCharacter(_C('a')));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, FindCharacterEndToStart) 
 {
-  XSTRING string = __L("a-b-c-a");
+  XSTRING string = _L("a-b-c-a");
 
-  EXPECT_EQ(0, string.FindCharacter(__C('a'), 0, false));
-  EXPECT_EQ(6, string.FindCharacter(__C('a'), 0, true));
+  EXPECT_EQ(0, string.FindCharacter(_C('a'), 0, false));
+  EXPECT_EQ(6, string.FindCharacter(_C('a'), 0, true));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, DeleteCharactersToEnd) 
 {
-  XSTRING string = __L("abcdef");
+  XSTRING string = _L("abcdef");
 
   EXPECT_TRUE(string.DeleteCharactersToEnd(3));
-  EXPECT_EQ(0, string.Compare(__L("abc"), false));
+  EXPECT_EQ(0, string.Compare(_L("abc"), false));
 
   EXPECT_FALSE(string.DeleteCharactersToEnd(100));
 }
@@ -533,73 +533,73 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, DeleteCharactersToEnd)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, DeleteLastCharacterAndZeros) 
 {
-  XSTRING string = __L("12345.000");
+  XSTRING string = _L("12345.000");
 
   EXPECT_TRUE(string.DeleteLastZeros());
-  EXPECT_EQ(0, string.Compare(__L("12345"), false));
+  EXPECT_EQ(0, string.Compare(_L("12345"), false));
 
   EXPECT_TRUE(string.DeleteLastCharacter());
-  EXPECT_EQ(0, string.Compare(__L("1234"), false));
+  EXPECT_EQ(0, string.Compare(_L("1234"), false));
 
-  string = __L("12345.6700");
+  string = _L("12345.6700");
 
   EXPECT_TRUE(string.DeleteLastZeros());
-  EXPECT_EQ(0, string.Compare(__L("12345.67"), false));
+  EXPECT_EQ(0, string.Compare(_L("12345.67"), false));
 
-  string = __L("12345000");
-
-  EXPECT_FALSE(string.DeleteLastZeros());
-  EXPECT_EQ(0, string.Compare(__L("12345000"), false));
-
-  string = __L("12345.67");
+  string = _L("12345000");
 
   EXPECT_FALSE(string.DeleteLastZeros());
-  EXPECT_EQ(0, string.Compare(__L("12345.67"), false));
+  EXPECT_EQ(0, string.Compare(_L("12345000"), false));
+
+  string = _L("12345.67");
+
+  EXPECT_FALSE(string.DeleteLastZeros());
+  EXPECT_EQ(0, string.Compare(_L("12345.67"), false));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, InsertBeyondEnd) 
 {
-  XSTRING string = __L("abc");
+  XSTRING string = _L("abc");
 
-  EXPECT_TRUE(string.Insert(__L("def"), 100));
-  EXPECT_EQ(0, string.Compare(__L("abcdef"), false));
+  EXPECT_TRUE(string.Insert(_L("def"), 100));
+  EXPECT_EQ(0, string.Compare(_L("abcdef"), false));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ReplaceNotFound) 
 {
-  XSTRING string = __L("one two");
+  XSTRING string = _L("one two");
 
-  EXPECT_EQ(XSTRING_NOTFOUND, string.ReplaceFirst(__L("xxx"), __L("y")));
-  EXPECT_EQ(0, string.Replace(__L("xxx"), __L("y")));
-  EXPECT_EQ(0, string.Compare(__L("one two"), false));
+  EXPECT_EQ(XSTRING_NOTFOUND, string.ReplaceFirst(_L("xxx"), _L("y")));
+  EXPECT_EQ(0, string.Replace(_L("xxx"), _L("y")));
+  EXPECT_EQ(0, string.Compare(_L("one two"), false));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, DeleteNoCharactersAllString) 
 {
-  XSTRING string = __L("\t a \r\n");
+  XSTRING string = _L("\t a \r\n");
 
   EXPECT_TRUE(string.DeleteNoCharacters(XSTRINGCONTEXT_ALLSTRING));
-  EXPECT_EQ(0, string.Compare(__L("a"), false));
+  EXPECT_EQ(0, string.Compare(_L("a"), false));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, AdjustSizeGrowAndShrink) 
 {
-  XSTRING string = __L("abc");
+  XSTRING string = _L("abc");
 
-  EXPECT_TRUE(string.AdjustSize(5, false, __L("0"), false));
-  EXPECT_EQ(0, string.Compare(__L("abc00"), false));
+  EXPECT_TRUE(string.AdjustSize(5, false, _L("0"), false));
+  EXPECT_EQ(0, string.Compare(_L("abc00"), false));
   EXPECT_EQ(5, string.GetSize());
 
-  EXPECT_TRUE(string.AdjustSize(4, false, __L(" "), false));
-  EXPECT_EQ(0, string.Compare(__L("abc0"), false));
+  EXPECT_TRUE(string.AdjustSize(4, false, _L(" "), false));
+  EXPECT_EQ(0, string.Compare(_L("abc0"), false));
   EXPECT_EQ(4, string.GetSize());
 
-  EXPECT_TRUE(string.AdjustSize(6, true, __L("-"), false));
-  EXPECT_EQ(0, string.Compare(__L("--abc0"), false));
+  EXPECT_TRUE(string.AdjustSize(6, true, _L("-"), false));
+  EXPECT_EQ(0, string.Compare(_L("--abc0"), false));
   EXPECT_EQ(6, string.GetSize());
 }
 
@@ -613,27 +613,27 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, AdjustSizeAutoTrim)
   XCHAR* text = string.Get();
   ASSERT_TRUE(text != NULL);
 
-  text[0] = __C('a');
-  text[1] = __C('b');
-  text[2] = __C('c');
-  text[3] = __C('\0');
+  text[0] = _C('a');
+  text[1] = _C('b');
+  text[2] = _C('c');
+  text[3] = _C('\0');
 
   EXPECT_TRUE(string.AdjustSize());
   EXPECT_EQ(3, string.GetSize());
-  EXPECT_EQ(0, string.Compare(__L("abc"), false));
+  EXPECT_EQ(0, string.Compare(_L("abc"), false));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, CopySubstringOverloads)
 {
-  XSTRING string = __L("abcdefgh");
+  XSTRING string = _L("abcdefgh");
   XSTRING result;
 
   EXPECT_NE(XSTRING_NOTFOUND, string.Copy(2, 5, result));
-  EXPECT_EQ(0, result.Compare(__L("cde"), false));
+  EXPECT_EQ(0, result.Compare(_L("cde"), false));
 
   EXPECT_NE(XSTRING_NOTFOUND, string.Copy(3, result));
-  EXPECT_EQ(0, result.Compare(__L("defgh"), false));
+  EXPECT_EQ(0, result.Compare(_L("defgh"), false));
 
   // startindex >= endindex is documented as a NOTFOUND rejection.
   EXPECT_EQ(XSTRING_NOTFOUND, string.Copy(5, 2, result));
@@ -642,15 +642,15 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, CopySubstringOverloads)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, SplitBySeparator)
 {
-  XSTRING             string = __L("one,two,three");
+  XSTRING             string = _L("one,two,three");
   XVECTOR<XSTRING*>   parts;
 
-  EXPECT_TRUE(string.Split(__C(','), parts, false));
+  EXPECT_TRUE(string.Split(_C(','), parts, false));
   ASSERT_EQ((XDWORD)3, parts.GetSize());
 
-  EXPECT_EQ(0, parts.Get(0)->Compare(__L("one"), false));
-  EXPECT_EQ(0, parts.Get(1)->Compare(__L("two"), false));
-  EXPECT_EQ(0, parts.Get(2)->Compare(__L("three"), false));
+  EXPECT_EQ(0, parts.Get(0)->Compare(_L("one"), false));
+  EXPECT_EQ(0, parts.Get(1)->Compare(_L("two"), false));
+  EXPECT_EQ(0, parts.Get(2)->Compare(_L("three"), false));
 
   for(XDWORD c=0; c<parts.GetSize(); c++)
     {
@@ -661,18 +661,18 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, SplitBySeparator)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ExplodeBySeparator)
 {
-  XSTRING           string = __L("a::b::c");
+  XSTRING           string = _L("a::b::c");
   XVECTOR<XSTRING*> tokens;
 
-  EXPECT_TRUE(string.Explode(__C(':'), &tokens));
+  EXPECT_TRUE(string.Explode(_C(':'), &tokens));
 
   // Explode skips zero-length runs (consecutive separators collapse), unlike Split's
   // "addsubstringempty" option -- confirms the two vector-splitting methods have different
   // ownership/empty-token semantics.
   ASSERT_EQ((XDWORD)3, tokens.GetSize());
-  EXPECT_EQ(0, tokens.Get(0)->Compare(__L("a"), false));
-  EXPECT_EQ(0, tokens.Get(1)->Compare(__L("b"), false));
-  EXPECT_EQ(0, tokens.Get(2)->Compare(__L("c"), false));
+  EXPECT_EQ(0, tokens.Get(0)->Compare(_L("a"), false));
+  EXPECT_EQ(0, tokens.Get(1)->Compare(_L("b"), false));
+  EXPECT_EQ(0, tokens.Get(2)->Compare(_L("c"), false));
 
   for(XDWORD c=0; c<tokens.GetSize(); c++)
     {
@@ -689,16 +689,16 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, FormatAddFormatAndUnFormat)
   // the real work is done by the internal FormatArg() helper, which itself returns true on the
   // happy path -- so both wrappers always reported failure despite succeeding. They now return
   // FormatArg()'s real status.
-  EXPECT_TRUE(string.Format(__L("ID-%02d"), 7));
-  EXPECT_EQ(0, string.Compare(__L("ID-07"), false));
+  EXPECT_TRUE(string.Format(_L("ID-%02d"), 7));
+  EXPECT_EQ(0, string.Compare(_L("ID-07"), false));
 
-  EXPECT_TRUE(string.AddFormat(__L("/%d"), 42));
-  EXPECT_EQ(0, string.Compare(__L("ID-07/42"), false));
+  EXPECT_TRUE(string.AddFormat(_L("/%d"), 42));
+  EXPECT_EQ(0, string.Compare(_L("ID-07/42"), false));
 
   int number1 = 0;
   int number2 = 0;
 
-  EXPECT_TRUE(string.UnFormat(__L("ID-%02d/%d"), &number1, &number2));
+  EXPECT_TRUE(string.UnFormat(_L("ID-%02d/%d"), &number1, &number2));
   EXPECT_EQ(7, number1);
   EXPECT_EQ(42, number2);
 }
@@ -706,7 +706,7 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, FormatAddFormatAndUnFormat)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertToPascalAndFromPascal)
 {
-  XSTRING     string = __L("Pascal!");
+  XSTRING     string = _L("Pascal!");
   SHORTSTRING pascalstring;
   XSTRING     roundtrip;
 
@@ -714,16 +714,16 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, ConvertToPascalAndFromPascal)
   EXPECT_EQ((XBYTE)string.GetSize(), pascalstring.size);
 
   EXPECT_TRUE(roundtrip.ConvertFromPascal(pascalstring));
-  EXPECT_EQ(0, roundtrip.Compare(__L("Pascal!"), false));
+  EXPECT_EQ(0, roundtrip.Compare(_L("Pascal!"), false));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, Swab)
 {
-  XSTRING string = __L("abcd");
+  XSTRING string = _L("abcd");
 
   EXPECT_TRUE(string.Swab());
-  EXPECT_EQ(0, string.Compare(__L("badc"), false));
+  EXPECT_EQ(0, string.Compare(_L("badc"), false));
 
   XSTRING empty;
   EXPECT_FALSE(empty.Swab());
@@ -732,10 +732,10 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, Swab)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, BinaryCompare)
 {
-  XSTRING a = __L("same");
-  XSTRING b = __L("same");
-  XSTRING c = __L("diff");
-  XSTRING d = __L("longer text");
+  XSTRING a = _L("same");
+  XSTRING b = _L("same");
+  XSTRING c = _L("diff");
+  XSTRING d = _L("longer text");
 
   EXPECT_TRUE(a.BinaryCompare(b));
   EXPECT_FALSE(a.BinaryCompare(c));
@@ -745,13 +745,13 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, BinaryCompare)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, GetTypeOfLineEnd)
 {
-  XSTRING string = __L("line1\r\nline2\r\n");
+  XSTRING string = _L("line1\r\nline2\r\n");
   XSTRING lineend;
 
   EXPECT_TRUE(string.GetTypeOfLineEnd(lineend));
-  EXPECT_EQ(0, lineend.Compare(__L("\r\n"), false));
+  EXPECT_EQ(0, lineend.Compare(_L("\r\n"), false));
 
-  XSTRING toosmall = __L("a");
+  XSTRING toosmall = _L("a");
   XSTRING lineend2;
   EXPECT_FALSE(toosmall.GetTypeOfLineEnd(lineend2));
 }
@@ -759,13 +759,13 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, GetTypeOfLineEnd)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, HexConversionRoundTrip)
 {
-  XSTRING string = __L("Hi!");
+  XSTRING string = _L("Hi!");
   XSTRING hexstring;
   XBUFFER buffer;
   XSTRING roundtrip;
 
   EXPECT_TRUE(string.ConvertToHexString(hexstring, true));
-  EXPECT_EQ(0, hexstring.Compare(__L("486921"), true));  // 'H'=0x48 'i'=0x69 '!'=0x21
+  EXPECT_EQ(0, hexstring.Compare(_L("486921"), true));  // 'H'=0x48 'i'=0x69 '!'=0x21
 
   EXPECT_TRUE(hexstring.ConvertHexStringToBuffer(buffer));
   EXPECT_EQ((XDWORD)3, buffer.GetSize());
@@ -780,52 +780,52 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, HexConversionRoundTrip)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, FindCharacterFromSetAndAreValidCharacters)
 {
-  XSTRING string = __L("hello world");
+  XSTRING string = _L("hello world");
 
-  EXPECT_EQ(5, string.FindCharacterFromSet(__L(" ,;")));
+  EXPECT_EQ(5, string.FindCharacterFromSet(_L(" ,;")));
 
-  XSTRING noneofthese = __L("abc");
-  EXPECT_EQ((int)noneofthese.GetSize(), noneofthese.FindCharacterFromSet(__L("xyz")));
+  XSTRING noneofthese = _L("abc");
+  EXPECT_EQ((int)noneofthese.GetSize(), noneofthese.FindCharacterFromSet(_L("xyz")));
 
-  EXPECT_TRUE(string.AreValidCharacters((XCHAR*)__L("helo wrd")));
-  EXPECT_FALSE(string.AreValidCharacters((XCHAR*)__L("hel")));
+  EXPECT_TRUE(string.AreValidCharacters((XCHAR*)_L("helo wrd")));
+  EXPECT_FALSE(string.AreValidCharacters((XCHAR*)_L("hel")));
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, CharacterFamilyHelpers)
 {
-  XSTRING string = __L("abc");
+  XSTRING string = _L("abc");
 
-  EXPECT_TRUE(string.Character_IsAlpha(__C('a')));
-  EXPECT_FALSE(string.Character_IsAlpha(__C('5')));
+  EXPECT_TRUE(string.Character_IsAlpha(_C('a')));
+  EXPECT_FALSE(string.Character_IsAlpha(_C('5')));
 
-  EXPECT_TRUE(string.Character_IsUpperCase(__C('A')));
-  EXPECT_FALSE(string.Character_IsUpperCase(__C('a')));
+  EXPECT_TRUE(string.Character_IsUpperCase(_C('A')));
+  EXPECT_FALSE(string.Character_IsUpperCase(_C('a')));
 
-  EXPECT_TRUE(string.Character_IsLowerCase(__C('a')));
-  EXPECT_FALSE(string.Character_IsLowerCase(__C('A')));
+  EXPECT_TRUE(string.Character_IsLowerCase(_C('a')));
+  EXPECT_FALSE(string.Character_IsLowerCase(_C('A')));
 
-  EXPECT_TRUE(string.Character_IsNumber(__C('7')));
-  EXPECT_FALSE(string.Character_IsNumber(__C('x')));
+  EXPECT_TRUE(string.Character_IsNumber(_C('7')));
+  EXPECT_FALSE(string.Character_IsNumber(_C('x')));
 
-  EXPECT_EQ(__C('A'), string.Character_ToUpper(__C('a')));
-  EXPECT_EQ(__C('a'), string.Character_ToLower(__C('A')));
+  EXPECT_EQ(_C('A'), string.Character_ToUpper(_C('a')));
+  EXPECT_EQ(_C('a'), string.Character_ToLower(_C('A')));
 
-  EXPECT_EQ(__C('a'), string.Character_GetFirst());
-  EXPECT_EQ(__C('c'), string.Character_GetLast());
+  EXPECT_EQ(_C('a'), string.Character_GetFirst());
+  EXPECT_EQ(_C('c'), string.Character_GetLast());
 
-  EXPECT_TRUE(string.Character_Change(__C('b'), __C('Z')));
-  EXPECT_EQ(0, string.Compare(__L("aZc"), false));
-  EXPECT_FALSE(string.Character_Change(__C('x'), __C('Y')));  // not present -> no change made
+  EXPECT_TRUE(string.Character_Change(_C('b'), _C('Z')));
+  EXPECT_EQ(0, string.Compare(_L("aZc"), false));
+  EXPECT_FALSE(string.Character_Change(_C('x'), _C('Y')));  // not present -> no change made
 }
 
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, HaveNumbersAndIsNumberFamily)
 {
-  XSTRING alphaonly   = __L("abc");
-  XSTRING mixed       = __L("ab12");
-  XSTRING numbersonly = __L("12345");
-  XSTRING decimal     = __L("123.45");
+  XSTRING alphaonly   = _L("abc");
+  XSTRING mixed       = _L("ab12");
+  XSTRING numbersonly = _L("12345");
+  XSTRING decimal     = _L("123.45");
 
   EXPECT_FALSE(alphaonly.HaveNumbers());
   EXPECT_TRUE(mixed.HaveNumbers());
@@ -847,13 +847,13 @@ TEST(UNITTESTS_XSTRING_CLASSNAME, HaveNumbersAndIsNumberFamily)
 
 TEST(UNITTESTS_XSTRING_CLASSNAME, ToUpperCaseAndToLowerCase)
 {
-  XSTRING string = __L("MixedCase123");
+  XSTRING string = _L("MixedCase123");
 
   EXPECT_TRUE(string.ToUpperCase());
-  EXPECT_EQ(0, string.Compare(__L("MIXEDCASE123"), false));
+  EXPECT_EQ(0, string.Compare(_L("MIXEDCASE123"), false));
 
   EXPECT_TRUE(string.ToLowerCase());
-  EXPECT_EQ(0, string.Compare(__L("mixedcase123"), false));
+  EXPECT_EQ(0, string.Compare(_L("mixedcase123"), false));
 }
 
 

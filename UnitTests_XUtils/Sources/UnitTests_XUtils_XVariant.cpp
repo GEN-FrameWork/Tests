@@ -136,7 +136,7 @@ TEST(UNITTESTS_XVARIANT_CLASSNAME, ConstructorAssignChar)
 
 TEST(UNITTESTS_XVARIANT_CLASSNAME, ConstructorAssignXChar) 
 {  
-  UNITTESTS_XVARIANT_CONSTRUCTOR(XCHAR, __C('A')); 
+  UNITTESTS_XVARIANT_CONSTRUCTOR(XCHAR, _C('A')); 
 }
 
 
@@ -153,7 +153,7 @@ TEST(UNITTESTS_XVARIANT_CLASSNAME, ConstructorAssignCharPtr)
 
 TEST(UNITTESTS_XVARIANT_CLASSNAME, ConstructorAssignXCharPtr) 
 {   
-  XCHAR*    value  = __L("Hello Word!");
+  XCHAR*    value  = _L("Hello Word!");
   XVARIANT  variant(value);
   XSTRING   value2 = variant;
   
@@ -164,7 +164,7 @@ TEST(UNITTESTS_XVARIANT_CLASSNAME, ConstructorAssignXCharPtr)
 
 TEST(UNITTESTS_XVARIANT_CLASSNAME, ConstructorAssignDateTime) 
 {   
-  XSTRING   datetimestr = __L("01/12/1969 12:30:30");
+  XSTRING   datetimestr = _L("01/12/1969 12:30:30");
   XSTRING   datetimestr2;
   XDATETIME value;
 
@@ -308,7 +308,7 @@ TEST(UNITTESTS_XVARIANT_CLASSNAME, StringConversionCharPtr)
 
 TEST(UNITTESTS_XVARIANT_CLASSNAME, StringConversionXChar) 
 { 
-  XCHAR       value = __C('A');
+  XCHAR       value = _C('A');
   XVARIANT    variant(value); 
   XVARIANT    variant2; 
   XSTRING     string; 
@@ -326,7 +326,7 @@ TEST(UNITTESTS_XVARIANT_CLASSNAME, StringConversionXCharPtr)
 {  
   XSTRING     value;
 
-  value.Add(__L("Hello Word!"));
+  value.Add(_L("Hello Word!"));
 
   XVARIANT    variant(value);
   XVARIANT    variant2; 
@@ -344,7 +344,7 @@ TEST(UNITTESTS_XVARIANT_CLASSNAME, StringConversionXCharPtr)
 
 TEST(UNITTESTS_XVARIANT_CLASSNAME, StringConversionDateTime)   
 {   
-  XSTRING     datetimestr = __L("01/12/1969 12:30:30");
+  XSTRING     datetimestr = _L("01/12/1969 12:30:30");
   XDATETIME   value;
 
   value.GetDateTimeFromString(datetimestr, XDATETIME_FORMAT_STANDARD);
@@ -407,7 +407,7 @@ TEST(UNITTESTS_XVARIANT_CLASSNAME, GetTypeStringSupported)
   XSTRING   typestr;
 
   EXPECT_EQ(variant.GetType(typestr), true);
-  EXPECT_EQ(typestr.Compare(__L("integer"), true), 0);
+  EXPECT_EQ(typestr.Compare(_L("integer"), true), 0);
 }
 
 
@@ -438,15 +438,15 @@ TEST(UNITTESTS_XVARIANT_CLASSNAME, CopyConstructorNumeric)
 
 TEST(UNITTESTS_XVARIANT_CLASSNAME, DeepCopyStringFromXString) 
 {
-  XSTRING   value  = __L("Hello Word!");
+  XSTRING   value  = _L("Hello Word!");
   XVARIANT  variant(value);
 
-  value = __L("Bye!");
+  value = _L("Bye!");
 
   XSTRING value2 = variant;
 
   EXPECT_EQ(variant.GetType(), XVARIANT_TYPE_STRING);
-  EXPECT_EQ(value2.Compare(__L("Hello Word!"), true), 0);
+  EXPECT_EQ(value2.Compare(_L("Hello Word!"), true), 0);
 }
 
 
@@ -504,7 +504,7 @@ TEST(UNITTESTS_XVARIANT_CLASSNAME, ToStringNull)
 
   variant.ToString(string);
 
-  EXPECT_EQ(string.Compare(__L("NULL"), true), 0);
+  EXPECT_EQ(string.Compare(_L("NULL"), true), 0);
 }
 
 
@@ -542,21 +542,21 @@ TEST(UNITTESTS_XVARIANT_CLASSNAME, GetDataFromStringCharPtr)
   EXPECT_EQ(variant.GetType(), XVARIANT_TYPE_STRING);
 
   XSTRING value = variant;
-  EXPECT_EQ(value.Compare(__L("Hello ASCII"), true), 0);
+  EXPECT_EQ(value.Compare(_L("Hello ASCII"), true), 0);
 }
 
 
 TEST(UNITTESTS_XVARIANT_CLASSNAME, GetDataFromStringXCharPtr)
 {
   XVARIANT variant;
-  XCHAR*   text = __L("Hello Unicode");
+  XCHAR*   text = _L("Hello Unicode");
 
   EXPECT_TRUE(variant.GetDataFromString(text));
 
   EXPECT_EQ(variant.GetType(), XVARIANT_TYPE_STRING);
 
   XSTRING value = variant;
-  EXPECT_EQ(value.Compare(__L("Hello Unicode"), true), 0);
+  EXPECT_EQ(value.Compare(_L("Hello Unicode"), true), 0);
 }
 
 

@@ -61,7 +61,7 @@ namespace TEST_DIOURL
 
 TEST(DIOURL, ConstructFromLiteralAndIsAURL)
 {
-  DIOURL url(__L("http://example.local/path/file.txt"));
+  DIOURL url(_L("http://example.local/path/file.txt"));
 
   EXPECT_FALSE(url.IsEmpty());
   EXPECT_TRUE(url.HaveHTTPID());
@@ -70,7 +70,7 @@ TEST(DIOURL, ConstructFromLiteralAndIsAURL)
 
 TEST(DIOURL, AddDeleteHTTPID)
 {
-  DIOURL url(__L("example.local/index.html"));
+  DIOURL url(_L("example.local/index.html"));
 
   EXPECT_FALSE(url.HaveHTTPID());
   EXPECT_TRUE(url.AddHTTPID());
@@ -82,30 +82,73 @@ TEST(DIOURL, AddDeleteHTTPID)
 
 TEST(DIOURL, GetExtensionAndFileName)
 {
-  DIOURL  url(__L("http://host/dir/page.html"));
+  DIOURL  url(_L("http://host/dir/page.html"));
   XSTRING extension;
   XSTRING filename;
 
   EXPECT_TRUE(url.GetExtension(extension));
-  EXPECT_EQ(extension.Compare(__L(".html"), true), 0);
+  EXPECT_EQ(extension.Compare(_L(".html"), true), 0);
   EXPECT_TRUE(url.GetFileName(filename));
-  EXPECT_EQ(filename.Compare(__L("page.html"), true), 0);
+  EXPECT_EQ(filename.Compare(_L("page.html"), true), 0);
 }
 
 
 TEST(DIOURL, HostGetTypeIPv4AndDNS)
 {
-  EXPECT_EQ(DIOURL::Host_GetType(__L("192.168.0.1")), DIOURL_HOSTTYPE_IPV4);
-  EXPECT_EQ(DIOURL::Host_GetType(__L("example.local")), DIOURL_HOSTTYPE_DNS);
+  EXPECT_EQ(DIOURL::Host_GetType(_L("192.168.0.1")), DIOURL_HOSTTYPE_IPV4);
+  EXPECT_EQ(DIOURL::Host_GetType(_L("example.local")), DIOURL_HOSTTYPE_DNS);
 }
 
 
 TEST(DIOURL, SlashNormalize)
 {
-  DIOURL url(__L("http://host/path"));
+  DIOURL url(_L("http://host/path"));
 
   EXPECT_TRUE(url.Slash_Add());
   EXPECT_TRUE(url.Slash_Normalize());
+}
+
+
+TEST(DIOURL, DecodeUnsafeCharsPercent20ToSpace)
+{
+  DIOURL  url(_L("Hello%20world"));
+  XSTRING decoded;
+
+  ASSERT_TRUE(url.DecodeUnsafeCharsToString(decoded));
+  EXPECT_EQ(decoded.Compare(_L("Hello world")), 0);
+}
+
+
+TEST(DIOURL, DecodeUnsafeCharsLeavesPrintfMasksUntouched)
+{
+  DIOURL  url(_L("Error%20%s%20code%20%d"));
+  XSTRING decoded;
+
+  ASSERT_TRUE(url.DecodeUnsafeCharsToString(decoded));
+  // %s / %d are not valid %HH escapes → preserved; %20 → space
+  EXPECT_EQ(decoded.Compare(_L("Error %s code %d")), 0);
+}
+
+
+TEST(DIOURL, DecodeUnsafeCharsDecodesAmbiguousPercent2dAsHex)
+{
+  DIOURL  url(_L("count%2d"));
+  XSTRING decoded;
+
+  ASSERT_TRUE(url.DecodeUnsafeCharsToString(decoded));
+  // Pure URL decode: %2d is valid hex for '-' (printf mask protection lives in
+  // DIOSCRAPERWEBTRANSLATION::DecodeTranslationText, not in DIOURL).
+  EXPECT_EQ(decoded.Compare(_L("count-")), 0);
+}
+
+
+TEST(DIOURL, DecodeUnsafeCharsRejectsPartialPercentAtEnd)
+{
+  DIOURL  url(_L("end%"));
+  XSTRING decoded;
+
+  ASSERT_TRUE(url.DecodeUnsafeCharsToString(decoded));
+  EXPECT_EQ(decoded.Compare(_L("end%")), 0);
 }
 
 

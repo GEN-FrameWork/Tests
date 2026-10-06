@@ -70,7 +70,7 @@ TEST(DIOSTREAMUARTCONFIG, SettersAndFromToString)
   cfg.SetPort(1);
   EXPECT_EQ(cfg.GetPort(), 1);
 
-  cfg.GetLocalDeviceName()->Set(__L("COM1"));
+  cfg.GetLocalDeviceName()->Set(_L("COM1"));
   cfg.SetBaudRate(115200);
   cfg.SetDataBits(DIOSTREAMUARTDATABIT_8);
   cfg.SetParity(DIOSTREAMUARTPARITY_NONE);
@@ -86,7 +86,7 @@ TEST(DIOSTREAMUARTCONFIG, SettersAndFromToString)
   // SetFromString expects device,baud,databits,parity,stopbits,flowcontrol
   // (GetToString omits stopbits — use a canonical string for the round-trip).
   DIOSTREAMUARTCONFIG cfg2;
-  XSTRING             fromstr(__L("COM1,115200,8,N,1,NONE"));
+  XSTRING             fromstr(_L("COM1,115200,8,N,1,NONE"));
   EXPECT_TRUE(cfg2.SetFromString(fromstr));
   EXPECT_EQ(cfg2.GetBaudRate(), 115200);
   EXPECT_EQ(cfg2.GetDataBits(), DIOSTREAMUARTDATABIT_8);

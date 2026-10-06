@@ -76,8 +76,8 @@ DB_SQL_DATABASE* OpenSQLiteMemory(DB_SQL_CONNECTION** out_connection)
       return NULL;
     }
 
-  connection->SetOption(__L("PATH")     , __L(""));
-  connection->SetOption(__L("DATABASE") , __L(":memory:"));
+  connection->SetOption(_L("PATH")     , _L(""));
+  connection->SetOption(_L("DATABASE") , _L(":memory:"));
 
   if(!db->Open())
     {

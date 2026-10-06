@@ -72,9 +72,9 @@ TEST(DIOSTREAMDEVICEIP, ActiveIPTypeMACAndDNSList)
   ASSERT_NE(device.GetMAC(), (DIOMAC*)NULL);
   ASSERT_NE(device.GetIP(), (DIOIP*)NULL);
 
-  XSTRING macstr(__L("11:22:33:44:55:66"));
+  XSTRING macstr(_L("11:22:33:44:55:66"));
   EXPECT_TRUE(device.GetMAC()->Set(macstr));
-  EXPECT_TRUE(device.GetIP()->Set(__L("192.168.0.2")));
+  EXPECT_TRUE(device.GetIP()->Set(_L("192.168.0.2")));
 
   ASSERT_NE(device.GetDNSservers(), (XVECTOR<XSTRING*>*)NULL);
   EXPECT_EQ(device.GetDNSservers()->GetSize(), (XDWORD)0);

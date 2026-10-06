@@ -70,11 +70,11 @@ TEST(DIOPROTOCOL_APPLICATIONDATA, VersionFieldsAndName)
   data.applicationversion = 2;
   data.applicationsubversion = 3;
   data.applicationsubversionerr = 4;
-  data.applicationname.Set(__L("UnitTests_DataIO"));
+  data.applicationname.Set(_L("UnitTests_DataIO"));
 
   EXPECT_EQ(data.protocolversion, (XWORD)1);
   EXPECT_EQ(data.applicationversion, (XWORD)2);
-  EXPECT_EQ(data.applicationname.Compare(__L("UnitTests_DataIO")), 0);
+  EXPECT_EQ(data.applicationname.Compare(_L("UnitTests_DataIO")), 0);
 }
 
 
@@ -86,8 +86,8 @@ TEST(DIOPROTOCOL_APPLICATIONDATA, AlertAddExtractDelete)
   DIOALERT                    extracted;
 
   alert.SetLevel(DIOALERTLEVEL_INFO);
-  alert.GetTitle()->Set(__L("t"));
-  alert.Get_Message()->Set(__L("m"));
+  alert.GetTitle()->Set(_L("t"));
+  alert.Get_Message()->Set(_L("m"));
 
   EXPECT_TRUE(data.AddAlert(alert));
   EXPECT_TRUE(data.AddAlert(alert));

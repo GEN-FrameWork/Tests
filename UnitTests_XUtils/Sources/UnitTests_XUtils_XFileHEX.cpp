@@ -109,8 +109,8 @@ static void RemoveIfExists(XPATH& xpath)
 //   ":00000001FF"        -- the standard End-Of-File record (0 data bytes, type 0x01).
 //        bytes = 00 00 00 01 ; sum = 0x01 ; CRC = (~0x01)+1 = 0xFF
 // ----------------------------------------------------------------------------------------------
-#define KNOWNGOOD_DATA_LINE   __L(":0300300002337A1E")
-#define KNOWNGOOD_EOF_LINE    __L(":00000001FF")
+#define KNOWNGOOD_DATA_LINE   _L(":0300300002337A1E")
+#define KNOWNGOOD_EOF_LINE    _L(":00000001FF")
 
 
 TEST(UNITTESTS_XFILEHEX_CLASSNAME, EntryGetSetSizeDataAddressEntryTypeAndData)
@@ -211,7 +211,7 @@ TEST(UNITTESTS_XFILEHEX_CLASSNAME, DecodeLineRejectsCorruptChecksum)
   // (0x1E -> 0x1F), so the recomputed CRC no longer matches the CRC stored in the line.
   XFILEHEX     filehex;
   XFILEHEX_ENTRY entry;
-  XSTRING      line(__L(":0300300002337A1F"));
+  XSTRING      line(_L(":0300300002337A1F"));
 
   EXPECT_FALSE(filehex.DecodeLine(&line, entry));
 }
@@ -221,7 +221,7 @@ TEST(UNITTESTS_XFILEHEX_CLASSNAME, DecodeLineRejectsLineNotStartingWithColon)
 {
   XFILEHEX     filehex;
   XFILEHEX_ENTRY entry;
-  XSTRING      line(__L("0300300002337A1E"));
+  XSTRING      line(_L("0300300002337A1E"));
 
   EXPECT_FALSE(filehex.DecodeLine(&line, entry));
 }
@@ -339,7 +339,7 @@ TEST(UNITTESTS_XFILEHEX_CLASSNAME, EntryAddRejectsCorruptChecksumLineAndCountSta
 {
   XFILEHEX filehex;
 
-  XSTRING line(__L(":0300300002337A1F")); // corrupted checksum, see DecodeLineRejectsCorruptChecksum
+  XSTRING line(_L(":0300300002337A1F")); // corrupted checksum, see DecodeLineRejectsCorruptChecksum
   EXPECT_FALSE(filehex.Entry_Add(&line));
 
   EXPECT_EQ(filehex.GetNEntrys(), (XDWORD)0);
@@ -449,7 +449,7 @@ TEST(UNITTESTS_XFILEHEX_CLASSNAME, EntryDeleteAllRemovesEveryEntryAndFailsWhenAl
 
 TEST(UNITTESTS_XFILEHEX_CLASSNAME, WriteThenReopenWholeFileRoundTrip)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilehex_roundtrip.hex"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfilehex_roundtrip.hex"));
   RemoveIfExists(xpath);
 
   {

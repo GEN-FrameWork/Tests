@@ -64,7 +64,7 @@ TEST(DIOSCRAPERWEBCACHE, AddGetDeleteAllLocal)
 {
   DIOSCRAPERWEBCACHE         cache;
   DIOSCRAPERWEBCACHE_RESULT* result = GEN_NEW DIOSCRAPERWEBCACHE_RESULT();
-  XSTRING                    ask(__L("local-key"));
+  XSTRING                    ask(_L("local-key"));
 
   ASSERT_NE(result, (DIOSCRAPERWEBCACHE_RESULT*)NULL);
   EXPECT_TRUE(cache.Add(ask, result));

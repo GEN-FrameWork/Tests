@@ -111,7 +111,7 @@ TEST(UNITTESTS_XFILE_CLASSNAME, ExistReturnsFalseForMissingFile)
   XFILE* xfile = CreateConcreteFile();
   ASSERT_NE(xfile, (XFILE*)NULL);
 
-  XPATH missing; BuildTestFilePath(missing, __L("unittests_xutils_xfile_definitely_does_not_exist.bin"));
+  XPATH missing; BuildTestFilePath(missing, _L("unittests_xutils_xfile_definitely_does_not_exist.bin"));
 
   EXPECT_FALSE(xfile->Exist(missing));
   EXPECT_FALSE(xfile->Exist(missing.Get()));
@@ -122,7 +122,7 @@ TEST(UNITTESTS_XFILE_CLASSNAME, ExistReturnsFalseForMissingFile)
 
 TEST(UNITTESTS_XFILE_CLASSNAME, CreateWriteCloseThenOpenReadRoundTrip)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfile_roundtrip.bin"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfile_roundtrip.bin"));
 
   // Defensive cleanup from any previous interrupted run.
   {
@@ -202,7 +202,7 @@ TEST(UNITTESTS_XFILE_CLASSNAME, CreateWriteCloseThenOpenReadRoundTrip)
 
 TEST(UNITTESTS_XFILE_CLASSNAME, WriteXBufferConvenienceOverloadMatchesRawWrite)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfile_writebuffer.bin"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfile_writebuffer.bin"));
 
   {
     XFILE* cleanup = CreateConcreteFile();
@@ -234,7 +234,7 @@ TEST(UNITTESTS_XFILE_CLASSNAME, WriteXBufferConvenienceOverloadMatchesRawWrite)
 
 TEST(UNITTESTS_XFILE_CLASSNAME, SetPositionAndGetPositionSeek)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfile_seek.bin"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfile_seek.bin"));
 
   {
     XFILE* cleanup = CreateConcreteFile();
@@ -277,8 +277,8 @@ TEST(UNITTESTS_XFILE_CLASSNAME, SetPositionAndGetPositionSeek)
 
 TEST(UNITTESTS_XFILE_CLASSNAME, RenameMovesFileToNewPath)
 {
-  XPATH original; BuildTestFilePath(original, __L("unittests_xutils_xfile_renameorig.bin"));
-  XPATH renamed; BuildTestFilePath(renamed, __L("unittests_xutils_xfile_renamednew.bin"));
+  XPATH original; BuildTestFilePath(original, _L("unittests_xutils_xfile_renameorig.bin"));
+  XPATH renamed; BuildTestFilePath(renamed, _L("unittests_xutils_xfile_renamednew.bin"));
 
   {
     XFILE* cleanup = CreateConcreteFile();
@@ -307,7 +307,7 @@ TEST(UNITTESTS_XFILE_CLASSNAME, RenameMovesFileToNewPath)
 
 TEST(UNITTESTS_XFILE_CLASSNAME, GetPathNameFileReturnsLastOpenedOrCreatedPath)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfile_pathname.bin"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfile_pathname.bin"));
 
   {
     XFILE* cleanup = CreateConcreteFile();
@@ -342,7 +342,7 @@ TEST(UNITTESTS_XFILE_CLASSNAME, IsReadOnlyNowReflectsTheOpenModeItWasGiven)
   // IsReadOnly() actually returns), so IsReadOnly() unconditionally reported false for every
   // XLINUXFILE regardless of how it was opened. Now both platforms consistently report the true
   // open mode.
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfile_isreadonlybug.bin"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfile_isreadonlybug.bin"));
 
   {
     XFILE* cleanup = CreateConcreteFile();
@@ -375,7 +375,7 @@ TEST(UNITTESTS_XFILE_CLASSNAME, GetFileSizeMacroNowSetsItsOwnOutputParameter)
   // spelled `sizefile`. The `sizefile` variable declared below is kept only to prove the fix: it
   // stays untouched by the macro now, while the caller-visible `reportedsize` genuinely receives
   // the real file size.
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfile_macrobug.bin"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfile_macrobug.bin"));
 
   {
     XFILE* cleanup = GEN_XFACTORY.Create_File();

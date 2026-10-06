@@ -710,7 +710,7 @@ TEST(UNITTESTS_XBUFFER_CLASSNAME, AddWithMaskAndExtractWithMaskRoundTrip)
 {
   XBUFFER buffer;
 
-  EXPECT_TRUE(buffer.AddWithMask((XCHAR*)__L("BWDQ"), (int)0x11, (int)0x2222, (XDWORD)0x33333333, (XQWORD)0x4444444444444444));
+  EXPECT_TRUE(buffer.AddWithMask((XCHAR*)_L("BWDQ"), (int)0x11, (int)0x2222, (XDWORD)0x33333333, (XQWORD)0x4444444444444444));
 
   EXPECT_EQ((XDWORD)(1+2+4+8), buffer.GetSize());
 
@@ -719,7 +719,7 @@ TEST(UNITTESTS_XBUFFER_CLASSNAME, AddWithMaskAndExtractWithMaskRoundTrip)
   XDWORD dvar  = 0;
   XQWORD qvar  = 0;
 
-  EXPECT_TRUE(buffer.ExtractWithMask((XCHAR*)__L("BWDQ"), 0, &bvar, &wvar, &dvar, &qvar));
+  EXPECT_TRUE(buffer.ExtractWithMask((XCHAR*)_L("BWDQ"), 0, &bvar, &wvar, &dvar, &qvar));
 
   EXPECT_EQ((XBYTE)0x11, bvar);
   EXPECT_EQ((XWORD)0x2222, wvar);
@@ -753,15 +753,15 @@ TEST(UNITTESTS_XBUFFER_CLASSNAME, FindStringOverload)
   // which (when normalize=false) stores each XCHAR as a full XDWORD -- so the haystack buffer
   // must be built the same way for byte offsets to line up.
   XBUFFER buffer;
-  XSTRING haystack(__L("ABCDE"));
-  XSTRING searchstring(__L("CD"));
+  XSTRING haystack(_L("ABCDE"));
+  XSTRING searchstring(_L("CD"));
 
   buffer.Add(haystack, false);
 
   int index = buffer.Find(searchstring, false, 0);
   EXPECT_EQ((int)(2*sizeof(XDWORD)), index);
 
-  XSTRING notfoundstring(__L("ZZ"));
+  XSTRING notfoundstring(_L("ZZ"));
   index = buffer.Find(notfoundstring, false, 0);
   EXPECT_EQ(XBUFFER_INVALIDPOSITION, index);
 }

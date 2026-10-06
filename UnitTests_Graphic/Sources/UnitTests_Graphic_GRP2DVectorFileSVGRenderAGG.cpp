@@ -67,9 +67,9 @@ namespace TEST_GRP2DVECTORFILESVGRENDERAGG
 TEST(UNITTESTS_GRP2DVECTORFILESVGRENDERAGG_CLASSNAME, RenderSvgRectOnCanvas)
 {
   XSTRING content;
-  content  = __L("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"64\" height=\"64\">");
-  content += __L("<rect x=\"8\" y=\"8\" width=\"48\" height=\"48\" fill=\"#FF0000\"/>");
-  content += __L("</svg>");
+  content  = _L("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"64\" height=\"64\">");
+  content += _L("<rect x=\"8\" y=\"8\" width=\"48\" height=\"48\" fill=\"#FF0000\"/>");
+  content += _L("</svg>");
 
   GRPVECTORFILESVG svg;
   ASSERT_EQ(svg.Load(content), GRPVECTORFILERESULT_OK);

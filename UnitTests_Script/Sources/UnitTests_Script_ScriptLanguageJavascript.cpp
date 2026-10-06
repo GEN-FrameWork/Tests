@@ -57,7 +57,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGEJAVASCRIPT_CLASSNAME, ExecutesNumericResult)
   SCRIPT_LNG_JAVASCRIPT script;
   int returnvalue = 0;
 
-  (*script.GetScript()) = __L("42");
+  (*script.GetScript()) = _L("42");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 42);
 }
@@ -68,7 +68,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGEJAVASCRIPT_CLASSNAME, RejectsNonNumericResult)
   SCRIPT_LNG_JAVASCRIPT script;
   int returnvalue = 0;
 
-  (*script.GetScript()) = __L("'not numeric'");
+  (*script.GetScript()) = _L("'not numeric'");
   EXPECT_NE(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
 }
 
@@ -76,13 +76,13 @@ TEST(UNITTESTS_SCRIPTLANGUAGEJAVASCRIPT_CLASSNAME, RejectsNonNumericResult)
 TEST(UNITTESTS_SCRIPTLANGUAGEJAVASCRIPT_CLASSNAME, NativeFloatAndDoubleReturnAsNumbers)
 {
   SCRIPT_LNG_JAVASCRIPT script;
-  SCRIPT_LIB library(__L("UnitTest"));
+  SCRIPT_LIB library(_L("UnitTest"));
   int returnvalue = 0;
 
-  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeFloat"), UnitTests_ScriptLanguageJavascript_ReturnFloat));
-  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeDouble"), UnitTests_ScriptLanguageJavascript_ReturnDouble));
+  ASSERT_TRUE(script.AddLibraryFunction(&library, _L("NativeFloat"), UnitTests_ScriptLanguageJavascript_ReturnFloat));
+  ASSERT_TRUE(script.AddLibraryFunction(&library, _L("NativeDouble"), UnitTests_ScriptLanguageJavascript_ReturnDouble));
 
-  (*script.GetScript()) = __L("(NativeFloat() * 10) + (NativeDouble() * 10)");
+  (*script.GetScript()) = _L("(NativeFloat() * 10) + (NativeDouble() * 10)");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 40);
 }

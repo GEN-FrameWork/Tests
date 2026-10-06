@@ -72,9 +72,9 @@ TEST(DIOSTREAM_XEVENT, DeviceFieldsViaGetter)
 
   ASSERT_NE(event.GetDevice(), (DIOSTREAMDEVICE*)NULL);
   EXPECT_TRUE(event.GetDevice()->SetIndex(3));
-  event.GetDevice()->GetName()->Set(__L("eth0"));
+  event.GetDevice()->GetName()->Set(_L("eth0"));
   EXPECT_EQ(event.GetDevice()->GetIndex(), 3);
-  EXPECT_EQ(event.GetDevice()->GetName()->Compare(__L("eth0")), 0);
+  EXPECT_EQ(event.GetDevice()->GetName()->Compare(_L("eth0")), 0);
 }
 
 

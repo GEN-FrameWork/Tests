@@ -100,7 +100,7 @@ TEST(APPFLOWALERTS, IniRejectsInactiveAlertsAndEnd)
 
   int status[APPFLOW_ALERT_TYPE_MAX];
   APPFLOWALERTS& alerts = APPFLOWALERTS::GetInstance();
-  EXPECT_FALSE(alerts.Ini(&cfg, __L("UnitTests_AppFlow"), 1, 0, 0, status));
+  EXPECT_FALSE(alerts.Ini(&cfg, _L("UnitTests_AppFlow"), 1, 0, 0, status));
   EXPECT_TRUE(alerts.End());
 
   EXPECT_TRUE(APPFLOWALERTS::DelInstance());
@@ -117,11 +117,11 @@ TEST(APPFLOWALERTS, IniActiveWithoutChannelsThenEndWithoutSend)
     }
 
   XSTRING cfgname;
-  cfgname = __L("unittests_appflow_alerts");
+  cfgname = _L("unittests_appflow_alerts");
 
   XSTRING cfgfilename;
   cfgfilename  = cfgname;
-  cfgfilename += __L(".ini");
+  cfgfilename += _L(".ini");
 
   ASSERT_TRUE(UNITTESTS_APPFLOW_HELPER::WriteOfflineAppFlowCfgAsset(cfgfilename.Get()));
 
@@ -142,7 +142,7 @@ TEST(APPFLOWALERTS, IniActiveWithoutChannelsThenEndWithoutSend)
     APPFLOWALERTS& alerts = APPFLOWALERTS::GetInstance();
 
     // Alerts overall active but no sender channel configured -> Ini returns false (no ACTIVE sender).
-    EXPECT_FALSE(alerts.Ini(&cfg, __L("UnitTests_AppFlow"), 1, 0, 0, status));
+    EXPECT_FALSE(alerts.Ini(&cfg, _L("UnitTests_AppFlow"), 1, 0, 0, status));
     EXPECT_EQ(status[APPFLOW_ALERT_TYPE_SMTP], (int)APPFLOW_ALERT_STATUS_NOTACTIVATED);
     EXPECT_EQ(status[APPFLOW_ALERT_TYPE_SMS],  (int)APPFLOW_ALERT_STATUS_NOTACTIVATED);
     EXPECT_EQ(status[APPFLOW_ALERT_TYPE_WEB],  (int)APPFLOW_ALERT_STATUS_NOTACTIVATED);

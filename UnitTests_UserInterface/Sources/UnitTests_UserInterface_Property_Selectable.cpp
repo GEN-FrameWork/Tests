@@ -77,12 +77,12 @@ TEST(UNITTESTS_UI_PROPERTY_SELECTABLE_CLASSNAME, SetSelectableStateFromStringMap
 {
   UI_PROPERTY_SELECTABLE property;
 
-  EXPECT_EQ(property.SetSelectableStateFromString(__L("active")), UI_PROPERTY_SELECTABLE_STATE_ACTIVE);
+  EXPECT_EQ(property.SetSelectableStateFromString(_L("active")), UI_PROPERTY_SELECTABLE_STATE_ACTIVE);
   EXPECT_EQ(property.GetSelectableState(), UI_PROPERTY_SELECTABLE_STATE_ACTIVE);
 
-  EXPECT_EQ(property.SetSelectableStateFromString(__L("preselect")), UI_PROPERTY_SELECTABLE_STATE_PRESELECT);
-  EXPECT_EQ(property.SetSelectableStateFromString(__L("selected")), UI_PROPERTY_SELECTABLE_STATE_SELECTED);
-  EXPECT_EQ(property.SetSelectableStateFromString(__L("deactive")), UI_PROPERTY_SELECTABLE_STATE_DEACTIVE);
+  EXPECT_EQ(property.SetSelectableStateFromString(_L("preselect")), UI_PROPERTY_SELECTABLE_STATE_PRESELECT);
+  EXPECT_EQ(property.SetSelectableStateFromString(_L("selected")), UI_PROPERTY_SELECTABLE_STATE_SELECTED);
+  EXPECT_EQ(property.SetSelectableStateFromString(_L("deactive")), UI_PROPERTY_SELECTABLE_STATE_DEACTIVE);
 }
 
 
@@ -91,7 +91,7 @@ TEST(UNITTESTS_UI_PROPERTY_SELECTABLE_CLASSNAME, SetSelectableStateFromStringFal
   UI_PROPERTY_SELECTABLE property;
 
   EXPECT_EQ(property.SetSelectableStateFromString((XCHAR*)NULL), UI_PROPERTY_SELECTABLE_STATE_DEACTIVE);
-  EXPECT_EQ(property.SetSelectableStateFromString(__L("not-a-state")), UI_PROPERTY_SELECTABLE_STATE_DEACTIVE);
+  EXPECT_EQ(property.SetSelectableStateFromString(_L("not-a-state")), UI_PROPERTY_SELECTABLE_STATE_DEACTIVE);
 }
 
 

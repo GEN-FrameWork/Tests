@@ -64,15 +64,15 @@ TEST(DIOWEBSERVER_QUERYSTRINGS, AddGetDelParam)
 {
   DIOWEBSERVER_QUERYSTRINGS qs;
 
-  EXPECT_TRUE(qs.AddParam(__L("name"), __L("value")));
-  EXPECT_TRUE(qs.AddParam(__L("n"), 42));
+  EXPECT_TRUE(qs.AddParam(_L("name"), _L("value")));
+  EXPECT_TRUE(qs.AddParam(_L("n"), 42));
   EXPECT_EQ(qs.GetNParams(), 2);
 
-  XSTRING* value = qs.GetParam(__L("name"));
+  XSTRING* value = qs.GetParam(_L("name"));
   ASSERT_NE(value, (XSTRING*)NULL);
-  EXPECT_EQ(value->Compare(__L("value")), 0);
+  EXPECT_EQ(value->Compare(_L("value")), 0);
 
-  EXPECT_TRUE(qs.DelParam(__L("name")));
+  EXPECT_TRUE(qs.DelParam(_L("name")));
   EXPECT_EQ(qs.GetNParams(), 1);
   EXPECT_TRUE(qs.DelAllParam());
   EXPECT_EQ(qs.GetNParams(), 0);
@@ -82,13 +82,13 @@ TEST(DIOWEBSERVER_QUERYSTRINGS, AddGetDelParam)
 TEST(DIOWEBSERVER_QUERYSTRINGS, ParseFromLocalURLString)
 {
   DIOWEBSERVER_QUERYSTRINGS qs;
-  XSTRING                   url(__L("http://localhost/page?alpha=1&beta=two"));
+  XSTRING                   url(_L("http://localhost/page?alpha=1&beta=two"));
 
   EXPECT_EQ(qs.GetParamsFromURL(url), 2);
-  ASSERT_NE(qs.GetParam(__L("alpha")), (XSTRING*)NULL);
-  EXPECT_EQ(qs.GetParam(__L("alpha"))->Compare(__L("1")), 0);
-  ASSERT_NE(qs.GetParam(__L("beta")), (XSTRING*)NULL);
-  EXPECT_EQ(qs.GetParam(__L("beta"))->Compare(__L("two")), 0);
+  ASSERT_NE(qs.GetParam(_L("alpha")), (XSTRING*)NULL);
+  EXPECT_EQ(qs.GetParam(_L("alpha"))->Compare(_L("1")), 0);
+  ASSERT_NE(qs.GetParam(_L("beta")), (XSTRING*)NULL);
+  EXPECT_EQ(qs.GetParam(_L("beta"))->Compare(_L("two")), 0);
 
   XSTRING built;
   EXPECT_TRUE(qs.CreateURLFromParams(built));

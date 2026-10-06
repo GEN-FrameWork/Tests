@@ -60,7 +60,7 @@ namespace TEST_SNDFILE
 
 TEST(UNITTESTS_SNDFILE_CLASSNAME, CreateEmptyPathReturnsNull)
 {
-  EXPECT_EQ(SNDFILE::Create(__L("")), (SNDFILE*)NULL);
+  EXPECT_EQ(SNDFILE::Create(_L("")), (SNDFILE*)NULL);
 }
 
 
@@ -68,7 +68,7 @@ TEST(UNITTESTS_SNDFILE_CLASSNAME, CreateUnknownExtensionReturnsNull)
 {
   XPATH xpath;
 
-  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(xpath, __L("unittests_sound_unknown.xyz")));
+  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(xpath, _L("unittests_sound_unknown.xyz")));
   EXPECT_EQ(SNDFILE::Create(xpath), (SNDFILE*)NULL);
 }
 
@@ -77,7 +77,7 @@ TEST(UNITTESTS_SNDFILE_CLASSNAME, CreateMissingWavReturnsNull)
 {
   XPATH xpath;
 
-  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(xpath, __L("unittests_sound_missing.wav")));
+  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(xpath, _L("unittests_sound_missing.wav")));
   EXPECT_EQ(SNDFILE::Create(xpath), (SNDFILE*)NULL);
 }
 
@@ -86,7 +86,7 @@ TEST(UNITTESTS_SNDFILE_CLASSNAME, CreateMissingOggReturnsNull)
 {
   XPATH xpath;
 
-  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(xpath, __L("unittests_sound_missing.ogg")));
+  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(xpath, _L("unittests_sound_missing.ogg")));
   EXPECT_EQ(SNDFILE::Create(xpath), (SNDFILE*)NULL);
 }
 

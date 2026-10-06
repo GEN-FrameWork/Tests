@@ -122,7 +122,7 @@ TEST(UNITTESTS_XTHREADLISTNONPREEMPTIVE_CLASSNAME, DeleteThreadRejectsNullAndUnk
 
   EXPECT_FALSE(XTHREADLISTNONPREEMPTIVE::GetInstance().DeleteThread(NULL));
 
-  XTHREAD notregistered(XTHREADGROUPID_UNGROUP, __L("NotRegistered"), NULL, NULL);
+  XTHREAD notregistered(XTHREADGROUPID_UNGROUP, _L("NotRegistered"), NULL, NULL);
   EXPECT_FALSE(XTHREADLISTNONPREEMPTIVE::GetInstance().DeleteThread(&notregistered));
 
   ResetList();
@@ -133,7 +133,7 @@ TEST(UNITTESTS_XTHREADLISTNONPREEMPTIVE_CLASSNAME, AddThreadThenDeleteThreadRoun
 {
   ResetList();
 
-  XTHREAD* xthread = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, __L("Coop"), NULL, NULL);
+  XTHREAD* xthread = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, _L("Coop"), NULL, NULL);
   ASSERT_NE(xthread, (XTHREAD*)NULL);
 
   EXPECT_TRUE(XTHREADLISTNONPREEMPTIVE::GetInstance().AddThread(xthread));
@@ -165,7 +165,7 @@ TEST(UNITTESTS_XTHREADLISTNONPREEMPTIVE_CLASSNAME, ExecuteFunctionsInvokesRunnin
 
   // A plain XTHREAD (not created via the OS-thread factory) is enough: ExecuteFunctions() only
   // ever reads GetStatusFunc()/GetFunction()/GetParam(), it never spawns anything.
-  XTHREAD* xthread = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, __L("Coop"), BumpCounter, (void*)&counter);
+  XTHREAD* xthread = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, _L("Coop"), BumpCounter, (void*)&counter);
   ASSERT_NE(xthread, (XTHREAD*)NULL);
 
   EXPECT_TRUE(xthread->Run(true)); // status -> XTHREADSTATUS_RUN, the only status ExecuteFunctions() dispatches
@@ -189,7 +189,7 @@ TEST(UNITTESTS_XTHREADLISTNONPREEMPTIVE_CLASSNAME, ExecuteFunctionsSkipsExitStat
 
   XDWORD counter = 0;
 
-  XTHREAD* xthread = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, __L("Coop"), BumpCounter, (void*)&counter);
+  XTHREAD* xthread = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, _L("Coop"), BumpCounter, (void*)&counter);
   ASSERT_NE(xthread, (XTHREAD*)NULL);
 
   EXPECT_TRUE(xthread->Exit()); // status -> XTHREADSTATUS_EXIT
@@ -211,7 +211,7 @@ TEST(UNITTESTS_XTHREADLISTNONPREEMPTIVE_CLASSNAME, ExecuteFunctionsSkipsDefaultN
 
   // Freshly constructed thread: GetStatusFunc() is XTHREADSTATUS_NONE (falls into the switch's
   // default case), so ExecuteFunctions() never touches its function pointer.
-  XTHREAD* xthread = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, __L("Coop"), BumpCounter, (void*)&counter);
+  XTHREAD* xthread = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, _L("Coop"), BumpCounter, (void*)&counter);
   ASSERT_NE(xthread, (XTHREAD*)NULL);
 
   EXPECT_TRUE(XTHREADLISTNONPREEMPTIVE::GetInstance().AddThread(xthread));
@@ -229,9 +229,9 @@ TEST(UNITTESTS_XTHREADLISTNONPREEMPTIVE_CLASSNAME, ExecuteFunctionsDispatchesEve
 
   XDWORD counterA = 0, counterB = 0, counterC = 0;
 
-  XTHREAD* threadA = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, __L("A"), BumpCounter, (void*)&counterA);
-  XTHREAD* threadB = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, __L("B"), BumpCounter, (void*)&counterB);
-  XTHREAD* threadC = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, __L("C"), BumpCounter, (void*)&counterC);
+  XTHREAD* threadA = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, _L("A"), BumpCounter, (void*)&counterA);
+  XTHREAD* threadB = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, _L("B"), BumpCounter, (void*)&counterB);
+  XTHREAD* threadC = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, _L("C"), BumpCounter, (void*)&counterC);
   ASSERT_NE(threadA, (XTHREAD*)NULL);
   ASSERT_NE(threadB, (XTHREAD*)NULL);
   ASSERT_NE(threadC, (XTHREAD*)NULL);
@@ -258,7 +258,7 @@ TEST(UNITTESTS_XTHREADLISTNONPREEMPTIVE_CLASSNAME, DeleteAllEmptiesListAndFreesO
 {
   ResetList();
 
-  XTHREAD* xthread = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, __L("Owned"), NULL, NULL);
+  XTHREAD* xthread = GEN_NEW XTHREAD(XTHREADGROUPID_UNGROUP, _L("Owned"), NULL, NULL);
   ASSERT_NE(xthread, (XTHREAD*)NULL);
 
   EXPECT_TRUE(XTHREADLISTNONPREEMPTIVE::GetInstance().AddThread(xthread));

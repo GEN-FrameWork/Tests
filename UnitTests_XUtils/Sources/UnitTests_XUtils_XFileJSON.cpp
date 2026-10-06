@@ -103,10 +103,10 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, ValueSetGetScalarTypesRoundTrip)
   EXPECT_EQ(value.GetType(), XFILEJSONVALUETYPE_DOUBLEFLOAT);
   EXPECT_DOUBLE_EQ(value.GetValueDoubleFloat(), 12.25);
 
-  value.Set(__L("hello"));
+  value.Set(_L("hello"));
   EXPECT_EQ(value.GetType(), XFILEJSONVALUETYPE_STRING);
   XSTRING str = value.GetValueString();
-  EXPECT_FALSE(str.Compare(__L("hello"), false));
+  EXPECT_FALSE(str.Compare(_L("hello"), false));
 
   // FIXED: XFILEJSONVALUE::Set(void) (XFileJSON.cpp) now does "type = XFILEJSONVALUETYPE_NULL;"
   // alongside setting the internal XVARIANT to XVARIANT_TYPE_NULL -- previously it never updated
@@ -149,11 +149,11 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, ObjectAddGetValuesAndDeleteAllValues)
   EXPECT_FALSE(object.DeleteAllValues()); // nothing to delete yet
 
   XFILEJSONVALUE* v1 = GEN_NEW XFILEJSONVALUE();
-  v1->SetName(__L("one"));
+  v1->SetName(_L("one"));
   v1->Set((int)1);
 
   XFILEJSONVALUE* v2 = GEN_NEW XFILEJSONVALUE();
-  v2->SetName(__L("two"));
+  v2->SetName(_L("two"));
   v2->Set((int)2);
 
   ASSERT_TRUE(object.Add(v1));
@@ -174,8 +174,8 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, DecodeAllLinesParsesFlatObjectWithEveryScala
 {
   XFILEJSON filejson;
 
-  filejson.AddLine(__L("{\"nullv\":null,\"boolv\":true,\"intv\":42,\"negv\":-7,"));
-  filejson.AddLine(__L("\"floatv\":3.5,\"strv\":\"hello\"}"));
+  filejson.AddLine(_L("{\"nullv\":null,\"boolv\":true,\"intv\":42,\"negv\":-7,"));
+  filejson.AddLine(_L("\"floatv\":3.5,\"strv\":\"hello\"}"));
 
   ASSERT_TRUE(filejson.DecodeAllLines());
 
@@ -183,32 +183,32 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, DecodeAllLinesParsesFlatObjectWithEveryScala
   ASSERT_TRUE(root != NULL);
   ASSERT_FALSE(root->IsArray());
 
-  XFILEJSONVALUE* nullv = filejson.GetValue(__L("nullv"));
+  XFILEJSONVALUE* nullv = filejson.GetValue(_L("nullv"));
   ASSERT_TRUE(nullv != NULL);
   EXPECT_EQ(nullv->GetType(), XFILEJSONVALUETYPE_NULL);
 
-  XFILEJSONVALUE* boolv = filejson.GetValue(__L("boolv"));
+  XFILEJSONVALUE* boolv = filejson.GetValue(_L("boolv"));
   ASSERT_TRUE(boolv != NULL);
   EXPECT_EQ(boolv->GetType(), XFILEJSONVALUETYPE_BOOLEAN);
   EXPECT_TRUE(boolv->GetValueBoolean());
 
-  XFILEJSONVALUE* intv = filejson.GetValue(__L("intv"));
+  XFILEJSONVALUE* intv = filejson.GetValue(_L("intv"));
   ASSERT_TRUE(intv != NULL);
   EXPECT_EQ(intv->GetValueInteger(), 42);
 
-  XFILEJSONVALUE* negv = filejson.GetValue(__L("negv"));
+  XFILEJSONVALUE* negv = filejson.GetValue(_L("negv"));
   ASSERT_TRUE(negv != NULL);
   EXPECT_EQ(negv->GetValueInteger(), -7);
 
-  XFILEJSONVALUE* floatv = filejson.GetValue(__L("floatv"));
+  XFILEJSONVALUE* floatv = filejson.GetValue(_L("floatv"));
   ASSERT_TRUE(floatv != NULL);
   EXPECT_EQ(floatv->GetType(), XFILEJSONVALUETYPE_DOUBLEFLOAT);
   EXPECT_DOUBLE_EQ(floatv->GetValueDoubleFloat(), 3.5);
 
-  XFILEJSONVALUE* strv = filejson.GetValue(__L("strv"));
+  XFILEJSONVALUE* strv = filejson.GetValue(_L("strv"));
   ASSERT_TRUE(strv != NULL);
   XSTRING strvalue = strv->GetValueString();
-  EXPECT_FALSE(strvalue.Compare(__L("hello"), false));
+  EXPECT_FALSE(strvalue.Compare(_L("hello"), false));
 
   filejson.DeleteAllObjects();
   filejson.DeleteAllLines();
@@ -219,14 +219,14 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, DecodeAllLinesParsesNestedObjectAndArray)
 {
   XFILEJSON filejson;
 
-  filejson.AddLine(__L("{\"outer\":{\"inner\":5},\"arr\":[1,2,3]}"));
+  filejson.AddLine(_L("{\"outer\":{\"inner\":5},\"arr\":[1,2,3]}"));
 
   ASSERT_TRUE(filejson.DecodeAllLines());
 
-  XFILEJSONOBJECT* outerobj = filejson.GetObj(__L("outer"));
+  XFILEJSONOBJECT* outerobj = filejson.GetObj(_L("outer"));
   ASSERT_TRUE(outerobj != NULL);
 
-  XFILEJSONVALUE* innerval = filejson.GetValue(__L("inner"), outerobj);
+  XFILEJSONVALUE* innerval = filejson.GetValue(_L("inner"), outerobj);
   ASSERT_TRUE(innerval != NULL);
   EXPECT_EQ(innerval->GetValueInteger(), 5);
 
@@ -236,7 +236,7 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, DecodeAllLinesParsesNestedObjectAndArray)
   // OBJECT/ARRAY value's own name first. So an OBJECT/ARRAY-typed value can never be retrieved
   // through GetValue(), only through GetObj() (whose GetObjSubValue() helper does check the
   // value's own name before recursing). Fetch the array that way instead.
-  XFILEJSONOBJECT* arrobj = filejson.GetObj(__L("arr"));
+  XFILEJSONOBJECT* arrobj = filejson.GetObj(_L("arr"));
   ASSERT_TRUE(arrobj != NULL);
   ASSERT_TRUE(arrobj->IsArray());
 
@@ -257,23 +257,23 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, GetObjFindsNestedObjectByNameAndReturnsNullW
 {
   XFILEJSON filejson;
 
-  filejson.AddLine(__L("{\"a\":{\"b\":{\"c\":9}}}"));
+  filejson.AddLine(_L("{\"a\":{\"b\":{\"c\":9}}}"));
   ASSERT_TRUE(filejson.DecodeAllLines());
 
-  XFILEJSONOBJECT* cobj = filejson.GetObj(__L("c"));
+  XFILEJSONOBJECT* cobj = filejson.GetObj(_L("c"));
   // "c" is a scalar value, not an OBJECT/ARRAY -- GetObj() only ever returns OBJECT/ARRAY typed
   // sub-values, so searching for a plain-scalar name must come back NULL.
   EXPECT_TRUE(cobj == (XFILEJSONOBJECT*)NULL);
 
-  XFILEJSONOBJECT* bobj = filejson.GetObj(__L("b"));
+  XFILEJSONOBJECT* bobj = filejson.GetObj(_L("b"));
   ASSERT_TRUE(bobj != NULL);
 
-  XFILEJSONVALUE* cval = filejson.GetValue(__L("c"), bobj);
+  XFILEJSONVALUE* cval = filejson.GetValue(_L("c"), bobj);
   ASSERT_TRUE(cval != NULL);
   EXPECT_EQ(cval->GetValueInteger(), 9);
 
-  EXPECT_TRUE(filejson.GetObj(__L("nosuch")) == (XFILEJSONOBJECT*)NULL);
-  EXPECT_TRUE(filejson.GetValue(__L("nosuch")) == (XFILEJSONVALUE*)NULL);
+  EXPECT_TRUE(filejson.GetObj(_L("nosuch")) == (XFILEJSONOBJECT*)NULL);
+  EXPECT_TRUE(filejson.GetValue(_L("nosuch")) == (XFILEJSONVALUE*)NULL);
 
   filejson.DeleteAllObjects();
   filejson.DeleteAllLines();
@@ -287,7 +287,7 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, DecodeRejectsUnterminatedValueStringButAccep
   // rejected.
   {
     XFILEJSON filejson;
-    filejson.AddLine(__L("{\"unterminated : 1}"));
+    filejson.AddLine(_L("{\"unterminated : 1}"));
     EXPECT_FALSE(filejson.DecodeAllLines());
     filejson.DeleteAllLines();
   }
@@ -297,7 +297,7 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, DecodeRejectsUnterminatedValueStringButAccep
   // nor a plain comma, so it fails.
   {
     XFILEJSON filejson;
-    filejson.AddLine(__L("{\"a\":[1,2}"));
+    filejson.AddLine(_L("{\"a\":[1,2}"));
     EXPECT_FALSE(filejson.DecodeAllLines());
     filejson.DeleteAllLines();
   }
@@ -308,10 +308,10 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, DecodeRejectsUnterminatedValueStringButAccep
   // a regression later.
   {
     XFILEJSON filejson;
-    filejson.AddLine(__L("{\"a\":1,}"));
+    filejson.AddLine(_L("{\"a\":1,}"));
     EXPECT_TRUE(filejson.DecodeAllLines());
 
-    XFILEJSONVALUE* a = filejson.GetValue(__L("a"));
+    XFILEJSONVALUE* a = filejson.GetValue(_L("a"));
     ASSERT_TRUE(a != NULL);
     EXPECT_EQ(a->GetValueInteger(), 1);
 
@@ -331,7 +331,7 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, TopLevelArrayIsDecodedAsAnAnonymousArrayValu
   // (empty-name) value of type ARRAY, and the real elements are one level deeper, inside that.
   XFILEJSON filejson;
 
-  filejson.AddLine(__L("[10,20,30]"));
+  filejson.AddLine(_L("[10,20,30]"));
   ASSERT_TRUE(filejson.DecodeAllLines());
 
   XFILEJSONOBJECT* root = filejson.GetRoot();
@@ -364,9 +364,9 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, EncodeThenDecodeRoundTripReproducesAnEquival
   XFILEJSONOBJECT* root = GEN_NEW XFILEJSONOBJECT();
   ASSERT_TRUE(filejson.SetRoot(root));
 
-  XFILEJSON_ADDVALUE(root, __L("name"), __L("acme"));
-  XFILEJSON_ADDVALUE(root, __L("count"), (int)7);
-  XFILEJSON_ADDVALUE_NULL(root, __L("extra"));
+  XFILEJSON_ADDVALUE(root, _L("name"), _L("acme"));
+  XFILEJSON_ADDVALUE(root, _L("count"), (int)7);
+  XFILEJSON_ADDVALUE_NULL(root, _L("extra"));
 
   ASSERT_TRUE(filejson.EncodeAllLines(true));
   ASSERT_TRUE(filejson.GetNLines() > 0);
@@ -379,16 +379,16 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, EncodeThenDecodeRoundTripReproducesAnEquival
 
   ASSERT_TRUE(filejson2.DecodeAllLines());
 
-  XFILEJSONVALUE* name = filejson2.GetValue(__L("name"));
+  XFILEJSONVALUE* name = filejson2.GetValue(_L("name"));
   ASSERT_TRUE(name != NULL);
   XSTRING namestr = name->GetValueString();
-  EXPECT_FALSE(namestr.Compare(__L("acme"), false));
+  EXPECT_FALSE(namestr.Compare(_L("acme"), false));
 
-  XFILEJSONVALUE* count = filejson2.GetValue(__L("count"));
+  XFILEJSONVALUE* count = filejson2.GetValue(_L("count"));
   ASSERT_TRUE(count != NULL);
   EXPECT_EQ(count->GetValueInteger(), 7);
 
-  XFILEJSONVALUE* extra = filejson2.GetValue(__L("extra"));
+  XFILEJSONVALUE* extra = filejson2.GetValue(_L("extra"));
   ASSERT_TRUE(extra != NULL);
   EXPECT_EQ(extra->GetType(), XFILEJSONVALUETYPE_NULL);
 
@@ -407,13 +407,13 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, ObjectCloneDeepCopiesNamedValuesIndependentl
   XFILEJSONOBJECT original;
 
   XFILEJSONVALUE* v1 = GEN_NEW XFILEJSONVALUE();
-  v1->SetName(__L("a"));
+  v1->SetName(_L("a"));
   v1->Set((int)1);
   original.Add(v1);
 
   XFILEJSONVALUE* v2 = GEN_NEW XFILEJSONVALUE();
-  v2->SetName(__L("b"));
-  v2->Set(__L("original"));
+  v2->SetName(_L("b"));
+  v2->Set(_L("original"));
   original.Add(v2);
 
   XFILEJSONOBJECT* clone = original.Clone();
@@ -424,13 +424,13 @@ TEST(UNITTESTS_XFILEJSON_CLASSNAME, ObjectCloneDeepCopiesNamedValuesIndependentl
   // Clone() is a real, independent deep copy and not a shallow/shared-pointer alias.
   XFILEJSONVALUE* clonedb = clone->GetValues()->Get(1);
   ASSERT_TRUE(clonedb != NULL);
-  clonedb->Set(__L("changed"));
+  clonedb->Set(_L("changed"));
 
   XSTRING originalvalue = original.GetValues()->Get(1)->GetValueString();
-  EXPECT_FALSE(originalvalue.Compare(__L("original"), false));
+  EXPECT_FALSE(originalvalue.Compare(_L("original"), false));
 
   XSTRING clonedvalue = clone->GetValues()->Get(1)->GetValueString();
-  EXPECT_FALSE(clonedvalue.Compare(__L("changed"), false));
+  EXPECT_FALSE(clonedvalue.Compare(_L("changed"), false));
 
   GEN_DELETE clone;
 

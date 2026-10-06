@@ -168,9 +168,9 @@ TEST(UNITTESTS_XFILERIFF_CLASSNAME, GetTypeFromStringMatchesTheWellKnownRIFFAndL
 {
   XFILERIFF riff;
 
-  EXPECT_EQ(riff.GetTypeFromString(__L("RIFF")), (XDWORD)XFILERIFF_TYPE_RIFF);
-  EXPECT_EQ(riff.GetTypeFromString(__L("LIST")), (XDWORD)XFILERIFF_TYPE_LIST);
-  EXPECT_EQ(riff.GetTypeFromString(__L("INFO")), (XDWORD)XFILERIFF_TYPE_INFO);
+  EXPECT_EQ(riff.GetTypeFromString(_L("RIFF")), (XDWORD)XFILERIFF_TYPE_RIFF);
+  EXPECT_EQ(riff.GetTypeFromString(_L("LIST")), (XDWORD)XFILERIFF_TYPE_LIST);
+  EXPECT_EQ(riff.GetTypeFromString(_L("INFO")), (XDWORD)XFILERIFF_TYPE_INFO);
   EXPECT_EQ(riff.GetTypeFromString(NULL), (XDWORD)0);
 }
 
@@ -200,7 +200,7 @@ TEST(UNITTESTS_XFILERIFF_CLASSNAME, ListAccessorsGetSetRoundTripAndIsTypeList)
 TEST(UNITTESTS_XFILERIFF_CLASSNAME, ReadAllListsParsesNestedListsAndChunksFromARealFile)
 {
   XPATH xpath;
-  BuildTestFilePath(xpath, __L("unittests_xutils_riff_good.riff"));
+  BuildTestFilePath(xpath, _L("unittests_xutils_riff_good.riff"));
   RemoveIfExists(xpath);
 
   XBUFFER filedata;
@@ -218,7 +218,7 @@ TEST(UNITTESTS_XFILERIFF_CLASSNAME, ReadAllListsParsesNestedListsAndChunksFromAR
   ASSERT_TRUE(riff.ReadAllLists());
 
   // Plain chunk "AAAA", a direct child of the "TEST" root.
-  XFILERIFF_LIST* chunkA = riff.GetChunk(__L("AAAA"));
+  XFILERIFF_LIST* chunkA = riff.GetChunk(_L("AAAA"));
   ASSERT_TRUE(chunkA != NULL);
   EXPECT_EQ(chunkA->GetSize(), (XDWORD)4);
 
@@ -228,12 +228,12 @@ TEST(UNITTESTS_XFILERIFF_CLASSNAME, ReadAllListsParsesNestedListsAndChunksFromAR
   EXPECT_EQ(memcmp(dataA.Get(), "DAT1", 4), 0);
 
   // Nested LIST "SUBT" and its own chunk "BBBB", found both by DWORD type and by string.
-  XFILERIFF_LIST* listSUBT = riff.GetList(__L("SUBT"));
+  XFILERIFF_LIST* listSUBT = riff.GetList(_L("SUBT"));
   ASSERT_TRUE(listSUBT != NULL);
   EXPECT_TRUE(listSUBT->IsTypeList());
-  EXPECT_EQ(listSUBT->GetTypeList(), (XDWORD)riff.GetTypeFromString(__L("SUBT")));
+  EXPECT_EQ(listSUBT->GetTypeList(), (XDWORD)riff.GetTypeFromString(_L("SUBT")));
 
-  XFILERIFF_LIST* chunkB = riff.GetChunk(__L("BBBB"));
+  XFILERIFF_LIST* chunkB = riff.GetChunk(_L("BBBB"));
   ASSERT_TRUE(chunkB != NULL);
 
   XBYTE readbuf[4] = { 0,0,0,0 };
@@ -243,12 +243,12 @@ TEST(UNITTESTS_XFILERIFF_CLASSNAME, ReadAllListsParsesNestedListsAndChunksFromAR
   EXPECT_EQ(memcmp(readbuf, "DAT2", 4), 0);
 
   // A chunk scoped to the wrong father must not be found.
-  XFILERIFF_LIST* wrongfather = riff.GetChunk(riff.GetTypeFromString(__L("BBBB")), riff.GetTypeFromString(__L("TEST")));
+  XFILERIFF_LIST* wrongfather = riff.GetChunk(riff.GetTypeFromString(_L("BBBB")), riff.GetTypeFromString(_L("TEST")));
   EXPECT_TRUE(wrongfather == (XFILERIFF_LIST*)NULL);
 
   // Looking up a chunk name as if it were a list (and vice-versa) must fail.
-  EXPECT_TRUE(riff.GetList(__L("AAAA")) == (XFILERIFF_LIST*)NULL);
-  EXPECT_TRUE(riff.GetChunk(__L("SUBT")) == (XFILERIFF_LIST*)NULL);
+  EXPECT_TRUE(riff.GetList(_L("AAAA")) == (XFILERIFF_LIST*)NULL);
+  EXPECT_TRUE(riff.GetChunk(_L("SUBT")) == (XFILERIFF_LIST*)NULL);
 
   riff.Close();
   RemoveIfExists(xpath);
@@ -260,7 +260,7 @@ TEST(UNITTESTS_XFILERIFF_CLASSNAME, ReadAllListsRejectsWrongMagicZeroSizeAndTrun
   // Wrong magic (neither "RIFF" nor "LIST").
   {
     XPATH xpath;
-    BuildTestFilePath(xpath, __L("unittests_xutils_riff_badmagic.riff"));
+    BuildTestFilePath(xpath, _L("unittests_xutils_riff_badmagic.riff"));
     RemoveIfExists(xpath);
 
     XBUFFER filedata;
@@ -284,7 +284,7 @@ TEST(UNITTESTS_XFILERIFF_CLASSNAME, ReadAllListsRejectsWrongMagicZeroSizeAndTrun
   // size == 0 must be rejected outright.
   {
     XPATH xpath;
-    BuildTestFilePath(xpath, __L("unittests_xutils_riff_zerosize.riff"));
+    BuildTestFilePath(xpath, _L("unittests_xutils_riff_zerosize.riff"));
     RemoveIfExists(xpath);
 
     XBUFFER filedata;
@@ -307,7 +307,7 @@ TEST(UNITTESTS_XFILERIFF_CLASSNAME, ReadAllListsRejectsWrongMagicZeroSizeAndTrun
   // Truncated right after the declared size (missing the typelist FOURCC entirely).
   {
     XPATH xpath;
-    BuildTestFilePath(xpath, __L("unittests_xutils_riff_truncated.riff"));
+    BuildTestFilePath(xpath, _L("unittests_xutils_riff_truncated.riff"));
     RemoveIfExists(xpath);
 
     XBUFFER filedata;
@@ -333,14 +333,14 @@ TEST(UNITTESTS_XFILERIFF_CLASSNAME, CreateListNodeAndCreateChunkNodeBuildCorrect
 {
   XFILERIFF riff;
 
-  XFILERIFF_LIST_NODE* listnode = riff.CreateListNode(__L("LIST"), __L("INFO"));
+  XFILERIFF_LIST_NODE* listnode = riff.CreateListNode(_L("LIST"), _L("INFO"));
   ASSERT_TRUE(listnode != NULL);
   ASSERT_TRUE(listnode->GetData() != NULL);
   EXPECT_EQ(listnode->GetData()->GetType(), (XDWORD)XFILERIFF_TYPE_LIST);
   EXPECT_EQ(listnode->GetData()->GetTypeList(), (XDWORD)XFILERIFF_TYPE_INFO);
   EXPECT_TRUE(listnode->GetData()->IsTypeList());
 
-  XFILERIFF_LIST_NODE* chunknode = riff.CreateChunkNode(__L("DATA"), 128);
+  XFILERIFF_LIST_NODE* chunknode = riff.CreateChunkNode(_L("DATA"), 128);
   ASSERT_TRUE(chunknode != NULL);
   ASSERT_TRUE(chunknode->GetData() != NULL);
   EXPECT_EQ(chunknode->GetData()->GetSize(), (XDWORD)128);
@@ -357,14 +357,14 @@ TEST(UNITTESTS_XFILERIFF_CLASSNAME, CreateListNodeAndCreateChunkNodeBuildCorrect
 TEST(UNITTESTS_XFILERIFF_CLASSNAME, WriteListToFileWritesAPlainChunkHeaderAndDataAtItsPosition)
 {
   XPATH xpath;
-  BuildTestFilePath(xpath, __L("unittests_xutils_riff_write.riff"));
+  BuildTestFilePath(xpath, _L("unittests_xutils_riff_write.riff"));
   RemoveIfExists(xpath);
 
   XFILERIFF riff;
   ASSERT_TRUE(riff.Create(xpath.Get()));
 
   XFILERIFF_LIST chunk;
-  chunk.SetType(riff.GetTypeFromString(__L("DATA")));
+  chunk.SetType(riff.GetTypeFromString(_L("DATA")));
   chunk.SetPositionFileData(0);
 
   XBYTE payload[4] = { 'W', 'X', 'Y', 'Z' };
@@ -383,7 +383,7 @@ TEST(UNITTESTS_XFILERIFF_CLASSNAME, WriteListToFileWritesAPlainChunkHeaderAndDat
   ASSERT_TRUE(rawfile->Read((XBYTE*)&size, sizeof(XDWORD)));
   ASSERT_TRUE(rawfile->Read(data, 4));
 
-  EXPECT_EQ(type, (XDWORD)riff.GetTypeFromString(__L("DATA")));
+  EXPECT_EQ(type, (XDWORD)riff.GetTypeFromString(_L("DATA")));
   EXPECT_EQ(size, (XDWORD)4); // WriteListToFile() overrides the stored size with the real datasize
   EXPECT_EQ(memcmp(data, payload, 4), 0);
 
@@ -397,18 +397,18 @@ TEST(UNITTESTS_XFILERIFF_CLASSNAME, WriteListToFileWritesAPlainChunkHeaderAndDat
 TEST(UNITTESTS_XFILERIFF_CLASSNAME, AdjustSizeOfListsComputesTotalSizeOfAOneLevelChunkList)
 {
   XPATH xpath;
-  BuildTestFilePath(xpath, __L("unittests_xutils_riff_adjust.riff"));
+  BuildTestFilePath(xpath, _L("unittests_xutils_riff_adjust.riff"));
   RemoveIfExists(xpath);
 
   XFILERIFF riff;
   ASSERT_TRUE(riff.Create(xpath.Get()));
 
-  XFILERIFF_LIST_NODE* root = riff.CreateListNode(__L("LIST"), __L("INFO"));
+  XFILERIFF_LIST_NODE* root = riff.CreateListNode(_L("LIST"), _L("INFO"));
   ASSERT_TRUE(root != NULL);
   root->GetData()->SetPositionFileData(0);
   riff.GetXTreeList()->SetRoot(root);
 
-  XFILERIFF_LIST_NODE* child = riff.CreateChunkNode(__L("ICMT"), 6);
+  XFILERIFF_LIST_NODE* child = riff.CreateChunkNode(_L("ICMT"), 6);
   ASSERT_TRUE(child != NULL);
   root->AddChild(child);
 

@@ -99,16 +99,16 @@ TEST(UNITTESTS_DB_SQL_DATABASE_CLASSNAME, ErrorAndClearPreviousErrors)
 
   ASSERT_NE(db, (DB_SQL_DATABASE*)NULL);
 
-  db->Error(__L("boom"));
+  db->Error(_L("boom"));
 
   XSTRING last;
   last = db->GetLastError();
-  EXPECT_EQ(last.Compare(__L("boom"), true), 0);
+  EXPECT_EQ(last.Compare(_L("boom"), true), 0);
 
   db->ClearPreviousErrors();
 
   last = db->GetLastError();
-  EXPECT_EQ(last.Compare(__L(""), true), 0);
+  EXPECT_EQ(last.Compare(_L(""), true), 0);
 
   GEN_DELETE db;
 #endif

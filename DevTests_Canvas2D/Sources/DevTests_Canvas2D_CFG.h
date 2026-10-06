@@ -33,13 +33,13 @@
 
 /*---- DEFINES & ENUMS  ----------------------------------------------------------------------------------------------*/
 
-#define DEVTESTS_CANVAS2DCFG_SECTIONGENERAL              __L("general")
-#define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_POSX         __L("screen_posx")  
-#define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_POSY         __L("screen_posy")  
-#define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_WIDTH        __L("screen_width")  
-#define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_HEIGHT       __L("screen_height")  
-#define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_MAXWIDTH     __L("screen_maxwidth")  
-#define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_MAXHEIGHT    __L("screen_maxheight")  
+#define DEVTESTS_CANVAS2DCFG_SECTIONGENERAL              _L("general")
+#define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_POSX         _L("screen_posx")  
+#define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_POSY         _L("screen_posy")  
+#define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_WIDTH        _L("screen_width")  
+#define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_HEIGHT       _L("screen_height")  
+#define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_MAXWIDTH     _L("screen_maxwidth")  
+#define DEVTESTS_CANVAS2DCFG_GENERAL_SCREEN_MAXHEIGHT    _L("screen_maxheight")  
 
 /*---- CLASS ---------------------------------------------------------------------------------------------------------*/
 

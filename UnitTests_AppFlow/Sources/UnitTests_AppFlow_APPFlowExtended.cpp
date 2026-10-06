@@ -133,11 +133,11 @@ TEST(APPFLOWEXTENDED, APPStartAndAPPEndWithOfflineCfg)
   #endif
 
   XSTRING cfgname;
-  cfgname = __L("unittests_appflow_extended");
+  cfgname = _L("unittests_appflow_extended");
 
   XSTRING cfgfilename;
   cfgfilename  = cfgname;
-  cfgfilename += __L(".ini");
+  cfgfilename += _L(".ini");
 
   ASSERT_TRUE(UNITTESTS_APPFLOW_HELPER::WriteOfflineAppFlowCfgAsset(cfgfilename.Get()));
 
@@ -183,7 +183,7 @@ TEST(APPFLOWEXTENDED, APPStartAndAPPEndWithOfflineCfg)
       UNITTESTS_APPFLOW_HELPER::EraseAsset(xpath);
     }
 
-  if(UNITTESTS_APPFLOW_HELPER::BuildAssetPath(xpath, __L("unittests_appflow.log")))
+  if(UNITTESTS_APPFLOW_HELPER::BuildAssetPath(xpath, _L("unittests_appflow.log")))
     {
       UNITTESTS_APPFLOW_HELPER::EraseAsset(xpath);
     }

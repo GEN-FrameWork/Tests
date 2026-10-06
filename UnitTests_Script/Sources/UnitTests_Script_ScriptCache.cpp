@@ -47,7 +47,7 @@ static XDWORD UnitTests_ScriptCache_GenerateListID(SCRIPT_CACHE& cache, XVECTOR<
       XSTRING* entry = listscripts->Get(index);
       if(!entry) continue;
 
-      if(!combined.IsEmpty()) combined += __L("|");
+      if(!combined.IsEmpty()) combined += _L("|");
       combined += entry->Get();
     }
 
@@ -58,7 +58,7 @@ static XDWORD UnitTests_ScriptCache_GenerateListID(SCRIPT_CACHE& cache, XVECTOR<
 TEST(UNITTESTS_SCRIPTCACHE_CLASSNAME, IdentifierIsDeterministic)
 {
   SCRIPT_CACHE& cache = SCRIPT_CACHE::GetInstance();
-  XSTRING key(__L("same-key"));
+  XSTRING key(_L("same-key"));
 
   EXPECT_EQ(cache.GenerateID(key), cache.GenerateID(key));
   EXPECT_NE(cache.GenerateID(key), (XDWORD)0);
@@ -68,18 +68,18 @@ TEST(UNITTESTS_SCRIPTCACHE_CLASSNAME, IdentifierIsDeterministic)
 TEST(UNITTESTS_SCRIPTCACHE_CLASSNAME, AddGetSetDeleteLifecycle)
 {
   SCRIPT_CACHE& cache = SCRIPT_CACHE::GetInstance();
-  XSTRING key(__L("unit-cache-entry"));
-  XSTRING value(__L("first"));
-  XSTRING replacement(__L("second"));
+  XSTRING key(_L("unit-cache-entry"));
+  XSTRING value(_L("first"));
+  XSTRING replacement(_L("second"));
   XDWORD id = cache.GenerateID(key);
 
   cache.Cache_Del(id);
   ASSERT_TRUE(cache.Cache_Add(id, &value));
   ASSERT_NE(cache.Cache_Get(id), (XSTRING*)NULL);
-  EXPECT_EQ(cache.Cache_Get(id)->Compare(__L("first")), 0);
+  EXPECT_EQ(cache.Cache_Get(id)->Compare(_L("first")), 0);
 
   EXPECT_TRUE(cache.Cache_Set(id, &replacement));
-  EXPECT_EQ(cache.Cache_Get(id)->Compare(__L("second")), 0);
+  EXPECT_EQ(cache.Cache_Get(id)->Compare(_L("second")), 0);
   EXPECT_TRUE(cache.Cache_Del(id));
   EXPECT_EQ(cache.Cache_Get(id), (XSTRING*)NULL);
 }
@@ -88,9 +88,9 @@ TEST(UNITTESTS_SCRIPTCACHE_CLASSNAME, AddGetSetDeleteLifecycle)
 TEST(UNITTESTS_SCRIPTCACHE_CLASSNAME, ListKeyUsesEveryOrderedName)
 {
   SCRIPT_CACHE& cache = SCRIPT_CACHE::GetInstance();
-  XSTRING first(__L("one.g"));
-  XSTRING secondA(__L("two.g"));
-  XSTRING secondB(__L("other.g"));
+  XSTRING first(_L("one.g"));
+  XSTRING secondA(_L("two.g"));
+  XSTRING secondB(_L("other.g"));
   XVECTOR<XSTRING*> listA;
   XVECTOR<XSTRING*> listB;
 

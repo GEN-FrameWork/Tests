@@ -70,13 +70,13 @@ TEST(DIOMAC, DefaultsAreZero)
 TEST(DIOMAC, SetFromStringAndGetXString)
 {
   DIOMAC  mac;
-  XSTRING input(__L("AA:BB:CC:DD:EE:FF"));
+  XSTRING input(_L("AA:BB:CC:DD:EE:FF"));
   XSTRING out;
 
   EXPECT_TRUE(mac.Set(input));
   EXPECT_FALSE(mac.IsZero());
   EXPECT_TRUE(mac.GetXString(out));
-  EXPECT_EQ(out.Compare(__L("AA:BB:CC:DD:EE:FF"), true), 0);
+  EXPECT_EQ(out.Compare(_L("AA:BB:CC:DD:EE:FF"), true), 0);
 }
 
 

@@ -58,11 +58,11 @@ TEST(UNITTESTS_UI_COLORS_CLASSNAME, AddThenGetReturnsTheRegisteredString)
 {
   GEN_UI_COLORS.DeleteAll();
 
-  ASSERT_TRUE(GEN_UI_COLORS.Add(__L("ut_red"), __L("255,0,0")));
+  ASSERT_TRUE(GEN_UI_COLORS.Add(_L("ut_red"), _L("255,0,0")));
 
-  XSTRING* value = GEN_UI_COLORS.Get(__L("ut_red"));
+  XSTRING* value = GEN_UI_COLORS.Get(_L("ut_red"));
   ASSERT_NE(value, (XSTRING*)NULL);
-  EXPECT_EQ(value->Compare(__L("255,0,0"), true), 0);
+  EXPECT_EQ(value->Compare(_L("255,0,0"), true), 0);
 
   GEN_UI_COLORS.DeleteAll();
 }
@@ -72,17 +72,17 @@ TEST(UNITTESTS_UI_COLORS_CLASSNAME, GetUnknownNameReturnsNull)
 {
   GEN_UI_COLORS.DeleteAll();
 
-  EXPECT_EQ(GEN_UI_COLORS.Get(__L("does_not_exist")), (XSTRING*)NULL);
+  EXPECT_EQ(GEN_UI_COLORS.Get(_L("does_not_exist")), (XSTRING*)NULL);
 }
 
 
 TEST(UNITTESTS_UI_COLORS_CLASSNAME, DeleteAllClearsPreviousEntries)
 {
-  ASSERT_TRUE(GEN_UI_COLORS.Add(__L("ut_tmp"), __L("1,2,3")));
-  ASSERT_NE(GEN_UI_COLORS.Get(__L("ut_tmp")), (XSTRING*)NULL);
+  ASSERT_TRUE(GEN_UI_COLORS.Add(_L("ut_tmp"), _L("1,2,3")));
+  ASSERT_NE(GEN_UI_COLORS.Get(_L("ut_tmp")), (XSTRING*)NULL);
 
   ASSERT_TRUE(GEN_UI_COLORS.DeleteAll());
-  EXPECT_EQ(GEN_UI_COLORS.Get(__L("ut_tmp")), (XSTRING*)NULL);
+  EXPECT_EQ(GEN_UI_COLORS.Get(_L("ut_tmp")), (XSTRING*)NULL);
 }
 
 

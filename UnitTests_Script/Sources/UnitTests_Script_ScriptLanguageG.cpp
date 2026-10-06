@@ -41,8 +41,8 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, CommandStoresTextAndToken)
 {
   SCRIPT_LNG_G_COMMAND command;
 
-  ASSERT_TRUE(command.Set(__L("return"), SCRIPT_LNG_G_TOKENIREPS_RETURN));
-  EXPECT_EQ(command.GetCommand()->Compare(__L("return")), 0);
+  ASSERT_TRUE(command.Set(_L("return"), SCRIPT_LNG_G_TOKENIREPS_RETURN));
+  EXPECT_EQ(command.GetCommand()->Compare(_L("return")), 0);
   EXPECT_EQ(command.GetToken(), SCRIPT_LNG_G_TOKENIREPS_RETURN);
 }
 
@@ -66,8 +66,8 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, FunctionNameSetterReportsSuccess)
 {
   SCRIPT_LNG_G_FUNCTIONTYPE function;
 
-  EXPECT_TRUE(function.SetName(__L("main")));
-  EXPECT_EQ(function.GetName()->Compare(__L("main")), 0);
+  EXPECT_TRUE(function.SetName(_L("main")));
+  EXPECT_EQ(function.GetName()->Compare(_L("main")), 0);
 }
 
 
@@ -76,7 +76,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, ExecutesIntegerAndFloatExpressions)
   SCRIPT_LNG_G script;
   int returnvalue = 0;
 
-  (*script.GetScript()) = __L("int main(){ float value; value = 1.5 + 2.25; if(value == 3.75){ return 42; } return 0; }");
+  (*script.GetScript()) = _L("int main(){ float value; value = 1.5 + 2.25; if(value == 3.75){ return 42; } return 0; }");
 
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 42);
@@ -87,7 +87,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, ReportsUnexpectedEndOfInput)
 {
   SCRIPT_LNG_G script;
 
-  (*script.GetScript()) = __L("int main(){ string value; value = \"unterminated; }");
+  (*script.GetScript()) = _L("int main(){ string value; value = \"unterminated; }");
 
   EXPECT_NE(script.Run(), SCRIPT_ERRORCODE_NONE);
 }
@@ -97,7 +97,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, RejectsModuloByZero)
 {
   SCRIPT_LNG_G script;
 
-  (*script.GetScript()) = __L("int main(){ return 10 % 0; }");
+  (*script.GetScript()) = _L("int main(){ return 10 % 0; }");
 
   EXPECT_EQ(script.Run(), SCRIPT_LNG_G_ERRORCODE_DIV_BY_ZERO);
 }
@@ -110,7 +110,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, RunWithThreadExposesReturnValue)
   int          returnvalue = -1;
   int          spins       = 0;
 
-  (*script.GetScript()) = __L("int main(){ return 42; }");
+  (*script.GetScript()) = _L("int main(){ return 42; }");
 
   ASSERT_TRUE(script.RunWithThread());
 
@@ -136,12 +136,12 @@ static void UnitTests_ScriptLanguageG_ReturnDouble(SCRIPT_LIB* library, SCRIPT* 
 TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, NativeDoubleReturnMapsToFloat)
 {
   SCRIPT_LNG_G script;
-  SCRIPT_LIB   library(__L("UnitTest"));
+  SCRIPT_LIB   library(_L("UnitTest"));
   int          returnvalue = 0;
 
-  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativeDouble"), UnitTests_ScriptLanguageG_ReturnDouble));
+  ASSERT_TRUE(script.AddLibraryFunction(&library, _L("NativeDouble"), UnitTests_ScriptLanguageG_ReturnDouble));
 
-  (*script.GetScript()) = __L("int main(){ float v; v = NativeDouble(); if(v == 2.75){ return 1; } return 0; }");
+  (*script.GetScript()) = _L("int main(){ float v; v = NativeDouble(); if(v == 2.75){ return 1; } return 0; }");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 1);
 }
@@ -152,7 +152,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, AllowsMissingMain)
   SCRIPT_LNG_G script;
   int          returnvalue = -1;
 
-  (*script.GetScript()) = __L("int helper(){ return 7; }");
+  (*script.GetScript()) = _L("int helper(){ return 7; }");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 0);
 }
@@ -163,7 +163,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, AllowsUnbracedIfElse)
   SCRIPT_LNG_G script;
   int          returnvalue = 0;
 
-  (*script.GetScript()) = __L("int main(){ int a; a = 3; if(a > 5) return 1; else return 2; }");
+  (*script.GetScript()) = _L("int main(){ int a; a = 3; if(a > 5) return 1; else return 2; }");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 2);
 }
@@ -182,7 +182,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, LogicalNotAndAndOr)
   int          returnvalue = 0;
 
   (*script.GetScript()) =
-    __L("int main(){ int a; int b; a = 0; b = 5; if(!a && b){ } else { return 1; } if(a || !b){ return 2; } if(!(a == 0) || (b == 5)){ } else { return 3; } if(!!b && !a){ return 42; } return 4; }");
+    _L("int main(){ int a; int b; a = 0; b = 5; if(!a && b){ } else { return 1; } if(a || !b){ return 2; } if(!(a == 0) || (b == 5)){ } else { return 3; } if(!!b && !a){ return 42; } return 4; }");
 
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 42);
@@ -195,7 +195,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, LogicalOrPrecedenceOverAnd)
   int          returnvalue = 0;
 
   // false && true || true  =>  (false && true) || true  => true
-  (*script.GetScript()) = __L("int main(){ if(0 && 1 || 1){ return 7; } return 0; }");
+  (*script.GetScript()) = _L("int main(){ if(0 && 1 || 1){ return 7; } return 0; }");
 
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 7);
@@ -209,7 +209,7 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, EscapedQuotesInStringLiterals)
 
   // G source after C escapes: q = "\"";  → string of one quote.
   (*script.GetScript()) =
-    __L("int main(){ string q; q = \"\\\"\"; return GetStringSize(q); }");
+    _L("int main(){ string q; q = \"\\\"\"; return GetStringSize(q); }");
 
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 1);
@@ -222,8 +222,9 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, ExtractBetweenWithEscapedJsonMarks)
   int          returnvalue = 0;
 
   // Avoid '{' / '}' inside G string literals (brace scanner does not skip strings).
+  // Build JSON-like marks via AddString so body escapes stay unambiguous.
   (*script.GetScript()) =
-    __L("int main(){ string q; string start; string body; string country; q = \"\\\"\"; start = AddString(q, \"country\"); start = AddString(start, q); start = AddString(start, \":\"); start = AddString(start, q); body = \"x\\\"country\\\":\\\"Spain\\\"y\"; country = ExtractBetween(body, start, q); if(CompareString(country, \"Spain\", 0)){ return 9; } return 2; }");
+    _L("int main(){ string q; string start; string body; string country; q = \"\\\"\"; start = AddString(q, \"country\"); start = AddString(start, q); start = AddString(start, \":\"); start = AddString(start, q); body = AddString(\"x\", start); body = AddString(body, \"Spain\"); body = AddString(body, q); body = AddString(body, \"y\"); country = ExtractBetween(body, start, q); if(CompareString(country, \"Spain\", 0)){ return 9; } return 2; }");
 
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 9);
@@ -233,12 +234,12 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, ExtractBetweenWithEscapedJsonMarks)
 TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, DoublePrecisionSurvivesLibraryRoundTrip)
 {
   SCRIPT_LNG_G script;
-  SCRIPT_LIB   library(__L("UnitTest"));
+  SCRIPT_LIB   library(_L("UnitTest"));
   int          returnvalue = 0;
 
-  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("NativePrecise"), UnitTests_ScriptLanguageG_ReturnDoubleNeedsPrecision));
+  ASSERT_TRUE(script.AddLibraryFunction(&library, _L("NativePrecise"), UnitTests_ScriptLanguageG_ReturnDoubleNeedsPrecision));
 
-  (*script.GetScript()) = __L("int main(){ float v; v = NativePrecise(); if(v == 16777217){ return 1; } return 0; }");
+  (*script.GetScript()) = _L("int main(){ float v; v = NativePrecise(); if(v == 16777217){ return 1; } return 0; }");
   EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
   EXPECT_EQ(returnvalue, 1);
 }

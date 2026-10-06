@@ -67,18 +67,18 @@ TEST(UNITTESTS_GRPVECTORFILESVGSTYLE_CLASSNAME, ParseColorHexNoneAndRgb)
   bool             isnone = false;
   XSTRING          value;
 
-  value = __L("#FF0000");
+  value = _L("#FF0000");
   EXPECT_TRUE(GRPVECTORFILESVGSTYLE::ParseColor(value, color, isnone));
   EXPECT_FALSE(isnone);
   EXPECT_EQ(color.r, 255);
   EXPECT_EQ(color.g, 0);
   EXPECT_EQ(color.b, 0);
 
-  value = __L("none");
+  value = _L("none");
   EXPECT_TRUE(GRPVECTORFILESVGSTYLE::ParseColor(value, color, isnone));
   EXPECT_TRUE(isnone);
 
-  value = __L("rgb(10,20,30)");
+  value = _L("rgb(10,20,30)");
   EXPECT_TRUE(GRPVECTORFILESVGSTYLE::ParseColor(value, color, isnone));
   EXPECT_FALSE(isnone);
   EXPECT_EQ(color.r, 10);

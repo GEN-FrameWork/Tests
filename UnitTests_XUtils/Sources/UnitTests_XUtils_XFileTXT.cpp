@@ -94,7 +94,7 @@ static void RemoveIfExists(XPATH& xpath)
 
 TEST(UNITTESTS_XFILETXT_CLASSNAME, CreateAddLineWriteThenOpenReadRoundTripASCII)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfiletxt_ascii.txt"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfiletxt_ascii.txt"));
   RemoveIfExists(xpath);
 
   {
@@ -102,9 +102,9 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, CreateAddLineWriteThenOpenReadRoundTripASCII)
 
     ASSERT_TRUE(writer.Create(xpath, XFILETXTFORMATCHAR_ASCII, XFILETXTTYPELF_0A));
 
-    EXPECT_TRUE(writer.AddLine(__L("line one")));
-    EXPECT_TRUE(writer.AddLine(__L("line two")));
-    EXPECT_TRUE(writer.AddLine(__L("line three")));
+    EXPECT_TRUE(writer.AddLine(_L("line one")));
+    EXPECT_TRUE(writer.AddLine(_L("line two")));
+    EXPECT_TRUE(writer.AddLine(_L("line three")));
 
     EXPECT_EQ(writer.GetNLines(), 3);
 
@@ -122,9 +122,9 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, CreateAddLineWriteThenOpenReadRoundTripASCII)
 
     ASSERT_EQ(reader.GetNLines(), 3);
 
-    EXPECT_STREQ(reader.GetLineText(0), __L("line one"));
-    EXPECT_STREQ(reader.GetLineText(1), __L("line two"));
-    EXPECT_STREQ(reader.GetLineText(2), __L("line three"));
+    EXPECT_STREQ(reader.GetLineText(0), _L("line one"));
+    EXPECT_STREQ(reader.GetLineText(1), _L("line two"));
+    EXPECT_STREQ(reader.GetLineText(2), _L("line three"));
 
     // NOTE: GetLine()/GetLineText() with an out-of-range index are deliberately NOT exercised
     // here -- see GetLineUsesUnboundedFastGetInsteadOfBoundsCheckedGet below for why an
@@ -140,14 +140,14 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, CreateAddLineWriteThenOpenReadRoundTripASCII)
 
 TEST(UNITTESTS_XFILETXT_CLASSNAME, UTF8BOMIsWrittenAndDetectedOnReopen)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfiletxt_utf8.txt"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfiletxt_utf8.txt"));
   RemoveIfExists(xpath);
 
   {
     XFILETXT writer;
 
     ASSERT_TRUE(writer.Create(xpath, XFILETXTFORMATCHAR_UTF8, XFILETXTTYPELF_0A));
-    EXPECT_TRUE(writer.AddLine(__L("utf8 content")));
+    EXPECT_TRUE(writer.AddLine(_L("utf8 content")));
     EXPECT_TRUE(writer.WriteAllFile());
     writer.Close();
   }
@@ -183,15 +183,15 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, LineEndingContentSplitsCorrectlyOnReopenFor0A
 
   for(int t = 0; t < 2; t++)
     {
-      XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfiletxt_lf.txt"));
+      XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfiletxt_lf.txt"));
       RemoveIfExists(xpath);
 
       {
         XFILETXT writer;
 
         ASSERT_TRUE(writer.Create(xpath, XFILETXTFORMATCHAR_ASCII, typesToTest[t]));
-        writer.AddLine(__L("first"));
-        writer.AddLine(__L("second"));
+        writer.AddLine(_L("first"));
+        writer.AddLine(_L("second"));
         writer.WriteAllFile();
         writer.Close();
       }
@@ -203,8 +203,8 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, LineEndingContentSplitsCorrectlyOnReopenFor0A
         EXPECT_TRUE(reader.ReadNLines());
 
         ASSERT_EQ(reader.GetNLines(), 2);
-        EXPECT_STREQ(reader.GetLineText(0), __L("first"));
-        EXPECT_STREQ(reader.GetLineText(1), __L("second"));
+        EXPECT_STREQ(reader.GetLineText(0), _L("first"));
+        EXPECT_STREQ(reader.GetLineText(1), _L("second"));
 
         reader.Close();
       }
@@ -225,7 +225,7 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, OpenForcesDefaultTypeLFSoAutoDetectionNeverFi
   // GetTypeLF() always reports the platform default after reopening a file, even when the file's
   // actual on-disk line endings are something else entirely (0D here, deliberately written with
   // plain libc I/O so this is independent of XFILETXT's own write path).
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfiletxt_lfbug.txt"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfiletxt_lfbug.txt"));
   RemoveIfExists(xpath);
 
   {
@@ -247,8 +247,8 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, OpenForcesDefaultTypeLFSoAutoDetectionNeverFi
   // The lines themselves still split correctly (GetSizeOfLine() scans real bytes per-line,
   // independent of the `typeLF` member) ...
   ASSERT_EQ(reader.GetNLines(), 2);
-  EXPECT_STREQ(reader.GetLineText(0), __L("first"));
-  EXPECT_STREQ(reader.GetLineText(1), __L("second"));
+  EXPECT_STREQ(reader.GetLineText(0), _L("first"));
+  EXPECT_STREQ(reader.GetLineText(1), _L("second"));
 
   // ... but GetTypeLF() incorrectly reports the platform default rather than the file's real
   // 0D line endings -- the bug. XFILETXTTYPELF_DEFAULT (XFileTXT.h) is itself intentionally
@@ -304,10 +304,10 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, GetLineUsesUnboundedFastGetInsteadOfBoundsChe
   // return an arbitrary, non-NULL garbage pointer instead, which GetLineText() would then
   // dereference.
   XFILETXT filetxt;
-  filetxt.AddLine(__L("only line"));
+  filetxt.AddLine(_L("only line"));
 
   ASSERT_EQ(filetxt.GetNLines(), 1);
-  EXPECT_STREQ(filetxt.GetLineText(0), __L("only line"));
+  EXPECT_STREQ(filetxt.GetLineText(0), _L("only line"));
 }
 
 
@@ -315,23 +315,23 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, InsertLineAndDeleteLine)
 {
   XFILETXT filetxt;
 
-  filetxt.AddLine(__L("alpha"));
-  filetxt.AddLine(__L("gamma"));
+  filetxt.AddLine(_L("alpha"));
+  filetxt.AddLine(_L("gamma"));
 
   ASSERT_EQ(filetxt.GetNLines(), 2);
 
-  EXPECT_TRUE(filetxt.InsertLine(1, __L("beta")));
+  EXPECT_TRUE(filetxt.InsertLine(1, _L("beta")));
   ASSERT_EQ(filetxt.GetNLines(), 3);
 
-  EXPECT_STREQ(filetxt.GetLineText(0), __L("alpha"));
-  EXPECT_STREQ(filetxt.GetLineText(1), __L("beta"));
-  EXPECT_STREQ(filetxt.GetLineText(2), __L("gamma"));
+  EXPECT_STREQ(filetxt.GetLineText(0), _L("alpha"));
+  EXPECT_STREQ(filetxt.GetLineText(1), _L("beta"));
+  EXPECT_STREQ(filetxt.GetLineText(2), _L("gamma"));
 
   EXPECT_TRUE(filetxt.DeleteLine(1));
   ASSERT_EQ(filetxt.GetNLines(), 2);
 
-  EXPECT_STREQ(filetxt.GetLineText(0), __L("alpha"));
-  EXPECT_STREQ(filetxt.GetLineText(1), __L("gamma"));
+  EXPECT_STREQ(filetxt.GetLineText(0), _L("alpha"));
+  EXPECT_STREQ(filetxt.GetLineText(1), _L("gamma"));
 
   // Deleting with a negative index must fail cleanly, not crash.
   EXPECT_FALSE(filetxt.DeleteLine(-1));
@@ -351,30 +351,30 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, GetAllInOneLineAndGetAllInBufferPartialRange)
   // repeated GetAllInOneLine()/GetAllInBuffer() calls would give misleading results here.
   {
     XFILETXT filetxt;
-    filetxt.AddLine(__L("one"));
-    filetxt.AddLine(__L("two"));
-    filetxt.AddLine(__L("three"));
+    filetxt.AddLine(_L("one"));
+    filetxt.AddLine(_L("two"));
+    filetxt.AddLine(_L("three"));
 
     XSTRING alllines;
     EXPECT_TRUE(filetxt.GetAllInOneLine(alllines, XFILETXTTYPELF_0A));
-    EXPECT_FALSE(alllines.Compare(__L("one\ntwo\nthree\n"), false));
+    EXPECT_FALSE(alllines.Compare(_L("one\ntwo\nthree\n"), false));
   }
 
   {
     XFILETXT filetxt;
-    filetxt.AddLine(__L("one"));
-    filetxt.AddLine(__L("two"));
-    filetxt.AddLine(__L("three"));
+    filetxt.AddLine(_L("one"));
+    filetxt.AddLine(_L("two"));
+    filetxt.AddLine(_L("three"));
 
     XSTRING partial;
     EXPECT_TRUE(filetxt.GetAllInOneLine(partial, XFILETXTTYPELF_0A, 1, 2));
-    EXPECT_FALSE(partial.Compare(__L("two\n"), false));
+    EXPECT_FALSE(partial.Compare(_L("two\n"), false));
   }
 
   {
     XFILETXT filetxt;
-    filetxt.AddLine(__L("one"));
-    filetxt.AddLine(__L("two"));
+    filetxt.AddLine(_L("one"));
+    filetxt.AddLine(_L("two"));
 
     XBUFFER allbuffer;
     EXPECT_TRUE(filetxt.GetAllInBuffer(allbuffer, XFILETXTTYPELF_UNKNOWN));
@@ -391,20 +391,20 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, GetAllInOneLineNoLongerMutatesStoredLines)
   // ending directly onto it. A stored line is no longer mutated by calling this "get" method, so
   // repeated calls produce the identical result instead of accumulating extra line endings.
   XFILETXT filetxt;
-  filetxt.AddLine(__L("repeatable"));
+  filetxt.AddLine(_L("repeatable"));
 
   XSTRING firstcall;
   EXPECT_TRUE(filetxt.GetAllInOneLine(firstcall, XFILETXTTYPELF_0A));
-  EXPECT_FALSE(firstcall.Compare(__L("repeatable\n"), false));
+  EXPECT_FALSE(firstcall.Compare(_L("repeatable\n"), false));
 
   // The stored line itself is left untouched -- no appended "\n".
-  EXPECT_FALSE(filetxt.GetLine(0)->Compare(__L("repeatable"), false));
+  EXPECT_FALSE(filetxt.GetLine(0)->Compare(_L("repeatable"), false));
 
   XSTRING secondcall;
   EXPECT_TRUE(filetxt.GetAllInOneLine(secondcall, XFILETXTTYPELF_0A));
 
   // Calling it again reproduces the identical result -- no accumulated extra line ending.
-  EXPECT_FALSE(secondcall.Compare(__L("repeatable\n"), false));
+  EXPECT_FALSE(secondcall.Compare(_L("repeatable\n"), false));
 }
 
 
@@ -413,7 +413,7 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, CopyToDuplicatesLinesAndFormat)
   XFILETXT source;
   source.SetFormatChar(XFILETXTFORMATCHAR_UTF8);
   source.SetTypeLF(XFILETXTTYPELF_0D0A);
-  source.AddLine(__L("copied line"));
+  source.AddLine(_L("copied line"));
 
   XFILETXT destination;
   EXPECT_TRUE(source.CopyTo(&destination));
@@ -421,7 +421,7 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, CopyToDuplicatesLinesAndFormat)
   EXPECT_EQ(destination.GetFormatChar(), XFILETXTFORMATCHAR_UTF8);
   EXPECT_EQ(destination.GetTypeLF(), XFILETXTTYPELF_0D0A);
   ASSERT_EQ(destination.GetNLines(), 1);
-  EXPECT_STREQ(destination.GetLineText(0), __L("copied line"));
+  EXPECT_STREQ(destination.GetLineText(0), _L("copied line"));
 }
 
 
@@ -433,25 +433,25 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, CopyFromNowCorrectlyTouchesTheCaller)
   // ARGUMENT and copying that argument's content into ITSELF (a harmless no-op), so
   // `this->CopyFrom(other)` never actually changed `this`.
   XFILETXT destination;
-  destination.AddLine(__L("original untouched line"));
+  destination.AddLine(_L("original untouched line"));
   destination.SetFormatChar(XFILETXTFORMATCHAR_ASCII);
 
   XFILETXT source;
-  source.AddLine(__L("source line that should have been copied"));
+  source.AddLine(_L("source line that should have been copied"));
   source.SetFormatChar(XFILETXTFORMATCHAR_UTF8);
 
   EXPECT_TRUE(destination.CopyFrom(&source));
 
   // destination now genuinely carries source's line/format.
   ASSERT_EQ(destination.GetNLines(), 1);
-  EXPECT_STREQ(destination.GetLineText(0), __L("source line that should have been copied"));
+  EXPECT_STREQ(destination.GetLineText(0), _L("source line that should have been copied"));
   EXPECT_EQ(destination.GetFormatChar(), XFILETXTFORMATCHAR_UTF8);
 }
 
 
 TEST(UNITTESTS_XFILETXT_CLASSNAME, IsBinaryFileDetectsNonTextContent)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfiletxt_binary.bin"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfiletxt_binary.bin"));
   RemoveIfExists(xpath);
 
   {
@@ -489,14 +489,14 @@ TEST(UNITTESTS_XFILETXT_CLASSNAME, PublicDataMembersAreDirectlyMutable)
   // directly, bypassing AddLine()/DeleteLine() entirely.
   XFILETXT filetxt;
 
-  filetxt.AddLine(__L("via AddLine"));
+  filetxt.AddLine(_L("via AddLine"));
   EXPECT_EQ(filetxt.GetNLines(), 1);
 
-  XSTRING* direct = GEN_NEW XSTRING(__L("added by poking the public member directly"));
+  XSTRING* direct = GEN_NEW XSTRING(_L("added by poking the public member directly"));
   filetxt.lines.Add(direct);
 
   EXPECT_EQ(filetxt.GetNLines(), 2);
-  EXPECT_STREQ(filetxt.GetLineText(1), __L("added by poking the public member directly"));
+  EXPECT_STREQ(filetxt.GetLineText(1), _L("added by poking the public member directly"));
 
   filetxt.formatchar = XFILETXTFORMATCHAR_UTF16_LE;
   EXPECT_EQ(filetxt.GetFormatChar(), XFILETXTFORMATCHAR_UTF16_LE);

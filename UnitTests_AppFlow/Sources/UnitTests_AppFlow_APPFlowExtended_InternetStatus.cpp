@@ -74,8 +74,8 @@ TEST(APPFLOWEXTENDED_INTERNETSTATUS, SetLatencyAndSerializeDeserialize)
   ASSERT_NE(status.GetPublicIP(), (XSTRING*)NULL);
   ASSERT_NE(status.GetInternetServices(), (APPFLOWINTERNETSERVICES*)NULL);
 
-  status.GetLocalIP()->Set(__L("192.0.2.10"));
-  status.GetPublicIP()->Set(__L("203.0.113.5"));
+  status.GetLocalIP()->Set(_L("192.0.2.10"));
+  status.GetPublicIP()->Set(_L("203.0.113.5"));
 
   XFILEJSON filejson;
   XSERIALIZATIONMETHOD* method = XSERIALIZABLE::CreateInstance(filejson);
@@ -88,8 +88,8 @@ TEST(APPFLOWEXTENDED_INTERNETSTATUS, SetLatencyAndSerializeDeserialize)
   EXPECT_TRUE(restored.DoDeserialize(method));
 
   EXPECT_EQ(restored.GetLatency(), (XDWORD)123);
-  EXPECT_EQ(restored.GetLocalIP()->Compare(__L("192.0.2.10")), 0);
-  EXPECT_EQ(restored.GetPublicIP()->Compare(__L("203.0.113.5")), 0);
+  EXPECT_EQ(restored.GetLocalIP()->Compare(_L("192.0.2.10")), 0);
+  EXPECT_EQ(restored.GetPublicIP()->Compare(_L("203.0.113.5")), 0);
 
   GEN_DELETE method;
 }
@@ -101,15 +101,15 @@ TEST(APPFLOWEXTENDED_INTERNETSTATUS, CreateResponseContainsSerializedFields)
   APPFLOWEXTENDED_INTERNETSTATUS status(&cfg);
 
   status.SetLatency(77);
-  status.GetLocalIP()->Set(__L("192.0.2.77"));
-  status.GetPublicIP()->Set(__L("198.51.100.77"));
+  status.GetLocalIP()->Set(_L("192.0.2.77"));
+  status.GetPublicIP()->Set(_L("198.51.100.77"));
 
   XSTRING response;
   EXPECT_TRUE(status.CreateResponse(&response));
   EXPECT_FALSE(response.IsEmpty());
-  EXPECT_NE(response.Find(__L("latencyms"), true), XSTRING_NOTFOUND);
-  EXPECT_NE(response.Find(__L("192.0.2.77"), true), XSTRING_NOTFOUND);
-  EXPECT_NE(response.Find(__L("198.51.100.77"), true), XSTRING_NOTFOUND);
+  EXPECT_NE(response.Find(_L("latencyms"), true), XSTRING_NOTFOUND);
+  EXPECT_NE(response.Find(_L("192.0.2.77"), true), XSTRING_NOTFOUND);
+  EXPECT_NE(response.Find(_L("198.51.100.77"), true), XSTRING_NOTFOUND);
   EXPECT_FALSE(status.CreateResponse(NULL));
 }
 

@@ -169,7 +169,7 @@ TEST(UNITTESTS_XFACTORY_CLASSNAME, BaseClassCreateMethodsAreInertStubsReturningN
   EXPECT_EQ(basefactory.Create_Mutex(), nullptr);
   EXPECT_FALSE(basefactory.Delete_Mutex(NULL));
 
-  EXPECT_EQ(basefactory.CreateThread(XTHREADGROUPID_UNGROUP, __L("test"), NULL, NULL), nullptr);
+  EXPECT_EQ(basefactory.CreateThread(XTHREADGROUPID_UNGROUP, _L("test"), NULL, NULL), nullptr);
   EXPECT_FALSE(basefactory.DeleteThread(XTHREADGROUPID_UNGROUP, NULL));
 }
 
@@ -233,7 +233,7 @@ TEST(UNITTESTS_XFACTORY_CLASSNAME, CreateThreadAndDeleteThreadViaRealInstance)
 {
   EnsureXFactoryInstance();
 
-  XTHREAD* xthread = GEN_XFACTORY.CreateThread(XTHREADGROUPID_UNGROUP, __L("UnitTests_XUtils_XFactory_Thread"));
+  XTHREAD* xthread = GEN_XFACTORY.CreateThread(XTHREADGROUPID_UNGROUP, _L("UnitTests_XUtils_XFactory_Thread"));
   EXPECT_NE(xthread, nullptr);
 
   EXPECT_TRUE(GEN_XFACTORY.DeleteThread(XTHREADGROUPID_UNGROUP, xthread));

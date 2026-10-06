@@ -120,15 +120,15 @@ class TESTCFG_MINIMAL : public XFILECFG
 
     bool DoVariableMapping()
     {
-      AddValue(XFILECFG_VALUETYPE_INT, __L("GENERAL"), __L("Count"), &intvalue);
-      AddValue(XFILECFG_VALUETYPE_STRING, __L("GENERAL"), __L("Name"), &stringvalue);
+      AddValue(XFILECFG_VALUETYPE_INT, _L("GENERAL"), _L("Count"), &intvalue);
+      AddValue(XFILECFG_VALUETYPE_STRING, _L("GENERAL"), _L("Name"), &stringvalue);
       return true;
     }
 
     bool DoDefault()
     {
       intvalue    = 42;
-      stringvalue = __L("defaultname");
+      stringvalue = _L("defaultname");
       return true;
     }
 
@@ -146,12 +146,12 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, ValueGetSetTypeGroupIDAndGenericValue)
   EXPECT_EQ(value.GetType(), XFILECFG_VALUETYPE_INT);
 
   ASSERT_TRUE(value.GetGroup() != NULL);
-  value.GetGroup()->Set(__L("MYGROUP"));
-  EXPECT_FALSE(value.GetGroup()->Compare(__L("MYGROUP"), false));
+  value.GetGroup()->Set(_L("MYGROUP"));
+  EXPECT_FALSE(value.GetGroup()->Compare(_L("MYGROUP"), false));
 
   ASSERT_TRUE(value.GetID() != NULL);
-  value.GetID()->Set(__L("MYID"));
-  EXPECT_FALSE(value.GetID()->Compare(__L("MYID"), false));
+  value.GetID()->Set(_L("MYID"));
+  EXPECT_FALSE(value.GetID()->Compare(_L("MYID"), false));
 
   int backing = 123;
   EXPECT_TRUE(value.SetValue((void*)&backing));
@@ -179,8 +179,8 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, ValueSecuenceMetadataGetSet)
   EXPECT_EQ(value.GetNSecuences(), (XDWORD)7);
 
   ASSERT_TRUE(value.GetRemarkText() != NULL);
-  value.GetRemarkText()->Set(__L("a remark"));
-  EXPECT_FALSE(value.GetRemarkText()->Compare(__L("a remark"), false));
+  value.GetRemarkText()->Set(_L("a remark"));
+  EXPECT_FALSE(value.GetRemarkText()->Compare(_L("a remark"), false));
 
   value.SetRemarkXPos(5);
   EXPECT_EQ(value.GetRemarkXPos(), (XDWORD)5);
@@ -201,49 +201,49 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, AddValueGetValueAndGetCFGValueForEveryValueTy
   int     intbacking     = 10;
   XWORD   maskbacking     = 0x00AB;
   float   floatbacking   = 3.5f;
-  XSTRING stringbacking  = __L("hello");
+  XSTRING stringbacking  = _L("hello");
   bool    boolbacking    = true;
 
-  ASSERT_TRUE(cfg.AddValue(XFILECFG_VALUETYPE_INT    , __L("G"), __L("IntKey")   , &intbacking)    != NULL);
-  ASSERT_TRUE(cfg.AddValue(XFILECFG_VALUETYPE_MASK   , __L("G"), __L("MaskKey")  , &maskbacking)   != NULL);
-  ASSERT_TRUE(cfg.AddValue(XFILECFG_VALUETYPE_FLOAT  , __L("G"), __L("FloatKey") , &floatbacking)  != NULL);
-  ASSERT_TRUE(cfg.AddValue(XFILECFG_VALUETYPE_STRING , __L("G"), __L("StrKey")   , &stringbacking) != NULL);
-  ASSERT_TRUE(cfg.AddValue(XFILECFG_VALUETYPE_BOOLEAN, __L("G"), __L("BoolKey")  , &boolbacking)   != NULL);
+  ASSERT_TRUE(cfg.AddValue(XFILECFG_VALUETYPE_INT    , _L("G"), _L("IntKey")   , &intbacking)    != NULL);
+  ASSERT_TRUE(cfg.AddValue(XFILECFG_VALUETYPE_MASK   , _L("G"), _L("MaskKey")  , &maskbacking)   != NULL);
+  ASSERT_TRUE(cfg.AddValue(XFILECFG_VALUETYPE_FLOAT  , _L("G"), _L("FloatKey") , &floatbacking)  != NULL);
+  ASSERT_TRUE(cfg.AddValue(XFILECFG_VALUETYPE_STRING , _L("G"), _L("StrKey")   , &stringbacking) != NULL);
+  ASSERT_TRUE(cfg.AddValue(XFILECFG_VALUETYPE_BOOLEAN, _L("G"), _L("BoolKey")  , &boolbacking)   != NULL);
 
   ASSERT_TRUE(cfg.GetValues() != NULL);
   EXPECT_EQ(cfg.GetValues()->GetSize(), (XDWORD)5);
 
-  XVARIANT* vint = cfg.GetValue(__L("G"), __L("IntKey"));
+  XVARIANT* vint = cfg.GetValue(_L("G"), _L("IntKey"));
   ASSERT_TRUE(vint != NULL);
   EXPECT_EQ((int)(*vint), 10);
   GEN_DELETE vint;
 
-  XVARIANT* vmask = cfg.GetValue(__L("G"), __L("MaskKey"));
+  XVARIANT* vmask = cfg.GetValue(_L("G"), _L("MaskKey"));
   ASSERT_TRUE(vmask != NULL);
   EXPECT_EQ((XWORD)(*vmask), (XWORD)0x00AB);
   GEN_DELETE vmask;
 
-  XVARIANT* vfloat = cfg.GetValue(__L("G"), __L("FloatKey"));
+  XVARIANT* vfloat = cfg.GetValue(_L("G"), _L("FloatKey"));
   ASSERT_TRUE(vfloat != NULL);
   EXPECT_FLOAT_EQ((float)(*vfloat), 3.5f);
   GEN_DELETE vfloat;
 
-  XVARIANT* vstr = cfg.GetValue(__L("G"), __L("StrKey"));
+  XVARIANT* vstr = cfg.GetValue(_L("G"), _L("StrKey"));
   ASSERT_TRUE(vstr != NULL);
   XCHAR* readback = (XCHAR*)(*vstr);
-  EXPECT_STREQ(readback, __L("hello"));
+  EXPECT_STREQ(readback, _L("hello"));
   GEN_DELETE vstr;
 
-  XVARIANT* vbool = cfg.GetValue(__L("G"), __L("BoolKey"));
+  XVARIANT* vbool = cfg.GetValue(_L("G"), _L("BoolKey"));
   ASSERT_TRUE(vbool != NULL);
   EXPECT_EQ((bool)(*vbool), true);
   GEN_DELETE vbool;
 
   // Unknown group/ID must yield NULL, not garbage.
-  EXPECT_TRUE(cfg.GetValue(__L("G"), __L("NoSuchKey")) == (XVARIANT*)NULL);
-  EXPECT_TRUE(cfg.GetCFGValue(__L("G"), __L("NoSuchKey")) == (XFILECFGVALUE*)NULL);
+  EXPECT_TRUE(cfg.GetValue(_L("G"), _L("NoSuchKey")) == (XVARIANT*)NULL);
+  EXPECT_TRUE(cfg.GetCFGValue(_L("G"), _L("NoSuchKey")) == (XFILECFGVALUE*)NULL);
 
-  XFILECFGVALUE* cfgvalue = cfg.GetCFGValue(__L("G"), __L("IntKey"));
+  XFILECFGVALUE* cfgvalue = cfg.GetCFGValue(_L("G"), _L("IntKey"));
   ASSERT_TRUE(cfgvalue != NULL);
   EXPECT_EQ(cfgvalue->GetType(), XFILECFG_VALUETYPE_INT);
 
@@ -256,21 +256,21 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, SetValueThroughXVariantUpdatesBackingStorage)
   XFILECFG cfg;
 
   int     intbacking    = 1;
-  XSTRING stringbacking = __L("old");
+  XSTRING stringbacking = _L("old");
 
-  XFILECFGVALUE* intcfg = cfg.AddValue(XFILECFG_VALUETYPE_INT, __L("G"), __L("IntKey"), &intbacking);
+  XFILECFGVALUE* intcfg = cfg.AddValue(XFILECFG_VALUETYPE_INT, _L("G"), _L("IntKey"), &intbacking);
   ASSERT_TRUE(intcfg != NULL);
 
-  XFILECFGVALUE* strcfg = cfg.AddValue(XFILECFG_VALUETYPE_STRING, __L("G"), __L("StrKey"), &stringbacking);
+  XFILECFGVALUE* strcfg = cfg.AddValue(XFILECFG_VALUETYPE_STRING, _L("G"), _L("StrKey"), &stringbacking);
   ASSERT_TRUE(strcfg != NULL);
 
   XVARIANT newint(999);
   EXPECT_TRUE(cfg.SetValue(intcfg, &newint));
   EXPECT_EQ(intbacking, 999);
 
-  XVARIANT newstr(__L("newvalue"));
+  XVARIANT newstr(_L("newvalue"));
   EXPECT_TRUE(cfg.SetValue(strcfg, &newstr));
-  EXPECT_FALSE(stringbacking.Compare(__L("newvalue"), false));
+  EXPECT_FALSE(stringbacking.Compare(_L("newvalue"), false));
 
   // NULL arguments must fail cleanly, not crash.
   EXPECT_FALSE(cfg.SetValue(NULL, &newint));
@@ -285,17 +285,17 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, DelCFGValueAndDeleteAllValues)
   XFILECFG cfg;
 
   int intbacking = 1;
-  cfg.AddValue(XFILECFG_VALUETYPE_INT, __L("G"), __L("A"), &intbacking);
-  cfg.AddValue(XFILECFG_VALUETYPE_INT, __L("G"), __L("B"), &intbacking);
+  cfg.AddValue(XFILECFG_VALUETYPE_INT, _L("G"), _L("A"), &intbacking);
+  cfg.AddValue(XFILECFG_VALUETYPE_INT, _L("G"), _L("B"), &intbacking);
 
   ASSERT_EQ(cfg.GetValues()->GetSize(), (XDWORD)2);
 
-  EXPECT_TRUE(cfg.DelCFGValue(__L("G"), __L("A")));
+  EXPECT_TRUE(cfg.DelCFGValue(_L("G"), _L("A")));
   EXPECT_EQ(cfg.GetValues()->GetSize(), (XDWORD)1);
-  EXPECT_TRUE(cfg.GetCFGValue(__L("G"), __L("A")) == (XFILECFGVALUE*)NULL);
+  EXPECT_TRUE(cfg.GetCFGValue(_L("G"), _L("A")) == (XFILECFGVALUE*)NULL);
 
   // Deleting an already-gone key must fail cleanly.
-  EXPECT_FALSE(cfg.DelCFGValue(__L("G"), __L("A")));
+  EXPECT_FALSE(cfg.DelCFGValue(_L("G"), _L("A")));
 
   EXPECT_TRUE(cfg.DeleteAllValues());
   EXPECT_EQ(cfg.GetValues()->GetSize(), (XDWORD)0);
@@ -307,8 +307,8 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, AddRemarkAndGetRemarks)
 {
   XFILECFG cfg;
 
-  EXPECT_TRUE(cfg.AddRemark(__L("GENERAL"), __L("a whole-line remark"), 0, 0));
-  EXPECT_TRUE(cfg.AddRemark(__L("GENERAL"), __L("SomeKey"), __L("an in-key remark"), 0, 1));
+  EXPECT_TRUE(cfg.AddRemark(_L("GENERAL"), _L("a whole-line remark"), 0, 0));
+  EXPECT_TRUE(cfg.AddRemark(_L("GENERAL"), _L("SomeKey"), _L("an in-key remark"), 0, 1));
 
   ASSERT_TRUE(cfg.GetRemarks() != NULL);
   EXPECT_EQ(cfg.GetRemarks()->GetSize(), (XDWORD)2);
@@ -320,17 +320,17 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, AddRemarkAndGetRemarks)
 
 TEST(UNITTESTS_XFILECFG_CLASSNAME, SaveThenLoadRoundTripsIntAndStringValuesThroughARealFile)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilecfg_roundtrip.ini"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfilecfg_roundtrip.ini"));
   RemoveIfExists(xpath);
 
   {
     XFILECFG writer;
 
     int     intbacking    = 77;
-    XSTRING stringbacking = __L("roundtripvalue");
+    XSTRING stringbacking = _L("roundtripvalue");
 
-    ASSERT_TRUE(writer.AddValue(XFILECFG_VALUETYPE_INT   , __L("GENERAL"), __L("Count"), &intbacking)    != NULL);
-    ASSERT_TRUE(writer.AddValue(XFILECFG_VALUETYPE_STRING, __L("GENERAL"), __L("Name") , &stringbacking) != NULL);
+    ASSERT_TRUE(writer.AddValue(XFILECFG_VALUETYPE_INT   , _L("GENERAL"), _L("Count"), &intbacking)    != NULL);
+    ASSERT_TRUE(writer.AddValue(XFILECFG_VALUETYPE_STRING, _L("GENERAL"), _L("Name") , &stringbacking) != NULL);
 
     EXPECT_TRUE(writer.Save(xpath));
   }
@@ -339,15 +339,15 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, SaveThenLoadRoundTripsIntAndStringValuesThrou
     XFILECFG reader;
 
     int     intbacking    = 0;
-    XSTRING stringbacking = __L("");
+    XSTRING stringbacking = _L("");
 
-    ASSERT_TRUE(reader.AddValue(XFILECFG_VALUETYPE_INT   , __L("GENERAL"), __L("Count"), &intbacking)    != NULL);
-    ASSERT_TRUE(reader.AddValue(XFILECFG_VALUETYPE_STRING, __L("GENERAL"), __L("Name") , &stringbacking) != NULL);
+    ASSERT_TRUE(reader.AddValue(XFILECFG_VALUETYPE_INT   , _L("GENERAL"), _L("Count"), &intbacking)    != NULL);
+    ASSERT_TRUE(reader.AddValue(XFILECFG_VALUETYPE_STRING, _L("GENERAL"), _L("Name") , &stringbacking) != NULL);
 
     EXPECT_TRUE(reader.Load(xpath));
 
     EXPECT_EQ(intbacking, 77);
-    EXPECT_FALSE(stringbacking.Compare(__L("roundtripvalue"), false));
+    EXPECT_FALSE(stringbacking.Compare(_L("roundtripvalue"), false));
   }
 
   RemoveIfExists(xpath);
@@ -369,7 +369,7 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, IniLifecycleCreatesFileWithDefaultsOnFirstRun
   // value is `Load() && Save()`, that made Ini<T>() report false on every single first run, even
   // on complete success. Now Load()'s own Close() succeeds too, so a genuinely successful first
   // run is reported as such.
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilecfg_ini_lifecycle.ini"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfilecfg_ini_lifecycle.ini"));
   RemoveIfExists(xpath);
 
   {
@@ -379,7 +379,7 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, IniLifecycleCreatesFileWithDefaultsOnFirstRun
     EXPECT_TRUE(cfg.Ini<int>());
 
     EXPECT_EQ(cfg.intvalue, 42);
-    EXPECT_FALSE(cfg.stringvalue.Compare(__L("defaultname"), false));
+    EXPECT_FALSE(cfg.stringvalue.Compare(_L("defaultname"), false));
   }
 
   // The file must now exist on disk with the defaults persisted by Save().
@@ -388,11 +388,11 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, IniLifecycleCreatesFileWithDefaultsOnFirstRun
     ASSERT_TRUE(verify.Open(xpath, true));
 
     XSTRING value;
-    ASSERT_TRUE(verify.ReadValue(__L("GENERAL"), __L("Count"), value));
+    ASSERT_TRUE(verify.ReadValue(_L("GENERAL"), _L("Count"), value));
     EXPECT_EQ(value.ConvertToInt(), 42);
 
-    ASSERT_TRUE(verify.ReadValue(__L("GENERAL"), __L("Name"), value));
-    EXPECT_FALSE(value.Compare(__L("defaultname"), false));
+    ASSERT_TRUE(verify.ReadValue(_L("GENERAL"), _L("Name"), value));
+    EXPECT_FALSE(value.Compare(_L("defaultname"), false));
 
     verify.Close();
   }
@@ -405,7 +405,7 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, AddValueSecuenceGeneratesMinCountKeysOnAFresh
 {
   // On a fresh file with none of the sequence keys present yet, GetCountKeys() (which underlies
   // AddValueSecuence<T>) finds zero existing matches, so the sequence falls back to mincount.
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilecfg_secuence.ini"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfilecfg_secuence.ini"));
   RemoveIfExists(xpath);
 
   XFILECFG cfg;
@@ -417,7 +417,7 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, AddValueSecuenceGeneratesMinCountKeysOnAFresh
   XVECTOR<int*> values;
   int nkeys = 0;
 
-  XFILECFGVALUE* first = cfg.AddValueSecuence<int>(XFILECFG_VALUETYPE_INT, __L("GENERAL"), __L("Key"),
+  XFILECFGVALUE* first = cfg.AddValueSecuence<int>(XFILECFG_VALUETYPE_INT, _L("GENERAL"), _L("Key"),
                                                     NULL, 3, 10, values, nkeys);
 
   EXPECT_EQ(nkeys, 3); // mincount, since the file had none of these keys yet
@@ -428,9 +428,9 @@ TEST(UNITTESTS_XFILECFG_CLASSNAME, AddValueSecuenceGeneratesMinCountKeysOnAFresh
   for(int c=1; c<=3; c++)
     {
       XSTRING key;
-      key.Format(__L("Key%d"), c);
+      key.Format(_L("Key%d"), c);
 
-      XFILECFGVALUE* cfgvalue = cfg.GetCFGValue(__L("GENERAL"), key.Get());
+      XFILECFGVALUE* cfgvalue = cfg.GetCFGValue(_L("GENERAL"), key.Get());
       ASSERT_TRUE(cfgvalue != NULL) << "missing key index " << c;
 
       EXPECT_EQ(cfgvalue->GetIndexSecuence(), c);

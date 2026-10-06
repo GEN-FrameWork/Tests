@@ -79,13 +79,13 @@ class TESTSERIALIZABLENESTED : public XSERIALIZABLE
 
     virtual bool Serialize()
     {
-      Primitive_Add<int>(innervalue, __L("innervalue"));
+      Primitive_Add<int>(innervalue, _L("innervalue"));
       return true;
     }
 
     virtual bool Deserialize()
     {
-      Primitive_Extract<int>(innervalue, __L("innervalue"));
+      Primitive_Extract<int>(innervalue, _L("innervalue"));
       return true;
     }
 
@@ -110,17 +110,17 @@ class TESTSERIALIZABLEWIDGET : public XSERIALIZABLE
 
     virtual bool Serialize()
     {
-      Primitive_Add<int>(counter, __L("counter"));
-      Primitive_Add<XSTRING*>(&label, __L("label"));
-      Class_Add<TESTSERIALIZABLENESTED>(&nested, __L("nested"));
+      Primitive_Add<int>(counter, _L("counter"));
+      Primitive_Add<XSTRING*>(&label, _L("label"));
+      Class_Add<TESTSERIALIZABLENESTED>(&nested, _L("nested"));
       return true;
     }
 
     virtual bool Deserialize()
     {
-      Primitive_Extract<int>(counter, __L("counter"));
-      Primitive_Extract<XSTRING>(label, __L("label"));
-      Class_Extract<TESTSERIALIZABLENESTED>(&nested, __L("nested"));
+      Primitive_Extract<int>(counter, _L("counter"));
+      Primitive_Extract<XSTRING>(label, _L("label"));
+      Class_Extract<TESTSERIALIZABLENESTED>(&nested, _L("nested"));
       return true;
     }
 
@@ -187,7 +187,7 @@ TEST(UNITTESTS_XSERIALIZABLE_CLASSNAME, JSONRoundTripPreservesPrimitiveAndNested
 
   TESTSERIALIZABLEWIDGET source;
   source.SetCounter(42);
-  source.SetLabel(__L("hello"));
+  source.SetLabel(_L("hello"));
   source.GetNested().SetInnerValue(7);
 
   EXPECT_TRUE(source.DoSerialize(method));
@@ -196,7 +196,7 @@ TEST(UNITTESTS_XSERIALIZABLE_CLASSNAME, JSONRoundTripPreservesPrimitiveAndNested
   EXPECT_TRUE(destination.DoDeserialize(method));
 
   EXPECT_EQ(destination.GetCounter(), 42);
-  EXPECT_EQ(destination.GetLabel().Compare(__L("hello")), 0);
+  EXPECT_EQ(destination.GetLabel().Compare(_L("hello")), 0);
   EXPECT_EQ(destination.GetNested().GetInnerValue(), 7);
 
   GEN_DELETE method;
@@ -207,7 +207,7 @@ TEST(UNITTESTS_XSERIALIZABLE_CLASSNAME, HasBeenChangedIsTrueOnFirstCallWithEmpty
 {
   TESTSERIALIZABLEWIDGET widget;
   widget.SetCounter(1);
-  widget.SetLabel(__L("a"));
+  widget.SetLabel(_L("a"));
 
   // HasBeenChanged() lazily builds its own internal XFILEJSON-backed serialization method
   // (XSERIALIZABLE::CreateInstance(XFILEJSON&)) and compares the freshly encoded content
@@ -220,7 +220,7 @@ TEST(UNITTESTS_XSERIALIZABLE_CLASSNAME, HasBeenChangedIsFalseWhenContentMatchesC
 {
   TESTSERIALIZABLEWIDGET widget;
   widget.SetCounter(1);
-  widget.SetLabel(__L("a"));
+  widget.SetLabel(_L("a"));
 
   EXPECT_TRUE(widget.HasBeenChanged());   // primes the internal cache
   widget.SetHasBeenChanged(false);        // force HasBeenChanged() to recompute instead of
@@ -291,7 +291,7 @@ TEST(UNITTESTS_XSERIALIZABLE_CLASSNAME, XVectorAddAcceptsAnEmptyVector)
 
   XVECTOR<TESTSERIALIZABLENESTED*> emptyvector;
 
-  EXPECT_TRUE(container.XVector_Add<TESTSERIALIZABLENESTED>(&emptyvector, __L("items")));
+  EXPECT_TRUE(container.XVector_Add<TESTSERIALIZABLENESTED>(&emptyvector, _L("items")));
 
   GEN_DELETE method;
 }
@@ -327,7 +327,7 @@ TEST(UNITTESTS_XSERIALIZABLE_CLASSNAME, XVectorAddBoxesElementsSoXVectorExtractR
   // nothing. XVector_Add now wraps each element's Serialize() call in its own
   // AddStruct(NULL, true)/AddStruct(NULL, false) pair, exactly like XVectorClass_Add, so each
   // element becomes its own JSON object and the round trip genuinely works.
-  EXPECT_TRUE(container.XVector_Add<TESTSERIALIZABLENESTED>(&sourcevector, __L("items")));
+  EXPECT_TRUE(container.XVector_Add<TESTSERIALIZABLENESTED>(&sourcevector, _L("items")));
 
   XVECTOR<TESTSERIALIZABLENESTED*> destvector;
 
@@ -343,7 +343,7 @@ TEST(UNITTESTS_XSERIALIZABLE_CLASSNAME, XVectorAddBoxesElementsSoXVectorExtractR
   // With XVector_Add now producing one real JSON object per element, ExtractArrayElement(index,
   // name, true) (which requires XFILEJSONVALUETYPE_OBJECT) finds what it expects, so
   // Deserialize() genuinely runs for each destination element and the round trip now works.
-  EXPECT_TRUE(container.XVector_Extract<TESTSERIALIZABLENESTED>(&destvector, __L("items")));
+  EXPECT_TRUE(container.XVector_Extract<TESTSERIALIZABLENESTED>(&destvector, _L("items")));
 
   EXPECT_EQ(dest0->GetInnerValue(), 10);
   EXPECT_EQ(dest1->GetInnerValue(), 20);

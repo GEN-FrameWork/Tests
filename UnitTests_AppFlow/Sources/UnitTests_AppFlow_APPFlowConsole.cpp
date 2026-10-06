@@ -73,8 +73,8 @@ TEST(APPFLOWCONSOLE, IniShowLineAndEnd)
 
   XSTRING label;
   XSTRING value;
-  label = __L("offline");
-  value = __L("ok");
+  label = _L("offline");
+  value = _L("ok");
 
   EXPECT_TRUE(console.Show_Line(label, value));
   EXPECT_TRUE(console.PrintExitMessage_Active(false));

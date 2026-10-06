@@ -33,7 +33,7 @@
 #include "GEN_Control.h"
 
 #ifdef GOOGLETEST_ACTIVE
-UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBDIR, UNITTESTS_SCRIPTLIBDIR_CLASSNAME, SCRIPT_LIB_DIR, SCRIPT_LIB_NAME_DIR, __L("IsItExists"))
+UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBDIR, UNITTESTS_SCRIPTLIBDIR_CLASSNAME, SCRIPT_LIB_DIR, SCRIPT_LIB_NAME_DIR, _L("IsItExists"))
 
 namespace TEST_SCRIPTLIBDIR
 {
@@ -42,8 +42,8 @@ TEST(UNITTESTS_SCRIPTLIBDIR_CLASSNAME, RegistersReadAndWriteFunctions)
   SCRIPT script;
   SCRIPT_LIB_DIR library;
   ASSERT_TRUE(library.AddLibraryFunctions(&script));
-  EXPECT_NE(script.GetLibraryFunction(__L("IsItExists")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("MakeDir")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("IsItExists")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("MakeDir")), (SCRIPT_LIB_FUNCTION*)NULL);
 }
 
 
@@ -51,7 +51,7 @@ TEST(UNITTESTS_SCRIPTLIBDIR_CLASSNAME, IsItExistsReturnsFalseForMissingPath)
 {
   SCRIPT script;
   SCRIPT_LIB_DIR library;
-  XVARIANT path(__L("Z:/UnitTests_Script/this_path_should_not_exist_42"));
+  XVARIANT path(_L("Z:/UnitTests_Script/this_path_should_not_exist_42"));
   XVARIANT result(true);
   XVECTOR<XVARIANT*> params;
 

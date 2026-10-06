@@ -100,9 +100,9 @@ static bool UnitTests_Script_WriteTextFile(XPATH& path, XCHAR* text)
 
 TEST(UNITTESTS_SCRIPT_CLASSNAME, DetectsEnabledExtensions)
 {
-  EXPECT_EQ(SCRIPT::GetTypeByExtension(__L("sample.g")), SCRIPT_TYPE_G);
-  EXPECT_EQ(SCRIPT::GetTypeByExtension(__L("sample.G")), SCRIPT_TYPE_G);
-  EXPECT_EQ(SCRIPT::GetTypeByExtension(__L("sample.unknown")), SCRIPT_TYPE_UNKNOWN);
+  EXPECT_EQ(SCRIPT::GetTypeByExtension(_L("sample.g")), SCRIPT_TYPE_G);
+  EXPECT_EQ(SCRIPT::GetTypeByExtension(_L("sample.G")), SCRIPT_TYPE_G);
+  EXPECT_EQ(SCRIPT::GetTypeByExtension(_L("sample.unknown")), SCRIPT_TYPE_UNKNOWN);
   EXPECT_EQ(SCRIPT::GetTypeByExtension(NULL), SCRIPT_TYPE_UNKNOWN);
 }
 
@@ -110,11 +110,11 @@ TEST(UNITTESTS_SCRIPT_CLASSNAME, DetectsEnabledExtensions)
 TEST(UNITTESTS_SCRIPT_CLASSNAME, RegistersCustomLibraryFunctions)
 {
   SCRIPT script;
-  SCRIPT_LIB library(__L("UnitTest"));
+  SCRIPT_LIB library(_L("UnitTest"));
 
-  EXPECT_EQ(script.GetLibraryFunction(__L("UnitTests_Dummy")), (SCRIPT_LIB_FUNCTION*)NULL);
-  ASSERT_TRUE(script.AddLibraryFunction(&library, __L("UnitTests_Dummy"), UnitTests_Script_DummyFunction));
-  EXPECT_NE(script.GetLibraryFunction(__L("UnitTests_Dummy")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_EQ(script.GetLibraryFunction(_L("UnitTests_Dummy")), (SCRIPT_LIB_FUNCTION*)NULL);
+  ASSERT_TRUE(script.AddLibraryFunction(&library, _L("UnitTests_Dummy"), UnitTests_Script_DummyFunction));
+  EXPECT_NE(script.GetLibraryFunction(_L("UnitTests_Dummy")), (SCRIPT_LIB_FUNCTION*)NULL);
 }
 
 
@@ -122,11 +122,11 @@ TEST(UNITTESTS_SCRIPT_CLASSNAME, RejectsUnconfinedScriptNames)
 {
   XPATH path;
 
-  EXPECT_FALSE(SCRIPT::ResolvePathInScriptsRoot(__L("../outside.g"), path));
-  EXPECT_FALSE(SCRIPT::ResolvePathInScriptsRoot(__L("C:/outside.g"), path));
-  EXPECT_FALSE(SCRIPT::ResolvePathInScriptsRoot(__L("folder//test.g"), path));
+  EXPECT_FALSE(SCRIPT::ResolvePathInScriptsRoot(_L("../outside.g"), path));
+  EXPECT_FALSE(SCRIPT::ResolvePathInScriptsRoot(_L("C:/outside.g"), path));
+  EXPECT_FALSE(SCRIPT::ResolvePathInScriptsRoot(_L("folder//test.g"), path));
   ASSERT_TRUE(UnitTests_Script_ConfigureScriptsRoot());
-  EXPECT_TRUE(SCRIPT::ResolvePathInScriptsRoot(__L("folder/test.g"), path));
+  EXPECT_TRUE(SCRIPT::ResolvePathInScriptsRoot(_L("folder/test.g"), path));
 }
 
 
@@ -139,9 +139,9 @@ TEST(UNITTESTS_SCRIPT_CLASSNAME, HaveSameLanguageRequiresMatchingExtensionsOnOne
   XSTRING           b;
   XSTRING           c;
 
-  a = __L("one.lua");
-  b = __L("two.lua");
-  c = __L("three.js");
+  a = _L("one.lua");
+  b = _L("two.lua");
+  c = _L("three.js");
 
   samelang.Add(&a);
   samelang.Add(&b);
@@ -151,7 +151,7 @@ TEST(UNITTESTS_SCRIPT_CLASSNAME, HaveSameLanguageRequiresMatchingExtensionsOnOne
   mixedlang.Add(&c);
   EXPECT_FALSE(SCRIPT::HaveSameLanguage(&mixedlang));
 
-  XSTRING unknown = __L("readme.txt");
+  XSTRING unknown = _L("readme.txt");
   unknownlang.Add(&unknown);
   EXPECT_FALSE(SCRIPT::HaveSameLanguage(&unknownlang));
 
@@ -169,9 +169,9 @@ TEST(UNITTESTS_SCRIPT_CLASSNAME, SaveAndLoadRoundTrip)
   SCRIPT reader;
 
   ASSERT_TRUE(UnitTests_Script_ConfigureScriptsRoot());
-  ASSERT_TRUE(SCRIPT::ResolvePathInScriptsRoot(__L("UnitTests_Script_SaveRoundTrip.g"), path));
+  ASSERT_TRUE(SCRIPT::ResolvePathInScriptsRoot(_L("UnitTests_Script_SaveRoundTrip.g"), path));
 
-  ASSERT_TRUE(UnitTests_Script_WriteTextFile(path, __L("return 42")));
+  ASSERT_TRUE(UnitTests_Script_WriteTextFile(path, _L("return 42")));
   ASSERT_TRUE(writer.Load(path));
   ASSERT_TRUE(writer.Save(path));
 
@@ -179,8 +179,8 @@ TEST(UNITTESTS_SCRIPT_CLASSNAME, SaveAndLoadRoundTrip)
   GEN_SCRIPT_CACHE.Cache_Del(GEN_SCRIPT_CACHE.GenerateID(path));
   #endif
   ASSERT_TRUE(reader.Load(path));
-  EXPECT_NE(reader.GetScript()->Find(__L("return 42"), false), XSTRING_NOTFOUND);
-  EXPECT_EQ(reader.GetNameScript()->Compare(__L("UnitTests_Script_SaveRoundTrip.g")), 0);
+  EXPECT_NE(reader.GetScript()->Find(_L("return 42"), false), XSTRING_NOTFOUND);
+  EXPECT_EQ(reader.GetNameScript()->Compare(_L("UnitTests_Script_SaveRoundTrip.g")), 0);
 }
 
 
@@ -191,29 +191,29 @@ TEST(UNITTESTS_SCRIPT_CLASSNAME, LoadInvalidatesCacheWhenFileContentChanges)
   SCRIPT secondload;
 
   ASSERT_TRUE(UnitTests_Script_ConfigureScriptsRoot());
-  ASSERT_TRUE(SCRIPT::ResolvePathInScriptsRoot(__L("UnitTests_Script_CacheInvalidation.g"), path));
+  ASSERT_TRUE(SCRIPT::ResolvePathInScriptsRoot(_L("UnitTests_Script_CacheInvalidation.g"), path));
 
-  ASSERT_TRUE(UnitTests_Script_WriteTextFile(path, __L("return 1")));
+  ASSERT_TRUE(UnitTests_Script_WriteTextFile(path, _L("return 1")));
   ASSERT_TRUE(firstload.Load(path));
-  EXPECT_NE(firstload.GetScript()->Find(__L("return 1"), false), XSTRING_NOTFOUND);
+  EXPECT_NE(firstload.GetScript()->Find(_L("return 1"), false), XSTRING_NOTFOUND);
 
-  ASSERT_TRUE(UnitTests_Script_WriteTextFile(path, __L("return 2")));
+  ASSERT_TRUE(UnitTests_Script_WriteTextFile(path, _L("return 2")));
   #ifdef SCRIPT_CACHE_ACTIVE
   GEN_SCRIPT_CACHE.Cache_Del(GEN_SCRIPT_CACHE.GenerateID(path));
   #endif
   ASSERT_TRUE(secondload.Load(path));
-  EXPECT_NE(secondload.GetScript()->Find(__L("return 2"), false), XSTRING_NOTFOUND);
-  EXPECT_EQ(secondload.GetScript()->Find(__L("return 1"), false), XSTRING_NOTFOUND);
-  EXPECT_EQ(secondload.GetNameScript()->Compare(__L("UnitTests_Script_CacheInvalidation.g")), 0);
+  EXPECT_NE(secondload.GetScript()->Find(_L("return 2"), false), XSTRING_NOTFOUND);
+  EXPECT_EQ(secondload.GetScript()->Find(_L("return 1"), false), XSTRING_NOTFOUND);
+  EXPECT_EQ(secondload.GetNameScript()->Compare(_L("UnitTests_Script_CacheInvalidation.g")), 0);
 }
 
 
 TEST(UNITTESTS_SCRIPT_CLASSNAME, TrimsConfiguredNames)
 {
-  XSTRING name(__L(" test.g\t"));
+  XSTRING name(_L(" test.g\t"));
 
   EXPECT_TRUE(SCRIPT::EliminateExtraChars(&name));
-  EXPECT_EQ(name.Compare(__L("test.g")), 0);
+  EXPECT_EQ(name.Compare(_L("test.g")), 0);
   EXPECT_FALSE(SCRIPT::EliminateExtraChars(NULL));
 }
 

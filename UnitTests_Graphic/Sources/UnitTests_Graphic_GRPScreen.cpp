@@ -79,8 +79,8 @@ TEST(UNITTESTS_GRPSCREEN_CLASSNAME, CreateScreenOfflinePropertiesAndStyles)
   screen->SetCanClose(true);
 
   ASSERT_NE(screen->GetTitle(), (XSTRING*)NULL);
-  screen->GetTitle()->Set(__L("UnitTests Graphic"));
-  EXPECT_EQ(screen->GetTitle()->Compare(__L("UnitTests Graphic")), 0);
+  screen->GetTitle()->Set(_L("UnitTests Graphic"));
+  EXPECT_EQ(screen->GetTitle()->Compare(_L("UnitTests Graphic")), 0);
 
   EXPECT_TRUE(GRPFACTORY::GetInstance().DeleteScreen(screen));
 }
@@ -92,9 +92,9 @@ TEST(UNITTESTS_GRPSCREEN_CLASSNAME, CreateViewportWithoutShow)
   ASSERT_NE(screen, (GRPSCREEN*)NULL);
 
   EXPECT_TRUE(screen->SetPropertys(320, 240, 96.0f, 0, GRPPROPERTYMODE_32_RGBA_8888));
-  EXPECT_TRUE(screen->CreateViewport(__L("ut_vp"), 0.0f, 0.0f, 320.0f, 240.0f, 0, 0, 320, 240));
+  EXPECT_TRUE(screen->CreateViewport(_L("ut_vp"), 0.0f, 0.0f, 320.0f, 240.0f, 0, 0, 320, 240));
 
-  GRPVIEWPORT* viewport = screen->GetViewport(__L("ut_vp"));
+  GRPVIEWPORT* viewport = screen->GetViewport(_L("ut_vp"));
   ASSERT_NE(viewport, (GRPVIEWPORT*)NULL);
   EXPECT_FLOAT_EQ(viewport->GetWidth(), 320.0f);
   EXPECT_FLOAT_EQ(viewport->GetHeight(), 240.0f);

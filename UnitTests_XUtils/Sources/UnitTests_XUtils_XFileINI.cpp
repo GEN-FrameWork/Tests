@@ -122,25 +122,25 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, CreateSectionWriteValueReadValueInMemory)
 {
   XFILEINI fileini;
 
-  EXPECT_TRUE(fileini.CreateSection(__L("SECTION")));
+  EXPECT_TRUE(fileini.CreateSection(_L("SECTION")));
 
-  XSTRING key(__L("key1"));
-  XSTRING value(__L("value1"));
+  XSTRING key(_L("key1"));
+  XSTRING value(_L("value1"));
 
-  EXPECT_TRUE(fileini.WriteValue(__L("SECTION"), key, value));
+  EXPECT_TRUE(fileini.WriteValue(_L("SECTION"), key, value));
 
   XSTRING readback;
-  EXPECT_TRUE(fileini.ReadValue(__L("SECTION"), key, readback));
-  EXPECT_FALSE(readback.Compare(__L("value1"), false));
+  EXPECT_TRUE(fileini.ReadValue(_L("SECTION"), key, readback));
+  EXPECT_FALSE(readback.Compare(_L("value1"), false));
 
   // WriteValue() auto-creates the section if it does not already exist yet.
-  XSTRING key2(__L("autokey"));
-  XSTRING value2(__L("autovalue"));
-  EXPECT_TRUE(fileini.WriteValue(__L("NEWSECTION"), key2, value2));
+  XSTRING key2(_L("autokey"));
+  XSTRING value2(_L("autovalue"));
+  EXPECT_TRUE(fileini.WriteValue(_L("NEWSECTION"), key2, value2));
 
   XSTRING readback2;
-  EXPECT_TRUE(fileini.ReadValue(__L("NEWSECTION"), key2, readback2));
-  EXPECT_FALSE(readback2.Compare(__L("autovalue"), false));
+  EXPECT_TRUE(fileini.ReadValue(_L("NEWSECTION"), key2, readback2));
+  EXPECT_FALSE(readback2.Compare(_L("autovalue"), false));
 }
 
 
@@ -148,11 +148,11 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, CreateSectionFailsWhenSectionAlreadyExists)
 {
   XFILEINI fileini;
 
-  EXPECT_TRUE(fileini.CreateSection(__L("DUP")));
-  EXPECT_FALSE(fileini.CreateSection(__L("DUP")));
+  EXPECT_TRUE(fileini.CreateSection(_L("DUP")));
+  EXPECT_FALSE(fileini.CreateSection(_L("DUP")));
 
   // Case-insensitive: a differently-cased spelling of the same section must also be rejected.
-  EXPECT_FALSE(fileini.CreateSection(__L("dup")));
+  EXPECT_FALSE(fileini.CreateSection(_L("dup")));
 }
 
 
@@ -160,16 +160,16 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, GetSectionAndSelectSectionAreCaseInsensitive)
 {
   XFILEINI fileini;
 
-  fileini.CreateSection(__L("MixedCase"));
+  fileini.CreateSection(_L("MixedCase"));
 
-  EXPECT_NE(fileini.GetSection(__L("MixedCase")), (XFILEINISECTION*)NULL);
-  EXPECT_NE(fileini.GetSection(__L("MIXEDCASE")), (XFILEINISECTION*)NULL);
-  EXPECT_NE(fileini.GetSection(__L("mixedcase")), (XFILEINISECTION*)NULL);
+  EXPECT_NE(fileini.GetSection(_L("MixedCase")), (XFILEINISECTION*)NULL);
+  EXPECT_NE(fileini.GetSection(_L("MIXEDCASE")), (XFILEINISECTION*)NULL);
+  EXPECT_NE(fileini.GetSection(_L("mixedcase")), (XFILEINISECTION*)NULL);
 
-  EXPECT_EQ(fileini.GetSection(__L("DOES_NOT_EXIST")), (XFILEINISECTION*)NULL);
+  EXPECT_EQ(fileini.GetSection(_L("DOES_NOT_EXIST")), (XFILEINISECTION*)NULL);
 
-  EXPECT_TRUE(fileini.SelectSection(__L("mixedcase")));
-  EXPECT_FALSE(fileini.SelectSection(__L("still_missing")));
+  EXPECT_TRUE(fileini.SelectSection(_L("mixedcase")));
+  EXPECT_FALSE(fileini.SelectSection(_L("still_missing")));
 }
 
 
@@ -177,24 +177,24 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, DeleteKeyAndDeleteSection)
 {
   XFILEINI fileini;
 
-  XSTRING key(__L("removeme"));
-  XSTRING value(__L("value"));
-  fileini.WriteValue(__L("SEC"), key, value);
+  XSTRING key(_L("removeme"));
+  XSTRING value(_L("value"));
+  fileini.WriteValue(_L("SEC"), key, value);
 
   XSTRING readback;
-  EXPECT_TRUE(fileini.ReadValue(__L("SEC"), key, readback));
+  EXPECT_TRUE(fileini.ReadValue(_L("SEC"), key, readback));
 
-  EXPECT_TRUE(fileini.DeleteKey(__L("SEC"), key));
-  EXPECT_FALSE(fileini.ReadValue(__L("SEC"), key, readback));
+  EXPECT_TRUE(fileini.DeleteKey(_L("SEC"), key));
+  EXPECT_FALSE(fileini.ReadValue(_L("SEC"), key, readback));
 
   // Deleting an already-deleted key must fail cleanly.
-  EXPECT_FALSE(fileini.DeleteKey(__L("SEC"), key));
+  EXPECT_FALSE(fileini.DeleteKey(_L("SEC"), key));
 
-  EXPECT_TRUE(fileini.DeleteSection(__L("SEC")));
-  EXPECT_EQ(fileini.GetSection(__L("SEC")), (XFILEINISECTION*)NULL);
+  EXPECT_TRUE(fileini.DeleteSection(_L("SEC")));
+  EXPECT_EQ(fileini.GetSection(_L("SEC")), (XFILEINISECTION*)NULL);
 
   // A section that no longer exists cannot be deleted again.
-  EXPECT_FALSE(fileini.DeleteSection(__L("SEC")));
+  EXPECT_FALSE(fileini.DeleteSection(_L("SEC")));
 }
 
 
@@ -202,12 +202,12 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, GetNextKeyIterationAndResetSelectionKey)
 {
   XFILEINISECTION section;
 
-  XSTRING sectionname(__L("ITERSECTION"));
+  XSTRING sectionname(_L("ITERSECTION"));
   section.SetName(sectionname);
 
-  XSTRING k1(__L("k1")), v1(__L("v1"));
-  XSTRING k2(__L("k2")), v2(__L("v2"));
-  XSTRING k3(__L("k3")), v3(__L("v3"));
+  XSTRING k1(_L("k1")), v1(_L("v1"));
+  XSTRING k2(_L("k2")), v2(_L("v2"));
+  XSTRING k3(_L("k3")), v3(_L("v3"));
 
   section.SetKey(k1, v1);
   section.SetKey(k2, v2);
@@ -233,7 +233,7 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, GetNextKeyIterationAndResetSelectionKey)
 
 TEST(UNITTESTS_XFILEINI_CLASSNAME, OpenParsesHandWrittenINIWithMultipleSectionsAndKeys)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfileini_parse.ini"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfileini_parse.ini"));
   RemoveIfExists(xpath);
 
   WriteRawTextFile(xpath, "[SECTION1]\n" "key1=value1\n" "key2=value2\n" "[SECTION2]\n" "keyA=valueA\n");
@@ -243,18 +243,18 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, OpenParsesHandWrittenINIWithMultipleSectionsA
 
   XSTRING value;
 
-  EXPECT_TRUE(reader.ReadValue(__L("SECTION1"), __L("key1"), value));
-  EXPECT_FALSE(value.Compare(__L("value1"), false));
+  EXPECT_TRUE(reader.ReadValue(_L("SECTION1"), _L("key1"), value));
+  EXPECT_FALSE(value.Compare(_L("value1"), false));
 
-  EXPECT_TRUE(reader.ReadValue(__L("SECTION1"), __L("key2"), value));
-  EXPECT_FALSE(value.Compare(__L("value2"), false));
+  EXPECT_TRUE(reader.ReadValue(_L("SECTION1"), _L("key2"), value));
+  EXPECT_FALSE(value.Compare(_L("value2"), false));
 
   // Case-insensitive section/key lookup on the parsed content too.
-  EXPECT_TRUE(reader.ReadValue(__L("section2"), __L("keyA"), value));
-  EXPECT_FALSE(value.Compare(__L("valueA"), false));
+  EXPECT_TRUE(reader.ReadValue(_L("section2"), _L("keyA"), value));
+  EXPECT_FALSE(value.Compare(_L("valueA"), false));
 
-  EXPECT_FALSE(reader.ReadValue(__L("SECTION1"), __L("nosuchkey"), value));
-  EXPECT_FALSE(reader.ReadValue(__L("NOSUCHSECTION"), __L("key1"), value));
+  EXPECT_FALSE(reader.ReadValue(_L("SECTION1"), _L("nosuchkey"), value));
+  EXPECT_FALSE(reader.ReadValue(_L("NOSUCHSECTION"), _L("key1"), value));
 
   reader.Close();
   RemoveIfExists(xpath);
@@ -263,7 +263,7 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, OpenParsesHandWrittenINIWithMultipleSectionsA
 
 TEST(UNITTESTS_XFILEINI_CLASSNAME, RemarksAreRecognizedAndTextIsCaptured)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfileini_remarks.ini"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfileini_remarks.ini"));
   RemoveIfExists(xpath);
 
   WriteRawTextFile(xpath, "; a whole line remark\n" "[REMARKSECTION]\n" "onlykey=onlyvalue ; trailing remark\n");
@@ -273,8 +273,8 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, RemarksAreRecognizedAndTextIsCaptured)
 
   // The key's value must be correctly separated from its trailing remark.
   XSTRING value;
-  EXPECT_TRUE(reader.ReadValue(__L("REMARKSECTION"), __L("onlykey"), value));
-  EXPECT_FALSE(value.Compare(__L("onlyvalue"), false));
+  EXPECT_TRUE(reader.ReadValue(_L("REMARKSECTION"), _L("onlykey"), value));
+  EXPECT_FALSE(value.Compare(_L("onlyvalue"), false));
 
   XVECTOR<XFILEINIREMARK*>* remarks = reader.GetRemarks();
   ASSERT_NE(remarks, (XVECTOR<XFILEINIREMARK*>*)NULL);
@@ -291,13 +291,13 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, RemarksAreRecognizedAndTextIsCaptured)
       if(remark->GetType() == XFILEINI_TYPEREMARK_ALL_LINE)
         {
           foundwholeline = true;
-          EXPECT_NE(remark->GetTextRemark()->Find(__L("a whole line remark"), false, 0), XSTRING_NOTFOUND);
+          EXPECT_NE(remark->GetTextRemark()->Find(_L("a whole line remark"), false, 0), XSTRING_NOTFOUND);
         }
 
       if(remark->GetType() == XFILEINI_TYPEREMARK_IN_KEY)
         {
           foundinkey = true;
-          EXPECT_NE(remark->GetTextRemark()->Find(__L("trailing remark"), false, 0), XSTRING_NOTFOUND);
+          EXPECT_NE(remark->GetTextRemark()->Find(_L("trailing remark"), false, 0), XSTRING_NOTFOUND);
         }
     }
 
@@ -311,7 +311,7 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, RemarksAreRecognizedAndTextIsCaptured)
 
 TEST(UNITTESTS_XFILEINI_CLASSNAME, WriteThenCloseThenReopenRoundTrip)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfileini_roundtrip.ini"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfileini_roundtrip.ini"));
   RemoveIfExists(xpath);
 
   {
@@ -319,13 +319,13 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, WriteThenCloseThenReopenRoundTrip)
 
     ASSERT_TRUE(writer.Create(xpath));
 
-    writer.CreateSection(__L("License"));
+    writer.CreateSection(_L("License"));
 
-    XSTRING k1(__L("Key1")), v1(__L("Value1"));
-    XSTRING k2(__L("Key2")), v2(__L("Value2"));
+    XSTRING k1(_L("Key1")), v1(_L("Value1"));
+    XSTRING k2(_L("Key2")), v2(_L("Value2"));
 
-    writer.WriteValue(__L("License"), k1, v1);
-    writer.WriteValue(__L("License"), k2, v2);
+    writer.WriteValue(_L("License"), k1, v1);
+    writer.WriteValue(_L("License"), k2, v2);
 
     EXPECT_TRUE(writer.Close());
   }
@@ -340,15 +340,15 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, WriteThenCloseThenReopenRoundTrip)
     // ToUpperCase()), so the section written as "License" is expected back as "LICENSE" --
     // but GetSection()/SelectSection()'s own case-insensitive Compare() means looking it up
     // with the original mixed-case spelling still works either way.
-    EXPECT_TRUE(reader.ReadValue(__L("License"), __L("Key1"), value));
-    EXPECT_FALSE(value.Compare(__L("Value1"), false));
+    EXPECT_TRUE(reader.ReadValue(_L("License"), _L("Key1"), value));
+    EXPECT_FALSE(value.Compare(_L("Value1"), false));
 
-    EXPECT_TRUE(reader.ReadValue(__L("LICENSE"), __L("Key2"), value));
-    EXPECT_FALSE(value.Compare(__L("Value2"), false));
+    EXPECT_TRUE(reader.ReadValue(_L("LICENSE"), _L("Key2"), value));
+    EXPECT_FALSE(value.Compare(_L("Value2"), false));
 
-    XFILEINISECTION* section = reader.GetSection(__L("license"));
+    XFILEINISECTION* section = reader.GetSection(_L("license"));
     ASSERT_NE(section, (XFILEINISECTION*)NULL);
-    EXPECT_FALSE(section->GetName()->Compare(__L("LICENSE"), false));
+    EXPECT_FALSE(section->GetName()->Compare(_L("LICENSE"), false));
 
     reader.Close();
   }
@@ -359,7 +359,7 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, WriteThenCloseThenReopenRoundTrip)
 
 TEST(UNITTESTS_XFILEINI_CLASSNAME, ReadKeyMapBulkReadsMultipleKeysAtOnce)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfileini_keymap.ini"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfileini_keymap.ini"));
   RemoveIfExists(xpath);
 
   WriteRawTextFile(xpath, "[BULK]\n" "first=1\n" "second=2\n" "third=3\n");
@@ -371,17 +371,17 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, ReadKeyMapBulkReadsMultipleKeysAtOnce)
   // decayed pointer into a helper function would silently produce a too-small count (a real,
   // well-known C-array-decay hazard baked into this macro-driven API, per the analysis report).
   XFILEINIKEYMAP map[3];
-  map[0].key = __L("first");
-  map[1].key = __L("second");
-  map[2].key = __L("third");
+  map[0].key = _L("first");
+  map[1].key = _L("second");
+  map[2].key = _L("third");
 
   ASSERT_EQ(XFILEININKEYMAP(map), (XDWORD)3);
 
-  EXPECT_TRUE(reader.ReadKeyMap(__L("BULK"), map, XFILEININKEYMAP(map)));
+  EXPECT_TRUE(reader.ReadKeyMap(_L("BULK"), map, XFILEININKEYMAP(map)));
 
-  EXPECT_FALSE(map[0].value.Compare(__L("1"), false));
-  EXPECT_FALSE(map[1].value.Compare(__L("2"), false));
-  EXPECT_FALSE(map[2].value.Compare(__L("3"), false));
+  EXPECT_FALSE(map[0].value.Compare(_L("1"), false));
+  EXPECT_FALSE(map[1].value.Compare(_L("2"), false));
+  EXPECT_FALSE(map[2].value.Compare(_L("3"), false));
 
   reader.Close();
   RemoveIfExists(xpath);
@@ -397,24 +397,24 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, WriteValueSingleArgOverloadNowActuallyWrites)
   // instead, against whatever section was currently selected.
   XFILEINI fileini;
 
-  fileini.CreateSection(__L("ONLYSECTION"));
+  fileini.CreateSection(_L("ONLYSECTION"));
 
-  XSTRING existingkey(__L("existingkey"));
-  XSTRING existingvalue(__L("existingvalue"));
-  fileini.WriteValue(__L("ONLYSECTION"), existingkey, existingvalue); // via the 3-arg overload
+  XSTRING existingkey(_L("existingkey"));
+  XSTRING existingvalue(_L("existingvalue"));
+  fileini.WriteValue(_L("ONLYSECTION"), existingkey, existingvalue); // via the 3-arg overload
 
-  XSTRING newvalue(__L("this is now genuinely written"));
+  XSTRING newvalue(_L("this is now genuinely written"));
 
   // Calling the single-key-arg overload with the pre-existing key name now genuinely overwrites
   // the stored value with `newvalue`, instead of silently reading the old value back into it.
-  EXPECT_TRUE(fileini.WriteValue(__L("existingkey"), newvalue));
-  EXPECT_FALSE(newvalue.Compare(__L("this is now genuinely written"), false)); // untouched by the call
+  EXPECT_TRUE(fileini.WriteValue(_L("existingkey"), newvalue));
+  EXPECT_FALSE(newvalue.Compare(_L("this is now genuinely written"), false)); // untouched by the call
 
   // Proof the store was genuinely updated: re-reading "existingkey" the normal way now shows the
   // NEW value, not the original "existingvalue".
   XSTRING readback;
-  EXPECT_TRUE(fileini.ReadValue(__L("ONLYSECTION"), existingkey, readback));
-  EXPECT_FALSE(readback.Compare(__L("this is now genuinely written"), false));
+  EXPECT_TRUE(fileini.ReadValue(_L("ONLYSECTION"), existingkey, readback));
+  EXPECT_FALSE(readback.Compare(_L("this is now genuinely written"), false));
 }
 
 
@@ -422,12 +422,12 @@ TEST(UNITTESTS_XFILEINI_CLASSNAME, DeleteAllSectionsAndDeleteAllRemarks)
 {
   XFILEINI fileini;
 
-  fileini.CreateSection(__L("A"));
-  fileini.CreateSection(__L("B"));
+  fileini.CreateSection(_L("A"));
+  fileini.CreateSection(_L("B"));
 
   EXPECT_TRUE(fileini.DeleteAllSections());
-  EXPECT_EQ(fileini.GetSection(__L("A")), (XFILEINISECTION*)NULL);
-  EXPECT_EQ(fileini.GetSection(__L("B")), (XFILEINISECTION*)NULL);
+  EXPECT_EQ(fileini.GetSection(_L("A")), (XFILEINISECTION*)NULL);
+  EXPECT_EQ(fileini.GetSection(_L("B")), (XFILEINISECTION*)NULL);
 
   // Nothing left -- must fail cleanly rather than crash.
   EXPECT_FALSE(fileini.DeleteAllSections());

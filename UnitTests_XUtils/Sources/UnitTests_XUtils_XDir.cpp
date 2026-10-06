@@ -132,7 +132,7 @@ TEST(UNITTESTS_XDIR_CLASSNAME, ExistReturnsFalseForMissingDirectory)
   XDIR* xdir = CreateConcreteDir();
   ASSERT_NE(xdir, (XDIR*)NULL);
 
-  XPATH missing; BuildTestFilePath(missing, __L("unittests_xutils_xdir_definitely_does_not_exist"));
+  XPATH missing; BuildTestFilePath(missing, _L("unittests_xutils_xdir_definitely_does_not_exist"));
 
   EXPECT_FALSE(xdir->Exist(missing));
   EXPECT_FALSE(xdir->Exist(missing.Get()));
@@ -146,7 +146,7 @@ TEST(UNITTESTS_XDIR_CLASSNAME, MakeNonRecursiveCreatesSingleLevelDirectoryAndExi
   XDIR* xdir = CreateConcreteDir();
   ASSERT_NE(xdir, (XDIR*)NULL);
 
-  XPATH testdir; BuildTestFilePath(testdir, __L("unittests_xutils_xdir_singlelevel"));
+  XPATH testdir; BuildTestFilePath(testdir, _L("unittests_xutils_xdir_singlelevel"));
 
   // Defensive cleanup from any previous interrupted run.
   if(xdir->Exist(testdir)) xdir->Delete(testdir, true);
@@ -171,8 +171,8 @@ TEST(UNITTESTS_XDIR_CLASSNAME, MakeNonRecursiveFailsWhenParentDirectoryIsMissing
   XDIR* xdir = CreateConcreteDir();
   ASSERT_NE(xdir, (XDIR*)NULL);
 
-  XPATH missingparent; BuildTestFilePath(missingparent, __L("unittests_xutils_xdir_missingparent"));
-  XPATH nested; BuildTestFilePath(nested, __L("unittests_xutils_xdir_missingparent/child"));
+  XPATH missingparent; BuildTestFilePath(missingparent, _L("unittests_xutils_xdir_missingparent"));
+  XPATH nested; BuildTestFilePath(nested, _L("unittests_xutils_xdir_missingparent/child"));
 
   if(xdir->Exist(missingparent)) xdir->Delete(missingparent, true);
   ASSERT_FALSE(xdir->Exist(missingparent));
@@ -190,8 +190,8 @@ TEST(UNITTESTS_XDIR_CLASSNAME, MakeRecursiveCreatesIntermediateLevels)
   XDIR* xdir = CreateConcreteDir();
   ASSERT_NE(xdir, (XDIR*)NULL);
 
-  XPATH base; BuildTestFilePath(base, __L("unittests_xutils_xdir_recursive"));
-  XPATH nested; BuildTestFilePath(nested, __L("unittests_xutils_xdir_recursive/sub1/sub2"));
+  XPATH base; BuildTestFilePath(base, _L("unittests_xutils_xdir_recursive"));
+  XPATH nested; BuildTestFilePath(nested, _L("unittests_xutils_xdir_recursive/sub1/sub2"));
 
   if(xdir->Exist(base)) xdir->Delete(base, true);
   ASSERT_FALSE(xdir->Exist(base));
@@ -206,7 +206,7 @@ TEST(UNITTESTS_XDIR_CLASSNAME, MakeRecursiveCreatesIntermediateLevels)
   // consistently create every intermediate level, including the final one.
   EXPECT_TRUE(makeresult);
   EXPECT_TRUE(xdir->Exist(base));
-  XPATH sub1; BuildTestFilePath(sub1, __L("unittests_xutils_xdir_recursive/sub1"));
+  XPATH sub1; BuildTestFilePath(sub1, _L("unittests_xutils_xdir_recursive/sub1"));
   EXPECT_TRUE(xdir->Exist(sub1));
   EXPECT_TRUE(xdir->Exist(nested));
 
@@ -222,10 +222,10 @@ TEST(UNITTESTS_XDIR_CLASSNAME, DeleteRecursiveRemovesNonEmptyDirectoryTree)
   XDIR* xdir = CreateConcreteDir();
   ASSERT_NE(xdir, (XDIR*)NULL);
 
-  XPATH base; BuildTestFilePath(base, __L("unittests_xutils_xdir_deletetree"));
-  XPATH subdir; BuildTestFilePath(subdir, __L("unittests_xutils_xdir_deletetree/subdir"));
-  XPATH filea; BuildTestFilePath(filea, __L("unittests_xutils_xdir_deletetree/a.txt"));
-  XPATH fileb; BuildTestFilePath(fileb, __L("unittests_xutils_xdir_deletetree/subdir/b.txt"));
+  XPATH base; BuildTestFilePath(base, _L("unittests_xutils_xdir_deletetree"));
+  XPATH subdir; BuildTestFilePath(subdir, _L("unittests_xutils_xdir_deletetree/subdir"));
+  XPATH filea; BuildTestFilePath(filea, _L("unittests_xutils_xdir_deletetree/a.txt"));
+  XPATH fileb; BuildTestFilePath(fileb, _L("unittests_xutils_xdir_deletetree/subdir/b.txt"));
 
   if(xdir->Exist(base)) xdir->Delete(base, true);
   ASSERT_FALSE(xdir->Exist(base));
@@ -255,9 +255,9 @@ TEST(UNITTESTS_XDIR_CLASSNAME, FirstSearchAndNextSearchEnumerateDirectoryEntries
   XDIR* xdir = CreateConcreteDir();
   ASSERT_NE(xdir, (XDIR*)NULL);
 
-  XPATH base; BuildTestFilePath(base, __L("unittests_xutils_xdir_search"));
-  XPATH subdir; BuildTestFilePath(subdir, __L("unittests_xutils_xdir_search/childdir"));
-  XPATH filea; BuildTestFilePath(filea, __L("unittests_xutils_xdir_search/one.dat"));
+  XPATH base; BuildTestFilePath(base, _L("unittests_xutils_xdir_search"));
+  XPATH subdir; BuildTestFilePath(subdir, _L("unittests_xutils_xdir_search/childdir"));
+  XPATH filea; BuildTestFilePath(filea, _L("unittests_xutils_xdir_search/one.dat"));
 
   if(xdir->Exist(base)) xdir->Delete(base, true);
   ASSERT_FALSE(xdir->Exist(base));
@@ -267,7 +267,7 @@ TEST(UNITTESTS_XDIR_CLASSNAME, FirstSearchAndNextSearchEnumerateDirectoryEntries
   WriteSmallFile(filea, "content");
 
   XDIRELEMENT   element;
-  XSTRING       pattern(__L("*"));
+  XSTRING       pattern(_L("*"));
   int           nfiles     = 0;
   int           ndirs      = 0;
   bool          foundfile  = false;
@@ -281,12 +281,12 @@ TEST(UNITTESTS_XDIR_CLASSNAME, FirstSearchAndNextSearchEnumerateDirectoryEntries
       if(element.GetType() == XDIRELEMENTTYPE_FILE)
         {
           nfiles++;
-          if(!name.Compare(__L("one.dat"))) foundfile = true;
+          if(!name.Compare(_L("one.dat"))) foundfile = true;
         }
        else if(element.GetType() == XDIRELEMENTTYPE_DIR)
         {
           ndirs++;
-          if(!name.Compare(__L("childdir"))) founddir = true;
+          if(!name.Compare(_L("childdir"))) founddir = true;
         }
 
       found = xdir->NextSearch(&element);
@@ -310,9 +310,9 @@ TEST(UNITTESTS_XDIR_CLASSNAME, FirstSearchOnMissingDirectoryReturnsFalse)
   ASSERT_NE(xdir, (XDIR*)NULL);
 
   XDIRELEMENT element;
-  XPATH missing; BuildTestFilePath(missing, __L("unittests_xutils_xdir_search_missing"));
+  XPATH missing; BuildTestFilePath(missing, _L("unittests_xutils_xdir_search_missing"));
 
-  EXPECT_FALSE(xdir->FirstSearch(missing.Get(), (XCHAR*)__L("*"), &element));
+  EXPECT_FALSE(xdir->FirstSearch(missing.Get(), (XCHAR*)_L("*"), &element));
 
   GEN_XFACTORY.Delete_Dir(xdir);
 }
@@ -376,13 +376,13 @@ TEST(UNITTESTS_XDIR_CLASSNAME, CopyDuplicatesFileContentByteForByte)
   XDIR* xdir = CreateConcreteDir();
   ASSERT_NE(xdir, (XDIR*)NULL);
 
-  XPATH base; BuildTestFilePath(base, __L("unittests_xutils_xdir_copy"));
+  XPATH base; BuildTestFilePath(base, _L("unittests_xutils_xdir_copy"));
 
   if(xdir->Exist(base)) xdir->Delete(base, true);
   ASSERT_TRUE(xdir->Make(base, false));
 
-  XPATH source; BuildTestFilePath(source, __L("unittests_xutils_xdir_copy/source.txt"));
-  XPATH target; BuildTestFilePath(target, __L("unittests_xutils_xdir_copy/target.txt"));
+  XPATH source; BuildTestFilePath(source, _L("unittests_xutils_xdir_copy/source.txt"));
+  XPATH target; BuildTestFilePath(target, _L("unittests_xutils_xdir_copy/target.txt"));
 
   WriteSmallFile(source, "hello xdir copy");
 

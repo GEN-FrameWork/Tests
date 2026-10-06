@@ -84,7 +84,7 @@ TEST(UNITTESTS_SQLITE_CONNECTION_CLASSNAME, ConnectFailsWithoutPathOption)
   DB_SQL_CONNECTION* connection = db->CreateConnection();
   ASSERT_NE(connection, (DB_SQL_CONNECTION*)NULL);
 
-  EXPECT_TRUE(connection->SetOption(__L("DATABASE"), __L(":memory:")));
+  EXPECT_TRUE(connection->SetOption(_L("DATABASE"), _L(":memory:")));
   EXPECT_FALSE(db->Open());
 
   db->SetConnection(NULL);

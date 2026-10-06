@@ -74,13 +74,13 @@ TEST(UNITTESTS_INPBUTTON_CLASSNAME, SettersGettersRoundTrip)
 
   button.SetID(INPBUTTON_ID_A);
   button.SetKeyCode(0x41);
-  button.SetSymbol(__C('A'));
+  button.SetSymbol(_C('A'));
   button.SetState(INPBUTTON_STATE_PRESSED);
   button.SetPressure(0.5f);
 
   EXPECT_EQ(button.GetID(), INPBUTTON_ID_A);
   EXPECT_EQ(button.GetKeyCode(), (XWORD)0x41);
-  EXPECT_EQ(button.GetSymbol(), __C('A'));
+  EXPECT_EQ(button.GetSymbol(), _C('A'));
   EXPECT_EQ(button.GetState(), INPBUTTON_STATE_PRESSED);
   EXPECT_FLOAT_EQ(button.GetPressure(), 0.5f);
 }
@@ -117,16 +117,16 @@ TEST(UNITTESTS_INPBUTTON_CLASSNAME, CreateButtonAddsToVector)
 {
   XVECTOR<INPBUTTON*> buttons;
 
-  EXPECT_TRUE(INPBUTTON::CreateButton(&buttons, 0x41, INPBUTTON_ID_A, __C('A')));
+  EXPECT_TRUE(INPBUTTON::CreateButton(&buttons, 0x41, INPBUTTON_ID_A, _C('A')));
   EXPECT_EQ(buttons.GetSize(), (XDWORD)1);
 
   INPBUTTON* button = buttons.Get(0);
   ASSERT_NE(button, (INPBUTTON*)NULL);
   EXPECT_EQ(button->GetKeyCode(), (XWORD)0x41);
   EXPECT_EQ(button->GetID(), INPBUTTON_ID_A);
-  EXPECT_EQ(button->GetSymbol(), __C('A'));
+  EXPECT_EQ(button->GetSymbol(), _C('A'));
 
-  EXPECT_FALSE(INPBUTTON::CreateButton(NULL, 0x41, INPBUTTON_ID_A, __C('A')));
+  EXPECT_FALSE(INPBUTTON::CreateButton(NULL, 0x41, INPBUTTON_ID_A, _C('A')));
 
   buttons.DeleteContents();
   buttons.DeleteAll();

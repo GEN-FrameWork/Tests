@@ -62,7 +62,7 @@ TEST(UNITTESTS_GRPVECTORFILESVGTRANSFORM_CLASSNAME, ParseTranslateApplyAndIdenti
 {
   GRPVECTORFILESVGTRANSFORM transform;
 
-  EXPECT_TRUE(transform.ParseFromString(__L("translate(10,20)")));
+  EXPECT_TRUE(transform.ParseFromString(_L("translate(10,20)")));
 
   double x = 1.0;
   double y = 2.0;

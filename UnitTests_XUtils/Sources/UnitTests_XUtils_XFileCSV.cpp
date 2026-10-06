@@ -124,21 +124,21 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, RecordAddElementGetElementAndGetNElements)
 
   EXPECT_EQ(record.GetNElements(), 0);
 
-  EXPECT_TRUE(record.AddElement(__L("first")));
-  EXPECT_TRUE(record.AddElement(__L("second")));
+  EXPECT_TRUE(record.AddElement(_L("first")));
+  EXPECT_TRUE(record.AddElement(_L("second")));
 
-  XSTRING third(__L("third"));
+  XSTRING third(_L("third"));
   EXPECT_TRUE(record.AddElement(third));
 
   ASSERT_EQ(record.GetNElements(), 3);
 
-  EXPECT_STREQ(record.GetElement(0), __L("first"));
-  EXPECT_STREQ(record.GetElement(1), __L("second"));
-  EXPECT_STREQ(record.GetElement(2), __L("third"));
+  EXPECT_STREQ(record.GetElement(0), _L("first"));
+  EXPECT_STREQ(record.GetElement(1), _L("second"));
+  EXPECT_STREQ(record.GetElement(2), _L("third"));
 
   XSTRING readback;
   EXPECT_TRUE(record.GetElement(1, readback));
-  EXPECT_FALSE(readback.Compare(__L("second"), false));
+  EXPECT_FALSE(readback.Compare(_L("second"), false));
 
   // Out-of-range access must return NULL/false, never crash.
   EXPECT_EQ(record.GetElement(99), (XCHAR*)NULL);
@@ -150,16 +150,16 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, RecordDeleteElementAndDeleteAllElements)
 {
   XFILECSV_RECORD record;
 
-  record.AddElement(__L("a"));
-  record.AddElement(__L("b"));
-  record.AddElement(__L("c"));
+  record.AddElement(_L("a"));
+  record.AddElement(_L("b"));
+  record.AddElement(_L("c"));
 
   ASSERT_EQ(record.GetNElements(), 3);
 
   EXPECT_TRUE(record.DeleteElement(1));
   ASSERT_EQ(record.GetNElements(), 2);
-  EXPECT_STREQ(record.GetElement(0), __L("a"));
-  EXPECT_STREQ(record.GetElement(1), __L("c"));
+  EXPECT_STREQ(record.GetElement(0), _L("a"));
+  EXPECT_STREQ(record.GetElement(1), _L("c"));
 
   EXPECT_TRUE(record.DeleteAllElements());
   EXPECT_EQ(record.GetNElements(), 0);
@@ -176,9 +176,9 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, RecordCopyNowActuallyPopulatesTheDestination)
   // allocated XSTRING was silently discarded (leaked) instead of being appended to this object's
   // own `elements` vector, so the method reported success while leaving the destination empty.
   XFILECSV_RECORD source;
-  source.AddElement(__L("colA"));
-  source.AddElement(__L("colB"));
-  source.AddElement(__L("colC"));
+  source.AddElement(_L("colA"));
+  source.AddElement(_L("colB"));
+  source.AddElement(_L("colC"));
 
   XFILECSV_RECORD destination;
   ASSERT_EQ(destination.GetNElements(), 0);
@@ -187,9 +187,9 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, RecordCopyNowActuallyPopulatesTheDestination)
 
   // destination now genuinely carries source's elements.
   ASSERT_EQ(destination.GetNElements(), 3);
-  EXPECT_STREQ(destination.GetElement(0), __L("colA"));
-  EXPECT_STREQ(destination.GetElement(1), __L("colB"));
-  EXPECT_STREQ(destination.GetElement(2), __L("colC"));
+  EXPECT_STREQ(destination.GetElement(0), _L("colA"));
+  EXPECT_STREQ(destination.GetElement(1), _L("colB"));
+  EXPECT_STREQ(destination.GetElement(2), _L("colC"));
 
   // A NULL source, or a source with zero elements, is correctly rejected regardless.
   EXPECT_FALSE(destination.Copy(NULL));
@@ -203,17 +203,17 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, SetSeparatorAcceptsOnlyCommaOrSemicolon)
 {
   XFILECSV csv;
 
-  EXPECT_EQ(csv.GetSeparator(), __C(';')); // documented default (XFileCSV.cpp Clean())
+  EXPECT_EQ(csv.GetSeparator(), _C(';')); // documented default (XFileCSV.cpp Clean())
 
-  EXPECT_TRUE(csv.SetSeparator(__C(',')));
-  EXPECT_EQ(csv.GetSeparator(), __C(','));
+  EXPECT_TRUE(csv.SetSeparator(_C(',')));
+  EXPECT_EQ(csv.GetSeparator(), _C(','));
 
-  EXPECT_TRUE(csv.SetSeparator(__C(';')));
-  EXPECT_EQ(csv.GetSeparator(), __C(';'));
+  EXPECT_TRUE(csv.SetSeparator(_C(';')));
+  EXPECT_EQ(csv.GetSeparator(), _C(';'));
 
   // Any other character must be rejected, leaving the separator unchanged.
-  EXPECT_FALSE(csv.SetSeparator(__C('|')));
-  EXPECT_EQ(csv.GetSeparator(), __C(';'));
+  EXPECT_FALSE(csv.SetSeparator(_C('|')));
+  EXPECT_EQ(csv.GetSeparator(), _C(';'));
 }
 
 
@@ -225,12 +225,12 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, AddRecordReadRecordAndGetNRecords)
   EXPECT_EQ(csv.ReadRecord(0), (XFILECSV_RECORD*)NULL);
 
   XFILECSV_RECORD* record1 = GEN_NEW XFILECSV_RECORD();
-  record1->AddElement(__L("r1c1"));
-  record1->AddElement(__L("r1c2"));
+  record1->AddElement(_L("r1c1"));
+  record1->AddElement(_L("r1c2"));
 
   XFILECSV_RECORD* record2 = GEN_NEW XFILECSV_RECORD();
-  record2->AddElement(__L("r2c1"));
-  record2->AddElement(__L("r2c2"));
+  record2->AddElement(_L("r2c1"));
+  record2->AddElement(_L("r2c2"));
 
   EXPECT_TRUE(csv.AddRecord(record1));
   EXPECT_TRUE(csv.AddRecord(record2));
@@ -239,11 +239,11 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, AddRecordReadRecordAndGetNRecords)
 
   XFILECSV_RECORD* readback0 = csv.ReadRecord(0);
   ASSERT_NE(readback0, (XFILECSV_RECORD*)NULL);
-  EXPECT_STREQ(readback0->GetElement(0), __L("r1c1"));
+  EXPECT_STREQ(readback0->GetElement(0), _L("r1c1"));
 
   XFILECSV_RECORD* readback1 = csv.ReadRecord(1);
   ASSERT_NE(readback1, (XFILECSV_RECORD*)NULL);
-  EXPECT_STREQ(readback1->GetElement(0), __L("r2c1"));
+  EXPECT_STREQ(readback1->GetElement(0), _L("r2c1"));
 
   // Out-of-range must return NULL, never crash.
   EXPECT_EQ(csv.ReadRecord(99), (XFILECSV_RECORD*)NULL);
@@ -258,15 +258,15 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, WriteRecordReplacesAtIndexAndDeleteRecordRemo
   XFILECSV csv;
 
   XFILECSV_RECORD* original = GEN_NEW XFILECSV_RECORD();
-  original->AddElement(__L("original"));
+  original->AddElement(_L("original"));
   csv.AddRecord(original);
 
   XFILECSV_RECORD* replacement = GEN_NEW XFILECSV_RECORD();
-  replacement->AddElement(__L("replacement"));
+  replacement->AddElement(_L("replacement"));
 
   EXPECT_TRUE(csv.WriteRecord(0, replacement));
   ASSERT_EQ(csv.GetNRecords(), 1);
-  EXPECT_STREQ(csv.ReadRecord(0)->GetElement(0), __L("replacement"));
+  EXPECT_STREQ(csv.ReadRecord(0)->GetElement(0), _L("replacement"));
 
   // Out-of-range WriteRecord must fail cleanly (and not touch/leak the record it was given).
   XFILECSV_RECORD outofrange;
@@ -283,7 +283,7 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, WriteRecordReplacesAtIndexAndDeleteRecordRemo
 
 TEST(UNITTESTS_XFILECSV_CLASSNAME, OpenParsesHandWrittenCommaSeparatedRows)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilecsv_comma.csv"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfilecsv_comma.csv"));
   RemoveIfExists(xpath);
 
   WriteRawTextFile(xpath, "val1,val2,val3\n" "val4,val5,val6\n");
@@ -298,18 +298,18 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, OpenParsesHandWrittenCommaSeparatedRows)
   XFILECSV_RECORD* row0 = reader.ReadRecord(0);
   ASSERT_NE(row0, (XFILECSV_RECORD*)NULL);
   ASSERT_EQ(row0->GetNElements(), 3);
-  EXPECT_STREQ(row0->GetElement(0), __L("val1"));
-  EXPECT_STREQ(row0->GetElement(1), __L("val2"));
-  EXPECT_STREQ(row0->GetElement(2), __L("val3"));
+  EXPECT_STREQ(row0->GetElement(0), _L("val1"));
+  EXPECT_STREQ(row0->GetElement(1), _L("val2"));
+  EXPECT_STREQ(row0->GetElement(2), _L("val3"));
 
   XFILECSV_RECORD* row1 = reader.ReadRecord(1);
   ASSERT_NE(row1, (XFILECSV_RECORD*)NULL);
-  EXPECT_STREQ(row1->GetElement(0), __L("val4"));
-  EXPECT_STREQ(row1->GetElement(2), __L("val6"));
+  EXPECT_STREQ(row1->GetElement(0), _L("val4"));
+  EXPECT_STREQ(row1->GetElement(2), _L("val6"));
 
   // CreateRecordOfLine() (XFileCSV.cpp) auto-detects the separator per parsed line and calls
   // SetSeparator() accordingly -- a comma-only line leaves the separator set to ','.
-  EXPECT_EQ(reader.GetSeparator(), __C(','));
+  EXPECT_EQ(reader.GetSeparator(), _C(','));
 
   reader.Close();
   RemoveIfExists(xpath);
@@ -322,7 +322,7 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, SemicolonIsPreferredOverCommaWhenBothArePrese
   // if no ';' is found on the line -- so a line containing both characters is always split on
   // ';', with any ',' left embedded inside whichever field contains it. This is real, existing
   // behavior (not a crash), captured here concretely rather than assumed.
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilecsv_mixed.csv"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfilecsv_mixed.csv"));
   RemoveIfExists(xpath);
 
   WriteRawTextFile(xpath, "first;second,stillsecond;third\n");
@@ -335,11 +335,11 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, SemicolonIsPreferredOverCommaWhenBothArePrese
   XFILECSV_RECORD* row0 = reader.ReadRecord(0);
   ASSERT_NE(row0, (XFILECSV_RECORD*)NULL);
   ASSERT_EQ(row0->GetNElements(), 3);
-  EXPECT_STREQ(row0->GetElement(0), __L("first"));
-  EXPECT_STREQ(row0->GetElement(1), __L("second,stillsecond")); // the comma stayed embedded
-  EXPECT_STREQ(row0->GetElement(2), __L("third"));
+  EXPECT_STREQ(row0->GetElement(0), _L("first"));
+  EXPECT_STREQ(row0->GetElement(1), _L("second,stillsecond")); // the comma stayed embedded
+  EXPECT_STREQ(row0->GetElement(2), _L("third"));
 
-  EXPECT_EQ(reader.GetSeparator(), __C(';'));
+  EXPECT_EQ(reader.GetSeparator(), _C(';'));
 
   reader.Close();
   RemoveIfExists(xpath);
@@ -355,21 +355,21 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, NoQuoteHandlingMeansAFieldContainingTheSepara
   // not a crash and not being "fixed" here -- it is a real, load-bearing limitation any caller of
   // this class must know about.
   XFILECSV writer;
-  writer.SetSeparator(__C(','));
+  writer.SetSeparator(_C(','));
 
   XFILECSV_RECORD* record = GEN_NEW XFILECSV_RECORD();
-  record->AddElement(__L("value, with an embedded comma"));
-  record->AddElement(__L("plain value"));
+  record->AddElement(_L("value, with an embedded comma"));
+  record->AddElement(_L("plain value"));
   writer.AddRecord(record);
 
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilecsv_noquote.csv"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfilecsv_noquote.csv"));
   RemoveIfExists(xpath);
 
   ASSERT_TRUE(writer.Create(xpath));
   EXPECT_TRUE(writer.Close());
 
   XFILECSV reader;
-  reader.SetSeparator(__C(','));
+  reader.SetSeparator(_C(','));
   ASSERT_TRUE(reader.Open(xpath, true));
 
   ASSERT_EQ(reader.GetNRecords(), 1);
@@ -380,9 +380,9 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, NoQuoteHandlingMeansAFieldContainingTheSepara
   // The bug/gap in action: what was written as 2 elements comes back as 3, because the embedded
   // comma inside the first field's text was indistinguishable from a real field separator.
   EXPECT_EQ(readback->GetNElements(), 3);
-  EXPECT_STREQ(readback->GetElement(0), __L("value"));
-  EXPECT_STREQ(readback->GetElement(1), __L(" with an embedded comma"));
-  EXPECT_STREQ(readback->GetElement(2), __L("plain value"));
+  EXPECT_STREQ(readback->GetElement(0), _L("value"));
+  EXPECT_STREQ(readback->GetElement(1), _L(" with an embedded comma"));
+  EXPECT_STREQ(readback->GetElement(2), _L("plain value"));
 
   reader.Close();
   RemoveIfExists(xpath);
@@ -391,23 +391,23 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, NoQuoteHandlingMeansAFieldContainingTheSepara
 
 TEST(UNITTESTS_XFILECSV_CLASSNAME, WriteThenCloseThenReopenRoundTripWithoutHeader)
 {
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilecsv_roundtrip.csv"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfilecsv_roundtrip.csv"));
   RemoveIfExists(xpath);
 
   {
     XFILECSV writer;
-    writer.SetSeparator(__C(','));
+    writer.SetSeparator(_C(','));
 
     ASSERT_TRUE(writer.Create(xpath));
 
     XFILECSV_RECORD* record1 = GEN_NEW XFILECSV_RECORD();
-    record1->AddElement(__L("Alice"));
-    record1->AddElement(__L("30"));
+    record1->AddElement(_L("Alice"));
+    record1->AddElement(_L("30"));
     writer.AddRecord(record1);
 
     XFILECSV_RECORD* record2 = GEN_NEW XFILECSV_RECORD();
-    record2->AddElement(__L("Bob"));
-    record2->AddElement(__L("25"));
+    record2->AddElement(_L("Bob"));
+    record2->AddElement(_L("25"));
     writer.AddRecord(record2);
 
     EXPECT_TRUE(writer.Close());
@@ -415,15 +415,15 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, WriteThenCloseThenReopenRoundTripWithoutHeade
 
   {
     XFILECSV reader;
-    reader.SetSeparator(__C(','));
+    reader.SetSeparator(_C(','));
 
     ASSERT_TRUE(reader.Open(xpath, true));
     ASSERT_EQ(reader.GetNRecords(), 2);
 
-    EXPECT_STREQ(reader.ReadRecord(0)->GetElement(0), __L("Alice"));
-    EXPECT_STREQ(reader.ReadRecord(0)->GetElement(1), __L("30"));
-    EXPECT_STREQ(reader.ReadRecord(1)->GetElement(0), __L("Bob"));
-    EXPECT_STREQ(reader.ReadRecord(1)->GetElement(1), __L("25"));
+    EXPECT_STREQ(reader.ReadRecord(0)->GetElement(0), _L("Alice"));
+    EXPECT_STREQ(reader.ReadRecord(0)->GetElement(1), _L("30"));
+    EXPECT_STREQ(reader.ReadRecord(1)->GetElement(0), _L("Bob"));
+    EXPECT_STREQ(reader.ReadRecord(1)->GetElement(1), _L("25"));
 
     reader.Close();
   }
@@ -442,7 +442,7 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, OpenWithoutPreDeclaredHeaderTreatsEveryLineAs
   // CSV file that has a real header row, without the caller pre-declaring one first, silently
   // parses that header row as an ordinary data record -- there is no way to ask XFILECSV to
   // "auto-detect" a header purely from the file's own content.
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilecsv_header_quirk.csv"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfilecsv_header_quirk.csv"));
   RemoveIfExists(xpath);
 
   WriteRawTextFile(xpath, "name,age\n" "Carol,40\n");
@@ -455,8 +455,8 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, OpenWithoutPreDeclaredHeaderTreatsEveryLineAs
   EXPECT_FALSE(reader.HaveHeader());
   ASSERT_EQ(reader.GetNRecords(), 2); // the header row "name,age" became record[0], not the header
 
-  EXPECT_STREQ(reader.ReadRecord(0)->GetElement(0), __L("name"));
-  EXPECT_STREQ(reader.ReadRecord(1)->GetElement(0), __L("Carol"));
+  EXPECT_STREQ(reader.ReadRecord(0)->GetElement(0), _L("name"));
+  EXPECT_STREQ(reader.ReadRecord(1)->GetElement(0), _L("Carol"));
 
   reader.Close();
   RemoveIfExists(xpath);
@@ -471,7 +471,7 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, PreDeclaringHeaderViaSetHeaderNowWorksAndMake
   // header, and HaveHeader() correctly reports true right after calling it (previously SetHeader()
   // always left GetHeader()->GetNElements() at 0, and the only working route was to reach into
   // GetHeader()'s live record directly and call AddElement() on it).
-  XPATH xpath; BuildTestFilePath(xpath, __L("unittests_xutils_xfilecsv_header_predeclared.csv"));
+  XPATH xpath; BuildTestFilePath(xpath, _L("unittests_xutils_xfilecsv_header_predeclared.csv"));
   RemoveIfExists(xpath);
 
   WriteRawTextFile(xpath, "name,age\n" "Dave,50\n");
@@ -479,26 +479,26 @@ TEST(UNITTESTS_XFILECSV_CLASSNAME, PreDeclaringHeaderViaSetHeaderNowWorksAndMake
   XFILECSV reader;
 
   XFILECSV_RECORD placeholderheader;
-  placeholderheader.AddElement(__L("placeholder"));
+  placeholderheader.AddElement(_L("placeholder"));
   reader.SetHeader(&placeholderheader);
   EXPECT_TRUE(reader.HaveHeader());
   ASSERT_EQ(reader.GetHeader()->GetNElements(), 1);
-  EXPECT_STREQ(reader.GetHeader()->GetElement(0), __L("placeholder"));
+  EXPECT_STREQ(reader.GetHeader()->GetElement(0), _L("placeholder"));
 
   ASSERT_TRUE(reader.Open(xpath, true));
 
   ASSERT_EQ(reader.GetNRecords(), 1); // only the "Dave,50" data row -- the header line was skipped
-  EXPECT_STREQ(reader.ReadRecord(0)->GetElement(0), __L("Dave"));
-  EXPECT_STREQ(reader.ReadRecord(0)->GetElement(1), __L("50"));
+  EXPECT_STREQ(reader.ReadRecord(0)->GetElement(0), _L("Dave"));
+  EXPECT_STREQ(reader.ReadRecord(0)->GetElement(1), _L("50"));
 
   // GetHeader() is still NOT reset before parsing -- CreateRecordOfLine() (XFileCSV.cpp) only ever
   // APPENDS elements onto whatever record it is given, it never clears it first (this part of the
   // original behavior is unchanged). So the real header line parsed from the file lands AFTER the
   // pre-declared placeholder, rather than replacing it.
   ASSERT_EQ(reader.GetHeader()->GetNElements(), 3);
-  EXPECT_STREQ(reader.GetHeader()->GetElement(0), __L("placeholder"));
-  EXPECT_STREQ(reader.GetHeader()->GetElement(1), __L("name"));
-  EXPECT_STREQ(reader.GetHeader()->GetElement(2), __L("age"));
+  EXPECT_STREQ(reader.GetHeader()->GetElement(0), _L("placeholder"));
+  EXPECT_STREQ(reader.GetHeader()->GetElement(1), _L("name"));
+  EXPECT_STREQ(reader.GetHeader()->GetElement(2), _L("age"));
 
   reader.Close();
   RemoveIfExists(xpath);

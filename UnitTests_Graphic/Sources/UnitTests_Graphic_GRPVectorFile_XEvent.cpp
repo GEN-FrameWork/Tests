@@ -66,12 +66,12 @@ TEST(UNITTESTS_GRPVECTORFILE_XEVENT_CLASSNAME, ConstructSetTypePathAndMsg)
   EXPECT_EQ(event.GetType(), GRPVECTORFILETYPE_SVG);
 
   ASSERT_NE(event.GetPath(), (XPATH*)NULL);
-  event.GetPath()->Set(__L("assets/sample.svg"));
-  EXPECT_EQ(event.GetPath()->Compare(__L("assets/sample.svg")), 0);
+  event.GetPath()->Set(_L("assets/sample.svg"));
+  EXPECT_EQ(event.GetPath()->Compare(_L("assets/sample.svg")), 0);
 
   ASSERT_NE(event.GetMsg(), (XSTRING*)NULL);
-  event.GetMsg()->Set(__L("unit test msg"));
-  EXPECT_EQ(event.GetMsg()->Compare(__L("unit test msg")), 0);
+  event.GetMsg()->Set(_L("unit test msg"));
+  EXPECT_EQ(event.GetMsg()->Compare(_L("unit test msg")), 0);
 }
 
 

@@ -62,8 +62,8 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, Code_GetByCodeAlpha3ResolvesKnownE
 {
   XLANGUAGE_ISO_639_3 languages;
 
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_ENG, languages.Code_GetByCodeAlpha3(__L("eng")));
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_SPA, languages.Code_GetByCodeAlpha3(__L("spa")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_ENG, languages.Code_GetByCodeAlpha3(_L("eng")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_SPA, languages.Code_GetByCodeAlpha3(_L("spa")));
 }
 
 
@@ -71,8 +71,8 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, Code_GetByCodeAlpha2ResolvesKnownE
 {
   XLANGUAGE_ISO_639_3 languages;
 
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_SPA, languages.Code_GetByCodeAlpha2(__L("es")));
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_FRE, languages.Code_GetByCodeAlpha2(__L("fr")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_SPA, languages.Code_GetByCodeAlpha2(_L("es")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_FRE, languages.Code_GetByCodeAlpha2(_L("fr")));
 }
 
 
@@ -80,8 +80,8 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, Code_GetByEnglishNameResolvesKnown
 {
   XLANGUAGE_ISO_639_3 languages;
 
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_FRE, languages.Code_GetByEnglishName(__L("French")));
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_DUT, languages.Code_GetByEnglishName(__L("Dutch")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_FRE, languages.Code_GetByEnglishName(_L("French")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_DUT, languages.Code_GetByEnglishName(_L("Dutch")));
 }
 
 
@@ -90,11 +90,11 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, Code_GetByAliasResolvesEitherAlias
   XLANGUAGE_ISO_639_3 languages;
 
   // "dut" entry has alias1name "Flemish" and empty alias2name
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_DUT, languages.Code_GetByAlias(__L("Flemish")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_DUT, languages.Code_GetByAlias(_L("Flemish")));
 
   // "chu" entry has alias1name "Old Slavonic" and alias2name "Church Slavonic"
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_CHU, languages.Code_GetByAlias(__L("Old Slavonic")));
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_CHU, languages.Code_GetByAlias(__L("Church Slavonic")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_CHU, languages.Code_GetByAlias(_L("Old Slavonic")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_CHU, languages.Code_GetByAlias(_L("Church Slavonic")));
 }
 
 
@@ -104,8 +104,8 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, UnknownCodeAlpha3ReturnsInvalidCod
 
   // Header/return-value contract: an unresolved lookup returns XLANGUAGE_ISO_639_3_CODE_INVALID (0),
   // never a null pointer or an exception -- the Code_Get* family always returns a plain XDWORD.
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_INVALID, languages.Code_GetByCodeAlpha3(__L("xyz")));
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_INVALID, languages.Code_GetByAlias(__L("Nonexistent")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_INVALID, languages.Code_GetByCodeAlpha3(_L("xyz")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_INVALID, languages.Code_GetByAlias(_L("Nonexistent")));
 }
 
 
@@ -118,8 +118,8 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, CodeAlpha3LookupIsCaseSensitiveOnS
   // lowercase spelling used by every other alpha-3 code in this table does not.
   XLANGUAGE_ISO_639_3 languages;
 
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_ARM, languages.Code_GetByCodeAlpha3(__L("ARM")));
-  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_INVALID, languages.Code_GetByCodeAlpha3(__L("arm")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_ARM, languages.Code_GetByCodeAlpha3(_L("ARM")));
+  EXPECT_EQ((XDWORD)XLANGUAGE_ISO_639_3_CODE_INVALID, languages.Code_GetByCodeAlpha3(_L("arm")));
 }
 
 
@@ -129,17 +129,17 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, CodeAlpha3_GetByCodeReturnsTrueAnd
   XSTRING codealpha3;
 
   EXPECT_TRUE(languages.CodeAlpha3_GetByCode(XLANGUAGE_ISO_639_3_CODE_ENG, codealpha3));
-  EXPECT_STREQ(codealpha3.Get(), __L("eng"));
+  EXPECT_STREQ(codealpha3.Get(), _L("eng"));
 }
 
 
 TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, CodeAlpha3_GetByCodeReturnsFalseAndEmptiesStringForUnknownCode)
 {
   XLANGUAGE_ISO_639_3 languages;
-  XSTRING codealpha3 = __L("previous value");
+  XSTRING codealpha3 = _L("previous value");
 
   EXPECT_FALSE(languages.CodeAlpha3_GetByCode((XDWORD)999999, codealpha3));
-  EXPECT_STREQ(codealpha3.Get(), __L(""));
+  EXPECT_STREQ(codealpha3.Get(), _L(""));
 }
 
 
@@ -148,8 +148,52 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, CodeAlpha3_GetByCodeAlpha2Resolves
   XLANGUAGE_ISO_639_3 languages;
   XSTRING codealpha3;
 
-  EXPECT_TRUE(languages.CodeAlpha3_GetByCodeAlpha2(__L("en"), codealpha3));
-  EXPECT_STREQ(codealpha3.Get(), __L("eng"));
+  EXPECT_TRUE(languages.CodeAlpha3_GetByCodeAlpha2(_L("en"), codealpha3));
+  EXPECT_STREQ(codealpha3.Get(), _L("eng"));
+}
+
+
+TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, CodeAlpha2_GetByCodeReturnsIso6391)
+{
+  XLANGUAGE_ISO_639_3 languages;
+  XSTRING codealpha2;
+
+  EXPECT_TRUE(languages.CodeAlpha2_GetByCode(XLANGUAGE_ISO_639_3_CODE_SPA, codealpha2));
+  EXPECT_STREQ(codealpha2.Get(), _L("es"));
+  EXPECT_TRUE(languages.CodeAlpha2_GetByCode(XLANGUAGE_ISO_639_3_CODE_CHI, codealpha2));
+  EXPECT_STREQ(codealpha2.Get(), _L("zh"));
+}
+
+
+TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, CodeAlpha2_GetByCodeAlpha3IsCaseInsensitive)
+{
+  XLANGUAGE_ISO_639_3 languages;
+  XSTRING codealpha2;
+
+  EXPECT_TRUE(languages.CodeAlpha2_GetByCodeAlpha3(_L("spa"), codealpha2));
+  EXPECT_STREQ(codealpha2.Get(), _L("es"));
+  EXPECT_TRUE(languages.CodeAlpha2_GetByCodeAlpha3(_L("ARM"), codealpha2));
+  EXPECT_STREQ(codealpha2.Get(), _L("hy"));
+  EXPECT_TRUE(languages.CodeAlpha2_GetByCodeAlpha3(_L("arm"), codealpha2));
+  EXPECT_STREQ(codealpha2.Get(), _L("hy"));
+}
+
+
+TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, CodeAlpha2_ResolveAcceptsAlpha2Alpha3AndLegacyGoogle)
+{
+  XLANGUAGE_ISO_639_3 languages;
+  XSTRING codealpha2;
+
+  EXPECT_TRUE(languages.CodeAlpha2_Resolve(_L("ES"), codealpha2));
+  EXPECT_STREQ(codealpha2.Get(), _L("es"));
+
+  EXPECT_TRUE(languages.CodeAlpha2_Resolve(_L("eng"), codealpha2));
+  EXPECT_STREQ(codealpha2.Get(), _L("en"));
+
+  EXPECT_TRUE(languages.CodeAlpha2_Resolve(_L("iw"), codealpha2));
+  EXPECT_STREQ(codealpha2.Get(), _L("he"));
+
+  EXPECT_FALSE(languages.CodeAlpha2_Resolve(_L("zh-CN"), codealpha2));
 }
 
 
@@ -158,8 +202,8 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, CodeAlpha3_GetByAliasResolvesKnown
   XLANGUAGE_ISO_639_3 languages;
   XSTRING codealpha3;
 
-  EXPECT_TRUE(languages.CodeAlpha3_GetByAlias(__L("Castilian"), codealpha3));
-  EXPECT_STREQ(codealpha3.Get(), __L("spa"));
+  EXPECT_TRUE(languages.CodeAlpha3_GetByAlias(_L("Castilian"), codealpha3));
+  EXPECT_STREQ(codealpha3.Get(), _L("spa"));
 }
 
 
@@ -169,7 +213,7 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, EnglishName_GetByCodeResolvesKnown
   XSTRING englishname;
 
   EXPECT_TRUE(languages.EnglishName_GetByCode(XLANGUAGE_ISO_639_3_CODE_SPA, englishname));
-  EXPECT_STREQ(englishname.Get(), __L("Spanish"));
+  EXPECT_STREQ(englishname.Get(), _L("Spanish"));
 }
 
 
@@ -178,8 +222,8 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, EnglishName_GetByCodeAlpha3Resolve
   XLANGUAGE_ISO_639_3 languages;
   XSTRING englishname;
 
-  EXPECT_TRUE(languages.EnglishName_GetByCodeAlpha3(__L("jpn"), englishname));
-  EXPECT_STREQ(englishname.Get(), __L("Japanese"));
+  EXPECT_TRUE(languages.EnglishName_GetByCodeAlpha3(_L("jpn"), englishname));
+  EXPECT_STREQ(englishname.Get(), _L("Japanese"));
 }
 
 
@@ -188,8 +232,8 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, EnglishName_GetByCodeAlpha2Resolve
   XLANGUAGE_ISO_639_3 languages;
   XSTRING englishname;
 
-  EXPECT_TRUE(languages.EnglishName_GetByCodeAlpha2(__L("de"), englishname));
-  EXPECT_STREQ(englishname.Get(), __L("German"));
+  EXPECT_TRUE(languages.EnglishName_GetByCodeAlpha2(_L("de"), englishname));
+  EXPECT_STREQ(englishname.Get(), _L("German"));
 }
 
 
@@ -198,18 +242,18 @@ TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, EnglishName_GetByAliasResolvesKnow
   XLANGUAGE_ISO_639_3 languages;
   XSTRING englishname;
 
-  EXPECT_TRUE(languages.EnglishName_GetByAlias(__L("Pashto"), englishname));
-  EXPECT_STREQ(englishname.Get(), __L("Pushto"));
+  EXPECT_TRUE(languages.EnglishName_GetByAlias(_L("Pashto"), englishname));
+  EXPECT_STREQ(englishname.Get(), _L("Pushto"));
 }
 
 
 TEST(UNITTESTS_XLANGUAGE_ISO_639_3_CLASSNAME, EnglishName_GetByCodeReturnsFalseAndEmptiesStringForUnknownCode)
 {
   XLANGUAGE_ISO_639_3 languages;
-  XSTRING englishname = __L("previous value");
+  XSTRING englishname = _L("previous value");
 
   EXPECT_FALSE(languages.EnglishName_GetByCode((XDWORD)999999, englishname));
-  EXPECT_STREQ(englishname.Get(), __L(""));
+  EXPECT_STREQ(englishname.Get(), _L(""));
 }
 
 

@@ -67,8 +67,8 @@ TEST(DIONODEITEM, CategoryDescriptionSimulateAndValues)
   item.SetCategory(DIONODEITEM_CATEGORY_GPIO_DIGITAL);
   EXPECT_EQ(item.GetCategory(), (XDWORD)DIONODEITEM_CATEGORY_GPIO_DIGITAL);
 
-  item.GetDescription()->Set(__L("gpio"));
-  EXPECT_EQ(item.GetDescription()->Compare(__L("gpio")), 0);
+  item.GetDescription()->Set(_L("gpio"));
+  EXPECT_EQ(item.GetDescription()->Compare(_L("gpio")), 0);
 
   item.SetIsSimulate(true);
   EXPECT_TRUE(item.IsSimulate());

@@ -63,16 +63,16 @@ TEST(DIOLOCATIONADDRESS, StreetCityStateCountryPostal)
 {
   DIOLOCATIONADDRESS address;
 
-  address.GetStreet()->Set(__L("Main St"));
-  address.GetCity()->Set(__L("Town"));
-  address.GetState()->Set(__L("ST"));
-  address.GetCountry()->Set(__L("Country"));
+  address.GetStreet()->Set(_L("Main St"));
+  address.GetCity()->Set(_L("Town"));
+  address.GetState()->Set(_L("ST"));
+  address.GetCountry()->Set(_L("Country"));
   address.SetPostalCode(12345);
 
-  EXPECT_EQ(address.GetStreet()->Compare(__L("Main St")), 0);
-  EXPECT_EQ(address.GetCity()->Compare(__L("Town")), 0);
-  EXPECT_EQ(address.GetState()->Compare(__L("ST")), 0);
-  EXPECT_EQ(address.GetCountry()->Compare(__L("Country")), 0);
+  EXPECT_EQ(address.GetStreet()->Compare(_L("Main St")), 0);
+  EXPECT_EQ(address.GetCity()->Compare(_L("Town")), 0);
+  EXPECT_EQ(address.GetState()->Compare(_L("ST")), 0);
+  EXPECT_EQ(address.GetCountry()->Compare(_L("Country")), 0);
   EXPECT_EQ(address.GetPostalCode(), (XDWORD)12345);
 }
 

@@ -64,7 +64,7 @@ namespace TEST_GRPVIDEOFILEAVI
 TEST(UNITTESTS_GRPVIDEOFILEAVI_CLASSNAME, CreateAddFrameCloseOpenGetDataFrame)
 {
   XPATH xpath;
-  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, __L("unittests_graphic_tiny.avi")));
+  ASSERT_TRUE(UNITTESTS_GRAPHIC_HELPER::BuildAssetPath(xpath, _L("unittests_graphic_tiny.avi")));
   UNITTESTS_GRAPHIC_HELPER::EraseAsset(xpath);
 
   GRPVIDEOFILE_PROPERTYS props;
@@ -100,7 +100,7 @@ TEST(UNITTESTS_GRPVIDEOFILEAVI_CLASSNAME, CreateAddFrameCloseOpenGetDataFrame)
     }
    else
     {
-      EXPECT_FALSE(avi.Open(__L("unittests_graphic_missing_no_such.avi")));
+      EXPECT_FALSE(avi.Open(_L("unittests_graphic_missing_no_such.avi")));
       EXPECT_TRUE(avi.Close());
     }
 
@@ -111,7 +111,7 @@ TEST(UNITTESTS_GRPVIDEOFILEAVI_CLASSNAME, CreateAddFrameCloseOpenGetDataFrame)
 TEST(UNITTESTS_GRPVIDEOFILEAVI_CLASSNAME, OpenMissingFalse)
 {
   GRPVIDEOFILEAVI avi;
-  EXPECT_FALSE(avi.Open(__L("unittests_graphic_missing_no_such.avi")));
+  EXPECT_FALSE(avi.Open(_L("unittests_graphic_missing_no_such.avi")));
 }
 
 

@@ -71,8 +71,8 @@ TEST(DIOSTREAMTCPIPCONFIG, DefaultsTypeAndRemotePort)
   EXPECT_TRUE(cfg.SetRemotePort(8080));
   EXPECT_EQ(cfg.GetRemotePort(), 8080);
 
-  cfg.GetRemoteURL()->Set(__L("127.0.0.1"));
-  EXPECT_EQ(cfg.GetRemoteURL()->Compare(__L("127.0.0.1")), 0);
+  cfg.GetRemoteURL()->Set(_L("127.0.0.1"));
+  EXPECT_EQ(cfg.GetRemoteURL()->Compare(_L("127.0.0.1")), 0);
 
   cfg.SetCounterMultiServer(2);
   EXPECT_EQ(cfg.GetCounterMultiServer(), 2);

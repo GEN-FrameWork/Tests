@@ -77,7 +77,7 @@ TEST(UNITTESTS_SNDFILEWAV_CLASSNAME, LoadTinyWavSucceeds)
 {
   XPATH xpath;
 
-  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(xpath, __L("unittests_sound_tiny.wav")));
+  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(xpath, _L("unittests_sound_tiny.wav")));
   RemoveIfExists(xpath);
 
   ASSERT_TRUE(UNITTESTS_SOUND_HELPER::WriteTinyPcmWav(xpath.Get()));
@@ -99,12 +99,12 @@ TEST(UNITTESTS_SNDFILEWAV_CLASSNAME, LoadCorruptOrMissingFails)
 {
   XPATH missing;
 
-  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(missing, __L("unittests_sound_corrupt_missing.wav")));
+  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(missing, _L("unittests_sound_corrupt_missing.wav")));
   EXPECT_EQ(SNDFILE::Create(missing), (SNDFILE*)NULL);
 
   XPATH corrupt;
 
-  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(corrupt, __L("unittests_sound_corrupt.wav")));
+  ASSERT_TRUE(UNITTESTS_SOUND_HELPER::BuildAssetPath(corrupt, _L("unittests_sound_corrupt.wav")));
   RemoveIfExists(corrupt);
 
   XFILE* xfile = GEN_XFACTORY.Create_File();

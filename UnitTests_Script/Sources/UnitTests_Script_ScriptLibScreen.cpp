@@ -39,7 +39,7 @@
 #include "GEN_Control.h"
 
 #if defined(GOOGLETEST_ACTIVE) && defined(SCRIPT_LIB_SCREEN_ACTIVE)
-UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBSCREEN, UNITTESTS_SCRIPTLIBSCREEN_CLASSNAME, SCRIPT_LIB_SCREEN, SCRIPT_LIB_NAME_SCREEN, __L("Screen_GetPosX"))
+UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBSCREEN, UNITTESTS_SCRIPTLIBSCREEN_CLASSNAME, SCRIPT_LIB_SCREEN, SCRIPT_LIB_NAME_SCREEN, _L("Screen_GetPosX"))
 
 namespace TEST_SCRIPTLIBSCREEN
 {
@@ -59,9 +59,9 @@ TEST(UNITTESTS_SCRIPTLIBSCREEN_CLASSNAME, RegistersGetPosXY)
   SCRIPT_LIB_SCREEN library;
 
   ASSERT_TRUE(library.AddLibraryFunctions(&script));
-  EXPECT_NE(script.GetLibraryFunction(__L("Screen_GetPosX")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("Screen_GetPosY")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("Screen_GetPosXY")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("Screen_GetPosX")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("Screen_GetPosY")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("Screen_GetPosXY")), (SCRIPT_LIB_FUNCTION*)NULL);
 }
 
 
@@ -89,8 +89,8 @@ TEST(UNITTESTS_SCRIPTLIBSCREEN_CLASSNAME, GetPosYDoesNotDependOnGetPosXGlobalSta
 {
   SCRIPT_LIB_SCREEN  library;
   SCRIPT             script;
-  XVARIANT           appname(__L("UnitTests_Script_MissingApp_42.exe"));
-  XVARIANT           title(__L("MissingWindowTitle_42"));
+  XVARIANT           appname(_L("UnitTests_Script_MissingApp_42.exe"));
+  XVARIANT           title(_L("MissingWindowTitle_42"));
   XVARIANT           outx(0);
   XVARIANT           outy(0);
   XVARIANT           resultx;
@@ -142,10 +142,10 @@ TEST(UNITTESTS_SCRIPTLIBSCREEN_CLASSNAME, GetPosXYFindsNotepadWindowOnWindows)
   SCRIPT_LIB_SCREEN_POS  pos;
   bool                   found = false;
 
-  GEN_XPROCESSMANAGER.Application_Terminate(__L("notepad.exe"));
+  GEN_XPROCESSMANAGER.Application_Terminate(_L("notepad.exe"));
   GEN_XSLEEP.MilliSeconds(300);
 
-  ASSERT_TRUE(GEN_XPROCESSMANAGER.Application_Execute(__L("C:\\Windows\\System32\\notepad.exe")));
+  ASSERT_TRUE(GEN_XPROCESSMANAGER.Application_Execute(_L("C:\\Windows\\System32\\notepad.exe")));
 
   for(int attempt = 0; attempt < 40; attempt++)
     {
@@ -158,7 +158,7 @@ TEST(UNITTESTS_SCRIPTLIBSCREEN_CLASSNAME, GetPosXYFindsNotepadWindowOnWindows)
               XPROCESS* process = applist.Get(c);
               if(!process) continue;
               if(!process->GetName()) continue;
-              if(process->GetName()->Find(__L("notepad.exe"), true) == XSTRING_NOTFOUND) continue;
+              if(process->GetName()->Find(_L("notepad.exe"), true) == XSTRING_NOTFOUND) continue;
               if(!process->GetWindowHandle()) continue;
               if(!process->GetWindowTitle()) continue;
               if(process->GetWindowTitle()->IsEmpty()) continue;
@@ -178,12 +178,12 @@ TEST(UNITTESTS_SCRIPTLIBSCREEN_CLASSNAME, GetPosXYFindsNotepadWindowOnWindows)
 
   if(!found)
     {
-      GEN_XPROCESSMANAGER.Application_Terminate(__L("notepad.exe"));
+      GEN_XPROCESSMANAGER.Application_Terminate(_L("notepad.exe"));
       GTEST_SKIP() << "notepad window not ready";
     }
 
   {
-    XVARIANT appname(__L("notepad.exe"));
+    XVARIANT appname(_L("notepad.exe"));
     XVARIANT title(windowtitle.Get());
 
     params.Add(&appname);
@@ -205,7 +205,7 @@ TEST(UNITTESTS_SCRIPTLIBSCREEN_CLASSNAME, GetPosXYFindsNotepadWindowOnWindows)
     Call_Screen_GetPosXY(&library, &script, &params, &resultxy);
   }
 
-  GEN_XPROCESSMANAGER.Application_Terminate(__L("notepad.exe"));
+  GEN_XPROCESSMANAGER.Application_Terminate(_L("notepad.exe"));
 
   EXPECT_EQ((int)resultxy, (int)SCRIPT_LIB_SCREEN_POSSTATUS_OK);
   EXPECT_EQ((int)outx, pos.x);
@@ -219,8 +219,8 @@ TEST(UNITTESTS_SCRIPTLIBSCREEN_CLASSNAME, GetPosAPIsAreIndependentOnLinux)
 {
   SCRIPT_LIB_SCREEN  library;
   SCRIPT             script;
-  XVARIANT           appname(__L("bash"));
-  XVARIANT           title(__L("UnitTests_Script_NoSuchWindow_42"));
+  XVARIANT           appname(_L("bash"));
+  XVARIANT           title(_L("UnitTests_Script_NoSuchWindow_42"));
   XVARIANT           outx(0);
   XVARIANT           outy(0);
   XVARIANT           resultx;

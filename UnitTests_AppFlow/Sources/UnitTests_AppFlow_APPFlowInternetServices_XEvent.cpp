@@ -77,10 +77,10 @@ TEST(APPFLOWINTERNETSERVICES_XEVENT, ConnexionStateLatencyAndIPChangeFields)
   EXPECT_TRUE(event.IsChangePublicIP());
   EXPECT_TRUE(event.IsChangeLocalIP());
 
-  event.GetChangePublicIP()->Set(__L("203.0.113.10"));
-  event.GetChangeLocalIP()->Set(__L("192.168.1.10"));
-  EXPECT_EQ(event.GetChangePublicIP()->Compare(__L("203.0.113.10")), 0);
-  EXPECT_EQ(event.GetChangeLocalIP()->Compare(__L("192.168.1.10")), 0);
+  event.GetChangePublicIP()->Set(_L("203.0.113.10"));
+  event.GetChangeLocalIP()->Set(_L("192.168.1.10"));
+  EXPECT_EQ(event.GetChangePublicIP()->Compare(_L("203.0.113.10")), 0);
+  EXPECT_EQ(event.GetChangeLocalIP()->Compare(_L("192.168.1.10")), 0);
 
   event.SetNChangesIP(3);
   event.SetNChangesLocalIP(1);

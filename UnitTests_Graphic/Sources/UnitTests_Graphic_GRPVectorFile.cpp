@@ -63,15 +63,15 @@ namespace TEST_GRPVECTORFILE
 TEST(UNITTESTS_GRPVECTORFILE_CLASSNAME, CreateInstanceSvgFromContentAndTypeText)
 {
   EXPECT_NE(GRPVECTORFILE::GetTypeText(GRPVECTORFILETYPE_UNKNOWN), (XCHAR*)NULL);
-  EXPECT_EQ(XSTRING(GRPVECTORFILE::GetTypeText(GRPVECTORFILETYPE_UNKNOWN)).Compare(__L("Unknown")), 0);
+  EXPECT_EQ(XSTRING(GRPVECTORFILE::GetTypeText(GRPVECTORFILETYPE_UNKNOWN)).Compare(_L("Unknown")), 0);
 
   #ifdef GRP_VECTOR_FILE_SVG_ACTIVE
-  EXPECT_EQ(XSTRING(GRPVECTORFILE::GetTypeText(GRPVECTORFILETYPE_SVG)).Compare(__L("SVG")), 0);
+  EXPECT_EQ(XSTRING(GRPVECTORFILE::GetTypeText(GRPVECTORFILETYPE_SVG)).Compare(_L("SVG")), 0);
 
   XSTRING content;
-  content  = __L("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"10\" height=\"10\">");
-  content += __L("<rect x=\"0\" y=\"0\" width=\"10\" height=\"10\" fill=\"#00FF00\"/>");
-  content += __L("</svg>");
+  content  = _L("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"10\" height=\"10\">");
+  content += _L("<rect x=\"0\" y=\"0\" width=\"10\" height=\"10\" fill=\"#00FF00\"/>");
+  content += _L("</svg>");
 
   GRPVECTORFILE* vectorfile = GRPVECTORFILE::CreateInstance(GRPVECTORFILETYPE_SVG, content);
   ASSERT_NE(vectorfile, (GRPVECTORFILE*)NULL);
@@ -81,7 +81,7 @@ TEST(UNITTESTS_GRPVECTORFILE_CLASSNAME, CreateInstanceSvgFromContentAndTypeText)
   #endif
 
   #ifdef GRP_VECTOR_FILE_DXF_ACTIVE
-  EXPECT_EQ(XSTRING(GRPVECTORFILE::GetTypeText(GRPVECTORFILETYPE_DXF)).Compare(__L("DXF")), 0);
+  EXPECT_EQ(XSTRING(GRPVECTORFILE::GetTypeText(GRPVECTORFILETYPE_DXF)).Compare(_L("DXF")), 0);
 
   GRPVECTORFILE* dxfempty = GRPVECTORFILE::CreateInstance(GRPVECTORFILETYPE_DXF);
   ASSERT_NE(dxfempty, (GRPVECTORFILE*)NULL);

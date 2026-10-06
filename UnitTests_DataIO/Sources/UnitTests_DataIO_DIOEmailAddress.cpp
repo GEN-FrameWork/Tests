@@ -61,21 +61,21 @@ namespace TEST_DIOEMAILADDRESS
 
 TEST(DIOEMAILADDRESS, ValidAddressUserDomain)
 {
-  DIOEMAILADDRESS email(__L("user@example.local"));
+  DIOEMAILADDRESS email(_L("user@example.local"));
   XSTRING         user;
   XSTRING         domain;
 
   EXPECT_TRUE(email.IsValid());
   EXPECT_TRUE(email.GetUser(user));
   EXPECT_TRUE(email.GetDomain(domain));
-  EXPECT_EQ(user.Compare(__L("user")), 0);
-  EXPECT_EQ(domain.Compare(__L("example.local")), 0);
+  EXPECT_EQ(user.Compare(_L("user")), 0);
+  EXPECT_EQ(domain.Compare(_L("example.local")), 0);
 }
 
 
 TEST(DIOEMAILADDRESS, InvalidWithoutAt)
 {
-  DIOEMAILADDRESS email(__L("not-an-email"));
+  DIOEMAILADDRESS email(_L("not-an-email"));
 
   EXPECT_FALSE(email.IsValid());
 }

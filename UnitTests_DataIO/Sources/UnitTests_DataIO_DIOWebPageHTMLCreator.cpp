@@ -64,17 +64,17 @@ TEST(DIOWEBPAGEHTMLCREATOR, PrintAndTableBuild)
 {
   DIOWEBPAGEHTMLCREATOR html;
 
-  EXPECT_TRUE(html.Printf(__L("<html>")));
+  EXPECT_TRUE(html.Printf(_L("<html>")));
   EXPECT_TRUE(html.Table_Ini(1));
   EXPECT_TRUE(html.Table_Line(2,
-                              50, DIOWEBPAGEHTMLCREATORALIGN_LEFT, __L("A"),
-                              50, DIOWEBPAGEHTMLCREATORALIGN_LEFT, __L("B")));
+                              50, DIOWEBPAGEHTMLCREATORALIGN_LEFT, _L("A"),
+                              50, DIOWEBPAGEHTMLCREATORALIGN_LEFT, _L("B")));
   EXPECT_TRUE(html.Table_End());
   EXPECT_TRUE(html.AddAutoRefresh(30));
 
   EXPECT_FALSE(html.IsEmpty());
-  EXPECT_NE(html.Find(__L("<html>"), true), XSTRING_NOTFOUND);
-  EXPECT_NE(html.Find(__L("<table"), true), XSTRING_NOTFOUND);
+  EXPECT_NE(html.Find(_L("<html>"), true), XSTRING_NOTFOUND);
+  EXPECT_NE(html.Find(_L("<table"), true), XSTRING_NOTFOUND);
 }
 
 

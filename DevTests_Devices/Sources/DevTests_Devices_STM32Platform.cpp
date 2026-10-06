@@ -331,7 +331,7 @@ void STM32_Platform_Trace(int iserror, const char* mask, ...)
 
   va_end(arg);
    
-  XTRACE_PRINTCOLOR((iserror == TRUE?XTRACE_COLOR_RED:XTRACE_COLOR_BLUE), __L("%s"), concat.Get());                   
+  XTRACE_PRINTCOLOR((iserror == TRUE?XTRACE_COLOR_RED:XTRACE_COLOR_BLUE), _L("%s"), concat.Get());                   
 }
 
 

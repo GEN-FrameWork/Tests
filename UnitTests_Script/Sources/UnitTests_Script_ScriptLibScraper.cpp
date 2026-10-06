@@ -58,7 +58,7 @@
 #include "GEN_Control.h"
 
 #if defined(GOOGLETEST_ACTIVE) && defined(SCRIPT_LIB_SCRAPER_ACTIVE) && defined(DIO_SCRAPERWEB_ACTIVE)
-UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBSCRAPER, UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, SCRIPT_LIB_SCRAPER, SCRIPT_LIB_NAME_SCRAPER, __L("Scraper_SetResult"))
+UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBSCRAPER, UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, SCRIPT_LIB_SCRAPER, SCRIPT_LIB_NAME_SCRAPER, _L("Scraper_SetResult"))
 
 namespace TEST_SCRIPTLIBSCRAPER
 {
@@ -69,10 +69,10 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, RegistersAllScraperHelpers)
   SCRIPT             script;
 
   ASSERT_TRUE(library.AddLibraryFunctions(&script));
-  EXPECT_NE(script.GetLibraryFunction(__L("Scraper_GetArg")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("Scraper_GetArgInt")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("Scraper_SetResult")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("Scraper_GetResult")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("Scraper_GetArg")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("Scraper_GetArgInt")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("Scraper_SetResult")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("Scraper_GetResult")), (SCRIPT_LIB_FUNCTION*)NULL);
 }
 
 
@@ -81,13 +81,13 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, ArgResultRoundTripViaBridge)
   DIOSCRAPERSCRIPT   runner;
   SCRIPT_LIB_SCRAPER library;
   SCRIPT             script;
-  XVARIANT           name(__L("timeout"));
+  XVARIANT           name(_L("timeout"));
   XVARIANT           result;
   XVECTOR<XVARIANT*> params;
   XSTRING            value;
   int                timeout = 0;
 
-  runner.SetArgInt(__L("timeout"), 7);
+  runner.SetArgInt(_L("timeout"), 7);
   library.SetContext(&runner);
   ASSERT_TRUE(library.AddLibraryFunctions(&script));
 
@@ -96,17 +96,17 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, ArgResultRoundTripViaBridge)
   EXPECT_EQ((int)result, 7);
 
   params.DeleteAll();
-  XVARIANT key(__L("ip"));
-  XVARIANT ipvalue(__L("203.0.113.10"));
+  XVARIANT key(_L("ip"));
+  XVARIANT ipvalue(_L("203.0.113.10"));
   params.Add(&key);
   params.Add(&ipvalue);
   Call_Scraper_SetResult(&library, &script, &params, &result);
   EXPECT_TRUE((bool)result);
 
-  ASSERT_TRUE(runner.GetResult(__L("ip"), value));
-  EXPECT_EQ(value.Compare(__L("203.0.113.10")), 0);
+  ASSERT_TRUE(runner.GetResult(_L("ip"), value));
+  EXPECT_EQ(value.Compare(_L("203.0.113.10")), 0);
 
-  ASSERT_TRUE(runner.GetArgInt(__L("timeout"), timeout));
+  ASSERT_TRUE(runner.GetArgInt(_L("timeout"), timeout));
   EXPECT_EQ(timeout, 7);
 }
 
@@ -117,12 +117,12 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, RunnerExecutesMockPublicIPScript)
   XSTRING          ok;
   XSTRING          ip;
 
-  runner.SetArgInt(__L("timeout"), 5);
-  ASSERT_TRUE(runner.Run(__L("scrapers/publicip_mock.g")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("ip"), ip));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
-  EXPECT_EQ(ip.Compare(__L("203.0.113.10")), 0);
+  runner.SetArgInt(_L("timeout"), 5);
+  ASSERT_TRUE(runner.Run(_L("scrapers/publicip_mock.g")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("ip"), ip));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
+  EXPECT_EQ(ip.Compare(_L("203.0.113.10")), 0);
 }
 
 
@@ -134,16 +134,16 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, PublicIPFacadeUsesMockScriptAndCache)
   DIOIP                 ipcached;
   XSTRING               text;
 
-  ASSERT_TRUE(scraper.SetScriptPath(__L("scrapers/publicip_mock.g")));
+  ASSERT_TRUE(scraper.SetScriptPath(_L("scrapers/publicip_mock.g")));
   ASSERT_TRUE(scraper.Get(ip, 5, NULL, true));
   ip.GetXString(text);
-  EXPECT_EQ(text.Compare(__L("203.0.113.10")), 0);
+  EXPECT_EQ(text.Compare(_L("203.0.113.10")), 0);
 
   // Second call must hit cache (same ask key) without needing the script again.
   ASSERT_TRUE(scraper.Get(ipcached, 5, NULL, true));
   text.Empty();
   ipcached.GetXString(text);
-  EXPECT_EQ(text.Compare(__L("203.0.113.10")), 0);
+  EXPECT_EQ(text.Compare(_L("203.0.113.10")), 0);
 }
 #endif
 
@@ -155,11 +155,11 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, GeolocationFacadeUsesMockScript)
   DIOGEOLOCATIONIP_RESULT    geo;
   DIOIP                      ip;
 
-  ip.Set(__L("203.0.113.10"));
-  ASSERT_TRUE(scraper.SetScriptPath(__L("scrapers/geolocationip_mock.g")));
+  ip.Set(_L("203.0.113.10"));
+  ASSERT_TRUE(scraper.SetScriptPath(_L("scrapers/geolocationip_mock.g")));
   ASSERT_TRUE(scraper.Get(ip, geo, 5, NULL, true));
-  EXPECT_EQ(XSTRING(geo.GetCountry()).Compare(__L("Testland")), 0);
-  EXPECT_EQ(XSTRING(geo.GetCity()).Compare(__L("City")), 0);
+  EXPECT_EQ(XSTRING(geo.GetCountry()).Compare(_L("Testland")), 0);
+  EXPECT_EQ(XSTRING(geo.GetCity()).Compare(_L("City")), 0);
   EXPECT_FLOAT_EQ(geo.GetLatitude(), 1.5f);
   EXPECT_FLOAT_EQ(geo.GetLongitude(), 2.5f);
 }
@@ -172,13 +172,13 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveGeolocationScriptParsesIpApiJson)
   XSTRING          country;
   XSTRING          city;
 
-  runner.SetArg(__L("ip"), __L("8.8.8.8"));
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/geolocationip.g")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("country"), country));
-  ASSERT_TRUE(runner.GetResult(__L("city"), city));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  runner.SetArg(_L("ip"), _L("8.8.8.8"));
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/geolocationip.g")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("country"), country));
+  ASSERT_TRUE(runner.GetResult(_L("city"), city));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(country.IsEmpty());
   EXPECT_FALSE(city.IsEmpty());
 }
@@ -193,20 +193,20 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LivePublicIPAndGeoScriptsInJavascript
   XSTRING          ip;
   XSTRING          country;
 
-  pubrunner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(pubrunner.Run(__L("scrapers/publicip.js")));
-  ASSERT_TRUE(pubrunner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(pubrunner.GetResult(__L("ip"), ip));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  pubrunner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(pubrunner.Run(_L("scrapers/publicip.js")));
+  ASSERT_TRUE(pubrunner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(pubrunner.GetResult(_L("ip"), ip));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(ip.IsEmpty());
 
-  georunner.SetArg(__L("ip"), ip);
-  georunner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(georunner.Run(__L("scrapers/geolocationip.js")));
+  georunner.SetArg(_L("ip"), ip);
+  georunner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(georunner.Run(_L("scrapers/geolocationip.js")));
   ok.Empty();
-  ASSERT_TRUE(georunner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(georunner.GetResult(__L("country"), country));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  ASSERT_TRUE(georunner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(georunner.GetResult(_L("country"), country));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(country.IsEmpty());
 }
 #endif
@@ -221,20 +221,20 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LivePublicIPAndGeoScriptsInLua)
   XSTRING          ip;
   XSTRING          country;
 
-  pubrunner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(pubrunner.Run(__L("scrapers/publicip.lua")));
-  ASSERT_TRUE(pubrunner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(pubrunner.GetResult(__L("ip"), ip));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  pubrunner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(pubrunner.Run(_L("scrapers/publicip.lua")));
+  ASSERT_TRUE(pubrunner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(pubrunner.GetResult(_L("ip"), ip));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(ip.IsEmpty());
 
-  georunner.SetArg(__L("ip"), ip);
-  georunner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(georunner.Run(__L("scrapers/geolocationip.lua")));
+  georunner.SetArg(_L("ip"), ip);
+  georunner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(georunner.Run(_L("scrapers/geolocationip.lua")));
   ok.Empty();
-  ASSERT_TRUE(georunner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(georunner.GetResult(__L("country"), country));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  ASSERT_TRUE(georunner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(georunner.GetResult(_L("country"), country));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(country.IsEmpty());
 }
 #endif
@@ -248,16 +248,16 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, WeatherFacadeUsesMockScriptAndCache)
   DIOSCRAPERWEBWEATHER scraper;
   DIOWEATHER_RESULT    weather;
   DIOWEATHER_RESULT    cached;
-  XSTRING              location(__L("Madrid"));
+  XSTRING              location(_L("Madrid"));
 
-  ASSERT_TRUE(scraper.SetScriptPath(__L("scrapers/weather_mock.g")));
+  ASSERT_TRUE(scraper.SetScriptPath(_L("scrapers/weather_mock.g")));
   ASSERT_TRUE(scraper.Get(location, true, weather, 5, NULL, true));
-  EXPECT_EQ(XSTRING(weather.GetCondition()).Compare(__L("Clear")), 0);
+  EXPECT_EQ(XSTRING(weather.GetCondition()).Compare(_L("Clear")), 0);
   EXPECT_FLOAT_EQ(weather.GetTemperature(), 21.5f);
   EXPECT_FLOAT_EQ(weather.GetHumidity(), 55.0f);
 
   ASSERT_TRUE(scraper.Get(location, true, cached, 5, NULL, true));
-  EXPECT_EQ(XSTRING(cached.GetCondition()).Compare(__L("Clear")), 0);
+  EXPECT_EQ(XSTRING(cached.GetCondition()).Compare(_L("Clear")), 0);
   EXPECT_FLOAT_EQ(cached.GetTemperature(), 21.5f);
 }
 
@@ -270,15 +270,15 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveWeatherScriptParsesOpenMeteo)
   XSTRING          temperature;
   XSTRING          humidity;
 
-  runner.SetArg(__L("location"), __L("Madrid"));
-  runner.SetArgInt(__L("celsius"), 1);
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/weather.g")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("condition"), condition));
-  ASSERT_TRUE(runner.GetResult(__L("temperature"), temperature));
-  ASSERT_TRUE(runner.GetResult(__L("humidity"), humidity));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  runner.SetArg(_L("location"), _L("Madrid"));
+  runner.SetArgInt(_L("celsius"), 1);
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/weather.g")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("condition"), condition));
+  ASSERT_TRUE(runner.GetResult(_L("temperature"), temperature));
+  ASSERT_TRUE(runner.GetResult(_L("humidity"), humidity));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(condition.IsEmpty());
   EXPECT_FALSE(temperature.IsEmpty());
   EXPECT_FALSE(humidity.IsEmpty());
@@ -292,13 +292,13 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveWeatherScriptInJavascript)
   XSTRING          ok;
   XSTRING          temperature;
 
-  runner.SetArg(__L("location"), __L("Madrid"));
-  runner.SetArgInt(__L("celsius"), 1);
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/weather.js")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("temperature"), temperature));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  runner.SetArg(_L("location"), _L("Madrid"));
+  runner.SetArgInt(_L("celsius"), 1);
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/weather.js")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("temperature"), temperature));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(temperature.IsEmpty());
 }
 #endif
@@ -311,13 +311,13 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveWeatherScriptInLua)
   XSTRING          ok;
   XSTRING          temperature;
 
-  runner.SetArg(__L("location"), __L("Madrid"));
-  runner.SetArgInt(__L("celsius"), 1);
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/weather.lua")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("temperature"), temperature));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  runner.SetArg(_L("location"), _L("Madrid"));
+  runner.SetArgInt(_L("celsius"), 1);
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/weather.lua")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("temperature"), temperature));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(temperature.IsEmpty());
 }
 #endif
@@ -330,17 +330,46 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, TranslationFacadeUsesMockScriptAndCac
   DIOSCRAPERWEBTRANSLATION scraper;
   DIOTRANSLATION_RESULT    result;
   DIOTRANSLATION_RESULT    cached;
-  XSTRING                  text(__L("Hello world"));
-  XSTRING                  sl(__L("en"));
-  XSTRING                  tl(__L("es"));
+  XSTRING                  text(_L("Hello world"));
+  XSTRING                  sl(_L("en"));
+  XSTRING                  tl(_L("es"));
 
-  ASSERT_TRUE(scraper.SetScriptPath(__L("scrapers/translation_mock.g")));
+  ASSERT_TRUE(scraper.SetScriptPath(_L("scrapers/translation_mock.g")));
   ASSERT_TRUE(scraper.Get(text, sl, tl, result, 5, NULL, true));
-  EXPECT_EQ(XSTRING(result.GetTranslation()).Compare(__L("Hola Mundo")), 0);
-  EXPECT_EQ(XSTRING(result.GetSourceLanguage()).Compare(__L("en")), 0);
+  EXPECT_EQ(XSTRING(result.GetTranslation()).Compare(_L("Hola Mundo")), 0);
+  EXPECT_EQ(XSTRING(result.GetSourceLanguage()).Compare(_L("en")), 0);
 
   ASSERT_TRUE(scraper.Get(text, sl, tl, cached, 5, NULL, true));
-  EXPECT_EQ(XSTRING(cached.GetTranslation()).Compare(__L("Hola Mundo")), 0);
+  EXPECT_EQ(XSTRING(cached.GetTranslation()).Compare(_L("Hola Mundo")), 0);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, TranslationFacadeDecodesUrlEncodingKeepsPrintfMasks)
+{
+  DIOSCRAPERWEBTRANSLATION scraper;
+  DIOTRANSLATION_RESULT    result;
+  XSTRING                  text(_L("Error %2d of %08X at: %s"));
+  XSTRING                  sl(_L("en"));
+  XSTRING                  tl(_L("es"));
+
+  ASSERT_TRUE(scraper.SetScriptPath(_L("scrapers/translation_mock_urlencoded.g")));
+  ASSERT_TRUE(scraper.Get(text, sl, tl, result, 5, NULL, false));
+  EXPECT_EQ(XSTRING(result.GetTranslation()).Compare(_L("Error %2d of %08X at: %s")), 0);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, TranslationFacadeDecodesSpaceAroundPrintfMask)
+{
+  DIOSCRAPERWEBTRANSLATION scraper;
+  DIOTRANSLATION_RESULT    result;
+  XSTRING                  text(_L("Hello %d world"));
+  XSTRING                  sl(_L("en"));
+  XSTRING                  tl(_L("es"));
+
+  ASSERT_TRUE(scraper.SetScriptPath(_L("scrapers/translation_mock_urlencoded_mask.g")));
+  ASSERT_TRUE(scraper.Get(text, sl, tl, result, 5, NULL, false));
+  // Must not treat "%20%d" as printf "%20%" + leftover "d"
+  EXPECT_EQ(XSTRING(result.GetTranslation()).Compare(_L("Hola %d world")), 0);
 }
 
 
@@ -350,14 +379,14 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveTranslationScriptUsesGoogleFree)
   XSTRING          ok;
   XSTRING          translation;
 
-  runner.SetArg(__L("text"), __L("Hello world"));
-  runner.SetArg(__L("sl"), __L("auto"));
-  runner.SetArg(__L("tl"), __L("es"));
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/translation.g")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("translation"), translation));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  runner.SetArg(_L("text"), _L("Hello world"));
+  runner.SetArg(_L("sl"), _L("auto"));
+  runner.SetArg(_L("tl"), _L("es"));
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/translation.g")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("translation"), translation));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(translation.IsEmpty());
 }
 
@@ -369,14 +398,14 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveTranslationScriptInJavascript)
   XSTRING          ok;
   XSTRING          translation;
 
-  runner.SetArg(__L("text"), __L("Hello world"));
-  runner.SetArg(__L("sl"), __L("auto"));
-  runner.SetArg(__L("tl"), __L("es"));
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/translation.js")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("translation"), translation));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  runner.SetArg(_L("text"), _L("Hello world"));
+  runner.SetArg(_L("sl"), _L("auto"));
+  runner.SetArg(_L("tl"), _L("es"));
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/translation.js")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("translation"), translation));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(translation.IsEmpty());
 }
 #endif
@@ -389,14 +418,14 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveTranslationScriptInLua)
   XSTRING          ok;
   XSTRING          translation;
 
-  runner.SetArg(__L("text"), __L("Hello world"));
-  runner.SetArg(__L("sl"), __L("auto"));
-  runner.SetArg(__L("tl"), __L("es"));
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/translation.lua")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("translation"), translation));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  runner.SetArg(_L("text"), _L("Hello world"));
+  runner.SetArg(_L("sl"), _L("auto"));
+  runner.SetArg(_L("tl"), _L("es"));
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/translation.lua")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("translation"), translation));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(translation.IsEmpty());
 }
 #endif
@@ -410,15 +439,15 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, MACManufacturerFacadeUsesMockScriptAn
   DIOMACMANUFACTURED_RESULT    result;
   DIOMACMANUFACTURED_RESULT    cached;
   DIOMAC                       mac;
-  XSTRING                      macstring(__L("00:1B:63:84:45:E6"));
+  XSTRING                      macstring(_L("00:1B:63:84:45:E6"));
 
   mac.Set(macstring);
-  ASSERT_TRUE(scraper.SetScriptPath(__L("scrapers/macmanufacturer_mock.g")));
+  ASSERT_TRUE(scraper.SetScriptPath(_L("scrapers/macmanufacturer_mock.g")));
   ASSERT_TRUE(scraper.Get(mac, result, 5, NULL, true));
-  EXPECT_EQ(XSTRING(result.GetManufacturer()).Compare(__L("Apple, Inc.")), 0);
+  EXPECT_EQ(XSTRING(result.GetManufacturer()).Compare(_L("Apple, Inc.")), 0);
 
   ASSERT_TRUE(scraper.Get(mac, cached, 5, NULL, true));
-  EXPECT_EQ(XSTRING(cached.GetManufacturer()).Compare(__L("Apple, Inc.")), 0);
+  EXPECT_EQ(XSTRING(cached.GetManufacturer()).Compare(_L("Apple, Inc.")), 0);
 }
 
 
@@ -428,12 +457,12 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveMACManufacturerScriptParsesVendor
   XSTRING          ok;
   XSTRING          manufacturer;
 
-  runner.SetArg(__L("mac"), __L("00:1B:63:84:45:E6"));
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/macmanufacturer.g")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("manufacturer"), manufacturer));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  runner.SetArg(_L("mac"), _L("00:1B:63:84:45:E6"));
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/macmanufacturer.g")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("manufacturer"), manufacturer));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(manufacturer.IsEmpty());
 }
 
@@ -445,12 +474,12 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveMACManufacturerScriptInJavascript
   XSTRING          ok;
   XSTRING          manufacturer;
 
-  runner.SetArg(__L("mac"), __L("00:1B:63:84:45:E6"));
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/macmanufacturer.js")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("manufacturer"), manufacturer));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  runner.SetArg(_L("mac"), _L("00:1B:63:84:45:E6"));
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/macmanufacturer.js")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("manufacturer"), manufacturer));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(manufacturer.IsEmpty());
 }
 #endif
@@ -463,12 +492,12 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveMACManufacturerScriptInLua)
   XSTRING          ok;
   XSTRING          manufacturer;
 
-  runner.SetArg(__L("mac"), __L("00:1B:63:84:45:E6"));
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/macmanufacturer.lua")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("manufacturer"), manufacturer));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  runner.SetArg(_L("mac"), _L("00:1B:63:84:45:E6"));
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/macmanufacturer.lua")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("manufacturer"), manufacturer));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(manufacturer.IsEmpty());
 }
 #endif
@@ -481,15 +510,15 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, UserAgentIDFacadeUsesMockScriptAndCac
   DIOSCRAPERWEBUSERAGENTID scraper;
   DIOUSERAGENTID_RESULT    result;
   DIOUSERAGENTID_RESULT    cached;
-  XSTRING                  ua(__L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0"));
+  XSTRING                  ua(_L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0"));
 
-  ASSERT_TRUE(scraper.SetScriptPath(__L("scrapers/useragentid_mock.g")));
+  ASSERT_TRUE(scraper.SetScriptPath(_L("scrapers/useragentid_mock.g")));
   ASSERT_TRUE(scraper.Get(ua, result, 5, NULL, true));
-  EXPECT_EQ(XSTRING(result.GetBrowser()).Compare(__L("Chrome")), 0);
-  EXPECT_EQ(XSTRING(result.GetSO()).Compare(__L("Windows 10")), 0);
+  EXPECT_EQ(XSTRING(result.GetBrowser()).Compare(_L("Chrome")), 0);
+  EXPECT_EQ(XSTRING(result.GetSO()).Compare(_L("Windows 10")), 0);
 
   ASSERT_TRUE(scraper.Get(ua, cached, 5, NULL, true));
-  EXPECT_EQ(XSTRING(cached.GetBrowser()).Compare(__L("Chrome")), 0);
+  EXPECT_EQ(XSTRING(cached.GetBrowser()).Compare(_L("Chrome")), 0);
 }
 
 
@@ -500,13 +529,13 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveUserAgentIDScriptParsesBrowser)
   XSTRING          ok;
   XSTRING          browser;
 
-  uaencoded.EncodeUnsafeCharsFromString(__L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"));
-  runner.SetArg(__L("ua"), uaencoded.Get());
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/useragentid.g")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("browser"), browser));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  uaencoded.EncodeUnsafeCharsFromString(_L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"));
+  runner.SetArg(_L("ua"), uaencoded.Get());
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/useragentid.g")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("browser"), browser));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(browser.IsEmpty());
 }
 
@@ -519,13 +548,13 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveUserAgentIDScriptInJavascript)
   XSTRING          ok;
   XSTRING          browser;
 
-  uaencoded.EncodeUnsafeCharsFromString(__L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"));
-  runner.SetArg(__L("ua"), uaencoded.Get());
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/useragentid.js")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("browser"), browser));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  uaencoded.EncodeUnsafeCharsFromString(_L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"));
+  runner.SetArg(_L("ua"), uaencoded.Get());
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/useragentid.js")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("browser"), browser));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(browser.IsEmpty());
 }
 #endif
@@ -539,13 +568,13 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveUserAgentIDScriptInLua)
   XSTRING          ok;
   XSTRING          browser;
 
-  uaencoded.EncodeUnsafeCharsFromString(__L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"));
-  runner.SetArg(__L("ua"), uaencoded.Get());
-  runner.SetArgInt(__L("timeout"), 15);
-  ASSERT_TRUE(runner.Run(__L("scrapers/useragentid.lua")));
-  ASSERT_TRUE(runner.GetResult(__L("ok"), ok));
-  ASSERT_TRUE(runner.GetResult(__L("browser"), browser));
-  EXPECT_EQ(ok.Compare(__L("1")), 0);
+  uaencoded.EncodeUnsafeCharsFromString(_L("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"));
+  runner.SetArg(_L("ua"), uaencoded.Get());
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/useragentid.lua")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("browser"), browser));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(browser.IsEmpty());
 }
 #endif
@@ -557,7 +586,7 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, NotAutoRegisteredOnScript)
   SCRIPT script;
 
   ASSERT_TRUE(script.AddInternalLibraries());
-  EXPECT_EQ(script.GetLibraryFunction(__L("Scraper_SetResult")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_EQ(script.GetLibraryFunction(_L("Scraper_SetResult")), (SCRIPT_LIB_FUNCTION*)NULL);
 }
 
 }

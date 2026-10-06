@@ -73,25 +73,25 @@ TEST(UNITTESTS_DB_SQL_RESULT_CLASSNAME, SelectReturnsRowsWithExpectedValues)
   ASSERT_NE(db, (DB_SQL_DATABASE*)NULL);
   ASSERT_NE(connection, (DB_SQL_CONNECTION*)NULL);
 
-  XCHAR* fields[] = { __L("id int PRIMARY KEY"), __L("name varchar(50)") };
-  ASSERT_TRUE(db->Table_Create(__L("t"), fields, 2));
+  XCHAR* fields[] = { _L("id int PRIMARY KEY"), _L("name varchar(50)") };
+  ASSERT_TRUE(db->Table_Create(_L("t"), fields, 2));
 
   DB_SQL_QUERY* query = db->CreateQuery();
   ASSERT_NE(query, (DB_SQL_QUERY*)NULL);
 
-  ASSERT_TRUE(query->Set(__L("INSERT INTO t (id,name) VALUES (?,?);")));
+  ASSERT_TRUE(query->Set(_L("INSERT INTO t (id,name) VALUES (?,?);")));
 
   EXPECT_TRUE(query->Bind(0, 1));
-  EXPECT_TRUE(query->Bind(1, __L("alpha")));
+  EXPECT_TRUE(query->Bind(1, _L("alpha")));
   ASSERT_TRUE(db->Execute(query));
   EXPECT_TRUE(query->UnbindAll());
 
   EXPECT_TRUE(query->Bind(0, 2));
-  EXPECT_TRUE(query->Bind(1, __L("beta")));
+  EXPECT_TRUE(query->Bind(1, _L("beta")));
   ASSERT_TRUE(db->Execute(query));
   EXPECT_TRUE(query->UnbindAll());
 
-  ASSERT_TRUE(query->Set(__L("SELECT * FROM t;")));
+  ASSERT_TRUE(query->Set(_L("SELECT * FROM t;")));
   ASSERT_TRUE(db->Execute(query));
 
   DB_SQL_RESULT* result = query->GetResult();
@@ -112,7 +112,7 @@ TEST(UNITTESTS_DB_SQL_RESULT_CLASSNAME, SelectReturnsRowsWithExpectedValues)
 
           EXPECT_EQ((int)row->Get(0), 1);
           name = (XCHAR*)row->Get(1);
-          EXPECT_EQ(name.Compare(__L("alpha"), true), 0);
+          EXPECT_EQ(name.Compare(_L("alpha"), true), 0);
         }
        else if(rowcount == 1)
         {
@@ -120,7 +120,7 @@ TEST(UNITTESTS_DB_SQL_RESULT_CLASSNAME, SelectReturnsRowsWithExpectedValues)
 
           EXPECT_EQ((int)row->Get(0), 2);
           name = (XCHAR*)row->Get(1);
-          EXPECT_EQ(name.Compare(__L("beta"), true), 0);
+          EXPECT_EQ(name.Compare(_L("beta"), true), 0);
         }
 
       rowcount++;

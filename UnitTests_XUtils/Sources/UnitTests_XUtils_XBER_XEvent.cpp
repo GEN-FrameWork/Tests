@@ -109,10 +109,10 @@ TEST(UNITTESTS_XBER_XEVENT_CLASSNAME, GetLevelsStringReturnsUsableEmptyString)
   XSTRING* levelsstr = event.GetLevelsString();
 
   ASSERT_NE((void*)NULL, (void*)levelsstr);
-  EXPECT_STREQ(levelsstr->Get(), __L(""));
+  EXPECT_STREQ(levelsstr->Get(), _L(""));
 
-  *levelsstr = __L("1.2.3");
-  EXPECT_STREQ(event.GetLevelsString()->Get(), __L("1.2.3"));
+  *levelsstr = _L("1.2.3");
+  EXPECT_STREQ(event.GetLevelsString()->Get(), _L("1.2.3"));
 }
 
 
@@ -124,8 +124,8 @@ TEST(UNITTESTS_XBER_XEVENT_CLASSNAME, GetLineReturnsWritableString)
 
   ASSERT_NE((void*)NULL, (void*)line);
 
-  *line = __L("SEQUENCE (constructed)");
-  EXPECT_STREQ(event.GetLine()->Get(), __L("SEQUENCE (constructed)"));
+  *line = _L("SEQUENCE (constructed)");
+  EXPECT_STREQ(event.GetLine()->Get(), _L("SEQUENCE (constructed)"));
 }
 
 
@@ -158,7 +158,7 @@ TEST(UNITTESTS_XBER_XEVENT_CLASSNAME, GetTagTypeNameReturnsUsableEmptyString)
   XSTRING* tagtypename = event.GetTagTypeName();
 
   ASSERT_NE((void*)NULL, (void*)tagtypename);
-  EXPECT_STREQ(tagtypename->Get(), __L(""));
+  EXPECT_STREQ(tagtypename->Get(), _L(""));
 }
 
 

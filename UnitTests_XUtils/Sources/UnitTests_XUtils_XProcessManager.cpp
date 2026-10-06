@@ -66,17 +66,17 @@
 
 #define UNITTESTS_XPROCESSMANAGER_GETPID() ((XDWORD)getpid())
 
-#define UNITTESTS_XPROCESSMANAGER_SHELLCMD_ALWAYSSUCCEEDS    __L("true")
-#define UNITTESTS_XPROCESSMANAGER_SHELLCMD_ALWAYSFAILS       __L("false")
-#define UNITTESTS_XPROCESSMANAGER_SHELLCMD_ECHO              __L("echo hello")
+#define UNITTESTS_XPROCESSMANAGER_SHELLCMD_ALWAYSSUCCEEDS    _L("true")
+#define UNITTESTS_XPROCESSMANAGER_SHELLCMD_ALWAYSFAILS       _L("false")
+#define UNITTESTS_XPROCESSMANAGER_SHELLCMD_ECHO              _L("echo hello")
 
-#define UNITTESTS_XPROCESSMANAGER_APP_PATH_ALWAYSSUCCEEDS    __L("/bin/true")
+#define UNITTESTS_XPROCESSMANAGER_APP_PATH_ALWAYSSUCCEEDS    _L("/bin/true")
 #define UNITTESTS_XPROCESSMANAGER_APP_PARAMS_ALWAYSSUCCEEDS  (XCHAR*)NULL
-#define UNITTESTS_XPROCESSMANAGER_APP_PATH_ALWAYSFAILS       __L("/bin/false")
+#define UNITTESTS_XPROCESSMANAGER_APP_PATH_ALWAYSFAILS       _L("/bin/false")
 #define UNITTESTS_XPROCESSMANAGER_APP_PARAMS_ALWAYSFAILS     (XCHAR*)NULL
-#define UNITTESTS_XPROCESSMANAGER_APP_PATH_ECHO              __L("/bin/echo")
-#define UNITTESTS_XPROCESSMANAGER_APP_PARAMS_ECHO            __L("hello_world")
-#define UNITTESTS_XPROCESSMANAGER_APP_PATH_MISSING           __L("/this/path/does/not/exist")
+#define UNITTESTS_XPROCESSMANAGER_APP_PATH_ECHO              _L("/bin/echo")
+#define UNITTESTS_XPROCESSMANAGER_APP_PARAMS_ECHO            _L("hello_world")
+#define UNITTESTS_XPROCESSMANAGER_APP_PATH_MISSING           _L("/this/path/does/not/exist")
 
 #elif defined(WINDOWS)
 #include <process.h>
@@ -88,17 +88,17 @@
 // "applicationpath" directly via CreateProcess() with "params" appended, so it needs a real .exe
 // path, not a shell built-in) but not build-verified on an actual Windows machine -- please confirm
 // once you build/run this on Windows.
-#define UNITTESTS_XPROCESSMANAGER_SHELLCMD_ALWAYSSUCCEEDS    __L("exit 0")
-#define UNITTESTS_XPROCESSMANAGER_SHELLCMD_ALWAYSFAILS       __L("exit 1")
-#define UNITTESTS_XPROCESSMANAGER_SHELLCMD_ECHO              __L("echo hello")
+#define UNITTESTS_XPROCESSMANAGER_SHELLCMD_ALWAYSSUCCEEDS    _L("exit 0")
+#define UNITTESTS_XPROCESSMANAGER_SHELLCMD_ALWAYSFAILS       _L("exit 1")
+#define UNITTESTS_XPROCESSMANAGER_SHELLCMD_ECHO              _L("echo hello")
 
-#define UNITTESTS_XPROCESSMANAGER_APP_PATH_ALWAYSSUCCEEDS    __L("C:\\Windows\\System32\\cmd.exe")
-#define UNITTESTS_XPROCESSMANAGER_APP_PARAMS_ALWAYSSUCCEEDS  __L("/c exit 0")
-#define UNITTESTS_XPROCESSMANAGER_APP_PATH_ALWAYSFAILS       __L("C:\\Windows\\System32\\cmd.exe")
-#define UNITTESTS_XPROCESSMANAGER_APP_PARAMS_ALWAYSFAILS     __L("/c exit 1")
-#define UNITTESTS_XPROCESSMANAGER_APP_PATH_ECHO              __L("C:\\Windows\\System32\\cmd.exe")
-#define UNITTESTS_XPROCESSMANAGER_APP_PARAMS_ECHO            __L("/c echo hello_world")
-#define UNITTESTS_XPROCESSMANAGER_APP_PATH_MISSING           __L("C:\\this\\path\\does\\not\\exist.exe")
+#define UNITTESTS_XPROCESSMANAGER_APP_PATH_ALWAYSSUCCEEDS    _L("C:\\Windows\\System32\\cmd.exe")
+#define UNITTESTS_XPROCESSMANAGER_APP_PARAMS_ALWAYSSUCCEEDS  _L("/c exit 0")
+#define UNITTESTS_XPROCESSMANAGER_APP_PATH_ALWAYSFAILS       _L("C:\\Windows\\System32\\cmd.exe")
+#define UNITTESTS_XPROCESSMANAGER_APP_PARAMS_ALWAYSFAILS     _L("/c exit 1")
+#define UNITTESTS_XPROCESSMANAGER_APP_PATH_ECHO              _L("C:\\Windows\\System32\\cmd.exe")
+#define UNITTESTS_XPROCESSMANAGER_APP_PARAMS_ECHO            _L("/c echo hello_world")
+#define UNITTESTS_XPROCESSMANAGER_APP_PATH_MISSING           _L("C:\\this\\path\\does\\not\\exist.exe")
 #endif
 
 
@@ -200,9 +200,9 @@ TEST(UNITTESTS_XPROCESSMANAGER_CLASSNAME, ProcessCopyToCopiesAllFields)
   XPROCESS src, dst;
 
   src.SetID(77);
-  src.GetPath()->Set(__L("/tmp/app"));
-  src.GetName()->Set(__L("app"));
-  src.GetWindowTitle()->Set(__L("My Window"));
+  src.GetPath()->Set(_L("/tmp/app"));
+  src.GetName()->Set(_L("app"));
+  src.GetWindowTitle()->Set(_L("My Window"));
   src.GetWindowRect()->Set(1, 2, 3, 4);
   src.SetWindowTitleHeight(15);
   src.SetWindowBorderWidth(2);
@@ -210,9 +210,9 @@ TEST(UNITTESTS_XPROCESSMANAGER_CLASSNAME, ProcessCopyToCopiesAllFields)
   EXPECT_TRUE(src.CopyTo(dst));
 
   EXPECT_EQ(dst.GetID(), (XDWORD)77);
-  EXPECT_STREQ(dst.GetPath()->Get(), __L("/tmp/app"));
-  EXPECT_STREQ(dst.GetName()->Get(), __L("app"));
-  EXPECT_STREQ(dst.GetWindowTitle()->Get(), __L("My Window"));
+  EXPECT_STREQ(dst.GetPath()->Get(), _L("/tmp/app"));
+  EXPECT_STREQ(dst.GetName()->Get(), _L("app"));
+  EXPECT_STREQ(dst.GetWindowTitle()->Get(), _L("My Window"));
   // GRPRECTBASE::IsEqual() is a tri-state comparator (ISLESS/ISEQUAL/ISGREATER, from XBase.h) that
   // compares rectangle *area*, not a plain bool -- ISEQUAL is 0, so it must be compared against
   // ISEQUAL rather than used directly as a condition.
@@ -227,12 +227,12 @@ TEST(UNITTESTS_XPROCESSMANAGER_CLASSNAME, ProcessCopyFromMirrorsCopyTo)
   XPROCESS src, dst;
 
   src.SetID(99);
-  src.GetName()->Set(__L("other"));
+  src.GetName()->Set(_L("other"));
 
   EXPECT_TRUE(dst.CopyFrom(src));
 
   EXPECT_EQ(dst.GetID(), (XDWORD)99);
-  EXPECT_STREQ(dst.GetName()->Get(), __L("other"));
+  EXPECT_STREQ(dst.GetName()->Get(), _L("other"));
 }
 
 
@@ -241,9 +241,9 @@ TEST(UNITTESTS_XPROCESSMANAGER_CLASSNAME, ProcessCompareTrueForIdenticalCopiesOn
   XPROCESS src, dst;
 
   src.SetID(1);
-  src.GetPath()->Set(__L("/bin/x"));
-  src.GetName()->Set(__L("x"));
-  src.GetWindowTitle()->Set(__L("X"));
+  src.GetPath()->Set(_L("/bin/x"));
+  src.GetName()->Set(_L("x"));
+  src.GetWindowTitle()->Set(_L("X"));
 
   src.CopyTo(dst);
 
@@ -301,7 +301,7 @@ TEST(UNITTESTS_XPROCESSMANAGER_CLASSNAME, ProcessCompareOnlyFixedIgnoresRectAndH
   XPROCESS src, dst;
 
   src.SetID(1);
-  src.GetName()->Set(__L("same"));
+  src.GetName()->Set(_L("same"));
   src.CopyTo(dst);
 
   // Diverge only the "not fixed" fields (rect/heights) -- onlyfixed=true must not notice.
@@ -425,7 +425,7 @@ TEST(UNITTESTS_XPROCESSMANAGER_CLASSNAME, MakeCommandCapturesRealOutputThroughAP
 
   XSTRING outstring;
   outstring = out.GetPtrChar();
-  EXPECT_NE(outstring.Find(__L("hello"), false), XSTRING_NOTFOUND);
+  EXPECT_NE(outstring.Find(_L("hello"), false), XSTRING_NOTFOUND);
 }
 
 
@@ -465,7 +465,7 @@ TEST(UNITTESTS_XPROCESSMANAGER_CLASSNAME, ApplicationExecuteCapturesStdoutWithPa
 
   XSTRING outstring;
   outstring = out.GetPtrChar();
-  EXPECT_NE(outstring.Find(__L("hello_world"), false), XSTRING_NOTFOUND);
+  EXPECT_NE(outstring.Find(_L("hello_world"), false), XSTRING_NOTFOUND);
 }
 
 
@@ -479,31 +479,15 @@ TEST(UNITTESTS_XPROCESSMANAGER_CLASSNAME, ApplicationExecuteRejectsMissingApplic
 
 TEST(UNITTESTS_XPROCESSMANAGER_CLASSNAME, ApplicationGetRunningListDispatchesThroughTheCommonInterface)
 {
-  // FIXED (dispatch bug, previously platform-specific): XLINUXPROCESSMANAGER::Application_GetRunningList()
-  // (XLINUXProcessManager.h) used to take a different signature than the virtual base method
-  // XPROCESSMANAGER::Application_GetRunningList(XVECTOR<XPROCESS*>&, bool onlywithvalidwindow=false)
-  // (XProcessManager.h), which *hid* the base method instead of overriding it -- so calling it through
-  // a base-typed reference/pointer (exactly what GEN_XPROCESSMANAGER / XPROCESSMANAGER::GetInstance()
-  // gives you) silently resolved to the base class' own do-nothing stub. Both signatures now match, so
-  // the vtable dispatch correctly reaches the real per-platform implementation, exercised here purely
-  // through the common interface (no platform module named in this test).
-  //
-  // STILL OPEN on LINUX (real bug, reported, not fixed): XLINUXPROCESSMANAGER::Application_GetRunningList()
-  // itself (XLINUXProcessManager.cpp) unconditionally "return false;" at the very end of the function,
-  // even after successfully scanning /proc and populating applist -- so on LINUX the return value can
-  // never be trusted to reflect success, only the output list can. XWINDOWSPROCESSMANAGER's own
-  // implementation does not have this bug and genuinely returns true on success.
+  // XLINUXPROCESSMANAGER::Application_GetRunningList used to hide the base virtual
+  // (different signature) so GEN_XPROCESSMANAGER dispatched to a no-op stub. Signatures
+  // now match and Linux returns true after a successful /proc scan (same contract as Windows).
   EnsureXProcessManagerInstance();
 
   XVECTOR<XPROCESS*> applist;
 
-  #if defined(LINUX)
-  EXPECT_FALSE(GEN_XPROCESSMANAGER.Application_GetRunningList(applist)); // documented LINUX bug: always false, even on success
-  #else
   EXPECT_TRUE(GEN_XPROCESSMANAGER.Application_GetRunningList(applist));
-  #endif
-
-  EXPECT_FALSE(applist.IsEmpty()); // the list IS populated on every platform
+  EXPECT_FALSE(applist.IsEmpty());
 
   XPROCESS* self = XPROCESSMANAGER::Application_GetProcessByID(UNITTESTS_XPROCESSMANAGER_GETPID(), applist);
   EXPECT_NE(self, (XPROCESS*)NULL);
@@ -592,7 +576,7 @@ TEST(UNITTESTS_XPROCESSMANAGER_CLASSNAME, AdjustStringToConsolaSymbolsUsedSkipsC
   bool expectconversion = (symbolused == XCONSOLE_SYMBOLSUSED_UNICODE_UTF8) || (asciicode != XSTRINGASCIICODE_NONE);
 
   XSTRING original;
-  original = __L("hello");
+  original = _L("hello");
 
   XBUFFER converted;
   bool    status = GEN_XPROCESSMANAGER.AdjustStringToConsolaSymbolsUsed(original, converted);

@@ -136,14 +136,14 @@ TEST(UNITTESTS_XPATHSMANAGER_CLASSNAME, AddPathSectionRegistersNewSectionNormali
 {
   EnsureXPathsManagerInstance();
 
-  XSTRING rawvalue(__L("some/generic/value"));
+  XSTRING rawvalue(_L("some/generic/value"));
 
   EXPECT_TRUE(GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_GENERIC1, rawvalue));
 
   XPATHSMANAGERSECTION* section = GEN_XPATHSMANAGER.GetPathSection(XPATHSMANAGERSECTIONTYPE_GENERIC1);
 
   ASSERT_NE(section, (XPATHSMANAGERSECTION*)NULL);
-  EXPECT_STREQ(section->xpath->Get(), __L("some/generic/value/"));
+  EXPECT_STREQ(section->xpath->Get(), _L("some/generic/value/"));
 }
 
 
@@ -151,17 +151,17 @@ TEST(UNITTESTS_XPATHSMANAGER_CLASSNAME, AddPathSectionOnExistingTypeUpdatesInPla
 {
   EnsureXPathsManagerInstance();
 
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_GENERIC2, __L("first/value"));
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_GENERIC2, _L("first/value"));
 
   XPATHSMANAGERSECTION* firstadd = GEN_XPATHSMANAGER.GetPathSection(XPATHSMANAGERSECTIONTYPE_GENERIC2);
   ASSERT_NE(firstadd, (XPATHSMANAGERSECTION*)NULL);
-  EXPECT_STREQ(firstadd->xpath->Get(), __L("first/value/"));
+  EXPECT_STREQ(firstadd->xpath->Get(), _L("first/value/"));
 
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_GENERIC2, __L("second/value"));
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_GENERIC2, _L("second/value"));
 
   XPATHSMANAGERSECTION* secondadd = GEN_XPATHSMANAGER.GetPathSection(XPATHSMANAGERSECTIONTYPE_GENERIC2);
   ASSERT_NE(secondadd, (XPATHSMANAGERSECTION*)NULL);
-  EXPECT_STREQ(secondadd->xpath->Get(), __L("second/value/"));
+  EXPECT_STREQ(secondadd->xpath->Get(), _L("second/value/"));
 
   // Updating in place: still the same section object, not a duplicate entry.
   EXPECT_EQ(firstadd, secondadd);
@@ -175,20 +175,20 @@ TEST(UNITTESTS_XPATHSMANAGER_CLASSNAME, GetPathOfSectionWithAddRootPrependsRootP
   XPATH rootonly;
   ASSERT_TRUE(GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_ROOT, rootonly));
 
-  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_GENERIC3, __L("nested/section"));
+  GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_GENERIC3, _L("nested/section"));
 
   XPATH withroot;
   EXPECT_TRUE(GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_GENERIC3, withroot, true));
 
   XSTRING expectedwithroot;
   expectedwithroot  = rootonly.Get();
-  expectedwithroot += __L("nested/section/");
+  expectedwithroot += _L("nested/section/");
 
   EXPECT_STREQ(withroot.Get(), expectedwithroot.Get());
 
   XPATH withoutroot;
   EXPECT_TRUE(GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_GENERIC3, withoutroot, false));
-  EXPECT_STREQ(withoutroot.Get(), __L("nested/section/"));
+  EXPECT_STREQ(withoutroot.Get(), _L("nested/section/"));
 }
 
 
@@ -213,7 +213,7 @@ TEST(UNITTESTS_XPATHSMANAGER_CLASSNAME, CreateAllPathSectionOnDiskCreatesRegiste
 {
   EnsureXPathsManagerInstance();
 
-  const XCHAR* relativedirname = __L("unittests_xpathsmanager_createdisk");
+  const XCHAR* relativedirname = _L("unittests_xpathsmanager_createdisk");
 
   GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_GENERIC4, relativedirname);
 
@@ -283,7 +283,7 @@ TEST(UNITTESTS_XPATHSMANAGER_CLASSNAME, CreateAllPathSectionOnDiskCreatesRegiste
           XSTRING remainder;
           sidepath.Copy((int)rootonly.GetSize(), (int)sidepath.GetSize(), remainder);
 
-          int slashindex = remainder.FindCharacter(__C('/'));
+          int slashindex = remainder.FindCharacter(_C('/'));
 
           // Extra safety net: even with the registration check above, never let topleveldir
           // collapse to rootonly itself (an empty remainder can only mean "not really a
@@ -321,7 +321,7 @@ TEST(UNITTESTS_XPATHSMANAGER_CLASSNAME, AdjustRootPathDefaultReaffirmsRootWhenAs
   // (APPLICATION_DIRECTORYMAIN == "assets"). Since that "assets" directory already exists on
   // disk (found by walking up from the current ROOT), calling it again is expected to
   // re-resolve to the same ROOT path rather than disturb it.
-  EXPECT_TRUE(GEN_XPATHSMANAGER.AdjustRootPathDefault((XCHAR*)__L("assets")));
+  EXPECT_TRUE(GEN_XPATHSMANAGER.AdjustRootPathDefault((XCHAR*)_L("assets")));
 
   XPATH afterroot;
   ASSERT_TRUE(GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_ROOT, afterroot));

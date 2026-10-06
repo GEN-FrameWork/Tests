@@ -69,9 +69,9 @@ TEST(APPFLOWWEBSERVER, ConstructGenerateMessagePageWithoutListen)
   EXPECT_FALSE(server.GetIsApiRestOnly());
 
   DIOWEBPAGEHTMLCREATOR page;
-  EXPECT_TRUE(server.GenerateMessagePage(__L("offline"), page));
-  EXPECT_NE(page.Find(__L("offline"), true), XSTRING_NOTFOUND);
-  EXPECT_NE(page.Find(__L("color=\"red\""), true), XSTRING_NOTFOUND);
+  EXPECT_TRUE(server.GenerateMessagePage(_L("offline"), page));
+  EXPECT_NE(page.Find(_L("offline"), true), XSTRING_NOTFOUND);
+  EXPECT_NE(page.Find(_L("color=\"red\""), true), XSTRING_NOTFOUND);
 
   EXPECT_TRUE(server.End());
 }

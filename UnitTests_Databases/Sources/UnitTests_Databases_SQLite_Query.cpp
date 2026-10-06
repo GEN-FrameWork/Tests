@@ -74,7 +74,7 @@ TEST(UNITTESTS_SQLITE_QUERY_CLASSNAME, ExecuteSelectOneReturnsResult)
   DB_SQL_QUERY* query = db->CreateQuery();
   ASSERT_NE(query, (DB_SQL_QUERY*)NULL);
 
-  ASSERT_TRUE(query->Set(__L("SELECT 1;")));
+  ASSERT_TRUE(query->Set(_L("SELECT 1;")));
   ASSERT_TRUE(db->Execute(query));
 
   DB_SQL_RESULT* result = query->GetResult();
@@ -97,7 +97,7 @@ TEST(UNITTESTS_SQLITE_QUERY_CLASSNAME, ExecuteInvalidSqlFailsGracefully)
   DB_SQL_QUERY* query = db->CreateQuery();
   ASSERT_NE(query, (DB_SQL_QUERY*)NULL);
 
-  ASSERT_TRUE(query->Set(__L("NOT VALID SQL ;;;")));
+  ASSERT_TRUE(query->Set(_L("NOT VALID SQL ;;;")));
   EXPECT_FALSE(db->Execute(query));
 
   GEN_DELETE query;

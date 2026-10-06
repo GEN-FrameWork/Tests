@@ -176,10 +176,10 @@ static bool WaitForInFunction(XTHREAD* xthread, int timeoutseconds)
 
 TEST(UNITTESTS_XTHREAD_CLASSNAME, ConstructorStoresGroupIDAndID)
 {
-  XTHREAD xthread(XTHREADGROUPID_UNGROUP, __L("MyThread"), NULL, NULL);
+  XTHREAD xthread(XTHREADGROUPID_UNGROUP, _L("MyThread"), NULL, NULL);
 
   EXPECT_EQ(xthread.GetGroupID(), XTHREADGROUPID_UNGROUP);
-  EXPECT_STREQ(xthread.GetID()->Get(), __L("MyThread"));
+  EXPECT_STREQ(xthread.GetID()->Get(), _L("MyThread"));
   EXPECT_EQ(xthread.GetFunction(), (XTHREADFUNCTION)NULL);
   EXPECT_EQ(xthread.GetParam(), (void*)NULL);
 }
@@ -189,7 +189,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, ConstructorStoresFunctionAndParam)
 {
   XTHREADTESTDATA testdata; testdata.counter = 0; testdata.sawinfunction = false;
 
-  XTHREAD xthread(XTHREADGROUPID_UNGROUP, __L("Worker"), IncrementWorker, (void*)&testdata);
+  XTHREAD xthread(XTHREADGROUPID_UNGROUP, _L("Worker"), IncrementWorker, (void*)&testdata);
 
   EXPECT_EQ(xthread.GetFunction(), &IncrementWorker);
   EXPECT_EQ(xthread.GetParam(), (void*)&testdata);
@@ -198,7 +198,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, ConstructorStoresFunctionAndParam)
 
 TEST(UNITTESTS_XTHREAD_CLASSNAME, DefaultStateBeforeStarting)
 {
-  XTHREAD xthread(XTHREADGROUPID_UNGROUP, __L("Idle"), NULL, NULL);
+  XTHREAD xthread(XTHREADGROUPID_UNGROUP, _L("Idle"), NULL, NULL);
 
   EXPECT_FALSE(xthread.IsRunning());
   EXPECT_FALSE(xthread.IsInFunction());
@@ -211,7 +211,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, DefaultStateBeforeStarting)
 
 TEST(UNITTESTS_XTHREAD_CLASSNAME, GetSetGroupID)
 {
-  XTHREAD xthread(XTHREADGROUPID_UNGROUP, __L("T"), NULL, NULL);
+  XTHREAD xthread(XTHREADGROUPID_UNGROUP, _L("T"), NULL, NULL);
 
   xthread.SetGroupID(XTHREADGROUPID_SCRIPT);
   EXPECT_EQ(xthread.GetGroupID(), XTHREADGROUPID_SCRIPT);
@@ -220,7 +220,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, GetSetGroupID)
 
 TEST(UNITTESTS_XTHREAD_CLASSNAME, GetSetPriority)
 {
-  XTHREAD xthread(XTHREADGROUPID_UNGROUP, __L("T"), NULL, NULL);
+  XTHREAD xthread(XTHREADGROUPID_UNGROUP, _L("T"), NULL, NULL);
 
   xthread.SetPriority(XTHREADPRIORITY_HIGH);
   EXPECT_EQ(xthread.GetPriority(), XTHREADPRIORITY_HIGH);
@@ -229,7 +229,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, GetSetPriority)
 
 TEST(UNITTESTS_XTHREAD_CLASSNAME, GetSetStackSize)
 {
-  XTHREAD xthread(XTHREADGROUPID_UNGROUP, __L("T"), NULL, NULL);
+  XTHREAD xthread(XTHREADGROUPID_UNGROUP, _L("T"), NULL, NULL);
 
   xthread.SetStackSize(65536);
   EXPECT_EQ(xthread.GetStackSize(), (XDWORD)65536);
@@ -238,7 +238,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, GetSetStackSize)
 
 TEST(UNITTESTS_XTHREAD_CLASSNAME, GetSetWaitYield)
 {
-  XTHREAD xthread(XTHREADGROUPID_UNGROUP, __L("T"), NULL, NULL);
+  XTHREAD xthread(XTHREADGROUPID_UNGROUP, _L("T"), NULL, NULL);
 
   xthread.SetWaitYield(25);
   EXPECT_EQ(xthread.GetWaitYield(), (XDWORD)25);
@@ -250,7 +250,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, GetSetWaitYield)
 
 TEST(UNITTESTS_XTHREAD_CLASSNAME, RunTogglesStatusAndRejectsRedundantCalls)
 {
-  XTHREAD xthread(XTHREADGROUPID_UNGROUP, __L("T"), NULL, NULL);
+  XTHREAD xthread(XTHREADGROUPID_UNGROUP, _L("T"), NULL, NULL);
 
   // Not running yet: Run(false) (stop) is rejected.
   EXPECT_FALSE(xthread.Run(false));
@@ -270,7 +270,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, RunTogglesStatusAndRejectsRedundantCalls)
 
 TEST(UNITTESTS_XTHREAD_CLASSNAME, ExitSetsExitStatus)
 {
-  XTHREAD xthread(XTHREADGROUPID_UNGROUP, __L("T"), NULL, NULL);
+  XTHREAD xthread(XTHREADGROUPID_UNGROUP, _L("T"), NULL, NULL);
 
   EXPECT_TRUE(xthread.Exit());
   EXPECT_EQ(xthread.GetStatusFunc(), XTHREADSTATUS_EXIT);
@@ -283,7 +283,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, WaitToEndReturnsTrueImmediatelyWhenNeverStarte
   // gotofunction is only ever set true from inside the real OS thread callback (XLINUXTHREAD::Callback),
   // so a thread object that was never Ini()'d has gotofunction==false and WaitToEnd() takes the
   // immediate "not started" path instead of polling/blocking.
-  XTHREAD xthread(XTHREADGROUPID_UNGROUP, __L("T"), NULL, NULL);
+  XTHREAD xthread(XTHREADGROUPID_UNGROUP, _L("T"), NULL, NULL);
 
   EXPECT_TRUE(xthread.WaitToEnd());
   EXPECT_EQ(xthread.GetStatusFunc(), XTHREADSTATUS_END);
@@ -295,7 +295,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, BaseIniWaitEndAreUnimplementedStubs)
   // The portable XTHREAD base class (as opposed to the real XLINUXTHREAD subclass created by the
   // factory) documents Ini/Wait/End as platform-specific and its own .cpp implementation always
   // returns false -- real OS threading only happens through a platform subclass.
-  XTHREAD xthread(XTHREADGROUPID_UNGROUP, __L("T"), NULL, NULL);
+  XTHREAD xthread(XTHREADGROUPID_UNGROUP, _L("T"), NULL, NULL);
 
   EXPECT_FALSE(xthread.Ini(false));
   EXPECT_FALSE(xthread.Wait(0));
@@ -307,7 +307,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, FactoryCreatesRealThreadStartsRunsAndJoins)
 {
   XTHREADTESTDATA testdata; testdata.counter = 0; testdata.sawinfunction = false;
 
-  XTHREAD* xthread = GEN_XFACTORY.CreateThread(XTHREADGROUPID_UNGROUP, __L("RealWorker"), IncrementWorker, (void*)&testdata);
+  XTHREAD* xthread = GEN_XFACTORY.CreateThread(XTHREADGROUPID_UNGROUP, _L("RealWorker"), IncrementWorker, (void*)&testdata);
   ASSERT_NE(xthread, (XTHREAD*)NULL);
 
   xthread->SetWaitYield(1); // fast cadence so the bounded polls below resolve quickly
@@ -331,7 +331,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, IsInFunctionReflectsExecutionWindow)
 {
   XTHREADTESTDATA testdata; testdata.counter = 0; testdata.sawinfunction = false;
 
-  XTHREAD* xthread = GEN_XFACTORY.CreateThread(XTHREADGROUPID_UNGROUP, __L("InFuncWorker"), IncrementWorker, (void*)&testdata);
+  XTHREAD* xthread = GEN_XFACTORY.CreateThread(XTHREADGROUPID_UNGROUP, _L("InFuncWorker"), IncrementWorker, (void*)&testdata);
   ASSERT_NE(xthread, (XTHREAD*)NULL);
 
   xthread->SetWaitYield(1);
@@ -415,7 +415,7 @@ TEST(UNITTESTS_XTHREAD_CLASSNAME, MutexUsedFromWorkerThreadProtectsCounter)
   guarded.counter = 0;
   ASSERT_NE(guarded.xmutex, (XMUTEX*)NULL);
 
-  XTHREAD* xthread = GEN_XFACTORY.CreateThread(XTHREADGROUPID_UNGROUP, __L("MutexWorker"), LOCALWORKER::Run, (void*)&guarded);
+  XTHREAD* xthread = GEN_XFACTORY.CreateThread(XTHREADGROUPID_UNGROUP, _L("MutexWorker"), LOCALWORKER::Run, (void*)&guarded);
   ASSERT_NE(xthread, (XTHREAD*)NULL);
 
   xthread->SetWaitYield(1);

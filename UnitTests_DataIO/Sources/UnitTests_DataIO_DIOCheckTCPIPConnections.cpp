@@ -64,7 +64,7 @@ TEST(DIOCHECKTCPIPCONNECTION, SetURLAndFlagsWithoutCheck)
 {
   DIOCHECKTCPIPCONNECTION connection;
 
-  EXPECT_TRUE(connection.Set(__L("127.0.0.1")));
+  EXPECT_TRUE(connection.Set(_L("127.0.0.1")));
   ASSERT_NE(connection.GetURL(), (DIOURL*)NULL);
   EXPECT_FALSE(connection.GetURL()->IsEmpty());
 

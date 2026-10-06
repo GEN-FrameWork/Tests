@@ -71,17 +71,17 @@ TEST(UNITTESTS_XSERIALIZATIONMETHOD_CLASSNAME, AddScalarOverloadsAllReturnFalse)
 {
   XSERIALIZATIONMETHOD method;
 
-  EXPECT_FALSE(method.Add(true, __L("x")));
-  EXPECT_FALSE(method.Add((char)'a', __L("x")));
-  EXPECT_FALSE(method.Add((int)1, __L("x")));
-  EXPECT_FALSE(method.Add((float)1.0f, __L("x")));
-  EXPECT_FALSE(method.Add((double)1.0, __L("x")));
-  EXPECT_FALSE(method.Add((long)1, __L("x")));
-  EXPECT_FALSE(method.Add((long long)1, __L("x")));
-  EXPECT_FALSE(method.Add((XBYTE)1, __L("x")));
-  EXPECT_FALSE(method.Add((XWORD)1, __L("x")));
-  EXPECT_FALSE(method.Add((XDWORD)1, __L("x")));
-  EXPECT_FALSE(method.Add((XQWORD)1, __L("x")));
+  EXPECT_FALSE(method.Add(true, _L("x")));
+  EXPECT_FALSE(method.Add((char)'a', _L("x")));
+  EXPECT_FALSE(method.Add((int)1, _L("x")));
+  EXPECT_FALSE(method.Add((float)1.0f, _L("x")));
+  EXPECT_FALSE(method.Add((double)1.0, _L("x")));
+  EXPECT_FALSE(method.Add((long)1, _L("x")));
+  EXPECT_FALSE(method.Add((long long)1, _L("x")));
+  EXPECT_FALSE(method.Add((XBYTE)1, _L("x")));
+  EXPECT_FALSE(method.Add((XWORD)1, _L("x")));
+  EXPECT_FALSE(method.Add((XDWORD)1, _L("x")));
+  EXPECT_FALSE(method.Add((XQWORD)1, _L("x")));
 }
 
 
@@ -93,9 +93,9 @@ TEST(UNITTESTS_XSERIALIZATIONMETHOD_CLASSNAME, AddPointerOverloadsAllReturnFalse
   XBUFFER  buffer;
   XVARIANT variant;
 
-  EXPECT_FALSE(method.Add(&string, __L("x")));
-  EXPECT_FALSE(method.Add(&buffer, __L("x")));
-  EXPECT_FALSE(method.Add(&variant, __L("x")));
+  EXPECT_FALSE(method.Add(&string, _L("x")));
+  EXPECT_FALSE(method.Add(&buffer, _L("x")));
+  EXPECT_FALSE(method.Add(&variant, _L("x")));
 }
 
 
@@ -103,8 +103,8 @@ TEST(UNITTESTS_XSERIALIZATIONMETHOD_CLASSNAME, AddStructAndAddArrayReturnFalse)
 {
   XSERIALIZATIONMETHOD method;
 
-  EXPECT_FALSE(method.AddStruct(__L("x"), true));
-  EXPECT_FALSE(method.AddArray(3, __L("x"), true));
+  EXPECT_FALSE(method.AddStruct(_L("x"), true));
+  EXPECT_FALSE(method.AddArray(3, _L("x"), true));
 }
 
 
@@ -124,17 +124,17 @@ TEST(UNITTESTS_XSERIALIZATIONMETHOD_CLASSNAME, ExtractScalarOverloadsReturnFalse
   XDWORD    dwordvar  = 7;
   XQWORD    qwordvar  = 7;
 
-  EXPECT_FALSE(method.Extract(boolvar, __L("x")));
-  EXPECT_FALSE(method.Extract(charvar, __L("x")));
-  EXPECT_FALSE(method.Extract(intvar, __L("x")));
-  EXPECT_FALSE(method.Extract(floatvar, __L("x")));
-  EXPECT_FALSE(method.Extract(doublevar, __L("x")));
-  EXPECT_FALSE(method.Extract(longvar, __L("x")));
-  EXPECT_FALSE(method.Extract(llvar, __L("x")));
-  EXPECT_FALSE(method.Extract(bytevar, __L("x")));
-  EXPECT_FALSE(method.Extract(wordvar, __L("x")));
-  EXPECT_FALSE(method.Extract(dwordvar, __L("x")));
-  EXPECT_FALSE(method.Extract(qwordvar, __L("x")));
+  EXPECT_FALSE(method.Extract(boolvar, _L("x")));
+  EXPECT_FALSE(method.Extract(charvar, _L("x")));
+  EXPECT_FALSE(method.Extract(intvar, _L("x")));
+  EXPECT_FALSE(method.Extract(floatvar, _L("x")));
+  EXPECT_FALSE(method.Extract(doublevar, _L("x")));
+  EXPECT_FALSE(method.Extract(longvar, _L("x")));
+  EXPECT_FALSE(method.Extract(llvar, _L("x")));
+  EXPECT_FALSE(method.Extract(bytevar, _L("x")));
+  EXPECT_FALSE(method.Extract(wordvar, _L("x")));
+  EXPECT_FALSE(method.Extract(dwordvar, _L("x")));
+  EXPECT_FALSE(method.Extract(qwordvar, _L("x")));
 
   // Every by-reference parameter must be left exactly as it was: the base class must not
   // silently mutate caller state even though it reports failure.
@@ -156,8 +156,8 @@ TEST(UNITTESTS_XSERIALIZATIONMETHOD_CLASSNAME, ExtractStructAndExtractArrayRetur
 {
   XSERIALIZATIONMETHOD method;
 
-  EXPECT_FALSE(method.ExtractStruct(__L("x")));
-  EXPECT_FALSE(method.ExtractArray(3, __L("x")));
+  EXPECT_FALSE(method.ExtractStruct(_L("x")));
+  EXPECT_FALSE(method.ExtractArray(3, _L("x")));
 }
 
 
@@ -168,8 +168,8 @@ TEST(UNITTESTS_XSERIALIZATIONMETHOD_CLASSNAME, ExtractArrayElementUnconditionall
   // Unlike every other stub in this class (which all return false), ExtractArrayElement()'s
   // body is unconditionally "return true;" -- a real, verifiable asymmetry in the base class's
   // own inert defaults.
-  EXPECT_TRUE(method.ExtractArrayElement(0, __L("x"), true));
-  EXPECT_TRUE(method.ExtractArrayElement(0, __L("x"), false));
+  EXPECT_TRUE(method.ExtractArrayElement(0, _L("x"), true));
+  EXPECT_TRUE(method.ExtractArrayElement(0, _L("x"), false));
 }
 
 

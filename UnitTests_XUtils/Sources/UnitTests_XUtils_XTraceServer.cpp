@@ -94,7 +94,7 @@ static bool SendTracePacket(XWORD port, XDWORD sequence, XCHAR* text)
   DIOSTREAMUDP*       udpclient = NULL;
   XDATETIME           xtime;
   XBUFFER             packet;
-  XSTRING             address(__L("127.0.0.1"));
+  XSTRING             address(_L("127.0.0.1"));
   bool                status = false;
 
   udpcfg.SetMode(DIOSTREAMMODE_CLIENT);
@@ -168,8 +168,8 @@ TEST(UNITTESTS_XTRACESERVER_CLASSNAME, ReceivesUdpPacketsAndPopsInOrder)
   XTRACESERVER     server;
   XTRACESERVER_MSG msg1;
   XTRACESERVER_MSG msg2;
-  XSTRING          marker1(__L("UNITTEST_XTRACESERVER_MSG1"));
-  XSTRING          marker2(__L("UNITTEST_XTRACESERVER_MSG2"));
+  XSTRING          marker1(_L("UNITTEST_XTRACESERVER_MSG1"));
+  XSTRING          marker2(_L("UNITTEST_XTRACESERVER_MSG2"));
 
   ASSERT_TRUE(server.Ini((XWORD)(UNITTESTS_XTRACESERVER_PORT + 1)));
   GEN_XSLEEP.MilliSeconds(50);
@@ -198,7 +198,7 @@ TEST(UNITTESTS_XTRACESERVER_CLASSNAME, PeekDoesNotRemoveAndClearEmptiesQueue)
   XTRACESERVER     server;
   XTRACESERVER_MSG peekmsg;
   XTRACESERVER_MSG popmsg;
-  XSTRING          marker(__L("UNITTEST_XTRACESERVER_PEEK"));
+  XSTRING          marker(_L("UNITTEST_XTRACESERVER_PEEK"));
   XWORD            port = (XWORD)(UNITTESTS_XTRACESERVER_PORT + 2);
 
   ASSERT_TRUE(server.Ini(port));
@@ -234,16 +234,16 @@ TEST(UNITTESTS_XTRACESERVER_CLASSNAME, BoundedQueueDropsOldest)
 
   GEN_XSLEEP.MilliSeconds(50);
 
-  ASSERT_TRUE(SendTracePacket(port, 1, __L("DROP_A")));
-  ASSERT_TRUE(SendTracePacket(port, 2, __L("DROP_B")));
-  ASSERT_TRUE(SendTracePacket(port, 3, __L("DROP_C")));
+  ASSERT_TRUE(SendTracePacket(port, 1, _L("DROP_A")));
+  ASSERT_TRUE(SendTracePacket(port, 2, _L("DROP_B")));
+  ASSERT_TRUE(SendTracePacket(port, 3, _L("DROP_C")));
   GEN_XSLEEP.MilliSeconds(150);
 
   EXPECT_LE(server.GetCount(), (XDWORD)2);
   EXPECT_GE(server.GetDroppedCount(), (XDWORD)1);
 
   ASSERT_TRUE(server.WaitPop(msg, 3000));
-  EXPECT_EQ(msg.text.Find(__L("DROP_A"), true), XSTRING_NOTFOUND);
+  EXPECT_EQ(msg.text.Find(_L("DROP_A"), true), XSTRING_NOTFOUND);
 
   server.End();
 }

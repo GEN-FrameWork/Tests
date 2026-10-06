@@ -97,7 +97,7 @@ TEST(UNITTESTS_XBER_CLASSNAME, SetOctetStringAndGetDumpProducesKnownWireBytes)
   XBER    ber;
   XBUFFER dump;
 
-  EXPECT_TRUE(ber.SetOCTETSTRING((XCHAR*)__L("AB")));
+  EXPECT_TRUE(ber.SetOCTETSTRING((XCHAR*)_L("AB")));
   EXPECT_TRUE(ber.GetDump(dump));
 
   ASSERT_EQ(dump.GetSize(), (XDWORD)4);
@@ -129,11 +129,11 @@ TEST(UNITTESTS_XBER_CLASSNAME, GetTagTypeNameKnownTypes)
 
   ber.SetINTEGER((XDWORD)1);
   EXPECT_TRUE(ber.GetTagTypeName(name));
-  EXPECT_STREQ(name.Get(), __L("INTEGER"));
+  EXPECT_STREQ(name.Get(), _L("INTEGER"));
 
-  ber.SetOCTETSTRING((XCHAR*)__L("X"));
+  ber.SetOCTETSTRING((XCHAR*)_L("X"));
   EXPECT_TRUE(ber.GetTagTypeName(name));
-  EXPECT_STREQ(name.Get(), __L("OCTET STRING"));
+  EXPECT_STREQ(name.Get(), _L("OCTET STRING"));
 }
 
 
@@ -163,7 +163,7 @@ TEST(UNITTESTS_XBER_CLASSNAME, RoundTripIntegerEncodeThenDecode)
   XSTRING valuestring;
 
   decoder.GetValue()->ToString(valuestring);
-  EXPECT_STREQ(valuestring.Get(), __L("42"));
+  EXPECT_STREQ(valuestring.Get(), _L("42"));
 }
 
 
@@ -176,7 +176,7 @@ TEST(UNITTESTS_XBER_CLASSNAME, RoundTripOctetStringDecodesToHexEncodedValue)
   XBER    encoder;
   XBUFFER dump;
 
-  encoder.SetOCTETSTRING((XCHAR*)__L("AB"));
+  encoder.SetOCTETSTRING((XCHAR*)_L("AB"));
   encoder.GetDump(dump);
 
   XBER decoder;
@@ -188,7 +188,7 @@ TEST(UNITTESTS_XBER_CLASSNAME, RoundTripOctetStringDecodesToHexEncodedValue)
   XSTRING valuestring;
 
   decoder.GetValue()->ToString(valuestring);
-  EXPECT_STREQ(valuestring.Get(), __L("4142"));
+  EXPECT_STREQ(valuestring.Get(), _L("4142"));
 }
 
 

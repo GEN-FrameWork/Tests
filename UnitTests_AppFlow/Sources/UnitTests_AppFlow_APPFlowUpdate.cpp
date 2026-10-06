@@ -64,25 +64,25 @@ TEST(APPFLOWUPDATE_CFG, SettersCopyWithoutDownload)
   APPFLOWUPDATE_CFG a;
   APPFLOWUPDATE_CFG b;
 
-  a.GetURL()->Set(__L("http://example.invalid/update"));
+  a.GetURL()->Set(_L("http://example.invalid/update"));
   a.Set_Port(8080);
-  a.GetAppName()->Set(__L("UnitTests_AppFlow"));
-  a.GetPathRootApp()->Set(__L("."));
+  a.GetAppName()->Set(_L("UnitTests_AppFlow"));
+  a.GetPathRootApp()->Set(_L("."));
   a.GetAppVersion()->SetVersion(1);
   a.GetAppVersion()->SetSubVersion(2);
   a.GetAppVersion()->SetSubVersionError(3);
   a.SetDolog(false);
 
-  EXPECT_EQ(a.GetURL()->Compare(__L("http://example.invalid/update")), 0);
+  EXPECT_EQ(a.GetURL()->Compare(_L("http://example.invalid/update")), 0);
   EXPECT_EQ(a.Get_Port(), (XDWORD)8080);
-  EXPECT_EQ(a.GetAppName()->Compare(__L("UnitTests_AppFlow")), 0);
+  EXPECT_EQ(a.GetAppName()->Compare(_L("UnitTests_AppFlow")), 0);
   EXPECT_FALSE(a.GetDolog());
 
   EXPECT_TRUE(b.CopyFrom(&a));
-  EXPECT_EQ(b.GetURL()->Compare(__L("http://example.invalid/update")), 0);
+  EXPECT_EQ(b.GetURL()->Compare(_L("http://example.invalid/update")), 0);
   EXPECT_EQ(b.Get_Port(), (XDWORD)8080);
-  EXPECT_EQ(b.GetAppName()->Compare(__L("UnitTests_AppFlow")), 0);
-  EXPECT_EQ(b.GetPathRootApp()->Compare(__L(".")), 0);
+  EXPECT_EQ(b.GetAppName()->Compare(_L("UnitTests_AppFlow")), 0);
+  EXPECT_EQ(b.GetPathRootApp()->Compare(_L(".")), 0);
   EXPECT_EQ(b.GetAppVersion()->GetVersion(), (XDWORD)1);
   EXPECT_EQ(b.GetAppVersion()->GetSubVersion(), (XDWORD)2);
   EXPECT_EQ(b.GetAppVersion()->GetSubVersionError(), (XDWORD)3);
@@ -90,9 +90,9 @@ TEST(APPFLOWUPDATE_CFG, SettersCopyWithoutDownload)
 
   APPFLOWUPDATE_CFG c;
   EXPECT_TRUE(a.CopyTo(&c));
-  EXPECT_EQ(c.GetURL()->Compare(__L("http://example.invalid/update")), 0);
+  EXPECT_EQ(c.GetURL()->Compare(_L("http://example.invalid/update")), 0);
   EXPECT_EQ(c.Get_Port(), (XDWORD)8080);
-  EXPECT_EQ(c.GetAppName()->Compare(__L("UnitTests_AppFlow")), 0);
+  EXPECT_EQ(c.GetAppName()->Compare(_L("UnitTests_AppFlow")), 0);
 }
 
 
@@ -132,9 +132,9 @@ TEST(APPFLOWUPDATE, IniInactiveSkipsDownload)
   #endif
 
   APPFLOWUPDATE_CFG updatecfg;
-  updatecfg.GetURL()->Set(__L("http://example.invalid/update"));
-  updatecfg.GetAppName()->Set(__L("UnitTests_AppFlow"));
-  updatecfg.GetPathRootApp()->Set(__L("."));
+  updatecfg.GetURL()->Set(_L("http://example.invalid/update"));
+  updatecfg.GetAppName()->Set(_L("UnitTests_AppFlow"));
+  updatecfg.GetPathRootApp()->Set(_L("."));
 
   APPFLOWUPDATE& update = APPFLOWUPDATE::GetInstance();
   EXPECT_TRUE(update.Ini(&cfg, &updatecfg));

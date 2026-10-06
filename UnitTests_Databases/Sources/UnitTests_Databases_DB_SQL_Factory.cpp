@@ -75,7 +75,7 @@ TEST(UNITTESTS_DB_SQL_FACTORY_CLASSNAME, CreateSqliteReturnsSqliteTypeAndName)
 
   XSTRING name;
   name = db->GetTypeName();
-  EXPECT_EQ(name.Compare(__L("SQLite"), true), 0);
+  EXPECT_EQ(name.Compare(_L("SQLite"), true), 0);
 
   GEN_DELETE db;
 #else

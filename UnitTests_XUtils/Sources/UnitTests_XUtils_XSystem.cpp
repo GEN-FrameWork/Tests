@@ -95,7 +95,7 @@ TEST(UNITTESTS_XSYSTEM_CLASSNAME, GetOperativeSystemID)
   EXPECT_FALSE(SOid.IsEmpty());
 
   #ifdef LINUX
-  EXPECT_NE(SOid.Find(__L("Linux"), false), XSTRING_NOTFOUND);
+  EXPECT_NE(SOid.Find(_L("Linux"), false), XSTRING_NOTFOUND);
   #endif
 }
 
@@ -111,7 +111,7 @@ TEST(UNITTESTS_XSYSTEM_CLASSNAME, GetPlatformBaseContractFillsUnknownNameString)
   XSYSTEM_PLATFORM platform = localsystem.GetPlatform(&namestring);
 
   EXPECT_EQ(platform, XSYSTEM_PLATFORM_UNKNOWN);
-  EXPECT_STREQ(namestring.Get(), __L("Unknown"));
+  EXPECT_STREQ(namestring.Get(), _L("Unknown"));
 
   // Passing NULL must not crash.
   platform = localsystem.GetPlatform(NULL);
@@ -168,7 +168,7 @@ TEST(UNITTESTS_XSYSTEM_CLASSNAME, CPUUsageQueriesBaseContractReturnError)
   XSYSTEM localsystem;
 
   EXPECT_EQ(localsystem.GetCPUUsageTotal(), XSYSTEM_CPUUSAGE_ERROR);
-  EXPECT_EQ(localsystem.GetCPUUsageForProcessName((XCHAR*)__L("anyprocess")), XSYSTEM_CPUUSAGE_ERROR);
+  EXPECT_EQ(localsystem.GetCPUUsageForProcessName((XCHAR*)_L("anyprocess")), XSYSTEM_CPUUSAGE_ERROR);
   EXPECT_EQ(localsystem.GetCPUUsageForProcessID(1), XSYSTEM_CPUUSAGE_ERROR);
 }
 
@@ -178,9 +178,9 @@ TEST(UNITTESTS_XSYSTEM_CLASSNAME, GetPathExecApplicationBaseContractEmptiesPathA
   XSYSTEM localsystem;
   XPATH   apppath;
 
-  apppath = __L("some/previous/value");
+  apppath = _L("some/previous/value");
 
-  EXPECT_FALSE(localsystem.GetPathExecApplication((XCHAR*)__L("myapp"), apppath));
+  EXPECT_FALSE(localsystem.GetPathExecApplication((XCHAR*)_L("myapp"), apppath));
   EXPECT_TRUE(apppath.IsEmpty());
 
   // XSTRING* overload forwards to the XCHAR* overload and must reject a NULL pointer.
@@ -194,17 +194,17 @@ TEST(UNITTESTS_XSYSTEM_CLASSNAME, EnviromentVariableBaseContractIsInertButSafe)
 
   // The base contract never touches the real environment: Get returns an empty string,
   // Set/Del always report failure. We only assert the documented, side-effect-free contract.
-  EXPECT_STREQ(localsystem.GetEnviromentVariable((XCHAR*)__L("PATH")), __L(""));
-  EXPECT_FALSE(localsystem.SetEnviromentVariable((XCHAR*)__L("XUNITTESTS_VAR"), (XCHAR*)__L("1")));
-  EXPECT_FALSE(localsystem.DelEnviromentVariable((XCHAR*)__L("XUNITTESTS_VAR")));
+  EXPECT_STREQ(localsystem.GetEnviromentVariable((XCHAR*)_L("PATH")), _L(""));
+  EXPECT_FALSE(localsystem.SetEnviromentVariable((XCHAR*)_L("XUNITTESTS_VAR"), (XCHAR*)_L("1")));
+  EXPECT_FALSE(localsystem.DelEnviromentVariable((XCHAR*)_L("XUNITTESTS_VAR")));
 
   XSTRING name;
   XSTRING value;
 
-  name  = __L("XUNITTESTS_VAR");
-  value = __L("1");
+  name  = _L("XUNITTESTS_VAR");
+  value = _L("1");
 
-  EXPECT_STREQ(localsystem.GetEnviromentVariable(name), __L(""));
+  EXPECT_STREQ(localsystem.GetEnviromentVariable(name), _L(""));
   EXPECT_FALSE(localsystem.SetEnviromentVariable(name, value));
   EXPECT_FALSE(localsystem.DelEnviromentVariable(name));
 }

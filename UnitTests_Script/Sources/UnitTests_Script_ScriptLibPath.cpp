@@ -33,7 +33,7 @@
 #include "GEN_Control.h"
 
 #ifdef GOOGLETEST_ACTIVE
-UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBPATH, UNITTESTS_SCRIPTLIBPATH_CLASSNAME, SCRIPT_LIB_PATH, SCRIPT_LIB_NAME_PATH, __L("GetNameScript"))
+UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBPATH, UNITTESTS_SCRIPTLIBPATH_CLASSNAME, SCRIPT_LIB_PATH, SCRIPT_LIB_NAME_PATH, _L("GetNameScript"))
 
 namespace TEST_SCRIPTLIBPATH
 {
@@ -45,10 +45,10 @@ TEST(UNITTESTS_SCRIPTLIBPATH_CLASSNAME, GetNameScriptReturnsConfiguredFileName)
   XVECTOR<XVARIANT*> params;
   XSTRING text;
 
-  (*script.GetPath()) = __L("C:/scripts/folder/demo.g");
+  (*script.GetPath()) = _L("C:/scripts/folder/demo.g");
   Call_GetNameScript(&library, &script, &params, &result);
   EXPECT_TRUE(result.ToString(text));
-  EXPECT_EQ(text.Compare(__L("demo")), 0);
+  EXPECT_EQ(text.Compare(_L("demo")), 0);
 }
 
 
@@ -60,10 +60,10 @@ TEST(UNITTESTS_SCRIPTLIBPATH_CLASSNAME, GetPathScriptReturnsDriveAndDirectory)
   XVECTOR<XVARIANT*> params;
   XSTRING text;
 
-  (*script.GetPath()) = __L("C:/scripts/folder/demo.g");
+  (*script.GetPath()) = _L("C:/scripts/folder/demo.g");
   Call_GetPathScript(&library, &script, &params, &result);
   EXPECT_TRUE(result.ToString(text));
-  EXPECT_NE(text.Find(__L("scripts"), false), XSTRING_NOTFOUND);
+  EXPECT_NE(text.Find(_L("scripts"), false), XSTRING_NOTFOUND);
 }
 }
 #endif

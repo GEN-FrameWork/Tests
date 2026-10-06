@@ -68,7 +68,7 @@ TEST(UNITTESTS_GRPVIDEOFILE_CLASSNAME, PropertysDefaultsAndOpenMissing)
   EXPECT_EQ(props.framerate, 0u);
 
   GRPVIDEOFILE videofile;
-  EXPECT_FALSE(videofile.Open(__L("unittests_graphic_missing_no_such.avi")));
+  EXPECT_FALSE(videofile.Open(_L("unittests_graphic_missing_no_such.avi")));
 }
 
 

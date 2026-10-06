@@ -36,7 +36,7 @@
 #include "GEN_Control.h"
 
 #if defined(GOOGLETEST_ACTIVE) && defined(SCRIPT_LIB_SYSTEM_ACTIVE)
-UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBSYSTEM, UNITTESTS_SCRIPTLIBSYSTEM_CLASSNAME, SCRIPT_LIB_SYSTEM, SCRIPT_LIB_SYSTEM_NAME, __L("System_GetType"))
+UNITTESTS_SCRIPT_LIBRARY_REGISTRATION_TEST(TEST_SCRIPTLIBSYSTEM, UNITTESTS_SCRIPTLIBSYSTEM_CLASSNAME, SCRIPT_LIB_SYSTEM, SCRIPT_LIB_SYSTEM_NAME, _L("System_GetType"))
 
 namespace TEST_SCRIPTLIBSYSTEM
 {
@@ -46,18 +46,18 @@ TEST(UNITTESTS_SCRIPTLIBSYSTEM_CLASSNAME, RegistersPlatformAdaptationFunctions)
   SCRIPT_LIB_SYSTEM library;
 
   ASSERT_TRUE(library.AddLibraryFunctions(&script));
-  EXPECT_NE(script.GetLibraryFunction(__L("System_GetType")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("System_GetOperativeSystemID")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("System_GetHardwareType")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("System_IsWindows")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("System_IsLinux")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("System_IsAndroid")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("System_GetLanguageSO")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("System_GetUser")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("System_GetDomain")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("System_GetFreeMemoryPercent")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("System_GetPathExecApplication")), (SCRIPT_LIB_FUNCTION*)NULL);
-  EXPECT_NE(script.GetLibraryFunction(__L("System_GetEnviromentVar")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("System_GetType")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("System_GetOperativeSystemID")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("System_GetHardwareType")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("System_IsWindows")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("System_IsLinux")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("System_IsAndroid")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("System_GetLanguageSO")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("System_GetUser")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("System_GetDomain")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("System_GetFreeMemoryPercent")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("System_GetPathExecApplication")), (SCRIPT_LIB_FUNCTION*)NULL);
+  EXPECT_NE(script.GetLibraryFunction(_L("System_GetEnviromentVar")), (SCRIPT_LIB_FUNCTION*)NULL);
 }
 
 
@@ -74,13 +74,13 @@ TEST(UNITTESTS_SCRIPTLIBSYSTEM_CLASSNAME, GetTypeMatchesPlatform)
 
   switch(GEN_XSYSTEM.GetPlatform())
     {
-      case XSYSTEM_PLATFORM_WINDOWS         : EXPECT_EQ(type.Compare(__L("Windows")), 0);         break;
-      case XSYSTEM_PLATFORM_LINUX           : EXPECT_EQ(type.Compare(__L("Linux")), 0);           break;
-      case XSYSTEM_PLATFORM_LINUX_EMBEDDED  : EXPECT_EQ(type.Compare(__L("LinuxEmbedded")), 0);  break;
-      case XSYSTEM_PLATFORM_ANDROID         : EXPECT_EQ(type.Compare(__L("Android")), 0);         break;
-      case XSYSTEM_PLATFORM_STM32           : EXPECT_EQ(type.Compare(__L("STM32")), 0);           break;
-      case XSYSTEM_PLATFORM_ESP32           : EXPECT_EQ(type.Compare(__L("ESP32")), 0);           break;
-      case XSYSTEM_PLATFORM_SAMD5XE5X       : EXPECT_EQ(type.Compare(__L("SAMD5xE5x")), 0);       break;
+      case XSYSTEM_PLATFORM_WINDOWS         : EXPECT_EQ(type.Compare(_L("Windows")), 0);         break;
+      case XSYSTEM_PLATFORM_LINUX           : EXPECT_EQ(type.Compare(_L("Linux")), 0);           break;
+      case XSYSTEM_PLATFORM_LINUX_EMBEDDED  : EXPECT_EQ(type.Compare(_L("LinuxEmbedded")), 0);  break;
+      case XSYSTEM_PLATFORM_ANDROID         : EXPECT_EQ(type.Compare(_L("Android")), 0);         break;
+      case XSYSTEM_PLATFORM_STM32           : EXPECT_EQ(type.Compare(_L("STM32")), 0);           break;
+      case XSYSTEM_PLATFORM_ESP32           : EXPECT_EQ(type.Compare(_L("ESP32")), 0);           break;
+      case XSYSTEM_PLATFORM_SAMD5XE5X       : EXPECT_EQ(type.Compare(_L("SAMD5xE5x")), 0);       break;
                       default               : EXPECT_EQ(type.GetSize(), 0);                       break;
     }
 }
