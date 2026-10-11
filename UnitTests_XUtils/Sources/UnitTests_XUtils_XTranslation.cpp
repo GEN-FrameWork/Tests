@@ -39,6 +39,7 @@
 #endif
 
 #include "XTranslation.h"
+#include "XTranslation_GEN.h"
 #include "XLanguage_ISO_639_3.h"
 
 
@@ -60,7 +61,7 @@
 // (GetIsInstanced/GetInstance/DelInstance, no SetInstance - Meyer's singleton with a private ctor).
 // Deliberately NOT exercised here: Ini()/End()/DelInstance(). Re-Ini()-ing would need to reconstruct
 // the exact XPATH AppProc_Ini used and re-parses the real .lng file a second time, and End()/DelInstance()
-// would wipe every sentence (including the ones XTRANSLATION_GEN pushed in) for the rest of this
+// would wipe every application sentence loaded from the .lng file for the rest of this
 // shared test binary - none of that is worth the risk when the already-initialized real state is
 // exactly what this class is meant to be used as. This was confirmed safe by running the FULL suite
 // (not just this file's filter) twice in a row after writing these tests - see Batch 10 notes.
@@ -97,9 +98,7 @@ TEST(UNITTESTS_XTRANSLATION_CLASSNAME, SetActualWithTheSameCurrentCodeIsRejected
 
 TEST(UNITTESTS_XTRANSLATION_CLASSNAME, SetActualWithAnUnavailableCodeIsRejectedAndLeavesActualUnchanged)
 {
-  // Neither this .lng file's "languages" array nor XTRANSLATION_GEN's built-in catalogue ever
-  // registers this arbitrary made-up code, so SetActual must refuse it and leave the current
-  // language untouched.
+  // SetActual accepts a language only when both the .lng file and the GEN catalogue have it.
   EXPECT_FALSE(GEN_XTRANSLATION.SetActual((XDWORD)0xEFEFEFEF));
   EXPECT_EQ(GEN_XTRANSLATION.GetActual(), (XDWORD)XLANGUAGE_ISO_639_3_CODE_ENG);
 }
@@ -165,6 +164,70 @@ TEST(UNITTESTS_XTRANSLATION_CLASSNAME, TranslateAddRejectsZeroIDOrNullSentence)
 {
   EXPECT_FALSE(GEN_XTRANSLATION.Translate_Add(0, _L("text"), 0));
   EXPECT_FALSE(GEN_XTRANSLATION.Translate_Add(9502, NULL, 0));
+}
+
+
+TEST(UNITTESTS_XTRANSLATION_CLASSNAME, ApplicationIDDoesNotOverwriteTheGENSentenceWithTheSameNumber)
+{
+  // assets/unittests_xutils.lng stores application ID 100. That number is also
+  // XTRANSLATION_GEN_ID_APPFLOWWEBSERVER_SENT. The two catalogues must keep their own text.
+  XTRANSLATION_GEN& gen         = XTRANSLATION_GEN::GetInstance();
+  XDWORD            genprevious = gen.GetActual();
+  XDWORD            appprevious = GEN_XTRANSLATION.GetActual();
+  if(appprevious != (XDWORD)XLANGUAGE_ISO_639_3_CODE_ENG)
+    {
+      EXPECT_TRUE(GEN_XTRANSLATION.SetActual(XLANGUAGE_ISO_639_3_CODE_ENG));
+    }
+
+  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_GEN_ID_APPFLOWWEBSERVER_SENT), _L("hi radiola"));
+
+  XTRANSLATION_GEN_SENTENCE* gensentence = XTRANSLATION_GEN::GetInstance().Sentence_Get(XTRANSLATION_GEN_ID_APPFLOWWEBSERVER_SENT, XLANGUAGE_ISO_639_3_CODE_ENG);
+  ASSERT_NE(gensentence, nullptr);
+  EXPECT_STREQ(gensentence->sentence, _L("sent"));
+
+  if(GEN_XTRANSLATION.GetActual() != appprevious)
+    {
+      EXPECT_TRUE(GEN_XTRANSLATION.SetActual(appprevious));
+    }
+
+  if(gen.GetActual() != genprevious)
+    {
+      EXPECT_TRUE(gen.SetActual(genprevious));
+    }
+}
+
+
+TEST(UNITTESTS_XTRANSLATION_CLASSNAME, SetActualFrenchLoadsApplicationTextAndTheGENLanguage)
+{
+  XTRANSLATION_GEN& gen = XTRANSLATION_GEN::GetInstance();
+  XDWORD            genprevious = gen.GetActual();
+  XDWORD            appprevious = GEN_XTRANSLATION.GetActual();
+
+  bool switched = GEN_XTRANSLATION.SetActual(XLANGUAGE_ISO_639_3_CODE_FRE);
+  EXPECT_TRUE(switched);
+  if(switched)
+    {
+      EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(100), _L("jau radiola"));
+      EXPECT_EQ(gen.GetActual(), (XDWORD)XLANGUAGE_ISO_639_3_CODE_FRE);
+      EXPECT_STREQ(gen.GetSentence(XTRANSLATION_GEN_ID_OK), _L("Correct"));
+      EXPECT_TRUE(GEN_XTRANSLATION.SetActual(appprevious));
+    }
+
+  EXPECT_EQ(GEN_XTRANSLATION.GetActual(), appprevious);
+
+  if(gen.GetActual() != genprevious)
+    {
+      EXPECT_TRUE(gen.SetActual(genprevious));
+    }
+}
+
+
+TEST(UNITTESTS_XTRANSLATION_CLASSNAME, SetActualRejectsALanguageMissingFromTheFile)
+{
+  XDWORD previous = GEN_XTRANSLATION.GetActual();
+
+  EXPECT_FALSE(GEN_XTRANSLATION.SetActual(XLANGUAGE_ISO_639_3_CODE_GER));
+  EXPECT_EQ(GEN_XTRANSLATION.GetActual(), previous);
 }
 
 

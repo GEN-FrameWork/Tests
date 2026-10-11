@@ -104,11 +104,14 @@ TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentenceDefaultConstructionIsZeroedAn
 }
 
 
-TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, IsLanguageAvailableReflectsTheBuiltInEnglishAndSpanishCatalogue)
+TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, IsLanguageAvailableReflectsTheBuiltInCatalogue)
 {
   EXPECT_TRUE(XTRANSLATION_GEN::GetInstance().IsLanguageAvailable(XLANGUAGE_ISO_639_3_CODE_ENG));
   EXPECT_TRUE(XTRANSLATION_GEN::GetInstance().IsLanguageAvailable(XLANGUAGE_ISO_639_3_CODE_SPA));
-  EXPECT_FALSE(XTRANSLATION_GEN::GetInstance().IsLanguageAvailable(XLANGUAGE_ISO_639_3_CODE_FRE));
+  EXPECT_TRUE(XTRANSLATION_GEN::GetInstance().IsLanguageAvailable(XLANGUAGE_ISO_639_3_CODE_FRE));
+  EXPECT_TRUE(XTRANSLATION_GEN::GetInstance().IsLanguageAvailable(XLANGUAGE_ISO_639_3_CODE_GER));
+  EXPECT_TRUE(XTRANSLATION_GEN::GetInstance().IsLanguageAvailable(XLANGUAGE_ISO_639_3_CODE_CHI));
+  EXPECT_FALSE(XTRANSLATION_GEN::GetInstance().IsLanguageAvailable(XLANGUAGE_ISO_639_3_CODE_JPN));
 }
 
 
@@ -121,13 +124,25 @@ TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentenceGetFindsKnownBuiltInEntriesBy
   XTRANSLATION_GEN_SENTENCE* ok_spa = XTRANSLATION_GEN::GetInstance().Sentence_Get(XTRANSLATION_GEN_ID_OK, XLANGUAGE_ISO_639_3_CODE_SPA);
   ASSERT_NE(ok_spa, nullptr);
   EXPECT_STREQ(ok_spa->sentence, _L("Correcto"));
+
+  XTRANSLATION_GEN_SENTENCE* ok_fre = XTRANSLATION_GEN::GetInstance().Sentence_Get(XTRANSLATION_GEN_ID_OK, XLANGUAGE_ISO_639_3_CODE_FRE);
+  ASSERT_NE(ok_fre, nullptr);
+  EXPECT_STREQ(ok_fre->sentence, _L("Correct"));
+
+  XTRANSLATION_GEN_SENTENCE* ok_ger = XTRANSLATION_GEN::GetInstance().Sentence_Get(XTRANSLATION_GEN_ID_OK, XLANGUAGE_ISO_639_3_CODE_GER);
+  ASSERT_NE(ok_ger, nullptr);
+  EXPECT_STREQ(ok_ger->sentence, _L("Korrekt"));
+
+  XTRANSLATION_GEN_SENTENCE* ok_chi = XTRANSLATION_GEN::GetInstance().Sentence_Get(XTRANSLATION_GEN_ID_OK, XLANGUAGE_ISO_639_3_CODE_CHI);
+  ASSERT_NE(ok_chi, nullptr);
+  EXPECT_STREQ(ok_chi->sentence, _L("\u6b63\u786e"));
 }
 
 
 TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentenceGetReturnsNullForUnknownIDOrLanguagePair)
 {
   EXPECT_EQ(XTRANSLATION_GEN::GetInstance().Sentence_Get(999999, XLANGUAGE_ISO_639_3_CODE_ENG), nullptr);
-  EXPECT_EQ(XTRANSLATION_GEN::GetInstance().Sentence_Get(XTRANSLATION_GEN_ID_OK, XLANGUAGE_ISO_639_3_CODE_FRE), nullptr);
+  EXPECT_EQ(XTRANSLATION_GEN::GetInstance().Sentence_Get(XTRANSLATION_GEN_ID_OK, XLANGUAGE_ISO_639_3_CODE_JPN), nullptr);
 }
 
 
@@ -141,14 +156,8 @@ TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentenceAddRejectsZeroIDZeroLanguageO
 
 TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentenceAddAndGetRoundTripOnAFreshIDThenRejectsDuplicate)
 {
-  // A high, otherwise-unused ID so this does not collide with the real built-in catalogue. Kept
-  // well BELOW XTRANSLATION_MAXSENTENCES (10000): this entry is real, persistent state in the
-  // shared XTRANSLATION_GEN singleton, and Sentences_AddToTranslation() (exercised by another test
-  // in this same file) sweeps every entry for a given language - including this one - into
-  // GEN_XTRANSLATION.Translate_Add(ID, ...), which (see the source concern documented in
-  // UnitTests_XUtils_XTranslation.cpp) does NOT bounds-check ID before indexing its fixed-size
-  // sentences[] array. An out-of-range ID here would silently corrupt this shared test binary's
-  // heap the next time that sweep runs, rather than fail cleanly.
+  // A high, otherwise-unused ID so this does not collide with the real built-in catalogue.
+  // The entry stays in the XTRANSLATION_GEN singleton; it is not copied into XTRANSLATION.
   const XDWORD freshID = 9600;
 
   EXPECT_EQ(XTRANSLATION_GEN::GetInstance().Sentence_Get(freshID, XLANGUAGE_ISO_639_3_CODE_ENG), nullptr);
@@ -164,29 +173,32 @@ TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentenceAddAndGetRoundTripOnAFreshIDT
 }
 
 
-TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentencesAddToTranslationPushesLanguageSpecificTextIntoTheRealXTranslationSingleton)
+TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, GetSentenceAndGEN_TLFollowTheActiveLanguage)
 {
-  // Confirm the English text AppProc_Ini already pushed into the real, shared GEN_XTRANSLATION
-  // singleton at application start-up.
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_GEN_ID_OK), _L("Ok"));
+  XTRANSLATION_GEN& gen = XTRANSLATION_GEN::GetInstance();
+  XDWORD previous = gen.GetActual();
 
-  // Sentences_AddToTranslation really does overwrite the same IDs in GEN_XTRANSLATION regardless
-  // of which language XTRANSLATION currently considers "actual" (Translate_Add always overwrites).
-  EXPECT_TRUE(XTRANSLATION_GEN::GetInstance().Sentences_AddToTranslation(XLANGUAGE_ISO_639_3_CODE_SPA));
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_GEN_ID_OK), _L("Correcto"));
+  if(previous != (XDWORD)XLANGUAGE_ISO_639_3_CODE_ENG)
+    {
+      EXPECT_TRUE(gen.SetActual(XLANGUAGE_ISO_639_3_CODE_ENG));
+    }
 
-  // Restore English so the rest of this shared test binary keeps seeing the same real, English
-  // translated state AppProc_Ini originally established.
-  EXPECT_TRUE(XTRANSLATION_GEN::GetInstance().Sentences_AddToTranslation(XLANGUAGE_ISO_639_3_CODE_ENG));
-  EXPECT_STREQ(GEN_XTRANSLATION.Translate_GetSentence(XTRANSLATION_GEN_ID_OK), _L("Ok"));
-}
+  EXPECT_EQ(gen.GetActual(), (XDWORD)XLANGUAGE_ISO_639_3_CODE_ENG);
+  EXPECT_FALSE(gen.SetActual(XLANGUAGE_ISO_639_3_CODE_ENG));
+  EXPECT_STREQ(gen.GetSentence(XTRANSLATION_GEN_ID_OK), _L("Ok"));
+  EXPECT_STREQ(GEN_TL(XTRANSLATION_GEN_ID_OK), _L("Ok"));
 
+  EXPECT_TRUE(gen.SetActual(XLANGUAGE_ISO_639_3_CODE_SPA));
+  EXPECT_STREQ(GEN_TL(XTRANSLATION_GEN_ID_OK), _L("Correcto"));
+  EXPECT_STREQ(gen.GetSentence(999999), _L("--"));
 
-TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, SentencesAddToTranslationReturnsFalseForALanguageWithNoMatchingEntries)
-{
-  // An arbitrary code that was never used in any Sentence_Add call: no entry in the catalogue
-  // matches it, so nothing is pushed into GEN_XTRANSLATION and the real singleton is left untouched.
-  EXPECT_FALSE(XTRANSLATION_GEN::GetInstance().Sentences_AddToTranslation((XDWORD)0xEFEFEFEF));
+  EXPECT_FALSE(gen.SetActual(XLANGUAGE_ISO_639_3_CODE_JPN));
+  EXPECT_EQ(gen.GetActual(), (XDWORD)XLANGUAGE_ISO_639_3_CODE_SPA);
+
+  if(gen.GetActual() != previous)
+    {
+      EXPECT_TRUE(gen.SetActual(previous));
+    }
 }
 
 

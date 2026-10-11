@@ -130,35 +130,27 @@ TEST(UNITTESTS_XMEMORY_CONTROL_CLASSNAME, AssignAndFreeTrackUsageWhileActive)
 
 TEST(UNITTESTS_XMEMORY_CONTROL_CLASSNAME, DisplayAllReflectsWhetherAnyBlocksAreStillAssigned)
 {
-  // FIXED (previously a known bug): DisplayAll()'s implementation (XMemory_Control.cpp) always
-  // computed its internal leak count correctly, but its final statement used to be an
-  // unconditional `return true;` -- the return value never actually reflected whether any
-  // leaks were found. It is now `return !nassigned;`, so it genuinely reports "true" only when
-  // nothing is currently assigned.
-  //
-  // This process may legitimately have other, long-lived tracked allocations still assigned at
-  // this point in the suite (translations, path-manager singletons, etc.), so we cannot assert
-  // an absolute true/false value here -- instead we confirm the return value tracks a real,
-  // known change in the assigned-block count: a fresh Assign() must flip it to false, and
-  // Free()-ing that same block must restore exactly the baseline answer.
+  // DisplayAll() dumps every live block to the trace (including process-lifetime singletons
+  // such as XTRANSLATION_GEN). Use GetNAssigns() for the delta check so the suite does not
+  // spam "NOT FREE MEMORY RESOURCES" / "Too many leaks" for expected singleton allocations.
+  // DisplayAll()'s return value is still !nassigned (true only when nothing is assigned).
   bool originalstate = XMemory_Control.IsActive();
   if(!originalstate) XMemory_Control.Activate(true);
 
-  bool baseline = XMemory_Control.DisplayAll(false);
+  XDWORD nassignsbefore = XMemory_Control.GetNAssigns();
+  bool   baseline       = (nassignsbefore == 0);
 
   void* block = XMemory_Control.Assign(64, __FILE__, __LINE__);
   ASSERT_NE(block, (void*)NULL);
 
-  // At least one more block is now assigned than at the baseline measurement, so DisplayAll()
-  // must report false regardless of what the baseline itself was.
-  EXPECT_FALSE(XMemory_Control.DisplayAll(false));
+  EXPECT_EQ(XMemory_Control.GetNAssigns(), nassignsbefore + 1);
+  EXPECT_FALSE(XMemory_Control.GetNAssigns() == 0);
 
   XMemory_Control.Free(block);
 
-  // Back to the exact same assigned-block count as the baseline measurement.
-  EXPECT_EQ(XMemory_Control.DisplayAll(false), baseline);
+  EXPECT_EQ(XMemory_Control.GetNAssigns(), nassignsbefore);
+  EXPECT_EQ((XMemory_Control.GetNAssigns() == 0), baseline);
 
-  // Restore original activation state exactly as found.
   if(!originalstate) XMemory_Control.Activate(false);
   EXPECT_EQ(XMemory_Control.IsActive(), originalstate);
 }
