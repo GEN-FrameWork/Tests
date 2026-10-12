@@ -244,5 +244,19 @@ TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, DoublePrecisionSurvivesLibraryRoundTri
   EXPECT_EQ(returnvalue, 1);
 }
 
+
+TEST(UNITTESTS_SCRIPTLANGUAGEG_CLASSNAME, CallArgsWithCommaAreNotMultiAssign)
+{
+  SCRIPT_LNG_G script;
+  int          returnvalue = 0;
+
+  // Regression: commas in call args (max(a, b)) must not be parsed as multi-assign LHS.
+  (*script.GetScript()) =
+    _L("int max(int num1, int num2){ if(num1 > num2){ return num1; } return num2; } int main(){ int number1; int number2; number1 = 3; number2 = 8; return max(number1, number2); }");
+
+  EXPECT_EQ(script.Run(&returnvalue), SCRIPT_ERRORCODE_NONE);
+  EXPECT_EQ(returnvalue, 8);
+}
+
 }
 #endif
