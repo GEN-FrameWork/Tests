@@ -72,6 +72,16 @@ TEST(APPFLOWCFG, DoVariableMappingAndDoDefault)
   EXPECT_EQ(cfg.GetShowDetailInfo(), (XWORD)0x0000);
   cfg.SetShowDetailInfo(0x000A);
   EXPECT_EQ(cfg.GetShowDetailInfo(), (XWORD)0x000A);
+  #ifdef XTRANSLATION_ACTIVE
+  EXPECT_TRUE(cfg.GetDefaultLanguage() != NULL);
+  EXPECT_TRUE(cfg.GetDefaultLanguage()->IsEmpty());
+  EXPECT_TRUE(cfg.SetDefaultLanguage(NL("spa")));
+  EXPECT_EQ(cfg.GetDefaultLanguage()->Compare(NL("spa"), true), 0);
+  EXPECT_TRUE(cfg.SetDefaultLanguage(NL("en")));
+  EXPECT_EQ(cfg.GetDefaultLanguage()->Compare(NL("eng"), true), 0);
+  EXPECT_TRUE(cfg.SetDefaultLanguage((XCHAR*)NULL));
+  EXPECT_TRUE(cfg.GetDefaultLanguage()->IsEmpty());
+  #endif
   #endif
 
   #ifdef APPFLOW_CFG_LOG_ACTIVE
