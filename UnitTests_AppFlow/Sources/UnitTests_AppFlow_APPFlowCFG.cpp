@@ -79,8 +79,11 @@ TEST(APPFLOWCFG, DoVariableMappingAndDoDefault)
   EXPECT_EQ(cfg.GetDefaultLanguage()->Compare(NL("spa"), true), 0);
   EXPECT_TRUE(cfg.SetDefaultLanguage(NL("en")));
   EXPECT_EQ(cfg.GetDefaultLanguage()->Compare(NL("eng"), true), 0);
+  EXPECT_TRUE(cfg.SetDefaultLanguage(NL("chi")));
+  EXPECT_EQ(cfg.GetDefaultLanguage()->Compare(NL("chi"), true), 0);
   EXPECT_TRUE(cfg.SetDefaultLanguage((XCHAR*)NULL));
   EXPECT_TRUE(cfg.GetDefaultLanguage()->IsEmpty());
+  // Language_PersistActual() needs a live GEN_XTRANSLATION catalogue + CFG path; covered by UI_System runtime.
   #endif
   #endif
 
