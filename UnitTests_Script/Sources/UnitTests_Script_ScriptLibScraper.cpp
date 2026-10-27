@@ -391,6 +391,25 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveTranslationScriptUsesGoogleFree)
 }
 
 
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveTranslationScriptEncodesReservedCharsInG)
+{
+  DIOSCRAPERSCRIPT runner;
+  XSTRING          ok;
+  XSTRING          translation;
+
+  // Must percent-encode %, &, #, +, ?, =, quotes and braces without breaking the URL.
+  runner.SetArg(_L("text"), _L("Error 50% & {code}=1? #tag + \"x\""));
+  runner.SetArg(_L("sl"), _L("en"));
+  runner.SetArg(_L("tl"), _L("es"));
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/translation.g")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("translation"), translation));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
+  EXPECT_FALSE(translation.IsEmpty());
+}
+
+
 #ifdef SCRIPT_JAVASCRIPT_ACTIVE
 TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveTranslationScriptInJavascript)
 {
@@ -400,6 +419,24 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveTranslationScriptInJavascript)
 
   runner.SetArg(_L("text"), _L("Hello world"));
   runner.SetArg(_L("sl"), _L("auto"));
+  runner.SetArg(_L("tl"), _L("es"));
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/translation.js")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("translation"), translation));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
+  EXPECT_FALSE(translation.IsEmpty());
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveTranslationScriptEncodesReservedCharsInJavascript)
+{
+  DIOSCRAPERSCRIPT runner;
+  XSTRING          ok;
+  XSTRING          translation;
+
+  runner.SetArg(_L("text"), _L("Error 50% & {code}=1? #tag + \"x\""));
+  runner.SetArg(_L("sl"), _L("en"));
   runner.SetArg(_L("tl"), _L("es"));
   runner.SetArgInt(_L("timeout"), 15);
   ASSERT_TRUE(runner.Run(_L("scrapers/translation.js")));
@@ -420,6 +457,24 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveTranslationScriptInLua)
 
   runner.SetArg(_L("text"), _L("Hello world"));
   runner.SetArg(_L("sl"), _L("auto"));
+  runner.SetArg(_L("tl"), _L("es"));
+  runner.SetArgInt(_L("timeout"), 15);
+  ASSERT_TRUE(runner.Run(_L("scrapers/translation.lua")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("translation"), translation));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
+  EXPECT_FALSE(translation.IsEmpty());
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveTranslationScriptEncodesReservedCharsInLua)
+{
+  DIOSCRAPERSCRIPT runner;
+  XSTRING          ok;
+  XSTRING          translation;
+
+  runner.SetArg(_L("text"), _L("Error 50% & {code}=1? #tag + \"x\""));
+  runner.SetArg(_L("sl"), _L("en"));
   runner.SetArg(_L("tl"), _L("es"));
   runner.SetArgInt(_L("timeout"), 15);
   ASSERT_TRUE(runner.Run(_L("scrapers/translation.lua")));
