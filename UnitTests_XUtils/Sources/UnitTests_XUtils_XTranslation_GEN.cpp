@@ -184,7 +184,8 @@ TEST(UNITTESTS_XTRANSLATION_GEN_CLASSNAME, GetSentenceAndGEN_TLFollowTheActiveLa
     }
 
   EXPECT_EQ(gen.GetActual(), (XDWORD)XLANGUAGE_ISO_639_3_CODE_ENG);
-  EXPECT_FALSE(gen.SetActual(XLANGUAGE_ISO_639_3_CODE_ENG));
+  // Already active → success (no-op), same contract as XTRANSLATION::SetActual(code).
+  EXPECT_TRUE(gen.SetActual(XLANGUAGE_ISO_639_3_CODE_ENG));
   EXPECT_STREQ(gen.GetSentence(XTRANSLATION_GEN_ID_OK), _L("Ok"));
   EXPECT_STREQ(GEN_TL(XTRANSLATION_GEN_ID_OK), _L("Ok"));
 

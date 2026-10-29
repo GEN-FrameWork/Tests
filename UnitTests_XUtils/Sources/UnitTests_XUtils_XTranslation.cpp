@@ -86,12 +86,12 @@ TEST(UNITTESTS_XTRANSLATION_CLASSNAME, GetActualReflectsTheLanguageAppProcIniAlr
 }
 
 
-TEST(UNITTESTS_XTRANSLATION_CLASSNAME, SetActualWithTheSameCurrentCodeIsRejected)
+TEST(UNITTESTS_XTRANSLATION_CLASSNAME, SetActualWithTheSameCurrentCodeSucceeds)
 {
-  // SetActual's very first check is "if(this->code == code) return false;" - re-selecting the
-  // language that is already active is a no-op reported as failure, not success.
+  // SetActual's very first check is "if(this->codelanguage == codelanguage) return true;" -
+  // re-selecting the language that is already active is a no-op reported as success.
   EXPECT_EQ(GEN_XTRANSLATION.GetActual(), (XDWORD)XLANGUAGE_ISO_639_3_CODE_ENG);
-  EXPECT_FALSE(GEN_XTRANSLATION.SetActual(XLANGUAGE_ISO_639_3_CODE_ENG));
+  EXPECT_TRUE(GEN_XTRANSLATION.SetActual(XLANGUAGE_ISO_639_3_CODE_ENG));
   EXPECT_EQ(GEN_XTRANSLATION.GetActual(), (XDWORD)XLANGUAGE_ISO_639_3_CODE_ENG);
 }
 
