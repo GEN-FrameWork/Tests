@@ -63,11 +63,22 @@ option(GRP_VECTOR_FILE_DXF_FEATURE                              "Graphics Vector
 option(GRP_VIDEO_FILE_AVI_FEATURE                               "Graphics Video File AVI"                                 ON )
 option(GRP_STATISTICSCHARS_FEATURE                              "Graphics Statistics Chars"                               ON )
 
+option(INP_FEATURE                                              "Inputs"                                                  ON )
+option(USERINTERFACE_FEATURE                                    "User Interface"                                          ON )
+
 
 # --------------------------------------------------------------------
 # Main CMakeList of GEN
 
 include("${GEN_DIRECTORY}/Common/CMake/GEN_Main.cmake")
+
+# clang-cl on Windows needs the MSVC exception model explicitly when CMAKE_CXX_FLAGS
+# was not seeded by an MSVC-first configure (matches UnitTests_UserInterface).
+if(WIN32 AND COMPILE_WITH_CLANG_CL)
+  if(NOT CMAKE_CXX_FLAGS MATCHES "EHsc")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /GR" CACHE STRING "CXX flags" FORCE)
+  endif()
+endif()
 
 
 # --------------------------------------------------------------------
@@ -116,6 +127,9 @@ list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Gra
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Graphic_GRPScreenCFGChromes.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Graphic_GRPEGLContext.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Graphic_GRPBlitGLES.cpp")
+list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Graphic_UI_Element_Console.cpp")
+list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Graphic_UI_Element_PropertyList.cpp")
+list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Graphic_UI_Element_Tree.cpp")
 
 # Orphan core module: present under GEN/Graphic but not listed in GEN_Main_Sources.cmake.
 list(APPEND GEN_SOURCES_MODULES_LIST "${GEN_DIRECTORY}/GEN/Graphic/GRPDisplayDevice.cpp")
