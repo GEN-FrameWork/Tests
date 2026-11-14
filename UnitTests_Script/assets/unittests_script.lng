@@ -1,4 +1,10 @@
-{
-  "languages" : [ "Spanish", "English", "French" ],
-  "translations" : { }
-}
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<lng>
+  <languages>
+    <language>Spanish</language>
+    <language>English</language>
+    <language>French</language>
+  </languages>
+  <translations>
+  </translations>
+</lng>
