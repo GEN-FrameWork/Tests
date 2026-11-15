@@ -31,6 +31,7 @@ option(DIO_STREAMTLS_FEATURE                                    "Stream TLS"    
 option(XSLEEP_FEATURE                                           "XSleep"                                                  ON )
 option(XFILE_INI_FEATURE                                        "XFile INI format"                                        ON )
 option(XFILE_CFG_FEATURE                                        "XFile Config format"                                     ON )
+option(XFILE_XML_FEATURE                                        "XFile XML format"                                        ON )
 
 option(SCRIPT_FEATURE                                           "Script modules"                                          ON )
 option(SCRIPT_CACHE_FEATURE                                     "Script cache"                                            ON )
@@ -44,6 +45,7 @@ option(SCRIPT_LIB_WEBCLIENT_FEATURE                             "Script WebClien
 option(SCRIPT_LIB_TRACESERVER_FEATURE                           "Script TraceServer library"                              ON )
 option(DIO_SCRAPERWEB_PUBLICIP_FEATURE                          "Scraper Web Public IP"                                   ON )
 option(DIO_SCRAPERWEB_GEOLOCATIONIP_FEATURE                     "Scraper Web Geolocation IP"                              ON )
+option(DIO_SCRAPERWEB_STATICMAP_FEATURE                         "Scraper Web Static Map"                                   ON )
 option(DIO_SCRAPERWEB_WEATHER_FEATURE                           "Scraper Web Weather"                                     ON )
 option(DIO_SCRAPERWEB_TRANSLATION_FEATURE                       "Scraper Web Translation"                                 ON )
 option(DIO_SCRAPERWEB_MACMANUFACTURER_FEATURE                   "Scraper Web MAC Manufacturer"                            ON )

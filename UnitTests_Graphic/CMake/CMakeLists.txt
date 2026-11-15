@@ -132,6 +132,7 @@ endif()
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Graphic_UI_Element_Console.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Graphic_UI_Element_PropertyList.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Graphic_UI_Element_Tree.cpp")
+list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Graphic_UI_Element_Tooltip.cpp")
 
 # Orphan core module: present under GEN/Graphic but not listed in GEN_Main_Sources.cmake.
 list(APPEND GEN_SOURCES_MODULES_LIST "${GEN_DIRECTORY}/GEN/Graphic/GRPDisplayDevice.cpp")

@@ -3,7 +3,7 @@
 * @file       UnitTests_Script_ScriptLibScraper.cpp
 *
 * @class      UNITTESTS_SCRIPT_SCRIPTLIBSCRAPER
-* @brief      Unit tests for SCRIPT_LIB_SCRAPER / DIOSCRAPERSCRIPT / typed PublicIP + Geo facades
+* @brief      Unit tests for SCRIPT_LIB_SCRAPER / DIOSCRAPERSCRIPT / typed PublicIP + Geo + StaticMap facades
 * @ingroup    TESTS
 *
 * @copyright  EndoraSoft. All rights reserved.
@@ -39,6 +39,13 @@
 #endif
 #ifdef DIO_SCRAPERWEB_GEOLOCATIONIP_ACTIVE
 #include "DIOScraperWebGeolocationIP.h"
+#endif
+#ifdef DIO_SCRAPERWEB_STATICMAP_ACTIVE
+#include "DIOScraperWebStaticMap.h"
+#include "XFactory.h"
+#include "XFile.h"
+#include "XPath.h"
+#include "XPathsManager.h"
 #endif
 #ifdef DIO_SCRAPERWEB_WEATHER_ACTIVE
 #include "DIOScraperWebWeather.h"
@@ -236,6 +243,188 @@ TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LivePublicIPAndGeoScriptsInLua)
   ASSERT_TRUE(georunner.GetResult(_L("country"), country));
   EXPECT_EQ(ok.Compare(_L("1")), 0);
   EXPECT_FALSE(country.IsEmpty());
+}
+#endif
+
+#endif
+
+
+#ifdef DIO_SCRAPERWEB_STATICMAP_ACTIVE
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, RunnerExecutesMockStaticMapScript)
+{
+  DIOSCRAPERSCRIPT runner;
+  XSTRING          ok;
+  XSTRING          path;
+  XSTRING          provider;
+
+  runner.SetArg(_L("latitude") , _L("40.416800"));
+  runner.SetArg(_L("longitude"), _L("-3.703800"));
+  runner.SetArg(_L("outpath")  , _L("scrapers/staticmap_mock_out.bin"));
+  runner.SetArgInt(_L("width")  , 64);
+  runner.SetArgInt(_L("height") , 48);
+  runner.SetArgInt(_L("zoom")   , 10);
+  runner.SetArgInt(_L("timeout"), 5);
+  ASSERT_TRUE(runner.Run(_L("scrapers/staticmap_mock.g")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("path"), path));
+  ASSERT_TRUE(runner.GetResult(_L("provider"), provider));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
+  EXPECT_EQ(path.Compare(_L("scrapers/staticmap_mock_out.bin")), 0);
+  EXPECT_EQ(provider.Compare(_L("mock")), 0);
+}
+
+
+static bool UnitTests_Script_WriteStubMapFile(XPATH& outpath)
+{
+  XFILE* file = GEN_XFACTORY.Create_File();
+  if(!file) return false;
+
+  if(file->Exist(outpath)) file->Erase(outpath);
+
+  bool ok = false;
+  if(file->Create(outpath))
+    {
+      XBYTE stub[] = { 'P', 'N', 'G', 'M', 'O', 'C', 'K', 0 };
+      ok = file->Write(stub, (XDWORD)sizeof(stub));
+      file->Close();
+    }
+
+  GEN_XFACTORY.Delete_File(file);
+  return ok;
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, StaticMapFacadeUsesMockScriptAndCache)
+{
+  DIOSCRAPERWEBSTATICMAP scraper;
+  DIOSTATICMAP_RESULT    map;
+  DIOSTATICMAP_RESULT    cached;
+  XPATH                  outpath;
+
+  ASSERT_TRUE(GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_SCRIPTS, outpath));
+  outpath.Slash_Add();
+  outpath += _L("scrapers");
+  outpath.Slash_Add();
+  outpath += _L("staticmap_mock_out.bin");
+
+  ASSERT_TRUE(UnitTests_Script_WriteStubMapFile(outpath));
+  ASSERT_TRUE(scraper.SetScriptPath(_L("scrapers/staticmap_mock.g")));
+  ASSERT_TRUE(scraper.Get(40.4168f, -3.7038f, outpath, map, 64, 48, 10, NULL, 5, true));
+  EXPECT_FALSE(map.IsEmpty());
+  EXPECT_EQ(XSTRING(map.GetProvider()).Compare(_L("mock")), 0);
+  EXPECT_FALSE(XSTRING(map.GetPath()).IsEmpty());
+
+  ASSERT_TRUE(scraper.Get(40.4168f, -3.7038f, outpath, cached, 64, 48, 10, NULL, 5, true));
+  EXPECT_EQ(XSTRING(cached.GetProvider()).Compare(_L("mock")), 0);
+  EXPECT_EQ(XSTRING(cached.GetPath()).Compare(map.GetPath()), 0);
+}
+
+
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveStaticMapScriptDownloadsPng)
+{
+  DIOSCRAPERSCRIPT runner;
+  XSTRING          ok;
+  XSTRING          path;
+  XSTRING          provider;
+  XPATH            outpath;
+
+  ASSERT_TRUE(GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_SCRIPTS, outpath));
+  outpath.Slash_Add();
+  outpath += _L("scrapers");
+  outpath.Slash_Add();
+  outpath += _L("staticmap_live_out.png");
+
+  // Ensure parent dir exists; wipe any previous download so Exist+size is meaningful.
+  {
+    XFILE* file = GEN_XFACTORY.Create_File();
+    if(file)
+      {
+        if(file->Exist(outpath.Get())) file->Erase(outpath.Get());
+        GEN_XFACTORY.Delete_File(file);
+      }
+  }
+
+  runner.SetArg(_L("latitude") , _L("40.416800"));
+  runner.SetArg(_L("longitude"), _L("-3.703800"));
+  runner.SetArg(_L("outpath")  , outpath.Get());
+  runner.SetArgInt(_L("width")  , 120);
+  runner.SetArgInt(_L("height") , 80);
+  runner.SetArgInt(_L("zoom")   , 11);
+  runner.SetArgInt(_L("timeout"), 20);
+  ASSERT_TRUE(runner.Run(_L("scrapers/staticmap.g")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("path"), path));
+  ASSERT_TRUE(runner.GetResult(_L("provider"), provider));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
+  EXPECT_FALSE(path.IsEmpty());
+  EXPECT_FALSE(provider.IsEmpty());
+
+  XFILE* file = GEN_XFACTORY.Create_File();
+  ASSERT_NE(file, (XFILE*)NULL);
+  ASSERT_TRUE(file->Exist(path.Get()));
+  ASSERT_TRUE(file->Open(path.Get()));
+  EXPECT_GT(file->GetSize(), (XDWORD)0);
+  file->Close();
+  GEN_XFACTORY.Delete_File(file);
+}
+
+
+#ifdef SCRIPT_JAVASCRIPT_ACTIVE
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveStaticMapScriptInJavascript)
+{
+  DIOSCRAPERSCRIPT runner;
+  XSTRING          ok;
+  XSTRING          provider;
+  XPATH            outpath;
+
+  ASSERT_TRUE(GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_SCRIPTS, outpath));
+  outpath.Slash_Add();
+  outpath += _L("scrapers");
+  outpath.Slash_Add();
+  outpath += _L("staticmap_live_js.png");
+
+  runner.SetArg(_L("latitude") , _L("40.416800"));
+  runner.SetArg(_L("longitude"), _L("-3.703800"));
+  runner.SetArg(_L("outpath")  , outpath.Get());
+  runner.SetArgInt(_L("width")  , 120);
+  runner.SetArgInt(_L("height") , 80);
+  runner.SetArgInt(_L("zoom")   , 11);
+  runner.SetArgInt(_L("timeout"), 20);
+  ASSERT_TRUE(runner.Run(_L("scrapers/staticmap.js")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("provider"), provider));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
+  EXPECT_FALSE(provider.IsEmpty());
+}
+#endif
+
+
+#ifdef SCRIPT_LUA_ACTIVE
+TEST(UNITTESTS_SCRIPTLIBSCRAPER_CLASSNAME, LiveStaticMapScriptInLua)
+{
+  DIOSCRAPERSCRIPT runner;
+  XSTRING          ok;
+  XSTRING          provider;
+  XPATH            outpath;
+
+  ASSERT_TRUE(GEN_XPATHSMANAGER.GetPathOfSection(XPATHSMANAGERSECTIONTYPE_SCRIPTS, outpath));
+  outpath.Slash_Add();
+  outpath += _L("scrapers");
+  outpath.Slash_Add();
+  outpath += _L("staticmap_live_lua.png");
+
+  runner.SetArg(_L("latitude") , _L("40.416800"));
+  runner.SetArg(_L("longitude"), _L("-3.703800"));
+  runner.SetArg(_L("outpath")  , outpath.Get());
+  runner.SetArgInt(_L("width")  , 120);
+  runner.SetArgInt(_L("height") , 80);
+  runner.SetArgInt(_L("zoom")   , 11);
+  runner.SetArgInt(_L("timeout"), 20);
+  ASSERT_TRUE(runner.Run(_L("scrapers/staticmap.lua")));
+  ASSERT_TRUE(runner.GetResult(_L("ok"), ok));
+  ASSERT_TRUE(runner.GetResult(_L("provider"), provider));
+  EXPECT_EQ(ok.Compare(_L("1")), 0);
+  EXPECT_FALSE(provider.IsEmpty());
 }
 #endif
 
