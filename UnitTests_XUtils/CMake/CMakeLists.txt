@@ -35,6 +35,7 @@ option(HASH_SHA2_FEATURE                                        "Hash SHA2"     
 option(CIPHER_SYMMETRIC_AES_FEATURE                             "Cipher Symetric AES"                                     ON )
 
 option(XSLEEP_FEATURE                                           "XSleep"                                                  ON )
+option(XCLIPBOARD_FEATURE                                       "Clipboard functions (portable text)"                     ON )
 option(XUUID_FEATURE                                            "UUID functions"                                          ON )    
 option(XLICENSE_FEATURE                                         "License"                                                 ON )
 option(XINTERPOLATOR_FEATURE                                   "Interpolator functions"                                  ON )
@@ -87,6 +88,7 @@ list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUt
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XBuffer.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XDateTime.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XSleep.cpp")
+list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XClipboard.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XString.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XTimer.cpp")
 list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_XUtils_XVariant.cpp")
