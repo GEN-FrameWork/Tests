@@ -68,13 +68,12 @@ function main()
   url = AddString(url, "&zoom=")
   url = AddString(url, zstr)
 
+  -- Trust GetToFile (see staticmap.g); do not gate on IsItExists.
   if WebClient_GetToFile(url, outpath, "", timeout) then
-    if IsItExists(outpath) then
-      Scraper_SetResult("path", outpath)
-      Scraper_SetResult("provider", "gui.farm")
-      Scraper_SetResult("ok", "1")
-      ok = 1
-    end
+    Scraper_SetResult("path", outpath)
+    Scraper_SetResult("provider", "gui.farm")
+    Scraper_SetResult("ok", "1")
+    ok = 1
   end
 
   if ok == 0 then
@@ -91,12 +90,10 @@ function main()
       url = AddString(url, hstr)
 
       if WebClient_GetToFile(url, outpath, "", timeout) then
-        if IsItExists(outpath) then
-          Scraper_SetResult("path", outpath)
-          Scraper_SetResult("provider", "mapmap.ai")
-          Scraper_SetResult("ok", "1")
-          ok = 1
-        end
+        Scraper_SetResult("path", outpath)
+        Scraper_SetResult("provider", "mapmap.ai")
+        Scraper_SetResult("ok", "1")
+        ok = 1
       end
     end
   end

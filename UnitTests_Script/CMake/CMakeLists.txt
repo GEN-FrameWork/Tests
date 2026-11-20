@@ -4,11 +4,16 @@
 # --------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.16.0)
-project(unittests_script)
 
+# --------------------------------------------------------------------
+# PreProject
 
 set(GEN_DIRECTORY "../../..")
 
+option(USE_CLANG_COMPILER_FEATURE                               "Use Clang Compiler"                                      ON)
+include("${GEN_DIRECTORY}/Common/CMake/GEN_PreProject.cmake")
+
+project(unittests_script)
 
 # --------------------------------------------------------------------
 # Activate features/Defines
@@ -19,7 +24,6 @@ option(XTRACE_NOINTERNET_FEATURE                                "No need for tra
 option(XMEMORY_CONTROL_FEATURE                                  "XMemory Control"                                         ON )
 option(COVERAGE_CREATEINFO_FEATURE                              "Coverage - Create Info"                                  ON )
 option(LINUX_VISUALSTUDIO_UTF8_FEATURE                          "Linux CodePage Editor UTF8"                              ON )
-option(USE_CLANG_COMPILER_FEATURE                               "Use Clang Compiler"                                      ON )
 
 option(APPFLOW_FEATURE                                          "Application Flow modules"                                ON )
 option(APPFLOW_CONSOLE_FEATURE                                  "Application Flow Console"                                ON )  

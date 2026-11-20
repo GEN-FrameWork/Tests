@@ -4,11 +4,16 @@
 # --------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.16.0)
-project(unittests_xutils)
 
+# --------------------------------------------------------------------
+# PreProject
 
 set(GEN_DIRECTORY "../../..") 
 
+option(USE_CLANG_COMPILER_FEATURE                               "Use Clang Compiler"                                      ON)
+include("${GEN_DIRECTORY}/Common/CMake/GEN_PreProject.cmake")
+
+project(unittests_xutils)
 
 # --------------------------------------------------------------------
 # Activate features/Defines
@@ -22,7 +27,6 @@ option(COVERAGE_CREATEINFO_FEATURE                              "Coverage - Crea
 
 option(LINUX_VISUALSTUDIO_UTF8_FEATURE                          "Linux CodePage Editor UTF8"                              ON )   
 
-option(USE_CLANG_COMPILER_FEATURE                               "Use Clang Compiler"                                      ON )
                         
 option(DIO_FEATURE                                              "Input/Output"                                            ON )
 option(DIO_STREAMUDP_FEATURE                                    "Stream UDP"                                              ON )

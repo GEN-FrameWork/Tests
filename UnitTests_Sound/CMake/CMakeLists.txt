@@ -4,10 +4,16 @@
 # --------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.16.0)
-project(unittests_sound)
+
+# --------------------------------------------------------------------
+# PreProject
 
 set(GEN_DIRECTORY "../../..")
 
+option(USE_CLANG_COMPILER_FEATURE                               "Use Clang Compiler"                                      ON)
+include("${GEN_DIRECTORY}/Common/CMake/GEN_PreProject.cmake")
+
+project(unittests_sound)
 
 # --------------------------------------------------------------------
 # Activate features/Defines
@@ -21,7 +27,6 @@ option(COVERAGE_CREATEINFO_FEATURE                              "Coverage - Crea
 
 option(LINUX_VISUALSTUDIO_UTF8_FEATURE                          "Linux CodePage Editor UTF8"                              ON )
 
-option(USE_CLANG_COMPILER_FEATURE                               "Use Clang Compiler"                                      ON )
 
 option(XSLEEP_FEATURE                                           "XSleep"                                                  ON )
 option(XUUID_FEATURE                                            "UUID functions"                                          ON )
@@ -78,12 +83,6 @@ list(APPEND GEN_SOURCES_MODULES_LIST "${APP_DIRECTORY_APPLICATION}/UnitTests_Sou
 
 include("${GEN_DIRECTORY}/Common/CMake/GEN_End.cmake")
 
-# OpenAL Soft 1.24 requires C++17. GOOGLETEST_FEATURE resets CMAKE_CXX_STANDARD to 14
-# after OpenAL's set(CMAKE_CXX_STANDARD 17), so force the flag on OpenAL Soft sources.
-file(GLOB_RECURSE UNITTESTS_SOUND_OPENAL_SOURCES
-     "${GEN_DIRECTORY}/ThirdPartyLibraries/openal-soft/*.cpp")
-if(MSVC)
-  set_source_files_properties(${UNITTESTS_SOUND_OPENAL_SOURCES} PROPERTIES COMPILE_FLAGS "/std:c++17")
-else()
-  set_source_files_properties(${UNITTESTS_SOUND_OPENAL_SOURCES} PROPERTIES COMPILE_FLAGS "-std=c++17")
-endif()
+# OpenAL Soft C++17 + warning suppressions (/wd4293, RESTRICT, …) come from
+# GEN_ThirdPartyLibraries_Warnings_*_OpenAL in GEN_Main_Warnings.cmake.
+# Do not set_source_files_properties(COMPILE_FLAGS) here — a replace wipes those flags.

@@ -4,12 +4,16 @@
 # --------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.16.0)
-project(unittests_cipher)
 
-
+# --------------------------------------------------------------------
+# PreProject
 
 set(GEN_DIRECTORY "../../..") 
 
+option(USE_CLANG_COMPILER_FEATURE                               "Use Clang Compiler"                                      ON)
+include("${GEN_DIRECTORY}/Common/CMake/GEN_PreProject.cmake")
+
+project(unittests_cipher)
 
 # --------------------------------------------------------------------
 # Activate features/Defines
@@ -23,7 +27,6 @@ option(COVERAGE_CREATEINFO_FEATURE                              "Coverage - Crea
 
 option(LINUX_VISUALSTUDIO_UTF8_FEATURE                          "Linux CodePage Editor UTF8"                              ON )
 
-option(USE_CLANG_COMPILER_FEATURE                               "Use Clang Compiler"                                      ON )
 
 option(APPFLOW_FEATURE                                          "Application Flow modules"                                ON )
 

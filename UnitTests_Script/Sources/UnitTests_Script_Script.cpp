@@ -65,13 +65,14 @@ static bool UnitTests_Script_ConfigureScriptsRoot()
   DWORD attributes = GetFileAttributes(scriptspath.Get());
   status = ((attributes != INVALID_FILE_ATTRIBUTES) && ((attributes & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY));
   #else
+  // Only ensure the resolved scripts directory exists. Do NOT AddPathSection()
+  // with the absolute path: GetPathOfSection(addroot) would then concatenate
+  // ROOT + absolute SCRIPTS and break later writes (staticmap stub/PNG on Linux).
   dir = GEN_XFACTORY.Create_Dir();
   if(!dir) return false;
 
   status = dir->Exist(scriptspath);
   if(!status) status = dir->Make(scriptspath, true);
-
-  if(status) status = GEN_XPATHSMANAGER.AddPathSection(XPATHSMANAGERSECTIONTYPE_SCRIPTS, scriptspath);
 
   GEN_XFACTORY.Delete_Dir(dir);
   #endif

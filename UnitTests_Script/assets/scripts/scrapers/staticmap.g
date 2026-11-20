@@ -83,15 +83,15 @@ int main()
   url = AddString(url, "&zoom=");
   url = AddString(url, zstr);
 
+  // Trust GetToFile: on success DIOWEBCLIENT keeps the file; on failure it erases it.
+  // Do not gate on IsItExists — XDIR-based checks were wrong for files on Linux, and a
+  // post-write Exist on 9p/WSL mounts can lag behind a successful download.
   if(WebClient_GetToFile(url, outpath, "", timeout))
     {
-      if(IsItExists(outpath))
-        {
-          Scraper_SetResult("path", outpath);
-          Scraper_SetResult("provider", "gui.farm");
-          Scraper_SetResult("ok", "1");
-          ok = 1;
-        }
+      Scraper_SetResult("path", outpath);
+      Scraper_SetResult("provider", "gui.farm");
+      Scraper_SetResult("ok", "1");
+      ok = 1;
     }
 
   // Fallback: mapmap.ai (center = lon,lat; exact size WxH). Needs coordinates.
@@ -112,13 +112,10 @@ int main()
 
           if(WebClient_GetToFile(url, outpath, "", timeout))
             {
-              if(IsItExists(outpath))
-                {
-                  Scraper_SetResult("path", outpath);
-                  Scraper_SetResult("provider", "mapmap.ai");
-                  Scraper_SetResult("ok", "1");
-                  ok = 1;
-                }
+              Scraper_SetResult("path", outpath);
+              Scraper_SetResult("provider", "mapmap.ai");
+              Scraper_SetResult("ok", "1");
+              ok = 1;
             }
         }
     }

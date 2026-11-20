@@ -181,6 +181,8 @@ TEST(UNITTESTS_UI_UISCALE_CLASSNAME, ExplicitFlagActivatesWithoutStylesheet)
 
 TEST(UNITTESTS_UI_UISCALE_CLASSNAME, StylesheetActivatesWithoutExplicitFlag)
 {
+  // Stylesheet alone at scale 1.0 stays inactive (CSS tokens / live resize, e.g. XTraceMonitor).
+  // Non-default scale with stylesheet opts into the design-canvas path without SetUIScaleEnabled.
   UI_LAYOUT layout(NULL);
   layout.SetOwnsSkin(false);
 
@@ -189,6 +191,10 @@ TEST(UNITTESTS_UI_UISCALE_CLASSNAME, StylesheetActivatesWithoutExplicitFlag)
   UI_STYLESHEET* sheet = new UI_STYLESHEET();
   layout.SetStyleSheet(sheet);
 
+  EXPECT_FALSE(layout.GetUIScaleEnabled());
+  EXPECT_FALSE(layout.IsUIScaleActive());
+
+  layout.SetUIScale(1.25);
   EXPECT_FALSE(layout.GetUIScaleEnabled());
   EXPECT_TRUE(layout.IsUIScaleActive());
 }
