@@ -20,6 +20,9 @@ project(unittests_xutils)
 
 option(DEBUG_FEATURE                                            "Debug mode"                                              ON )
 option(XTRACE_FEATURE                                           "XTrace"                                                  ON )
+option(XTRACE_SERVER_UDP_FEATURE                                "XTrace receive server UDP"                               ON )
+option(XTRACE_SERVER_UART_FEATURE                               "XTrace receive server UART"                              ON )
+option(XTRACE_SERVER_WINDOWSMSG_FEATURE                         "XTrace receive server Windows WM_COPYDATA"                ON )
 option(XTRACE_NOINTERNET_FEATURE                                "No need for trace dependencies with Internet"            ON )                        
 option(XMEMORY_CONTROL_FEATURE                                  "XMemory Control"                                         ON )
 
